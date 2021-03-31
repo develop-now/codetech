@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+}
+
+div#sideNav {
+    min-height: 250px;
+    background-color: #be9f7b;
+}
+
+div#sideNav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: black;
+    display: block;
+}
+
+div#sideNav a:hover {
+    color: #064579;
+}
+
+nav,
+footer {
+    background-color: #be9f7b !important;
+}
+
+nav a {
+    color: #fff !important;
+}
+
+nav a:hover {
+    color: rgba(255, 255, 255, .75) !important;
+}
+
+
