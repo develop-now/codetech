@@ -12,4 +12,11 @@ public class OwnerController {
     public String main() {
         return "owner/main";
     }
+    
+    @RequestMapping(value = "/mainList", method = RequestMethod.GET)
+    public String mainList() {
+        return "owner/main_list";
+    }
+    
+    
 }

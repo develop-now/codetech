@@ -56,8 +56,8 @@
 
 	<!-- 프로퍼티 파일을 이용해서 값을 주입하는 방법 <util:properties>를 이용해서 properties 타입의 빈으로 
 		만듭니다. -->
-	<util:properties id="mailinfo"
-		location="classpath:pro/mail.properties" />
+	<!-- <util:properties id="mailinfo"
+		location="classpath:pro/mail.properties" /> -->
 
 	<!-- #{mailinfo['id']}} mailinfo 빈에서 키(id)의 값을 가져옵니다. -->
 
