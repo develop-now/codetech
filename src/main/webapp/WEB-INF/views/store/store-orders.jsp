@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: im-inseop
-  Date: 2021/03/31
-  Time: 2:15 오후
+  Date: 2021/04/01
+  Time: 5:42 오후
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Store Index Page</title>
+    <title>Store Orders Page</title>
     <%@include file="../partial/head.jsp" %>
 </head>
 <body>

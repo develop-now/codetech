@@ -3,15 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-<!--    <typeAliases>-->
-<!--        <typeAlias alias="member" type="com.hta.hta_spring3.domain.Member"/>-->
-<!--        <typeAlias alias="board" type="com.hta.hta_spring3.domain.Board"/>-->
-<!--        <typeAlias alias="comment" type="com.hta.hta_spring3.domain.Comment"/>-->
-<!--    </typeAliases>-->
+    <typeAliases>
+        <typeAlias alias="store" type="com.codetech.www.domain.Store"/>
+    </typeAliases>
 
-<!--    <mappers>-->
-<!--        <mapper resource="sql/member.xml"/>-->
-<!--        <mapper resource="sql/board.xml"/>-->
-<!--        <mapper resource="sql/comment.xml"/>-->
-<!--    </mappers>-->
+    <mappers>
+        <mapper resource="sql/store.xml"/>
+    </mappers>
 </configuration>
