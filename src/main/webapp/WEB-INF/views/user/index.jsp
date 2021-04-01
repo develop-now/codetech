@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Index</title>
+    <title>User Index</title>
     <%@include file="../partial/head.jsp" %>
 </head>
 <body>
@@ -35,7 +35,7 @@
                 <a href="#">보기4</a>
             </div>
             <div class="col-12 col-sm-10">
-                <p>Admin Main Content</p>
+                <p>User Main Content</p>
             </div>
         </div>
     </div>

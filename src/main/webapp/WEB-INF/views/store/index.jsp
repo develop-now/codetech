@@ -35,7 +35,7 @@
                 <a href="#">보기4</a>
             </div>
             <div class="col-12 col-sm-10">
-                <p>Main Content</p>
+                <p>Store Main Content</p>
             </div>
         </div>
     </div>
