@@ -27,6 +27,9 @@
             <li class="nav-item">
                 <a class="nav-link text-right" href="<c:url value="/store/index"/>">가게</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-right" href="<c:url value="/owner/main"/>">오너</a>
+            </li>
 
 <%--            <c:choose>--%>
 <%--                <c:when test="${empty login_id}">--%>

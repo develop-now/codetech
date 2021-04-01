@@ -5,8 +5,8 @@
 #**need to add**
 
 
-/main/resources/properties/sql.properties
-/main/resources/properties/saveFolder.properties
+/main/resources/properties/sql.properties   
+/main/resources/properties/saveFolder.properties   
 /main/resources/properties/mail.properties
 
 ###*Shape
