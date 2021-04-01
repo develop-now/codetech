@@ -9,7 +9,9 @@ create table store_report
     report_status   number(1) default 1 not null,
     reporter        number(6)           not null,
     reported_store  number(6)           not null,
-    constraint fk_user_report_status foreign key (report_status) references report_status (report_status_id),
-    constraint fk_user_report_reporter foreign key (reporter) references users (user_id),
-    constraint fk_user_report_reported_user foreign key (reported_store) references stores (store_id)
+    constraint fk_store_report_status foreign key (report_status) references report_status (report_status_id),
+    constraint fk_store_report_reporter foreign key (reporter) references users (user_id),
+    constraint fk_store_report_reported_store foreign key (reported_store) references stores (store_id)
 );
+
+commit;

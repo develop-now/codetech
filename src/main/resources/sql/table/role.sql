@@ -1,4 +1,4 @@
-drop table role;
+drop table role cascade constraints ;
 create table role
 (
     role_id    number(1) primary key,

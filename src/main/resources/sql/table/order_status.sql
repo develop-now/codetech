@@ -1,4 +1,4 @@
-drop table order_status;
+drop table order_status cascade constraints;
 create table order_status
 (
     order_status_id number(1) primary key,
@@ -12,8 +12,8 @@ values (2, 'checked');      -- 가게 사장이 주문을 확인 했을때
 insert into order_status
 values (3, 'processing');   -- 주문을 수락하고 조리에 들어갔을때
 insert into order_status
-values (3, 'completed');     -- 조리가 끝났을때
+values (4, 'completed');    -- 조리가 끝났을때
 insert into order_status
-values (3, 'completed');    -- 손님이 픽업을 했을때
+values (5, 'completed');    -- 손님이 픽업을 했을때
 
 commit;

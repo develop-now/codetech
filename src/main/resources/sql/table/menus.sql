@@ -11,5 +11,11 @@ create table menus
     created_at       date      default sysdate,
     updated_at       date      default sysdate,
     store_id         number(6)     not null,
-    constraint fk_menu_store foreign key (store_id) references stores (store_id)
-)
+    category_id      number(6)     not null,
+    menu_status      number(6)     not null,
+    constraint fk_menu_store foreign key (store_id) references stores (store_id),
+    constraint fk_menu_category foreign key (category_id) references categories (category_id),
+    constraint fk_menu_status foreign key (menu_status) references menu_status (menu_status_id)
+);
+
+commit;

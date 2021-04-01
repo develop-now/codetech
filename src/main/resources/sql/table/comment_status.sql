@@ -1,4 +1,4 @@
-drop table comment_status;
+drop table comment_status cascade constraints;
 create table comment_status
 (
     comment_status_id number(1) primary key,

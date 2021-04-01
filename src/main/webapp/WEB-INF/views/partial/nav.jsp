@@ -25,8 +25,18 @@
                 <a class="nav-link text-right" href="#">회원가입</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-right" href="<c:url value="/store/index"/>">가게</a>
+                <a class="nav-link text-right" href="<c:url value="/user"/>">유저</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-right" href="<c:url value="/admin"/>">어드민</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-right" href="<c:url value="/store"/>">가게</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-right" href="<c:url value="/owner"/>">오너</a>
+            </li>
+
 
 <%--            <c:choose>--%>
 <%--                <c:when test="${empty login_id}">--%>

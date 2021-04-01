@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Index</title>
+    <title>Home Page</title>
     <%@include file="partial/head.jsp" %>
 </head>
 <body>

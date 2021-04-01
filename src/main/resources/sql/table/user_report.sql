@@ -13,3 +13,5 @@ create table user_report
     constraint fk_user_report_reporter foreign key (reporter) references users (user_id),
     constraint fk_user_report_reported_user foreign key (reported_user) references users (user_id)
 );
+
+commit;
