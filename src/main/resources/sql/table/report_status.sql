@@ -1,4 +1,4 @@
-drop table report_status;
+drop table report_status cascade constraints;
 create table report_status
 (
     report_status_id number(1) primary key,

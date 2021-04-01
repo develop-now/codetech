@@ -1,4 +1,4 @@
-drop table user_status;
+drop table user_status cascade constraints;
 create table user_status
 (
     user_status_id number(1) primary key,

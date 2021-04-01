@@ -13,12 +13,13 @@ create table stores
     report_count       number(5) default 0,
     created_at         date      default sysdate,
     updated_at         date      default sysdate,
-    store_status       number(1) default 1 not null,
     opening_h_w        varchar2(20)        not null,
     opening_h_h        varchar2(20)        not null,
     holiday            varchar2(20)        not null,
     owner_id           number(6)           not null,
-    constraint fk_store_owner foreign key (owner_id) references users (user_id)
+    store_status       number(1) default 1 not null,
+    constraint fk_store_owner foreign key (owner_id) references users (user_id),
+    constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
 
 commit;

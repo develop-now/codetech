@@ -1,4 +1,4 @@
-drop table store_status;
+drop table store_status cascade constraints;
 create table store_status
 (
     store_status_id number(1) primary key,
