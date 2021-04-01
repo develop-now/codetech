@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: im-inseop
-  Date: 2021/03/31
-  Time: 2:15 오후
+  Date: 2021/04/01
+  Time: 5:42 오후
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,8 +10,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Store Index Page</title>
+    <title>Store Create Page</title>
     <%@include file="../partial/head.jsp" %>
+    <script src="${pageContext.request.contextPath}/resources/js/store/store-create.js"></script>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -28,14 +29,8 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                <a href="#">보기1</a>
-                <a href="#">보기2</a>
-                <a href="#">보기3</a>
-                <a href="#">보기4</a>
-            </div>
-            <div class="col-12 col-sm-10">
-                <p>Store Main Content</p>
+            <div class="col-12">
+                <p>Store Create</p>
             </div>
         </div>
     </div>

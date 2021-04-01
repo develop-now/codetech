@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Stores">
+    <select id="count" resultType="int">
+        select count(*)
+        from stores s
+                 join store_status t on s.store_status = t.store_status_id
+        where s.owner_id = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
+    <select id="list" resultType="store" parameterType="int">
+        select s.*, u.*, f.*, t.status_value
+        from stores s
+                 join users u on s.OWNER_ID = u.USER_ID
+                 join user_info f on s.OWNER_ID = f.USER_ID
+                 join store_status t on s.store_status = t.store_status_id
+        where s.OWNER_ID = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
+    <select id="read" resultType="store" parameterType="Map">
+        select s.*, u.*, f.*, t.status_value
+        from stores s
+                 join users u on s.OWNER_ID = u.USER_ID
+                 join user_info f on s.OWNER_ID = f.USER_ID
+                 join store_status t on s.store_status = t.store_status_id
+        where s.OWNER_ID = #{owner_id}
+          and s.store_id = #{store_id}
+          and t.status_value not like '%in%'
+    </select>
+</mapper>
