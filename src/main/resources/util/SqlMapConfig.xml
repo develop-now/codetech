@@ -5,9 +5,13 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="store" type="com.codetech.www.domain.Store"/>
+        <typeAlias alias="menu" type="com.codetech.www.domain.Menu"/>
+        <typeAlias alias="order" type="com.codetech.www.domain.Order"/>
     </typeAliases>
 
     <mappers>
         <mapper resource="sql/store.xml"/>
+        <mapper resource="sql/menu.xml"/>
+        <mapper resource="sql/order.xml"/>
     </mappers>
 </configuration>
