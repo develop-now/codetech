@@ -6,7 +6,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -15,10 +14,10 @@
   <title>Heroic Features - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="resources/mainpage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/mainpage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="resources/mainpage/css/heroic-features.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/mainpage/css/heroic-features.css" rel="stylesheet">
 
 </head>
 
@@ -132,8 +131,8 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="resources/mainpage/vendor/jquery/jquery.min.js"></script>
-  <script src="resources/mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/mainpage/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
