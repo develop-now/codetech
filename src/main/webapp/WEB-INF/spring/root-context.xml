@@ -8,14 +8,13 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 	
 <!-- Root Context: defines shared resources visible to all other web components -->
-	<bean class="org.apache.commons.dbcp.BasicDataSource"
-		id="dataSource" destroy-method="close">
-		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="scott" />
-		<property name="password" value="tiger" />
+	<util:properties id="sqlInfo" location="classpath:pro/sql.properties"/>
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource"
+		  destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="#{sqlInfo['url']}"/>
+		<property name="username" value="#{sqlInfo['username']}"/>
+		<property name="password" value="#{sqlInfo['password']}"/>
 	</bean>
 
 	<!-- Transaction Manager -->
