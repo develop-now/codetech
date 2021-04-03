@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Blog Home - Start Bootstrap Template</title>
+  <title>List Page</title>
+    <%@include file="indexCommon.jsp" %>
 
   <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/resources/mainlist/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -18,40 +19,31 @@
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/resources/mainlist/css/blog-home.css" rel="stylesheet">
 
+  <!-- SearchBar CSS  -->
+    <link href="${pageContext.request.contextPath}/resources/css/owner/mainList.css" rel="stylesheet">
+  
+
 </head>
 
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+
 
   <!-- Page Content -->
   <div class="container">
+
+<!-- searchbar -->
+<div class="topnav">
+  <a href="${pageContext.request.contextPath}/owner/mainList">인기순</a> <!-- basic page -->
+    <a class="active" href="${pageContext.request.contextPath}/owner/mapPage">거리순</a>
+  <a href="${pageContext.request.contextPath}/owner/reviewListPage">리뷰순</a>
+  <div class="search-container">
+    <form action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
 
     <div class="row">
 
@@ -116,66 +108,7 @@
 
       </div>
 
-      <!-- Sidebar Widgets Column -->
-      <div class="col-md-4">
 
-        <!-- Search Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">검색하기</h5>
-          <div class="card-body">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="검색어를 입력하세요">
-              <span class="input-group-append">
-                <button class="btn btn-secondary" type="button">검색</button>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Categories Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">이렇게도 해봐요!</h5>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a href="#">랭킹순</a>
-                  </li>
-                  <li>
-                    <a href="#">좋아요 많은순</a>
-                  </li>
-                  <li>
-                    <a href="#">리뷰 많은순</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a href="#">근처매장</a>
-                  </li>
-                  <li>
-                    <a href="#">할인 많은순</a>
-                  </li>
-                  <li>
-                    <a href="#">이벤트중인곳</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Side Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">Side Widget</h5>
-          <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-          </div>
-        </div>
-
-      </div>
 
     </div>
     <!-- /.row -->
@@ -183,13 +116,7 @@
   </div>
   <!-- /.container -->
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+
 
   <!-- Bootstrap core JavaScript -->
   <script src="${pageContext.request.contextPath}/resources/mainlist/vendor/jquery/jquery.min.js"></script>

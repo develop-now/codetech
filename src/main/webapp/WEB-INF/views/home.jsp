@@ -31,7 +31,7 @@
             <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt
                 possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam
                 repellat.</p>
-            <a href="owner/mainList" class="btn btn-primary btn-lg">Call to action!</a>
+            <a href="owner/mainList" class="btn btn-primary btn-lg">주문하러 가기!</a>
         </header>
 
         <!-- Page Features -->
