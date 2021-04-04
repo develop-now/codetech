@@ -11,7 +11,6 @@ public class OwnerController {
     //Sort of like
     @RequestMapping(value = "/mainList")
     public String mainList() {
-    	//인기순으로 정렬하는 로직
         return "owner/mainList";
     }
     
