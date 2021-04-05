@@ -19,10 +19,10 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-right" href="#">로그인</a>
+                <a class="nav-link text-right" href="#" data-toggle="modal" data-target="#loginModal">로그인</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-right" href="#">회원가입</a>
+                <a class="nav-link text-right" href="#" data-toggle="modal" data-target="#joinModal">회원가입</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-right" href="<c:url value="/user"/>">유저</a>
@@ -67,3 +67,7 @@
         </ul>
     </div>
 </nav>
+<!-- login Modal -->
+<jsp:include page="/WEB-INF/views/user/login.jsp"/>
+<!-- join Modal -->
+<jsp:include page="/WEB-INF/views/user/join.jsp"/>
