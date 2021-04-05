@@ -8,12 +8,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MenuServiceImpl implements MenuService{
     private static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Autowired
     private MenuDAO dao;
+
+
+    @Override
+    public List<Menu> getMenuList(int store_id) {
+        return dao.getMenuList(store_id);
+    }
 
     @Override
     public int createMenu(Menu menu) {

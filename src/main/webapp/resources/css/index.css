@@ -10,7 +10,7 @@
 
 div#sideNav {
     min-height: 100px;
-    max-height:500px;
+    max-height: 50vh;
     background-color: #be9f7b;
     overflow: scroll;
 }

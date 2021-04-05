@@ -12,4 +12,9 @@
         values (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
         #{menu_original_image},#{store_id}, #{category_id})
     </insert>
+    <select id="list" resultType="menu" parameterType="int">
+        select *
+        from menus
+        where store_id = #{store_id}
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.codetech.www.controller;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Store;
+import com.codetech.www.service.MenuService;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -31,6 +32,10 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+    @Autowired
+    private MenuService menuService;
+
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "store/index";
@@ -54,7 +59,7 @@ public class StoreController {
         return "store/comment-list";
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/store-list", method = RequestMethod.GET)
     public String getStoreList(@RequestParam(value = "owner_id") int owner_id, Model model) {
         model.addAttribute("storeNav", "storeList");
         // TODO:: GET ID FROM SESSION OR SECURITY
@@ -64,21 +69,21 @@ public class StoreController {
         return "store/store-list";
     }
 
-    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    @RequestMapping(value = "/store-read", method = RequestMethod.GET)
     public String readStore(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "storeRead");
 
         return "store/store-read";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/store-update", method = RequestMethod.GET)
     public String updateStore(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "storeUpdate");
 
         return "store/store-update";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/store-delete", method = RequestMethod.GET)
     public String deleteStore(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "storeDelete");
 
@@ -96,7 +101,7 @@ public class StoreController {
         return rtn;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/store-create", method = RequestMethod.GET)
     public String createStore(Model model) {
         model.addAttribute("storeNav", "storeCreate");
 
@@ -192,5 +197,26 @@ public class StoreController {
         logger.info("DB file name : " + fileDBName);
 
         return fileDBName;
+    }
+
+    @RequestMapping(value = "/store-profit", method = RequestMethod.GET)
+    public String getStoreProfit(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeProfit");
+
+        return "store/store-profit";
+    }
+
+    @RequestMapping(value = "/store-staff", method = RequestMethod.GET)
+    public String getStoreStaff(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeStaff");
+
+        return "store/store-staff";
+    }
+
+    @RequestMapping(value = "/store-customers", method = RequestMethod.GET)
+    public String getStoreCustomers(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeCustomer");
+
+        return "store/store-customers";
     }
 }
