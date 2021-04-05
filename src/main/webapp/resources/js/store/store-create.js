@@ -56,23 +56,13 @@ $(() => {
     })
 
     checkBoxes.each((iex, el) => {
-        const startEl = $("#opening_h_h_start");
-        const endEl = $("#opening_h_h_end");
-        const openTimeEl = $("#holiday_open_time_selector");
         const noneHolidayEl = $("input:checkbox#noneHoliday")
-
         $(el).on("change", () => {
-            if ($(el).val() !== 'none') {
-                openTimeEl.removeClass("d-none")
+            if ($(el).val() !== "none") {
                 noneHolidayEl.prop("checked", false)
-                startEl.attr("data-valid", "required")
-                endEl.attr("data-valid", "required")
             } else {
-                openTimeEl.addClass("d-none")
                 checkBoxes.prop("checked", false)
                 noneHolidayEl.prop("checked", true)
-                startEl.attr("data-valid", "non-required")
-                endEl.attr("data-valid", "non-required")
             }
             $("#holidayCheckFeedback").css({display: "none"});
         })
@@ -225,7 +215,6 @@ function numInputChangeHandler(e) {
 }
 
 let formIsValid = true;
-let formErrMsg = ""
 
 function submitForm(e) {
     e.preventDefault();
@@ -234,49 +223,39 @@ function submitForm(e) {
         if (!$(el).val() && $(el).data("valid") === "required") {
             $(el).addClass("is-invalid")
             formIsValid = false;
-            formErrMsg = "Required 값이 입력되지 않았습니다"
+            console.log("Required 값이 입력되지 않았습니다")
         }
     })
 
-    let isHolidayChecked = checkBoxes.is(":checked")
-
-    if (!isHolidayChecked) {
+    if (!checkBoxes.is(":checked")) {
         $("#holidayCheckFeedback").css({display: 'block'})
         formIsValid = false;
-        formErrMsg = "휴일이 입력되지 않았습니다"
-    }
-
-    if ($("input:checkbox[name='holiday']:checked").val() !== "none") {
-        if (!$("#opening_h_h_start").val() || !$("#opening_h_h_end").val()) {
-            formIsValid = false;
-            formErrMsg = "휴일이 영업시간이 입력되지 않았습니다"
-        }
+        console.log("휴일이 입력되지 않았습니다")
     }
 
     if ($("input:radio:checked").length === 0) {
         $("#categoryCheckFeedback").css({display: 'block'})
         formIsValid = false;
-        formErrMsg = "메뉴 카테고리가 입력되지 않았습니다"
+        console.log("메뉴 카테고리가 입력되지 않았습니다")
     }
 
     if (!storeImgVal) {
         $("#store_image").addClass("is-invalid")
         formIsValid = false
-        formErrMsg = "가게 이미지가 입력되지 않았습니다"
+        console.log("가게 이미지가 입력되지 않았습니다")
     }
 
     if (!menuImgVal) {
         $("#menu_image").addClass("is-invalid")
         formIsValid = false;
-        formErrMsg = "메뉴 이미지가 입력되지 않았습니다"
-
+        console.log("메뉴 이미지가 입력되지 않았습니다")
     }
 
 
     if (formIsValid && telNumIsValid && rNumIsValid && nameIsValid) {
         formEl.submit();
     } else {
-        $("#alertModal__msg").text("폼 전송에 실패했습니다, " + formErrMsg)
+        $("#alertModal__msg").text("폼 전송에 실패했습니다. ")
         alertModal.modal("show");
     }
 

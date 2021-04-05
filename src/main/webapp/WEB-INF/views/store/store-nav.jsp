@@ -15,7 +15,12 @@
     <ul class="nav flex-column">
         <li class="nav-item">
             <a href="<c:url value="/store/create"/>"
-               class="nav-link <c:out value="${storeNavVal eq 'create' ? 'active' : ''}"/>">가게 만들기</a>
+               class="nav-link <c:out value="${storeNavVal eq 'storeCreate' ? 'active' : ''}"/>">가게 만들기</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/list?owner_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'storeList' ? 'active' : ''}"/>">가게 리스트</a>
         </li>
 
         <c:choose>
