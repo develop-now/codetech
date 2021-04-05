@@ -269,6 +269,7 @@ create table likes
 );
 
 
+
 drop table comment_status cascade constraints;
 create table comment_status
 (
