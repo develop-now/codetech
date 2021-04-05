@@ -1,11 +1,12 @@
 package com.codetech.www.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Menu {
     private int menu_id;
     private String menu_name;
     private String menu_desc;
     private String menu_price;
-    private String menu_image;
     private int menu_read_count;
     private int menu_order_count;
     private String created_at;
@@ -13,6 +14,11 @@ public class Menu {
     private int store_id;
     private int category_id;
     private int menu_status;
+
+    private MultipartFile menu_image;
+
+    private String menu_saved_image;
+    private String menu_original_image;
 
     public int getMenu_id() {
         return menu_id;
@@ -44,14 +50,6 @@ public class Menu {
 
     public void setMenu_price(String menu_price) {
         this.menu_price = menu_price;
-    }
-
-    public String getMenu_image() {
-        return menu_image;
-    }
-
-    public void setMenu_image(String menu_image) {
-        this.menu_image = menu_image;
     }
 
     public int getMenu_read_count() {
@@ -108,5 +106,29 @@ public class Menu {
 
     public void setMenu_status(int menu_status) {
         this.menu_status = menu_status;
+    }
+
+    public MultipartFile getMenu_image() {
+        return menu_image;
+    }
+
+    public void setMenu_image(MultipartFile menu_image) {
+        this.menu_image = menu_image;
+    }
+
+    public String getMenu_saved_image() {
+        return menu_saved_image;
+    }
+
+    public void setMenu_saved_image(String menu_saved_image) {
+        this.menu_saved_image = menu_saved_image;
+    }
+
+    public String getMenu_original_image() {
+        return menu_original_image;
+    }
+
+    public void setMenu_original_image(String menu_original_image) {
+        this.menu_original_image = menu_original_image;
     }
 }
