@@ -8,11 +8,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/owner")
 public class OwnerController {
 
-    
-    @RequestMapping(value = "/mainList", method = RequestMethod.GET)
+    //Sort of like
+    @RequestMapping(value = "/mainList")
     public String mainList() {
-        return "owner/main_list";
+    	//인기순으로 정렬하는 로직
+        return "owner/mainList";
     }
+    
+    //Sort of distance
+    @RequestMapping(value = "/mapPage")
+    public String mapPage() {
+        return "owner/mapPage";
+    }
+    
+    //Sort of review
+    @RequestMapping(value = "/reviewListPage")
+    public String reviewListPage() {
+        return "owner/reviewList";
+    }
+    
     
     
 }
