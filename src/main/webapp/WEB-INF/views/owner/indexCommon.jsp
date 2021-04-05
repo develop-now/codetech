@@ -24,21 +24,7 @@
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
 
- <!-- Page Content -->
-    <div class="container-fluid">
-        <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                <a href="#">관리자 관리</a>
-                <a href="#">방문자 관리</a>
-                <a href="#">매출 　관리</a>
-                <a href="#">제휴　 관리</a>
-            </div>
-            <div class="col-12 col-sm-10">
-                <p>User Main Content</p>
-            </div>
-        </div>
-    </div>
-    <!-- /.container -->
+
   
 
     <%-- footer --%>
