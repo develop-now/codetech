@@ -20,9 +20,11 @@ create table stores
     holiday              varchar2(20)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
+
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
+
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
                    store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
