@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Store Customers Page</title>
+    <title>Store Order List Page</title>
     <%@include file="../partial/head.jsp" %>
 </head>
 <body>

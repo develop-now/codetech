@@ -1,5 +1,7 @@
 package com.codetech.www.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Store {
     private int store_id;
     private String store_name;
@@ -8,8 +10,8 @@ public class Store {
     private String store_address_gu;
     private String store_address_dong;
     private String store_address_etc;
+    private String store_desc;
     private String store_rnum;
-    private String store_image;
     private int report_count;
     private String created_at;
     private String updated_at;
@@ -18,6 +20,11 @@ public class Store {
     private String holiday;
     private int owner_id;
     private int store_status;
+
+    private MultipartFile store_image;
+
+    private String store_saved_image; // 실제 저정된 파일 이름
+    private String store_original_image; // 첨부될 파일 이름
 
     public int getStore_id() {
         return store_id;
@@ -75,20 +82,20 @@ public class Store {
         this.store_address_etc = store_address_etc;
     }
 
+    public String getStore_desc() {
+        return store_desc;
+    }
+
+    public void setStore_desc(String store_desc) {
+        this.store_desc = store_desc;
+    }
+
     public String getStore_rnum() {
         return store_rnum;
     }
 
     public void setStore_rnum(String store_rnum) {
         this.store_rnum = store_rnum;
-    }
-
-    public String getStore_image() {
-        return store_image;
-    }
-
-    public void setStore_image(String store_image) {
-        this.store_image = store_image;
     }
 
     public int getReport_count() {
@@ -153,5 +160,29 @@ public class Store {
 
     public void setStore_status(int store_status) {
         this.store_status = store_status;
+    }
+
+    public MultipartFile getStore_image() {
+        return store_image;
+    }
+
+    public void setStore_image(MultipartFile store_image) {
+        this.store_image = store_image;
+    }
+
+    public String getStore_saved_image() {
+        return store_saved_image;
+    }
+
+    public void setStore_saved_image(String store_saved_image) {
+        this.store_saved_image = store_saved_image;
+    }
+
+    public String getStore_original_image() {
+        return store_original_image;
+    }
+
+    public void setStore_original_image(String store_original_image) {
+        this.store_original_image = store_original_image;
     }
 }
