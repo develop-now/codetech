@@ -41,11 +41,11 @@
 						<div class="card h-100">
 							<c:if test="${store.store_status == 1}">
 								<img class="card-img-top"
-									src="resources/upload/${store.store_image}" alt="">
+									src="resources/upload/${store.store_saved_image}" alt="">
 							</c:if>
 							<c:if test="${store.store_status == 2}">
 								<img class="card-img-top"
-									src="resources/upload/${store.store_image}" alt=""
+									src="resources/upload/${store.store_saved_image}" alt=""
 									style="filter:blur(5px)">
 							</c:if>
 							<div class="card-body">

@@ -47,7 +47,7 @@
           and t.status_value not like '%in%'
     </select>
         <select id="forMain" resultType="store">
-  select store_name, store_image, store_status from stores s, (select store_id, count(*) 
+  select store_name, store_saved_image, store_status from stores s, (select store_id, count(*) 
   from likes group by store_id order by count(*) desc) r 
   where s.store_id = r.store_id and rownum &lt;= 4
     </select>
