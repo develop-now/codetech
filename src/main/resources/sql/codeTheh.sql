@@ -41,9 +41,12 @@ create table users
     report_count  number(5) default 0,
     created_at    date      default sysdate,
     updated_at    date      default sysdate,
-    user_auth     number(1) default 0 not null,
+    user_auth     number(1) default 0 not null, -- 유저 인증
+    
     role_id       number(1) default 5 not null,
-    user_status   number(1) default 1 not null,
+    user_status   number(1) default 1 not null, -- 활동, 정지, 탈퇴, 추방
+    -- constraint 제약 조건명  foreign key (컬럼명) references 참조할 테이블 (참조할 컬럼명)
+    -- 컬럼명은 웬만하면 참조할 컬럼명과 맞춰 알아보기 쉽게하는게 좋다. 결론: 내 마음이다.
     constraint fk_users_role foreign key (role_id) references role (role_id),
     constraint fk_users_status foreign key (user_status) references user_status (user_status_id)
 );
@@ -73,6 +76,7 @@ create table user_info
     user_address varchar2(20) not null,
     user_profile varchar2(20),
     point        number(6) default 0,
+    
     user_id      number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
