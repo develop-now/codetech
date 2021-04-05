@@ -28,7 +28,7 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-
+            <%@include file="store-nav.jsp"%>
              <div class="col-12 col-sm-10">
                 <p>Store Main Content</p>
             </div>
