@@ -5,98 +5,79 @@
   Time: 1:12 오후
   To change this partial use File | Settings | File partials.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home Page</title>
-    <%@include file="partial/head.jsp" %>
+<title>Home Page</title>
+<%@include file="partial/head.jsp"%>
 </head>
 <body>
-<div class="container-fluid px-0 pb-5">
-    <%@include file="partial/nav.jsp" %>
+	<div class="container-fluid px-0 pb-5">
+		<%@include file="partial/nav.jsp"%>
 
-    <%--    info Modal      --%>
-    <%@include file="partial/infoModal.jsp" %>
+		<%--    info Modal      --%>
+		<%@include file="partial/infoModal.jsp"%>
 
-    <%--    alert Modal      --%>
-    <%@include file="partial/alertModal.jsp" %>
+		<%--    alert Modal      --%>
+		<%@include file="partial/alertModal.jsp"%>
 
 
-    <div class="container-fluid">
-        <!-- Jumbotron Header -->
-        <header class="jumbotron my-4">
-            <h1 class="display-3">A Warm Welcome!</h1>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt
-                possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam
-                repellat.</p>
-            <a href="owner/mainList" class="btn btn-primary btn-lg">주문하러 가기!</a>
-        </header>
+		<div class="container-fluid">
+			<!-- Jumbotron Header -->
+			<header class="jumbotron my-4">
+				<h1 class="display-3">커피 구독 서비스 출시!</h1>
+				<p class="lead">월 19,800원으로 커피를 구독하세요! 제휴 매장에서 하루 1잔 사용 가능합니다.(아메리카노 한정)<br>
+				많은 분들이 커피테크로 하루 평균 3분의 시간을 절약하셨습니다.</p>
+				<a href="owner/mainList" class="btn btn-primary btn-lg">주문하러 가기!</a>
+			</header>
 
-        <!-- Page Features -->
-        <div class="row text-center">
+			<!-- Page Features -->
+			<div class="row text-center">
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse
-                            necessitatibus neque.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
+				<c:forEach var="store" items="${stores}">
+					<div class="col-lg-3 col-md-6 mb-4">
+						<div class="card h-100">
+							<c:if test="${store.store_status == 1}">
+								<img class="card-img-top"
+									src="resources/upload/${store.store_saved_image}" alt="">
+							</c:if>
+							<c:if test="${store.store_status == 2}">
+								<img class="card-img-top"
+									src="resources/upload/${store.store_saved_image}" alt=""
+									style="filter:blur(5px)">
+							</c:if>
+							<div class="card-body">
+								<h4 class="card-title">${store.store_name}</h4>
+								<p class="card-text">
+									<c:if test="${store.store_status == 1}">
+                        5분 후 수령 가능
+									</c:if>
+									<c:if test="${store.store_status == 2}">
+                        준비중</c:if>
+								</p>
+							</div>
+							<div class="card-footer">
+								<c:if test="${store.store_status == 2}">
+									<a href="#" class="btn btn-primary"
+										style="background-color: gray">준비중</a>
+								</c:if>
+								<c:if test="${store.store_status == 1}">
+									<a href="#" class="btn btn-primary">주문하러 가기!</a>
+								</c:if>
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni
-                            sapiente, tempore debitis beatae culpa natus architecto.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse
-                            necessitatibus neque.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni
-                            sapiente, tempore debitis beatae culpa natus architecto.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
 
-        </div>
-    </div>
+			</div>
+		</div>
 
-    <%@include file="partial/footer.jsp" %>
-</div>
+		<%@include file="partial/footer.jsp"%>
+	</div>
 </body>
 </html>
