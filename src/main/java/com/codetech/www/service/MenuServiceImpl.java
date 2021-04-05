@@ -16,8 +16,8 @@ public class MenuServiceImpl implements MenuService{
     private MenuDAO dao;
 
     @Override
-    public void createMenu() {
-
+    public int createMenu(Menu menu) {
+        return dao.createMenu(menu);
     }
 
     @Override

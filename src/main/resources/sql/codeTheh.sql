@@ -110,26 +110,29 @@ values (3, 'suspending'); -- 활동 정지 상태
 drop table stores cascade constraints;
 create table stores
 (
-    store_id           number(6) primary key,
-    store_name         varchar2(50)        not null,
-    store_tel          varchar2(50)        not null,
-    store_address_si   varchar2(50)        not null,
-    store_address_gu   varchar2(50),
-    store_address_dong varchar2(50)        not null,
-    store_address_etc  varchar2(50),
-    store_rnum         varchar2(10)        not null,
-    store_image        varchar2(50)        not null,
-    report_count       number(5) default 0,
-    created_at         date      default sysdate,
-    updated_at         date      default sysdate,
-    opening_h_w        varchar2(20)        not null,
-    opening_h_h        varchar2(20)        not null,
-    holiday            varchar2(20)        not null,
-    owner_id           number(6)           not null,
-    store_status       number(1) default 1 not null,
+    store_id             number(6) primary key,
+    store_name           varchar2(50)        not null,
+    store_tel            varchar2(50)        not null,
+    store_address_si     varchar2(50)        not null,
+    store_address_gu     varchar2(50),
+    store_address_dong   varchar2(50)        not null,
+    store_address_etc    varchar2(50),
+    store_desc           varchar2(200)       not null,
+    store_rnum           varchar2(20)        not null,
+    store_saved_image    varchar2(50)        not null,
+    store_original_image varchar2(200)        not null,
+    report_count         number(5) default 0,
+    created_at           date      default sysdate,
+    updated_at           date      default sysdate,
+    opening_h_w          varchar2(20)        not null, -- 평일 영업시간
+    opening_h_h          varchar2(20)        not null, -- 휴일 영업시간
+    holiday              varchar2(20)        not null, -- 휴일
+    owner_id             number(6)           not null,
+    store_status         number(1) default 1 not null,
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
+
 
 drop table categories cascade constraints;
 create table categories
@@ -168,18 +171,19 @@ values (3, 'soldout'); -- 품절
 drop table menus cascade constraints;
 create table menus
 (
-    menu_id          number(6) primary key,
-    menu_name        varchar2(30)  not null,
-    menu_desc        varchar2(50)  not null,
-    menu_price       varchar2(10)  not null,
-    menu_image       varchar2(200) not null,
-    menu_read_count  number(6) default 0,
-    menu_order_count number(6) default 0,
-    created_at       date      default sysdate,
-    updated_at       date      default sysdate,
-    store_id         number(6)     not null,
-    category_id      number(6)     not null,
-    menu_status      number(6)     not null,
+    menu_id             number(6) primary key,
+    menu_name           varchar2(30)        not null,
+    menu_desc           varchar2(50)        not null,
+    menu_price          varchar2(10)        not null,
+    menu_saved_image    varchar2(50)        not null,
+    menu_original_image varchar2(200)        not null,
+    menu_read_count     number(6) default 0,
+    menu_order_count    number(6) default 0,
+    created_at          date      default sysdate,
+    updated_at          date      default sysdate,
+    store_id            number(6)           not null,
+    category_id         number(6)           not null,
+    menu_status         number(6) default 1 not null,
     constraint fk_menu_store foreign key (store_id) references stores (store_id),
     constraint fk_menu_category foreign key (category_id) references categories (category_id),
     constraint fk_menu_status foreign key (menu_status) references menu_status (menu_status_id)
@@ -352,14 +356,14 @@ create table store_report
 drop table comment_report cascade constraints;
 create table comment_report
 (
-    cmt_report_id number(6) primary key,
-    report_subject    varchar2(50)        not null,
-    report_content    varchar2(200)       not null,
-    created_at        date      default sysdate,
-    updated_at        date      default sysdate,
-    report_status     number(1) default 1 not null,
-    reporter          number(6)           not null,
-    reported_cmt  number(6)           not null,
+    cmt_report_id  number(6) primary key,
+    report_subject varchar2(50)        not null,
+    report_content varchar2(200)       not null,
+    created_at     date      default sysdate,
+    updated_at     date      default sysdate,
+    report_status  number(1) default 1 not null,
+    reporter       number(6)           not null,
+    reported_cmt   number(6)           not null,
     constraint fk_cmt_report_status foreign key (report_status) references report_status (report_status_id),
     constraint fk_cmt_report_reporter foreign key (reporter) references users (user_id),
     constraint fk_cmt_report_reported_cmt foreign key (reported_cmt) references comments (comment_id)

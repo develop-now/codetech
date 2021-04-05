@@ -2,5 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Menus">
+    <insert id="createMenu" parameterType="menu">
+        <selectKey resultType="int" order="BEFORE" keyProperty="menu_id">
+            select nvl(max(store_id), 0) +1 from menus
+        </selectKey>
 
+        insert into menus (menu_id, menu_name, menu_desc, menu_price, menu_saved_image,
+        menu_original_image, store_id, category_id)
+        values (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
+        #{menu_original_image},#{store_id}, #{category_id})
+    </insert>
 </mapper>

@@ -3,6 +3,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Stores">
+    <select id="nameCheck" resultType="store" parameterType="String">
+        select *
+        from stores
+        where store_name = #{name}
+    </select>
+    <insert id="createStore" parameterType="store" useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
+        <selectKey resultType="int" order="BEFORE" keyProperty="store_id">
+            select nvl(max(store_id), 0) +1 from stores
+        </selectKey>
+
+        insert into stores (store_id, store_name, store_tel, store_address_si, store_address_gu,
+        store_address_dong, store_address_etc, store_desc, store_rnum,
+        store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+        values (#{store_id},#{store_name},#{store_tel},#{store_address_si},#{store_address_gu},
+        #{store_address_dong},#{store_address_etc},#{store_desc},#{store_rnum},
+        #{store_saved_image},#{store_original_image},#{opening_h_w},#{opening_h_h} ,#{holiday}, #{owner_id} )
+    </insert>
     <select id="count" resultType="int">
         select count(*)
         from stores s
