@@ -19,11 +19,22 @@ public class OwnerController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 
+	@Autowired
+	private OwnerService ownerService;
+	
     //Sort of like
     @RequestMapping(value = "/mainList")
-    public String mainList() {
-        return "owner/mainList";
+    public ModelAndView mainList(ModelAndView mv) {
+    	List<Store> stores = ownerService.getStoreForMain();
+    	List<Integer> likes = ownerService.getStoreLikes();
+    	List<Integer> comments = ownerService.getStoreComments();
+    	mv.setViewName("owner/mainList");
+		mv.addObject("stores", stores);
+		mv.addObject("likes", likes);
+		mv.addObject("comments", comments);
+        return mv;
     }
+    
 
     //Sort of distance
     @RequestMapping(value = "/mapPage")
@@ -33,7 +44,14 @@ public class OwnerController {
 
     //Sort of review
     @RequestMapping(value = "/reviewListPage")
-    public String reviewListPage() {
-        return "owner/reviewList";
+    public ModelAndView reviewListPage(ModelAndView mv) {
+    	List<Store> stores = ownerService.getStoreForReviewList();
+    	List<Integer> comments = ownerService.getStoreCommentsReview();
+    	List<Integer> likes = ownerService.getStoreLikesReview();
+    	mv.setViewName("owner/reviewList");
+		mv.addObject("stores", stores);
+		mv.addObject("likes", likes);
+		mv.addObject("comments", comments);
+		return mv;
     }
 }

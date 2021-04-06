@@ -9,4 +9,7 @@ create table likes
     constraint fk_like_user foreign key (user_id) references users (user_id)
 );
 
+select * from likes;
+
+
 commit;

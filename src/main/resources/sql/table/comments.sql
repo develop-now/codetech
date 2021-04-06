@@ -14,3 +14,10 @@ create table comments
     constraint fk_comment_store foreign key (comment_ref) references stores (store_id),
     constraint fk_comment_status foreign key (comment_status) references comment_status (comment_status_id)
 );
+
+select * from comments;
+
+
+
+
+
