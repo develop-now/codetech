@@ -28,51 +28,65 @@
 			<!-- Jumbotron Header -->
 			<header class="jumbotron my-4">
 				<h1 class="display-3">커피 구독 서비스 출시!</h1>
-				<p class="lead">월 19,800원으로 커피를 구독하세요! 제휴 매장에서 하루 1잔 사용 가능합니다.(아메리카노 한정)<br>
-				많은 분들이 커피테크로 하루 평균 3분의 시간을 절약하셨습니다.</p>
+				<p class="lead">
+					월 19,800원으로 커피를 구독하세요! 제휴 매장에서 하루 1잔 사용 가능합니다.(아메리카노 한정)<br>
+					많은 분들이 커피테크로 하루 평균 3분의 시간을 절약하셨습니다.
+				</p>
 				<a href="owner/mainList" class="btn btn-primary btn-lg">주문하러 가기!</a>
 			</header>
 
 			<!-- Page Features -->
 			<div class="row text-center">
 
-				<c:forEach var="store" items="${stores}">
-					<div class="col-lg-3 col-md-6 mb-4">
-						<div class="card h-100">
-							<c:if test="${store.store_status == 1}">
+				<c:forEach var="store" items="${stores}" varStatus="status">
+					<c:if test="${store.store_status == 1}">
+						<div class="col-lg-3 col-md-6 mb-4">
+							<div class="card h-100">
 								<img class="card-img-top"
 									src="resources/upload/${store.store_saved_image}" alt="">
-							</c:if>
-							<c:if test="${store.store_status == 2}">
-								<img class="card-img-top"
-									src="resources/upload/${store.store_saved_image}" alt=""
-									style="filter:blur(5px)">
-							</c:if>
-							<div class="card-body">
-								<h4 class="card-title">${store.store_name}</h4>
-								<p class="card-text">
-									<c:if test="${store.store_status == 1}">
-                        5분 후 수령 가능
-									</c:if>
-									<c:if test="${store.store_status == 2}">
-                        준비중</c:if>
-								</p>
-							</div>
-							<div class="card-footer">
-								<c:if test="${store.store_status == 2}">
-									<a href="#" class="btn btn-primary"
-										style="background-color: gray">준비중</a>
-								</c:if>
-								<c:if test="${store.store_status == 1}">
-									<a href="#" class="btn btn-primary">주문하러 가기!</a>
-								</c:if>
+								<div class="card-body">
+									<h4 class="card-title">${store.store_name}</h4>
+									<p class="card-text">
+										5분 후 수령 가능 <br>
+										<img class="card-img-heart" src="resources/upload/love.png"
+											width="20" height="20" alt=""> ${likes[status.index]}&nbsp;&nbsp;<img
+											class="card-img-comments" src="resources/upload/message.png"
+											width="20" height="20" alt="">&nbsp;${comments[status.index]}
+									</p>
+								</div>
 
+								<div class="card-footer">
+									<a href="#" class="btn btn-primary">주문하러 가기!</a>
+								</div>
 							</div>
 						</div>
-					</div>
+					</c:if>
+
+					<c:if test="${store.store_status == 2}">
+						<div class="col-lg-3 col-md-6 mb-4">
+							<div class="card h-100">
+								<img class="card-img-top"
+									src="resources/upload/${store.store_saved_image}" alt=""
+									style="filter: blur(5px)">
+								<div class="card-body">
+									<h4 class="card-title">${store.store_name}</h4>
+									<p class="card-text">
+										준비중<br> <img class="card-img-heart"
+											src="resources/upload/love.png" width="20" height="20" alt="">
+										${likes[status.index]} &nbsp;&nbsp;
+										<img class="card-img-comments"
+											src="resources/upload/message.png" width="20" height="20"
+											alt="">&nbsp;${comments[status.index]}
+									</p>
+								</div>
+								<div class="card-footer">
+									<a href="#" class="btn btn-primary"
+										style="background-color: gray">준비중</a>
+								</div>
+							</div>
+						</div>
+					</c:if>
 				</c:forEach>
-
-
 
 			</div>
 		</div>

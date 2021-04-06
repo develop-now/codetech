@@ -32,4 +32,27 @@ public class StoreDAO {
         return sqlSession.insert("Stores.createStore", store);
     }
 
+	public List<Integer> getStoreLikes() {
+		return sqlSession.selectList("Stores.store_likes");
+	}
+
+	public List<Integer> getStoreComments() {
+		return sqlSession.selectList("Stores.store_comments");
+	}
+
+	public List<Store> getStoreForReviewList() {
+		return sqlSession.selectList("Stores.forReviewList");
+
+	}
+
+	public List<Integer> getStoreCommentsReview() {
+		return sqlSession.selectList("Stores.store_comment_forReview");
+
+	}
+
+	public List<Integer> getStorelikesReview() {
+		return sqlSession.selectList("Stores.store_likes_forReivew");
+
+	}
+
 }

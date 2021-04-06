@@ -23,4 +23,37 @@ public class OwnerServiceImpl implements OwnerService{
 		return dao.getStoreForMain();
 	}
 
+
+	@Override
+	public List<Integer> getStoreLikes() {
+		return dao.getStoreLikes();
+	}
+
+
+	@Override
+	public List<Integer> getStoreComments() {
+		return dao.getStoreComments();
+	}
+
+
+	@Override
+	public List<Store> getStoreForReviewList() {
+		return dao.getStoreForReviewList();
+
+	}
+
+
+	@Override
+	public List<Integer> getStoreCommentsReview() {
+		return dao.getStoreCommentsReview();
+
+	}
+
+
+	@Override
+	public List<Integer> getStoreLikesReview() {
+		return dao.getStorelikesReview();
+
+	}
+
 }
