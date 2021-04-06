@@ -47,6 +47,11 @@
             <a href="<c:url value="/store/store-customers?store_id=3"/>"
                class="nav-link <c:out value="${storeNavVal eq 'storeCustomer' ? 'active' : ''}"/>">가게 단골</a>
         </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/comment-list?store_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'commentList' ? 'active' : ''}"/>">가게 리뷰</a>
+        </li>
 
         <c:choose>
             <c:when test="${roleIdVal && roleIdVal eq 4}">

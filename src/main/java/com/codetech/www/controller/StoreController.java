@@ -42,7 +42,7 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/comment-list", method = RequestMethod.GET)
-    public String getStoreCommentList(@RequestParam(value = "owner_id") int owner_id, Model model) {
+    public String getStoreCommentList(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "commentList");
         // TODO:: GET ID FROM SESSION OR SECURITY
 
