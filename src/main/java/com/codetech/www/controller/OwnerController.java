@@ -18,6 +18,7 @@ import com.codetech.www.service.OwnerService;
 public class OwnerController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
+
 	@Autowired
 	private OwnerService ownerService;
 	
@@ -35,13 +36,12 @@ public class OwnerController {
     }
     
 
-    
     //Sort of distance
     @RequestMapping(value = "/mapPage")
     public String mapPage() {
         return "owner/mapPage";
     }
-    
+
     //Sort of review
     @RequestMapping(value = "/reviewListPage")
     public ModelAndView reviewListPage(ModelAndView mv) {
@@ -54,7 +54,4 @@ public class OwnerController {
 		mv.addObject("comments", comments);
 		return mv;
     }
-    
-    
-    
 }
