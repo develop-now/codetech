@@ -3,56 +3,91 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Stores">
-    <select id="nameCheck" resultType="store" parameterType="String">
-        select *
-        from stores
-        where store_name = #{name}
-    </select>
-    <insert id="createStore" parameterType="store" useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
-        <selectKey resultType="int" order="BEFORE" keyProperty="store_id">
-            select nvl(max(store_id), 0) +1 from stores
-        </selectKey>
+	<select id="nameCheck" resultType="store" parameterType="String">
+		select *
+		from stores
+		where store_name = #{name}
+	</select>
+	<insert id="createStore" parameterType="store"
+		useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
+		<selectKey resultType="int" order="BEFORE"
+			keyProperty="store_id">
+			select nvl(max(store_id), 0) +1 from stores
+		</selectKey>
 
-        insert into stores (store_id, store_name, store_tel, store_address_si, store_address_gu,
-        store_address_dong, store_address_etc, store_desc, store_rnum,
-        store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
-        values (#{store_id},#{store_name},#{store_tel},#{store_address_si},#{store_address_gu},
-        #{store_address_dong},#{store_address_etc},#{store_desc},#{store_rnum},
-        #{store_saved_image},#{store_original_image},#{opening_h_w},#{opening_h_h} ,#{holiday}, #{owner_id} )
-    </insert>
-    <select id="count" resultType="int">
-        select count(*)
-        from stores s
-                 join store_status t on s.store_status = t.store_status_id
-        where s.owner_id = #{owner_id}
-          and t.status_value not like '%in%'
-    </select>
-    <select id="list" resultType="store" parameterType="int">
-        select s.*, u.*, f.*, t.status_value
-        from stores s
-                 join users u on s.OWNER_ID = u.USER_ID
-                 join user_info f on s.OWNER_ID = f.USER_ID
-                 join store_status t on s.store_status = t.store_status_id
-        where s.OWNER_ID = #{owner_id}
-          and t.status_value not like '%in%'
-    </select>
-    <select id="read" resultType="store" parameterType="Map">
-        select s.*, u.*, f.*, t.status_value
-        from stores s
-                 join users u on s.OWNER_ID = u.USER_ID
-                 join user_info f on s.OWNER_ID = f.USER_ID
-                 join store_status t on s.store_status = t.store_status_id
-        where s.OWNER_ID = #{owner_id}
-          and s.store_id = #{store_id}
-          and t.status_value not like '%in%'
-    </select>
-        <select id="forMain" resultType="store">
-  select store_name, store_saved_image, store_status from stores s, (select store_id, count(*) 
-  from likes group by store_id order by count(*) desc) r 
-  where s.store_id = r.store_id and rownum &lt;= 4
-    </select>
-    
-    
-    
-    
+		insert into stores (store_id, store_name, store_tel, store_address_si,
+		store_address_gu,
+		store_address_dong, store_address_etc, store_desc, store_rnum,
+		store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+		values
+		(#{store_id},#{store_name},#{store_tel},#{store_address_si},#{store_address_gu},
+		#{store_address_dong},#{store_address_etc},#{store_desc},#{store_rnum},
+		#{store_saved_image},#{store_original_image},#{opening_h_w},#{opening_h_h}
+		,#{holiday}, #{owner_id} )
+	</insert>
+	<select id="count" resultType="int">
+		select count(*)
+		from stores s
+		join store_status t on s.store_status = t.store_status_id
+		where s.owner_id = #{owner_id}
+		and t.status_value not like '%in%'
+	</select>
+	<select id="list" resultType="store" parameterType="int">
+		select s.*, u.*, f.*, t.status_value
+		from stores s
+		join users u on s.OWNER_ID = u.USER_ID
+		join user_info f on s.OWNER_ID = f.USER_ID
+		join store_status t on s.store_status = t.store_status_id
+		where s.OWNER_ID = #{owner_id}
+		and t.status_value not like '%in%'
+	</select>
+	<select id="read" resultType="store" parameterType="Map">
+		select s.*, u.*, f.*, t.status_value
+		from stores s
+		join users u on s.OWNER_ID = u.USER_ID
+		join user_info f on s.OWNER_ID = f.USER_ID
+		join store_status t on s.store_status = t.store_status_id
+		where s.OWNER_ID = #{owner_id}
+		and s.store_id = #{store_id}
+		and t.status_value not like '%in%'
+	</select>
+	<select id="forMain" resultType="store">
+		select store_name, store_saved_image, store_status, cnt from stores s,
+		(select store_id, count(*) cnt
+		from likes group by store_id order by cnt desc) r
+		where s.store_id = r.store_id and rownum &lt;= 4
+	</select>
+
+	<select id="store_likes" resultType="int">
+		select * from (select count(*)
+		from likes group by store_id order by count(*) desc) where rownum &lt;= 4
+	</select>
+	
+		<select id="store_comments" resultType="int">
+		select cnt from (select comment_ref, count(*) cnt from comments group by comment_ref) a 
+		join (select store_id from likes group by store_id order by count(*) desc) b 
+		on a.comment_ref = b.store_id
+	</select>
+	
+		<select id="forReviewList" resultType="store">
+		select store_name, store_saved_image, store_status, cnt from stores s,
+		(select comment_ref, count(*) cnt
+		from comments group by comment_ref order by cnt desc) r
+		where s.store_id = r.comment_ref and rownum &lt;= 4
+	</select>
+	
+		<select id="store_comment_forReview" resultType="int">
+		select * from (select count(*)
+		from comments group by comment_ref order by count(*) desc) where rownum &lt;= 4
+	</select>
+	
+			<select id="store_likes_forReivew" resultType="int">
+		select cnt from (select store_id, count(*) cnt from likes group by store_id) a 
+		join (select comment_ref from comments group by comment_ref order by count(*) desc) b 
+		on a.store_id = b.comment_ref
+	</select>
+
+
+
+
 </mapper>

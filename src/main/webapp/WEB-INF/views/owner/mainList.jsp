@@ -1,5 +1,6 @@
 <%@ page language="java" 
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,51 +51,52 @@
       <!-- Blog Entries Column -->
       <div class="col-md-8">
 
-        <h1 class="my-4">이번달 랭킹1위
-          <small>커피HTA 종로1호점</small>
+        <h1 class="my-4">이번달 랭커 카페
+          <small>소개합니다!</small>
         </h1>
 
         <!-- Blog Post -->
+      <c:forEach var="store" items="${stores}" varStatus="status">
+      	<c:if test="${store.store_status == 1}">
+      	
         <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+          <img class="card-img-top" src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}" alt="Card image cap">
           <div class="card-body">
-            <h2 class="card-title">커피HTA 종로1호점</h2>
-            <p class="card-text">한번도 안먹어본 사람은 있어도 한번만 먹어본 사람은 없다는 전설적인 카페 맛집.</p>
+            <h2 class="card-title">${store.store_name}</h2>
+            
+            <p class="card-text">5분후 수령 가능</p>
             <a href="#" class="btn btn-primary">주문하기 &rarr;</a>
           </div>
           <div class="card-footer text-muted">
-            좋아요, 댓글 개수 보여주는 자리
-            <a href="#">Start Bootstrap</a>
+            <img class="card-img-heart" src="${pageContext.request.contextPath}/resources/upload/love.png"
+											width="30" height="30" alt=""> ${likes[status.index]}&nbsp;&nbsp;<img
+											class="card-img-comments" src="${pageContext.request.contextPath}/resources/upload/message.png"
+											width="30" height="30" alt="">&nbsp;${comments[status.index]}
           </div>
         </div>
-
-        <!-- Blog Post -->
+        </c:if>
+        
+          	<c:if test="${store.store_status == 2}">
+      	
         <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+          <img class="card-img-top" src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}" alt="Card image cap" style="filter:blur(5px)">
           <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <h2 class="card-title">${store.store_name}</h2>
+            
+            <p class="card-text">${store.store_name}</p>
+            <a href="#" class="btn btn-primary" style="background-color: gray">준비중 &rarr;</a>
           </div>
           <div class="card-footer text-muted">
-            Posted on January 1, 2020 by
-            <a href="#">Start Bootstrap</a>
+            <img class="card-img-heart" src="${pageContext.request.contextPath}/resources/upload/love.png"
+											width="30" height="30" alt=""> ${likes[status.index]}&nbsp;&nbsp;<img
+											class="card-img-comments" src="${pageContext.request.contextPath}/resources/upload/message.png"
+											width="30" height="30" alt="">&nbsp;${comments[status.index]}
           </div>
         </div>
-
-        <!-- Blog Post -->
-        <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-          <div class="card-footer text-muted">
-            Posted on January 1, 2020 by
-            <a href="#">Start Bootstrap</a>
-          </div>
-        </div>
+        </c:if>
+        
+	</c:forEach>
+      
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
