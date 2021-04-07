@@ -26,7 +26,6 @@ function loadChart() {
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        // Load Charts and the corechart package.
         google.charts.load('current', {'packages': ['corechart']});
 
         google.charts.setOnLoadCallback(lineChart);

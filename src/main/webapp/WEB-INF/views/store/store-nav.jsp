@@ -29,7 +29,7 @@
         </li>
         <li class="nav-item">
             <%-- TODO:: FIX HARD CODING VALUE!!--%>
-            <a href="<c:url value="/menu/menu-list?store_id=3"/>"
+            <a href="<c:url value="/menu/menu-list-by-owner?owner_id=3"/>"
                class="nav-link <c:out value="${storeNavVal eq 'menuList' ? 'active' : ''}"/>">메뉴 리스트</a>
         </li>
         <li class="nav-item">

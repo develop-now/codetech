@@ -10,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/menu")
@@ -21,12 +24,34 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping(value = "/menu-list", method = RequestMethod.GET)
-    public String getMenuList(@RequestParam(value = "store_id") int store_id, Model model) {
+    @RequestMapping(value = "/menu-list-by-owner", method = RequestMethod.GET)
+    public ModelAndView getMenuListByOwner(@RequestParam(value = "owner_id") int owner_id, ModelAndView modelAndView) {
+        modelAndView.addObject("storeNav", "menuList");
+        // TODO:: GET ID FROM SESSION OR SECURITY
+
+        Map<String, List<Menu>> list = menuService.getMenuListByOwner(owner_id);
+        List<String> storeList = new ArrayList<String>();
+
+        if (list.size() > 0)
+            for (String key : list.keySet()) {
+                logger.info("가게 이름 : " + key);
+                storeList.add(key);
+                modelAndView.addObject(key, list.get(key));
+            }
+        modelAndView.addObject("menuList", list);
+        modelAndView.addObject("storeList", storeList);
+
+        modelAndView.setViewName("store/menu-list");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/menu-list-by-store", method = RequestMethod.GET)
+    public String getMenuListByStore(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "menuList");
         // TODO:: GET ID FROM SESSION OR SECURITY
 
-        List<Menu> list = menuService.getMenuList(store_id);
+        List<Menu> list = menuService.getMenuListByStore(store_id);
 
         return "store/menu-list";
     }

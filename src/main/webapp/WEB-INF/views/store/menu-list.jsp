@@ -12,9 +12,16 @@
 <head>
     <title>Menu List Page</title>
     <%@include file="../partial/head.jsp" %>
+    <script src="${pageContext.request.contextPath}/resources/js/store/menu-list.js"></script>
     <style>
         tbody td:nth-child(4) {
             width: 50%;
+        }
+
+        td img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
         }
     </style>
 </head>
@@ -37,79 +44,70 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--  <div class="col-2">--%>
-                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--  </div>--%>
                         <div class="ml-auto">
                             <h3 class="text-right">메뉴 리스트</h3>
                         </div>
                         <div class="w-100">
                             <hr>
                         </div>
-                        <div class="col-12 mb-3">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">내 가게 리스트
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">가게1</a>
-                                        <a class="dropdown-item" href="#">가게2</a>
-                                        <a class="dropdown-item" href="#">가게3</a>
+
+                        <c:if test="${storeList != null}">
+                            <div class="col-12 mb-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">내 가게
+                                            리스트
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#" onclick="changeStore('view_all_store')">전체보기</a>
+                                            <c:forEach var="store" items="${storeList}" varStatus="status">
+                                                <a class="dropdown-item" href="#"
+                                                   onclick="changeStore('${store.replace(" ", "_")}')">${store}</a>
+                                            </c:forEach>
+                                        </div>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" aria-label="text input search store"
-                                       name="search_value" placeholder="내 가게 찾기">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-info" type="button">Search</button>
+                            </div>
+                        </c:if>
+
+                        <c:forEach var="stores" items="${menuList}" varStatus="status">
+                            <div class="container store-menu__wrapper" id="${stores.key.replace(" ", "_")}">
+                                <div class="col-12">
+                                    <h3 class="text-primary">
+                                        <i class="fas fa-store"></i> ${stores.key}
+                                    </h3>
+                                </div>
+                                <div class="col-12">
+                                    <table class="table table-hover text-center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">메뉴이름</th>
+                                            <th scope="col">메뉴가격</th>
+                                            <th scope="col">대표이미지</th>
+                                            <th scope="col">상세보기</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="menu" items="${stores.value}" varStatus="status">
+                                            <tr>
+                                                <th scope="row">${status.count}</th>
+                                                <td>${menu.menu_name}</td>
+                                                <td>${menu.menu_price}</td>
+                                                <td>
+                                                    <img src="${pageContext.request.contextPath}/resources/image/store/sample-menu-image/3.jpeg"
+                                                         class="img-thumbnail" alt="sample-menu-image">
+                                                </td>
+                                                <td>링크</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-12">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">메뉴이름</th>
-                                    <th scope="col">메뉴가격</th>
-                                    <th scope="col">대표이미지</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>15000</td>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/image/store/sample-menu-image/1.png"
-                                             class="img-thumbnail" alt="sample-menu-image">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>7000</td>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/image/store/sample-menu-image/2.jpg"
-                                             class="img-thumbnail" alt="sample-menu-image">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Adrian</td>
-                                    <td>33000</td>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/image/store/sample-menu-image/3.jpeg"
-                                             class="img-thumbnail" alt="sample-menu-image">
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
+                        </c:forEach>
                     </div>
-
                 </div>
             </div>
         </div>
