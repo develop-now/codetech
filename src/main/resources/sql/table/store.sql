@@ -11,7 +11,7 @@ create table stores
     store_desc           varchar2(200)       not null,
     store_rnum           varchar2(20)        not null,
     store_saved_image    varchar2(50)        not null,
-    store_original_image varchar2(200)        not null,
+    store_original_image varchar2(200)       not null,
     report_count         number(5) default 0,
     created_at           date      default sysdate,
     updated_at           date      default sysdate,
@@ -39,13 +39,15 @@ values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
                    store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'c.png', 'image_url',
-        '09:00~20:00', '10:00~20:00', 'friday', 3);
-        
-        insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
+        '09:00~20:00', '10:00~20:00', 'friday', 7);
+
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
                    store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
 values (4, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
         '09:00~20:00', '10:00~20:00', 'friday', 3);
-        
-        update stores set STORE_STATUS = 2 where store_id = 4;
+
+update stores
+set STORE_STATUS = 2
+where store_id = 4;
 
 commit;

@@ -10,7 +10,7 @@
 
 <c:set var="login_id" value="${id}" scope="session"/>
 
-<nav class="navbar navbar-expand-sm navbar-light ">
+<nav class="navbar navbar-expand-sm navbar-light" id="headerNav">
     <a class="navbar-brand" href="<c:url value="/"/>">CODE TECH</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -2,6 +2,7 @@ package com.codetech.www.controller;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Store;
+import com.codetech.www.service.MenuService;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -18,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/store")
@@ -34,16 +32,62 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+    @Autowired
+    private MenuService menuService;
+
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "store/index";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createStore(Model model) {
-        model.addAttribute("storeNav", "create");
+    @RequestMapping(value = "/comment-list", method = RequestMethod.GET)
+    public String getStoreCommentList(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "commentList");
+        // TODO:: GET ID FROM SESSION OR SECURITY
 
-        return "store/store-create";
+        List<Store> list = storeService.getStoreList();
+
+        return "store/comment-list";
+    }
+
+    @RequestMapping(value = "/comment-read", method = RequestMethod.GET)
+    public String getStoreCommentRead(@RequestParam(value = "comment_id") int comment_id, Model model) {
+        model.addAttribute("storeNav", "commentRead");
+
+
+        return "store/comment-list";
+    }
+
+    @RequestMapping(value = "/store-list", method = RequestMethod.GET)
+    public String getStoreList(@RequestParam(value = "owner_id") int owner_id, Model model) {
+        model.addAttribute("storeNav", "storeList");
+        // TODO:: GET ID FROM SESSION OR SECURITY
+
+        List<Store> list = storeService.getStoreList();
+
+        return "store/store-list";
+    }
+
+    @RequestMapping(value = "/store-read", method = RequestMethod.GET)
+    public String readStore(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeRead");
+
+        return "store/store-read";
+    }
+
+    @RequestMapping(value = "/store-update", method = RequestMethod.GET)
+    public String updateStore(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeUpdate");
+
+        return "store/store-update";
+    }
+
+    @RequestMapping(value = "/store-delete", method = RequestMethod.GET)
+    public String deleteStore(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeDelete");
+
+        return "store/store-delete";
     }
 
     @ResponseBody
@@ -55,6 +99,13 @@ public class StoreController {
         rtn.put("result", result);
 
         return rtn;
+    }
+
+    @RequestMapping(value = "/store-create", method = RequestMethod.GET)
+    public String createStore(Model model) {
+        model.addAttribute("storeNav", "storeCreate");
+
+        return "store/store-create";
     }
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
@@ -142,10 +193,30 @@ public class StoreController {
         String reFileName = "bbs" + year + month + date + random + "." + fileExtension;
         logger.info("re file name : " + reFileName);
 
-        // DB에 저장될 파일명
         String fileDBName = "/" + year + "-" + month + "-" + date + "/" + reFileName;
         logger.info("DB file name : " + fileDBName);
 
         return fileDBName;
+    }
+
+    @RequestMapping(value = "/store-profit", method = RequestMethod.GET)
+    public String getStoreProfit(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeProfit");
+
+        return "store/store-profit";
+    }
+
+    @RequestMapping(value = "/store-staff", method = RequestMethod.GET)
+    public String getStoreStaff(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeStaff");
+
+        return "store/store-staff";
+    }
+
+    @RequestMapping(value = "/store-customers", method = RequestMethod.GET)
+    public String getStoreCustomers(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeCustomer");
+
+        return "store/store-customers";
     }
 }
