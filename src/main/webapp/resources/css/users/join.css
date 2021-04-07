@@ -1,7 +1,26 @@
 .joinModal-title{
 	color:#a0794c;
 }
-.joinModal-body > input, .joinModal-body-postcode > input { 
+.loginModal-imgcontainer-dis{
+	font-size:14px;
+	color:#BE9F7B;
+}
+.loginModal-imgcontainer{
+	display:block;
+	text-align:center;
+	margin: 24px 0 12px 0;
+}
+img.loginModal__img-profile{
+	width: 120px;
+	height:120px;
+	border-radius: 50%;
+	color: rgba(0, 0, 0, 0) !important;
+	margin:0px 30px;
+}
+.loginModal__img-profile:hover{
+	cursor: pointer;
+}
+.joinModal-body > input, .joinModal-body-postcode > input[type=text] { 
 	width: 100%;
 	padding: 9px 18px;
 	margin: 8px 0;
@@ -9,7 +28,7 @@
 	border: 1px solid #B63629;
 }
 .joinModal-body-postcode > input{
-	width: 50%;
+	width: 40% !important;
 }
 .joinModal-body > input:focus, .joinModal-body-postcode > input:focus{
 	outline:none;
@@ -42,10 +61,10 @@
 	color:white;
 	opacity:0.9;
 }
-.joinModal-footer > button:focus, .joinModal-body-postcode > button:focus{
+.joinModal-footer > button:focus, .joinModal-body__button-code:focus{
 	outline:none;
 }
-.joinModal-footer > button:hover, .joinModal-body-postcode > button:hover{
+.joinModal-footer > button:hover, .joinModal-body__button-code:hover{
 	background-color: #BE9F7B;
 	color:#B63629;
 }

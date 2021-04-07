@@ -7,9 +7,20 @@
     <div class="modal-content">
       <div class="modal-header joinModal-header">
          <h1 class="joinModal-title" id="joinModalTitle">회원가입</h1>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="loginModal-imgcontainer">
+	    <label>
+	      <input type="file" name="uploadfile"
+	      			class="loginModal__img-profile"
+	      			accept="image/gif, image/jpeg,image/jpg, image/png"
+	      			style="display:none">
+	      <img src="${pageContext.request.contextPath}/resources/image/default.png" alt="profile" class="loginModal__img-profile" title="프로필사진 변경"><br>
+	      <span class="loginModal-imgcontainer-dis">*profile사진 변경 가능</span><br>
+	      <span id="message-profile"></span>    
+	    </label> 
       </div>
       <div class="modal-body joinModal-body">
          <label for="USER_ID"><strong>아이디</strong></label>
@@ -32,12 +43,12 @@
          <span id="message-tel"></span>
          <input type="text" placeholder="예)01012341234" name="USER_TEL" id="USER_TEL"required>
          
-         <label for="USER_ADDRESS"><strong>주소</strong></label><br>
+         <label for="USER_ADDRESS"><strong>주소</strong></label><span id="message-add"></span><br>
          <div class="joinModal-body-postcode">
-	         <input type="text" name="USER_POSTCODE" placeholder="예)13566" id="USER_POSTCODE"required>
-	         <button class="joinModal-body__button-code">우편검색</button>
+	         <input type="text" name="USER_POSTCODE" placeholder="예)13566" id="USER_POSTCODE"required readonly>
+	         <input type="button" class="joinModal-body__button-code" onclick="DaumPostcode()" value="우편검색" >
          </div>
-         <input type="text" name="USER_ADDRESS" class="joinModal-body__addressinput" required>
+         <input type="text" name="USER_ADDRESS" id="USER_ADDRESS" class="joinModal-body__addressinput" required readonly>
          
       </div>
       <div class="modal-footer joinModal-footer">
