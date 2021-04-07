@@ -12,4 +12,22 @@
         values (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
         #{menu_original_image},#{store_id}, #{category_id})
     </insert>
+    <select id="listByOwner" resultType="menu" parameterType="int">
+        select s.*, m.*, c.category_name, t.status_value
+        from stores s
+                 join menus m on s.store_id = m.store_id
+                 join categories c on m.category_id = c.category_id
+                 join store_status t on s.store_status = t.store_status_id
+        where s.owner_id = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
+    <select id="listByStore" resultType="menu" parameterType="int">
+        select s.*, m.*, c.category_name, t.status_value
+        from stores s
+                 join menus m on s.store_id = m.store_id
+                 join categories c on m.category_id = c.category_id
+                 join store_status t on s.store_status = t.store_status_id
+        where s.store_id = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
 </mapper>

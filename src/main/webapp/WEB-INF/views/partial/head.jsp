@@ -27,5 +27,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
 />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/index.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/login.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/join.css">
+
