@@ -15,16 +15,21 @@ let storeImgVal;
 let menuImgVal;
 
 $(() => {
+
     alertModal = $("#alertModal")
 
     const pickerTargetEl = ["opening_h_w_start", "opening_h_w_end", "opening_h_h_start", "opening_h_h_end"];
     pickerTargetEl.forEach(el => {
-        $("#" + el).mdtimepicker({
-            format: 'hh:mm',
-            is24hour: true,
-            hourPadding: true,
-        }).on("timechanged", (e) => {
-            $(`input[name='${el}']`).val(e.value)
+        $("#" + el).bootstrapMaterialDatePicker({
+            format: 'HH:mm',
+            year: false,
+            date: false,
+            nowButton: true,
+            nowText:"오늘",
+            clearText:"닫기",
+            okText:"선택"
+        }).on("change", (e, val) => {
+            $(`input[name='${el}']`).val(val.format("HH:mm"))
             $(`input#${el}`).removeClass("is-invalid")
         })
     })

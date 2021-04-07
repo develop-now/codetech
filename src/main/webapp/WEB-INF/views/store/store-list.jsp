@@ -37,9 +37,9 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--                        <div class="col-2">--%>
-                        <%--                            <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--                        </div>--%>
+                        <%--  <div class="col-2">--%>
+                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
+                        <%--  </div>--%>
                         <div class="ml-auto">
                             <h3 class="text-right">가게 리스트</h3>
                         </div>

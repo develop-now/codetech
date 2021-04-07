@@ -29,16 +29,16 @@ div#sideNav a:hover {
     color: #064579;
 }
 
-nav,
+nav#headerNav,
 footer {
     background-color: #be9f7b !important;
 }
 
-nav a {
+nav#headerNav a {
     color: #fff !important;
 }
 
-nav a:hover {
+nav#headerNav a:hover {
     color: rgba(255, 255, 255, .75) !important;
 }
 

@@ -37,9 +37,9 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--                        <div class="col-2">--%>
-                        <%--                            <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--                        </div>--%>
+                        <%--  <div class="col-2">--%>
+                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
+                        <%--  </div>--%>
                         <div class="ml-auto">
                             <h3 class="text-right">메뉴 리스트</h3>
                         </div>
@@ -47,7 +47,7 @@
                             <hr>
                         </div>
                         <div class="col-12 mb-3">
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">내 가게 리스트

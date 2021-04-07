@@ -1,8 +1,6 @@
 package com.codetech.www.controller;
 
-import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Order;
-import com.codetech.www.service.MenuService;
 import com.codetech.www.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

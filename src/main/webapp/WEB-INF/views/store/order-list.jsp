@@ -12,6 +12,8 @@
 <head>
     <title>Store Order List Page</title>
     <%@include file="../partial/head.jsp" %>
+    <%@include file="../partial/dateTimePicker.jsp" %>
+    <script src="${pageContext.request.contextPath}/resources/js/store/order-list.js"></script>
 
 </head>
 <body>
@@ -33,20 +35,31 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--                        <div class="col-2">--%>
-                        <%--                            <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--                        </div>--%>
+                        <%--  <div class="col-2">--%>
+                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
+                        <%--  </div>--%>
                         <div class="ml-auto">
                             <h3 class="text-right">오더 리스트</h3>
                         </div>
                         <div class="w-100">
                             <hr>
                         </div>
+                        <div class="col-12 mb-3">
+                            <div class="input-group ">
+                                <div class="input-group-append">
+                                    <input type="text" class="form-control" aria-label="select order detail date"
+                                           name="search_value" placeholder="" id="orderCurrentDate" readonly>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-info" type="button" id="orderDateSelectBtn">날짜 변경</button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-12 mb-3">
                             <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="order-all" name="order-status"
-                                       class="custom-control-input">
+                                       class="custom-control-input" checked>
                                 <label class="custom-control-label" for="order-all">전체보기</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">

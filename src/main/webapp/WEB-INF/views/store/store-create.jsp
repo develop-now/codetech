@@ -16,6 +16,8 @@
     <link href="${pageContext.request.contextPath}/resources/plugin/timePicker/mdtimepicker.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resources/plugin/timePicker/mdtimepicker.js"></script>
 
+    <%@include file="../partial/dateTimePicker.jsp" %>
+
     <script>
         $(() => {
             $('#backBtn').on('click', () => {
