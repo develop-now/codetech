@@ -16,6 +16,8 @@
     <link href="${pageContext.request.contextPath}/resources/plugin/timePicker/mdtimepicker.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resources/plugin/timePicker/mdtimepicker.js"></script>
 
+    <%@include file="../partial/dateTimePicker.jsp" %>
+
     <script>
         $(() => {
             $('#backBtn').on('click', () => {
@@ -236,26 +238,26 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row d-none" id="holiday_open_time_selector">
-                                    <label class="col-sm-2 col-form-label">휴일 영업시간*</label>
+                                <div class="form-group row" id="holiday_open_time_selector">
+                                    <label class="col-sm-2 col-form-label">주말 영업시간*</label>
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-6">
                                                 <label class="sr-only" for="opening_h_h_start">영업시작</label>
                                                 <input type="text" class="form-control" id="opening_h_h_start"
-                                                       placeholder="휴일 영업 시작 시간" data-valid="non-required">
+                                                       placeholder="휴일 영업 시작 시간" data-valid="required">
                                                 <input type="hidden" name="opening_h_h_start">
                                                 <div class="invalid-feedback">
-                                                    휴일 영업 시작 시간을 입력하세요
+                                                    주말 영업 시작 시간을 입력하세요
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <label class="sr-only" for="opening_h_h_end">영업종료</label>
                                                 <input type="text" class="form-control" id="opening_h_h_end"
-                                                       placeholder="휴일 영업 종료 시간" data-valid="non-required">
+                                                       placeholder="휴일 영업 종료 시간" data-valid="required">
                                                 <input type="hidden" name="opening_h_h_end">
                                                 <div class="invalid-feedback">
-                                                    휴일 영업 종료 시간을 입력하세요
+                                                    주말 영업 종료 시간을 입력하세요
                                                 </div>
                                             </div>
                                         </div>

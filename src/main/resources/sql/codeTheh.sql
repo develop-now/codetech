@@ -120,7 +120,7 @@ create table stores
     store_desc           varchar2(200)       not null,
     store_rnum           varchar2(20)        not null,
     store_saved_image    varchar2(50)        not null,
-    store_original_image varchar2(200)        not null,
+    store_original_image varchar2(200)       not null,
     report_count         number(5) default 0,
     created_at           date      default sysdate,
     updated_at           date      default sysdate,
@@ -176,7 +176,7 @@ create table menus
     menu_desc           varchar2(50)        not null,
     menu_price          varchar2(10)        not null,
     menu_saved_image    varchar2(50)        not null,
-    menu_original_image varchar2(200)        not null,
+    menu_original_image varchar2(200)       not null,
     menu_read_count     number(6) default 0,
     menu_order_count    number(6) default 0,
     created_at          date      default sysdate,
@@ -217,8 +217,10 @@ create table orders
     order_total_price varchar2(10),
     order_user        number(6) not null,
     order_status      number(6) not null,
+    store_id          number(6) not null,
     constraint fk_order_user foreign key (order_user) references users (user_id),
-    constraint fk_order_status foreign key (order_status) references order_status (order_status_id)
+    constraint fk_order_status foreign key (order_status) references order_status (order_status_id),
+    constraint fk_order_store foreign key (store_id) references stores (store_id)
 );
 
 drop table order_details cascade constraints;

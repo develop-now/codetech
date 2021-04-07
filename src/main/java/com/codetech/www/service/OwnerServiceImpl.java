@@ -13,50 +13,43 @@ import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 
 @Service
-public class OwnerServiceImpl implements OwnerService{
-    private static final Logger logger = LoggerFactory.getLogger(StoreServiceImpl.class);
+public class OwnerServiceImpl implements OwnerService {
+    private static final Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
-	@Autowired
-	private StoreDAO dao;
-	
-
-	@Override
-	public List<Store> getStoreForMain() {
-		return dao.getStoreForMain();
-	}
+    @Autowired
+    private StoreDAO dao;
 
 
-	@Override
-	public List<Integer> getStoreLikes() {
-		return dao.getStoreLikes();
-	}
+    @Override
+    public List<Store> getStoreForMain() {
+        return dao.getStoreForMain();
+    }
 
 
-	@Override
-	public List<Integer> getStoreComments() {
-		return dao.getStoreComments();
-	}
+    @Override
+    public List<Integer> getStoreLikes() {
+        return dao.getStoreLikes();
+    }
 
 
-	@Override
-	public List<Store> getStoreForReviewList() {
-		return dao.getStoreForReviewList();
-
-	}
-
-
-	@Override
-	public List<Integer> getStoreCommentsReview() {
-		return dao.getStoreCommentsReview();
-
-	}
+    @Override
+    public List<Integer> getStoreComments() {
+        return dao.getStoreComments();
+    }
 
 
-	@Override
-	public List<Integer> getStoreLikesReview() {
-		return dao.getStorelikesReview();
+    @Override
+    public List<Store> getStoreForReviewList() {
+        return dao.getStoreForReviewList();
+    }
 
-	}
+
+    @Override
+    public List<Integer> getStoreCommentsReview() {
+        return dao.getStoreCommentsReview();
+    }
+
+
 
 
 	@Override
@@ -115,5 +108,11 @@ public class OwnerServiceImpl implements OwnerService{
 		return dao.getListCount();
 
 	}
+
+
+    @Override
+    public List<Integer> getStoreLikesReview() {
+        return dao.getStoreLikesReview();
+    }
 
 }

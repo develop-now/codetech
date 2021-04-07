@@ -12,10 +12,45 @@
 <c:set var="roleIdVal" value="${role_id}"/>
 
 <div id="sideNav" class="col-12 col-sm-2">
-    <ul class="nav flex-column">
+    <ul class="nav" id="storeNavWrapper">
         <li class="nav-item">
-            <a href="<c:url value="/store/create"/>"
-               class="nav-link <c:out value="${storeNavVal eq 'create' ? 'active' : ''}"/>">가게 만들기</a>
+            <a href="<c:url value="/store/store-create"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'storeCreate' ? 'active' : ''}"/>">가게 만들기</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/order/order-list?store_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'orderList' ? 'active' : ''}"/>">오더 리스트</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/store-list?owner_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'storeList' ? 'active' : ''}"/>">가게 리스트</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/menu/menu-list-by-owner?owner_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'menuList' ? 'active' : ''}"/>">메뉴 리스트</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/store-profit?store_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'storeProfit' ? 'active' : ''}"/>">가게 매출액</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/store-staff?store_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'storeStaff' ? 'active' : ''}"/>">가게 직원</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/store-customers?store_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'storeCustomer' ? 'active' : ''}"/>">가게 단골</a>
+        </li>
+        <li class="nav-item">
+            <%-- TODO:: FIX HARD CODING VALUE!!--%>
+            <a href="<c:url value="/store/comment-list?store_id=3"/>"
+               class="nav-link <c:out value="${storeNavVal eq 'commentList' ? 'active' : ''}"/>">가게 리뷰</a>
         </li>
 
         <c:choose>

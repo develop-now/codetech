@@ -3,17 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Stores">
-	<select id="nameCheck" resultType="store" parameterType="String">
-		select *
-		from stores
-		where store_name = #{name}
-	</select>
-	<insert id="createStore" parameterType="store"
-		useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
-		<selectKey resultType="int" order="BEFORE"
-			keyProperty="store_id">
-			select nvl(max(store_id), 0) +1 from stores
-		</selectKey>
+    <select id="nameCheck" resultType="store" parameterType="String">
+        select *
+        from stores
+        where store_name = #{name}
+    </select>
+    <insert id="createStore" parameterType="store"
+            useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="store_id">
+            select nvl(max(store_id), 0) +1 from stores
+        </selectKey>
+
 
 		insert into stores (store_id, store_name, store_tel, store_address_si,
 		store_address_gu,
@@ -196,4 +197,12 @@
 		#{searchWord}
 	</sql>
 
+ 
+
+    <select id="store_likes_forReview" resultType="int">
+        select cnt
+        from (select store_id, count(*) cnt from likes group by store_id) a
+                 join (select comment_ref from comments group by comment_ref order by count(*) desc) b
+                      on a.store_id = b.comment_ref
+    </select>
 </mapper>

@@ -19,11 +19,10 @@ public class StoreDAO {
     private SqlSessionTemplate sqlSession;
 
 
-    
     //Stores for HomePage
-	public List<Store> getStoreForMain() {
-		return sqlSession.selectList("Stores.forMain");
-	}
+    public List<Store> getStoreForMain() {
+        return sqlSession.selectList("Stores.forMain");
+    }
 
     public Store storeNameCheck(String name) {
         return sqlSession.selectOne("Stores.nameCheck", name);
@@ -33,28 +32,25 @@ public class StoreDAO {
         return sqlSession.insert("Stores.createStore", store);
     }
 
-	public List<Integer> getStoreLikes() {
-		return sqlSession.selectList("Stores.store_likes");
-	}
+    public List<Integer> getStoreLikes() {
+        return sqlSession.selectList("Stores.store_likes");
+    }
 
-	public List<Integer> getStoreComments() {
-		return sqlSession.selectList("Stores.store_comments");
-	}
+    public List<Integer> getStoreComments() {
+        return sqlSession.selectList("Stores.store_comments");
+    }
 
-	public List<Store> getStoreForReviewList() {
-		return sqlSession.selectList("Stores.forReviewList");
+    public List<Store> getStoreForReviewList() {
+        return sqlSession.selectList("Stores.forReviewList");
+    }
 
-	}
+    public List<Integer> getStoreCommentsReview() {
+        return sqlSession.selectList("Stores.store_comment_forReview");
+    }
 
-	public List<Integer> getStoreCommentsReview() {
-		return sqlSession.selectList("Stores.store_comment_forReview");
-
-	}
-
-	public List<Integer> getStorelikesReview() {
-		return sqlSession.selectList("Stores.store_likes_forReivew");
-
-	}
+    public List<Integer> getStoreLikesReview() {
+        return sqlSession.selectList("Stores.store_likes_forReview");
+    }
 
 	public List<Store> getStoreForSearchList(String searchWordLike) {
 		return sqlSession.selectList("Stores.store_search", searchWordLike);
