@@ -29,4 +29,5 @@ values (6, 'user2@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
 values (7, 'user3@test.com', '1234', 5);
 
+select * from users;
 commit;

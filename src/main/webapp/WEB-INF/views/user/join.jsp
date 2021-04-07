@@ -23,32 +23,32 @@
 	    </label> 
       </div>
       <div class="modal-body joinModal-body">
-         <label for="USER_ID"><strong>아이디</strong></label>
+         <label for="user_email"><strong>아이디</strong></label>
          <span id="message-id"></span>     
-         <input type="text" placeholder="이메일형식의 아이디를 입력하세요" name="USER_ID" id="USER_ID" required>
+         <input type="text" placeholder="이메일형식의 아이디를 입력하세요" name="user_email" id="user_email" required>
          
-         <label for="USER_NAME"><strong>닉네임</strong></label>
+         <label for="user_name"><strong>닉네임</strong></label>
          <span id="message-nick"></span>
-         <input type="text" placeholder="닉네임을 입력하세요" name="USER_NAME" id="USER_NAME" required>
+         <input type="text" placeholder="닉네임을 입력하세요" name="user_name" id="user_name" required>
 		
-		<label for="USER_PASSWORD"><strong>비밀번호</strong></label>
+		<label for="user_password"><strong>비밀번호</strong></label>
 		<span id="message-pass"></span>
-         <input type="password" placeholder="비밀번호를 입력하세요" name="USER_PASSWORD" id="USER_PASSWORD"required>
+         <input type="password" placeholder="비밀번호를 입력하세요" name="user_password" id="user_password"required>
          
-         <label for="USER_PASSWORD_CHECK"><strong>비밀번호 재확인</strong></label><span></span>
+         <label for="user_password_check"><strong>비밀번호 재확인</strong></label><span></span>
          <span id="message-passcheck"></span>
-         <input type="password" placeholder="위와 일치하는 비밀번호를 입력하세요" name="USER_PASSWORD_CHECK" id="USER_PASSWORD_CHECK"required>
+         <input type="password" placeholder="위와 일치하는 비밀번호를 입력하세요" name="user_password_check" id="user_password_check"required>
          
-         <label for="USER_TEL"><strong>연락처</strong></label>
+         <label for="user_tel"><strong>연락처</strong></label>
          <span id="message-tel"></span>
-         <input type="text" placeholder="예)01012341234" name="USER_TEL" id="USER_TEL"required>
+         <input type="text" placeholder="예)01012341234" name="user_tel" id="user_tel"required>
          
-         <label for="USER_ADDRESS"><strong>주소</strong></label><span id="message-add"></span><br>
+         <label for="user_address"><strong>주소</strong></label><span id="message-add"></span><br>
          <div class="joinModal-body-postcode">
-	         <input type="text" name="USER_POSTCODE" placeholder="예)13566" id="USER_POSTCODE"required readonly>
+	         <input type="text" name="user_postcode" placeholder="예)13566" id="user_postcode"required readonly>
 	         <input type="button" class="joinModal-body__button-code" onclick="DaumPostcode()" value="우편검색" >
          </div>
-         <input type="text" name="USER_ADDRESS" id="USER_ADDRESS" class="joinModal-body__addressinput" required readonly>
+         <input type="text" name="user_address" id="user_address" class="joinModal-body__addressinput" required readonly>
          
       </div>
       <div class="modal-footer joinModal-footer">
