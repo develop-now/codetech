@@ -47,5 +47,6 @@ values (4, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 �
         '09:00~20:00', '10:00~20:00', 'friday', 3);
         
         update stores set STORE_STATUS = 2 where store_id = 4;
-
+        
+select * from stores;
 commit;

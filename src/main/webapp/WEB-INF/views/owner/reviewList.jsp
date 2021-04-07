@@ -29,7 +29,8 @@
 	href="${pageContext.request.contextPath}/resources/css/owner/mainList.css"
 	rel="stylesheet">
 
-
+  <!-- SearchBar JS -->
+<script src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
 </head>
 
 <body>
@@ -47,8 +48,8 @@
 				href="${pageContext.request.contextPath}/owner/mapPage">거리순</a> <a
 				href="${pageContext.request.contextPath}/owner/reviewListPage">리뷰순</a>
 			<div class="search-container">
-				<form action="/action_page.php">
-					<input type="text" placeholder="Search.." name="search">
+				<form action="${pageContext.request.contextPath}/owner/searchList" method="post">
+					<input type="text" placeholder="Search.." name="searchWord">
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
