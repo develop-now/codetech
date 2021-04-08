@@ -15,9 +15,9 @@ public interface OwnerService {
 
 	public List<Integer> getStoreComments();
 
-	public List<Store> getStoreForReviewList();
+	public List<Store> getStoreForReviewList(int page, int limit);
 
-	public List<Integer> getStoreCommentsReview();
+	public List<Integer> getStoreCommentsReview(int page, int limit);
 
 	public List<Integer> getStoreLikesReview();
 
@@ -31,11 +31,15 @@ public interface OwnerService {
 
 	public List<Store> getStoreForMainList(int page, int limit);
 
-	public List<Integer> getStoreLikesForMainList();
+	public List<Integer> getStoreLikesForMainList(int page, int limit);
 
-	public List<Integer> getStoreCommentsForMainList();
+	public List<Integer> getStoreCommentsForMainList(int page, int limit);
 
 	public int getListCount();
+	
+	public int getListCountforMainList();
+
+	public int getListCountforMainListComments();
 
 
 }

@@ -40,8 +40,8 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.store_comments");
     }
 
-    public List<Store> getStoreForReviewList() {
-        return sqlSession.selectList("Stores.forReviewList");
+    public List<Store> getStoreForReviewList(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Stores.forReviewList", map);
     }
 
     public List<Integer> getStoreCommentsReview() {
@@ -76,18 +76,33 @@ public class StoreDAO {
 
 	}
 
-	public List<Integer> getStoreLikesForMainList() {
-		return sqlSession.selectList("Stores.forMainList_Store_likes");
+	public List<Integer> getStoreLikesForMainList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("Stores.forMainList_Store_likes", map);
 
 	}
 
-	public List<Integer> getStoreCommentsForMainList() {
-		return sqlSession.selectList("Stores.forMainList_Store_comments");
+	public List<Integer> getStoreCommentsForMainList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("Stores.forMainList_Store_comments", map);
 
 	}
 
 	public int getListCount() {
 		return sqlSession.selectOne("Stores.getListCount");
 	}
+	
+	public int getListCountforMainList() {
+		return sqlSession.selectOne("Stores.getListCountforMainList");
+	}
+
+	public int getListCountforMainListComments() {
+		return sqlSession.selectOne("Stores.getListCountforMainListComments");
+
+	}
+
+	public List<Integer> getStoreCommentsReview(HashMap<String, Integer> map) {
+		return sqlSession.selectList("Stores.store_comment_forReview", map);
+
+	}
+	
 
 }

@@ -91,9 +91,9 @@
 								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp;<img class="card-img-comments"
+								${likes[status.index]}&nbsp;&nbsp;<%-- <img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]}
+									width="30" height="30" alt="">&nbsp;${comments[status.index]} --%>
 							</div>
 						</div>
 					</c:if>
@@ -115,9 +115,9 @@
 								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp;<img class="card-img-comments"
+								${likes[status.index]}&nbsp;&nbsp;<%-- <img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]}
+									width="30" height="30" alt="">&nbsp;${comments[status.index]} --%>
 							</div>
 						</div>
 					</c:if>
@@ -143,29 +143,32 @@
 				
 				</div>
 				</c:if>
+		
 				
 	</div>
 	<!-- /.container -->
 
-
-
-
-<!-- button-more click -->
 <script>
 $(document).ready(function () {
-    var page = 1;
-    $('.pageInc').click(function () {
-        page += 1;
-        $.get("${pageContext.request.contextPath}/owner/mainListAjax", {"page": page},
-            function (data) {
-                $("#moreAjax").append(data);
-                	
-            })
 
-    })
+
+//button for more
+var page = 1;
+$('.pageInc').click(function () {
+    page += 1;
+    $.get("${pageContext.request.contextPath}/owner/mainListAjax", {"page": page},
+        function (data) {
+            $("#moreAjax").append(data);
+            	
+        })
+
+})
+
 }
 )
+
 </script>
+
 </body>
 
 </html>

@@ -30,10 +30,10 @@ public class OwnerController {
 	public ModelAndView mainList(ModelAndView mv, 
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
 		int limit = 4; //한 화면에 출력할 가게 수
-		int listCount = ownerService.getListCount();
+		int listCount = ownerService.getListCountforMainList();
 		List<Store> stores = ownerService.getStoreForMainList(page, limit);
-		List<Integer> likes = ownerService.getStoreLikesForMainList();
-		List<Integer> comments = ownerService.getStoreCommentsForMainList();
+		List<Integer> likes = ownerService.getStoreLikesForMainList(page, limit);
+		//List<Integer> comments = ownerService.getStoreCommentsForMainList(page, limit);
 		
 		if(listCount > stores.size()) {
 			mv.addObject("more", 1);
@@ -41,7 +41,7 @@ public class OwnerController {
 		mv.setViewName("owner/mainList");
 		mv.addObject("stores", stores);
 		mv.addObject("likes", likes);
-		mv.addObject("comments", comments);
+		//mv.addObject("comments", comments);
 		mv.addObject("limit", limit);
 		mv.addObject("listCount", listCount);
 		return mv;
@@ -52,10 +52,10 @@ public class OwnerController {
 		public ModelAndView mainListAjax(ModelAndView mv, 
 				@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
 			int limit = 4; //한 화면에 출력할 가게 수
-			int listCount = ownerService.getListCount() - limit;
+			int listCount = ownerService.getListCountforMainList() - limit;
 			List<Store> stores = ownerService.getStoreForMainList(page, limit);
-			List<Integer> likes = ownerService.getStoreLikesForMainList();
-			List<Integer> comments = ownerService.getStoreCommentsForMainList();
+			List<Integer> likes = ownerService.getStoreLikesForMainList(page, limit);
+			//List<Integer> comments = ownerService.getStoreCommentsForMainList(page, limit);
 			
 			if(listCount > stores.size()) {
 				mv.addObject("more", 1);
@@ -63,7 +63,7 @@ public class OwnerController {
 			mv.setViewName("owner/mainListAjax");
 			mv.addObject("stores", stores);
 			mv.addObject("likes", likes);
-			mv.addObject("comments", comments);
+			//mv.addObject("comments", comments);
 			mv.addObject("limit", limit);
 			mv.addObject("listCount", listCount);
 			return mv;
@@ -77,14 +77,47 @@ public class OwnerController {
 
 	// Sort of review
 	@RequestMapping(value = "/reviewListPage")
-	public ModelAndView reviewListPage(ModelAndView mv) {
-		List<Store> stores = ownerService.getStoreForReviewList();
-		List<Integer> comments = ownerService.getStoreCommentsReview();
-		List<Integer> likes = ownerService.getStoreLikesReview();
+	public ModelAndView reviewListPage(ModelAndView mv, 
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		
+		int limit = 4; 
+		int listCount = ownerService.getListCountforMainListComments();
+
+		List<Store> stores = ownerService.getStoreForReviewList(page, limit);
+		List<Integer> comments = ownerService.getStoreCommentsReview(page, limit);
+		//List<Integer> likes = ownerService.getStoreLikesReview();
+		
+		if(listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
 		mv.setViewName("owner/reviewList");
+		
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
 		mv.addObject("stores", stores);
-		mv.addObject("likes", likes);
+		//mv.addObject("likes", likes);
 		mv.addObject("comments", comments);
+		return mv;
+	}
+	
+	@RequestMapping(value = "/reviewListPageAjax")
+	public ModelAndView reviewListPageAjax(ModelAndView mv, 
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4; 
+		int listCount = ownerService.getListCountforMainListComments() - limit;
+		List<Store> stores = ownerService.getStoreForReviewList(page, limit);
+		List<Integer> comments = ownerService.getStoreCommentsReview(page, limit);
+		//List<Integer> likes = ownerService.getStoreLikesForMainList(page, limit);
+		
+		if(listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+		mv.setViewName("owner/reviewListAjax");
+		mv.addObject("stores", stores);
+		//mv.addObject("likes", likes);
+		mv.addObject("comments", comments);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
 		return mv;
 	}
 
@@ -95,6 +128,7 @@ public class OwnerController {
 		List<Integer> likes = ownerService.getStoreLikesForSearchList(searchWord);
 		List<Integer> comments = ownerService.getStoreCommentsForSearchList(searchWord);
 
+		
 		mv.setViewName("owner/reviewList");
 		mv.addObject("likes", likes);
 		mv.addObject("stores", stores);

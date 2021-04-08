@@ -39,14 +39,24 @@ public class OwnerServiceImpl implements OwnerService {
 
 
     @Override
-    public List<Store> getStoreForReviewList() {
-        return dao.getStoreForReviewList();
+    public List<Store> getStoreForReviewList(int page, int limit) {
+    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+        return dao.getStoreForReviewList(map);
     }
 
 
     @Override
-    public List<Integer> getStoreCommentsReview() {
-        return dao.getStoreCommentsReview();
+    public List<Integer> getStoreCommentsReview(int page, int limit) {
+    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+        return dao.getStoreCommentsReview(map);
     }
 
 
@@ -92,20 +102,42 @@ public class OwnerServiceImpl implements OwnerService {
 
 
 	@Override
-	public List<Integer> getStoreLikesForMainList() {
-		return dao.getStoreLikesForMainList();
+	public List<Integer> getStoreLikesForMainList(int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		return dao.getStoreLikesForMainList(map);
 	}
 
 
 	@Override
-	public List<Integer> getStoreCommentsForMainList() {
-		return dao.getStoreCommentsForMainList();
+	public List<Integer> getStoreCommentsForMainList(int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		return dao.getStoreCommentsForMainList(map);
 	}
 
 
 	@Override
 	public int getListCount() {
 		return dao.getListCount();
+
+	}
+	
+	@Override
+	public int getListCountforMainList() {
+		return dao.getListCountforMainList();
+
+	}
+	
+	@Override
+	public int getListCountforMainListComments() {
+		return dao.getListCountforMainListComments();
 
 	}
 

@@ -91,10 +91,19 @@
 	<select id="getListCount" resultType="int">
 	select count(store_id) from stores
 	</select>
+	
+	<select id="getListCountforMainList" resultType="int">
+	select count(distinct store_id) from likes
+	</select>
+	
+		<select id="getListCountforMainListComments" resultType="int">
+	select count(distinct comment_ref) from comments
+	</select>
 
 	<select id="forMainList" resultType="store" parameterType="Map">
 	select * from (
-		select row_number() over (order by cnt desc) as num, store_name, store_saved_image, store_status, cnt from stores s join
+		select row_number() over (order by cnt desc) as num, store_name, store_saved_image, store_status, 
+		cnt from stores s join
 		(select store_id,
 		count(*) cnt
 		from likes group by store_id
@@ -104,40 +113,43 @@
 		
 	</select>
 
-	<select id="forMainList_Store_likes" resultType="int">
-		select * from
-		(select
-		count(*)
-		from likes group by store_id order by count(*) desc)
+	<select id="forMainList_Store_likes" resultType="int" parameterType="Map">
+		select cnt from 
+		(select row_number() over (order by count(*) desc) as num, 
+		count(*) cnt
+		from likes group by store_id) where num &gt;= #{start} and num &lt;= #{end}
 	</select>
 
-	<select id="forMainList_Store_comments" resultType="int">
-		select cnt
+	<select id="forMainList_Store_comments" resultType="int" parameterType="Map">
+		select cnt from(
+		select num, cnt
 		from (select
 		comment_ref, count(*) cnt from comments group by
 		comment_ref) a
 		join
-		(select store_id from likes group by store_id order
-		by count(*) desc)
+		(select row_number() over (order by count(*) desc) as num, store_id from likes group by store_id)
 		b
 		on a.comment_ref = b.store_id
+		) where num &gt;= #{start} and num &lt;= #{end}
 	</select>
 
-	<select id="forReviewList" resultType="store">
-		select store_name,
-		store_saved_image, store_status, cnt from stores s,
+	<select id="forReviewList" resultType="store" parameterType="Map">
+	select * from (
+		select row_number() over (order by cnt desc) as num, store_name,
+		store_saved_image, store_status, cnt from stores s join
 		(select
 		comment_ref, count(*) cnt
-		from comments group by comment_ref order by
-		cnt desc) r
-		where s.store_id = r.comment_ref and rownum &lt;= 4
+		from comments group by comment_ref
+		) r
+		on 
+		s.store_id = r.comment_ref ) where num &gt;= #{start} and num &lt;= #{end}
 	</select>
 
-	<select id="store_comment_forReview" resultType="int">
-		select * from
-		(select count(*)
-		from comments group by comment_ref order by count(*)
-		desc) where rownum &lt;= 4
+	<select id="store_comment_forReview" resultType="int" parameterType="Map">
+		select cnt from
+		(select row_number() over (order by count(*) desc) as num,
+		count(*) cnt
+		from comments group by comment_ref) where num &gt;= #{start} and num &lt;= #{end}
 	</select>
 
 	<select id="store_likes_forReivew" resultType="int">
