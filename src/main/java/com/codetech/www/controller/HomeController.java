@@ -1,10 +1,18 @@
 package com.codetech.www.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.codetech.www.domain.Store;
+import com.codetech.www.service.OwnerService;
 
 /**
  * Handles requests for the application home page.
@@ -13,9 +21,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home() {
-        return "home";
+	@Autowired
+	private OwnerService ownerService;
+	
+    @RequestMapping(value = "/home")
+    public ModelAndView home(ModelAndView mv) {
+    	List<Store> stores = ownerService.getStoreForMain();
+    	List<Integer> likes = ownerService.getStoreLikes();
+    	List<Integer> comments = ownerService.getStoreComments();
+    	mv.setViewName("home");
+		mv.addObject("stores", stores);
+		mv.addObject("likes", likes);
+		mv.addObject("comments", comments);
+        return mv;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)

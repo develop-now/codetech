@@ -28,14 +28,9 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                <a href="#">보기1</a>
-                <a href="#">보기2</a>
-                <a href="#">보기3</a>
-                <a href="#">보기4</a>
-            </div>
+            <%@include file="store-nav.jsp"%>
             <div class="col-12 col-sm-10">
-                <p>Store Main Content</p>
+                <p>Menu Delete Content</p>
             </div>
         </div>
     </div>

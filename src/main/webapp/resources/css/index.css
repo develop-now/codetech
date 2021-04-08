@@ -2,33 +2,43 @@
     box-sizing: border-box;
 }
 
+#bodyWrapper {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 5rem;
+}
+
 div#sideNav {
-    min-height: 250px;
+    min-height: 100px;
+    max-height: 50vh;
     background-color: #be9f7b;
+    overflow: scroll;
 }
 
 div#sideNav a {
-    padding: 6px 8px 6px 16px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 1rem;
     color: black;
-    display: block;
+}
+
+div#sideNav a.active {
+    color: orange;
 }
 
 div#sideNav a:hover {
     color: #064579;
 }
 
-nav,
+nav#headerNav,
 footer {
     background-color: #be9f7b !important;
 }
 
-nav a {
+nav#headerNav a {
     color: #fff !important;
 }
 
-nav a:hover {
+nav#headerNav a:hover {
     color: rgba(255, 255, 255, .75) !important;
 }
 

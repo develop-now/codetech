@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -15,6 +17,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDAO dao;
+
+    @Override
+    public List<Order> getOrderList(int store_id) {
+        return dao.getOrderList(store_id);
+    }
 
     @Override
     public void createOrder() {
