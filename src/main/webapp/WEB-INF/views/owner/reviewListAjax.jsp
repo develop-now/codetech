@@ -1,18 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>List Page</title>
-<%@include file="indexCommon.jsp"%>
 
 <!-- Bootstrap core CSS -->
 <link
@@ -34,39 +23,9 @@
 	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
 </head>
 
-<body>
 
 
-
-	<!-- Page Content -->
-	<div class="container">
-
-		<!-- searchbar -->
-		<div class="topnav">
-			<a href="${pageContext.request.contextPath}/owner/mainList">인기순</a>
-			<!-- basic page -->
-			<a class="active"
-				href="${pageContext.request.contextPath}/owner/mapPage">거리순</a> <a
-				href="${pageContext.request.contextPath}/owner/reviewListPage">리뷰순</a>
-			<div class="search-container">
-				<form action="${pageContext.request.contextPath}/owner/searchList" method="post">
-					<input type="text" placeholder="Search.." name="searchWord">
-					<button type="submit">
-						<i class="fa fa-search"></i>
-					</button>
-				</form>
-			</div>
-		</div>
-
-		<div class="row">
-
-			<!-- Blog Entries Column -->
-			<div class="col-md-8">
-
-				<h1 class="my-4">
-					이번달 리뷰 많은 카페! <small>소개합니다!</small>
-				</h1>
-
+	
 				<!-- Blog Post -->
 				<c:forEach var="store" items="${stores}" varStatus="status">
 					<c:if test="${store.store_status == 1}">
@@ -118,51 +77,4 @@
 
 				</c:forEach>
 
-									<div class="row" id="moreAjax"></div>
-		<c:if test="${more eq 1}">
-				<!-- button for more -->
-				<div class="card mb-4">
-    <button class="pageInc btn btn-dark btn-lg" style="width: 300px;">더보기</button>
-				
-				</div>
-				</c:if>
-
-			</div>
-			<!-- col-md-8 -->
-
-
-
-		</div>
-		<!-- /.row -->
-
-	</div>
-	<!-- /.container -->
-
-
-
-	
-<script>
-$(document).ready(function () {
-
-
-//button for more
-var page = 1;
-$('.pageInc').click(function () {
-    page += 1;
-    $.get("${pageContext.request.contextPath}/owner/reviewListPageAjax", {"page": page},
-        function (data) {
-            $("#moreAjax").append(data);
-            	
-        })
-
-})
-
-}
-)
-
-</script>
-
-
-</body>
-
-</html>
+		

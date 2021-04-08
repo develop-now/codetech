@@ -1,8 +1,10 @@
 package com.codetech.www.service;
 
 import com.codetech.www.dao.MenuDAO;
+import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.domain.Menu;
 
+import com.codetech.www.domain.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,15 @@ public class MenuServiceImpl implements MenuService {
     private static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Autowired
-    private MenuDAO dao;
+    private MenuDAO menu_dao;
+
+    @Autowired
+    private StoreDAO store_dao;
 
 
     @Override
     public List<Menu> getMenuListByStore(int store_id) {
-        List<Menu> list = dao.getMenuListByStore(store_id);
+        List<Menu> list = menu_dao.getMenuListByStore(store_id);
 
         for (Menu m : list) {
             logger.info(m.getMenu_name());
@@ -31,7 +36,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Map<String, List<Menu>> getMenuListByOwner(int owner_id) {
-        List<Menu> list = dao.getMenuListByOwner(owner_id);
+        // TODO:: GET ID FROM SESSION OR SECURITY
+
+        List<Menu> list = menu_dao.getMenuListByOwner(owner_id);
         Map<String, List<Menu>> rtn = new HashMap<String, List<Menu>>();
 
         for (Menu m : list) {
@@ -51,17 +58,17 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public int createMenu(Menu menu) {
-        return dao.createMenu(menu);
+        return menu_dao.createMenu(menu);
     }
 
     @Override
-    public Menu readMenu() {
-        return null;
+    public Menu readMenu(int menu_id) {
+        return menu_dao.readMenu(menu_id);
     }
 
     @Override
-    public int updateMenu() {
-        return 0;
+    public int updateMenu(Menu menu) {
+        return menu_dao.updateMenu(menu);
     }
 
     @Override

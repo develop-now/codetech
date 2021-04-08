@@ -31,7 +31,7 @@ public class StoreTest {
 
     @Test
     public void storeListTest() {
-        List<Store> list = sqlSession.selectList("Stores.list", 3);
+        List<Store> list = sqlSession.selectList("Stores.listByOwner", 3);
 
         for (Store s : list) {
             logger.info("Store name" + s.getStore_name());

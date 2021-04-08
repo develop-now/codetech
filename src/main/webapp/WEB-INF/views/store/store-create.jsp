@@ -49,7 +49,7 @@
                         <div class="col-2">
                             <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>
                         </div>
-                        <div class="ml-auto">
+                        <div class="ml-auto mr-2">
                             <h3 class="text-right">가게 만들기</h3>
                         </div>
                         <div class="w-100">
@@ -57,8 +57,10 @@
                         </div>
                         <div class="col-12">
                             <h4 class="mb-3">가게 기본 정보</h4>
-                            <form action="createAction" method="post" enctype="multipart/form-data" ,
+                            <form action="<c:url value="/store/createAction"/>" method="post"
+                                  enctype="multipart/form-data" ,
                                   id="createStoreForm">
+                                <%-- TODO:: FIX HARDCODING VALUE--%>
                                 <input type="hidden" name="owner_id" value="3">
                                 <%--<input type="hidden" name="owner_id" value="${idValue}">--%>
                                 <div class="form-group row">
@@ -297,11 +299,13 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">메뉴 카테고리*</label>
-                                    <div class="col-sm-10" id="category_target">
-                                        <div class="custom-control custom-radio custom-control-inline category_template d-none">
-                                            <input type="radio" id="" name="category_id"
-                                                   class="custom-control-input">
-                                            <label class="custom-control-label" for="">category_name_temp</label>
+                                    <div class="col-sm-10">
+                                        <div class="d-flex align-items-center" id="category_target">
+                                            <div class="custom-control custom-radio custom-control-inline category_template d-none">
+                                                <input type="radio" id="" name="category_id"
+                                                       class="custom-control-input">
+                                                <label class="custom-control-label" for="">category_name_temp</label>
+                                            </div>
                                         </div>
                                         <div class="invalid-feedback" id="categoryCheckFeedback">
                                             카테고리를 선택하세요

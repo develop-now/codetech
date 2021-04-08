@@ -4,7 +4,6 @@ let storeImgEl;
 let menuImgEl;
 
 let checkBoxes;
-let radioEls;
 
 let submitBtn;
 let resetBtn;
@@ -15,7 +14,6 @@ let storeImgVal;
 let menuImgVal;
 
 $(() => {
-
     alertModal = $("#alertModal")
 
     const pickerTargetEl = ["opening_h_w_start", "opening_h_w_end", "opening_h_h_start", "opening_h_h_end"];
@@ -25,9 +23,9 @@ $(() => {
             year: false,
             date: false,
             nowButton: true,
-            nowText:"오늘",
-            clearText:"닫기",
-            okText:"선택"
+            nowText: "오늘",
+            clearText: "닫기",
+            okText: "선택"
         }).on("change", (e, val) => {
             $(`input[name='${el}']`).val(val.format("HH:mm"))
             $(`input#${el}`).removeClass("is-invalid")
@@ -42,16 +40,16 @@ $(() => {
     resetBtn.on("click", (e) => resetForm(e));
 
     textEls = $("input:text, textarea");
+    textEls.each((idx, el) => {
+        $(el).on("keyup", textInputChangeHandler)
+    })
+
     checkBoxes = $("input:checkbox[name='holiday']")
 
-    radioEls = $("input:radio");
     getLoadCategoryList();
 
     storeImgEl = $("input:file#store_image")
     menuImgEl = $("input:file#menu_image")
-    textEls.each((idx, el) => {
-        $(el).on("keyup", textInputChangeHandler)
-    })
 
     storeImgEl.on("change", function () {
         imageUploadHandler(this, "#store_preview")
@@ -70,6 +68,7 @@ $(() => {
                 noneHolidayEl.prop("checked", true)
             }
             $("#holidayCheckFeedback").css({display: "none"});
+            checkBoxes.removeClass("is-invalid");
         })
     })
 })
@@ -83,7 +82,8 @@ function makeCategory(list) {
         clonedEl.removeClass("category_template").removeClass("d-none");
         clonedEl.find("input").prop("id", `category_id_${item.category_id}`).prop("value", item.category_id)
             .change(() => {
-                $("#categoryCheckFeedback").css({display: 'none'})
+                $("input:radio[name='category_id']").removeClass("is-invalid");
+                $("#categoryCheckFeedback").css({display: "none"})
             });
         clonedEl.find("label").prop("for", `category_id_${item.category_id}`).text(item.category_name);
 
@@ -101,7 +101,7 @@ function getLoadCategoryList() {
             makeCategory(jsonData.list)
         },
         error: (req, status, err) => {
-            console.log("err : ", err)
+            console.log("get category err : ", err)
         }
     })
 }
@@ -163,7 +163,7 @@ function storeNameValidation() {
                 }
             },
             error: (req, status, err) => {
-                console.log("err : ", err)
+                console.log("name check err : ", err)
             }
         })
     } else if (name.length <= 2) {
@@ -234,14 +234,18 @@ function submitForm(e) {
 
     if (!checkBoxes.is(":checked")) {
         $("#holidayCheckFeedback").css({display: 'block'})
+        checkBoxes.addClass("is-invalid");
+
         formIsValid = false;
         console.log("휴일이 입력되지 않았습니다")
     }
 
-    if ($("input:radio:checked").length === 0) {
-        $("#categoryCheckFeedback").css({display: 'block'})
+    if (!$("input:radio[name='category_id']:checked").val()) {
+        $("input:radio[name='category_id']").addClass("is-invalid");
         formIsValid = false;
-        console.log("메뉴 카테고리가 입력되지 않았습니다")
+        $("#categoryCheckFeedback").css({display: "block"})
+
+        console.log("카테고리가 선택되지 않았습니다")
     }
 
     if (!storeImgVal) {
@@ -263,7 +267,6 @@ function submitForm(e) {
         $("#alertModal__msg").text("폼 전송에 실패했습니다. ")
         alertModal.modal("show");
     }
-
 }
 
 function resetForm(e) {
@@ -277,8 +280,8 @@ function resetForm(e) {
         $(el).removeClass("is-invalid")
     })
 
-    $("#holiday_open_time_selector").addClass("d-none")
     checkBoxes.prop("checked", false)
+    $("input:radio[name='category_id']").removeClass("is-invalid");
     $("input:checkbox#noneHoliday").prop("checked", true)
     $("#holidayCheckFeedback").css({display: "none"});
     $("#categoryCheckFeedback").css({display: 'none'})

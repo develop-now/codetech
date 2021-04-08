@@ -35,10 +35,8 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--  <div class="col-2">--%>
-                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--  </div>--%>
-                        <div class="ml-auto">
+
+                        <div class="ml-auto mr-2">
                             <h3 class="text-right">오더 리스트</h3>
                         </div>
                         <div class="w-100">
@@ -51,7 +49,8 @@
                                            name="search_value" placeholder="" id="orderCurrentDate" readonly>
                                 </div>
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-outline-info" type="button" id="orderDateSelectBtn">날짜 변경</button>
+                                    <button class="btn btn-outline-info" type="button" id="orderDateSelectBtn">날짜 변경
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -129,9 +128,7 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

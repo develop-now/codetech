@@ -11,5 +11,4 @@ create table likes
 
 select * from likes;
 
-
 commit;

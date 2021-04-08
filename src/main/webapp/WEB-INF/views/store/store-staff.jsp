@@ -32,10 +32,7 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--  <div class="col-2">--%>
-                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--  </div>--%>
-                        <div class="ml-auto">
+                        <div class="ml-auto mr-2">
                             <h3 class="text-right">가게 직원 리스트</h3>
                         </div>
                         <div class="w-100">
@@ -69,9 +66,7 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

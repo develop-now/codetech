@@ -16,10 +16,19 @@ public class MenuDAO {
         return sqlSession.insert("Menus.createMenu", menu);
     }
 
-    public List<Menu> getMenuListByStore(int store_id){
+    public Menu readMenu(int menu_id) {
+        return sqlSession.selectOne("Menus.read", menu_id);
+    }
+
+    public int updateMenu(Menu menu) {
+        return sqlSession.update("Menus.updateMenu", menu);
+    }
+
+    public List<Menu> getMenuListByStore(int store_id) {
         return sqlSession.selectList("Menus.listByStore", store_id);
     }
-    public List<Menu> getMenuListByOwner(int owner_id){
+
+    public List<Menu> getMenuListByOwner(int owner_id) {
         return sqlSession.selectList("Menus.listByOwner", owner_id);
     }
 }
