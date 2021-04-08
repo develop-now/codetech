@@ -34,7 +34,10 @@ public class OwnerController {
 		List<Store> stores = ownerService.getStoreForMainList(page, limit);
 		List<Integer> likes = ownerService.getStoreLikesForMainList();
 		List<Integer> comments = ownerService.getStoreCommentsForMainList();
-
+		
+		if(listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
 		mv.setViewName("owner/mainList");
 		mv.addObject("stores", stores);
 		mv.addObject("likes", likes);
@@ -49,11 +52,14 @@ public class OwnerController {
 		public ModelAndView mainListAjax(ModelAndView mv, 
 				@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
 			int limit = 4; //한 화면에 출력할 가게 수
-			int listCount = ownerService.getListCount();
+			int listCount = ownerService.getListCount() - limit;
 			List<Store> stores = ownerService.getStoreForMainList(page, limit);
 			List<Integer> likes = ownerService.getStoreLikesForMainList();
 			List<Integer> comments = ownerService.getStoreCommentsForMainList();
-
+			
+			if(listCount > stores.size()) {
+				mv.addObject("more", 1);
+			}
 			mv.setViewName("owner/mainListAjax");
 			mv.addObject("stores", stores);
 			mv.addObject("likes", likes);

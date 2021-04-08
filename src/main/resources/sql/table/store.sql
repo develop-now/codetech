@@ -43,7 +43,7 @@ values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 �
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
                    store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
-values (4, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
+values (9, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
         '09:00~20:00', '10:00~20:00', 'friday', 3);
 
         

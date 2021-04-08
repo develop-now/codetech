@@ -19,12 +19,12 @@
 
 <!-- Bootstrap core CSS -->
 <link
-	href="${pageContext.request.contextPath}/resources/mainlist/vendor/bootstrap/css/bootstrap.min.css"
+	href="${pageContext.request.contextPath}/resources/css/owner/bootstrap.min.css"
 	rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link
-	href="${pageContext.request.contextPath}/resources/mainlist/css/blog-home.css"
+	href="${pageContext.request.contextPath}/resources/css/owner/blog-home.css"
 	rel="stylesheet">
 
 <!-- SearchBar CSS  -->
@@ -80,7 +80,7 @@
 						<div class="card mb-4">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap">
+								alt="Card image cap" style="height: 50% !important;">
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
@@ -103,7 +103,7 @@
 						<div class="card mb-4">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap" style="filter: blur(5px)">
+								alt="Card image cap" style="filter: blur(5px)" style="height: 50% !important;">
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
@@ -123,8 +123,7 @@
 					</c:if>
 
 				</c:forEach>
-				
-				
+		
 
 
 			</div>
@@ -135,28 +134,21 @@
 		</div>
 		<!-- /.row -->
 		
+						
 						<div class="row" id="moreAjax"></div>
-		
-		
+		<c:if test="${more eq 1}">
 				<!-- button for more -->
 				<div class="card mb-4">
-				${fn:length(stores)}
-				<c:if test="${listCount > fn:length(stores)}">
-    <button class="pageInc btn btn-dark btn-lg" style="width: 300px">더보기</button>
-				</c:if>
-				</div>
+    <button class="pageInc btn btn-dark btn-lg" style="width: 300px;">더보기</button>
 				
+				</div>
+				</c:if>
 				
 	</div>
 	<!-- /.container -->
 
 
 
-	<!-- Bootstrap core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/resources/mainlist/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/mainlist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- button-more click -->
 <script>
@@ -167,6 +159,7 @@ $(document).ready(function () {
         $.get("${pageContext.request.contextPath}/owner/mainListAjax", {"page": page},
             function (data) {
                 $("#moreAjax").append(data);
+                	
             })
 
     })

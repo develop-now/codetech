@@ -1,6 +1,25 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/owner/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/owner/blog-home.css"
+	rel="stylesheet">
+
+<!-- SearchBar CSS  -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/owner/mainList.css"
+	rel="stylesheet">
+
+<!-- SearchBar JS -->
+<script
+	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
+	
 
 				<!-- Blog Post -->
 				<c:forEach var="store" items="${stores}" varStatus="status">
@@ -32,7 +51,7 @@
 						<div class="card mb-4">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap" style="filter: blur(5px)">
+								alt="Card image cap" style="filter: blur(5px);" >
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
@@ -52,4 +71,7 @@
 					</c:if>
 
 				</c:forEach>
+				
+		
+				
 	

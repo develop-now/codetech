@@ -93,18 +93,15 @@
 	</select>
 
 	<select id="forMainList" resultType="store" parameterType="Map">
-		select store_name, store_saved_image, store_status from (
-		select rownum rnum, store_name,
-		store_saved_image, store_status, cnt from stores s,
+	select * from (
+		select row_number() over (order by cnt desc) as num, store_name, store_saved_image, store_status, cnt from stores s join
 		(select store_id,
 		count(*) cnt
-		from likes group by store_id order by cnt
-		desc) r
-		where
-		s.store_id = r.store_id
-		)
-		where rnum  between #{start} and
-		#{end}
+		from likes group by store_id
+		) r
+		on
+		s.store_id = r.store_id ) where num &gt;= #{start} and num &lt;= #{end}
+		
 	</select>
 
 	<select id="forMainList_Store_likes" resultType="int">
