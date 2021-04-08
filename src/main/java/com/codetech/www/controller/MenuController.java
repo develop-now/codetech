@@ -5,21 +5,27 @@ import com.codetech.www.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/menu")
 public class MenuController {
     private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
+
+    @Value("${saveFolderName}")
+    private String saveFolder;
 
     @Autowired
     private MenuService menuService;
@@ -59,6 +65,9 @@ public class MenuController {
     public String readMenu(@RequestParam(value = "menu_id") int menu_id, Model model) {
         model.addAttribute("storeNav", "menuRead");
 
+        Menu menu = menuService.readMenu(menu_id);
+        model.addAttribute("menu", menu);
+
         return "store/menu-read";
     }
 
@@ -69,11 +78,114 @@ public class MenuController {
         return "store/menu-create";
     }
 
+    @RequestMapping(value = "/createAction", method = RequestMethod.POST)
+    public String createMenuAction(Menu menu,
+                                   @RequestParam(value = "owner_id") int owner_id,
+                                   RedirectAttributes redirectAttributes) throws IOException {
+        MultipartFile menu_uploadFile = menu.getMenu_image();
+
+        if (!menu_uploadFile.isEmpty()) {
+            logger.info("create menu image file process");
+
+            String fileName = menu_uploadFile.getOriginalFilename();
+            menu.setMenu_original_image(fileName);
+
+            String fileDBName = fileDBName(fileName, saveFolder);
+
+            menu_uploadFile.transferTo(new File(saveFolder + fileDBName));
+
+            menu.setMenu_saved_image(fileDBName);
+        }
+
+        int createResult = menuService.createMenu(menu);
+
+        if (createResult == 1) {
+            redirectAttributes.addFlashAttribute("info", "메뉴 생성에 성공했습니다");
+        } else {
+            redirectAttributes.addFlashAttribute("alert", "메뉴 생성에 실패했습니다");
+        }
+
+        return "redirect:/store/index";
+    }
+
+    private String fileDBName(String fileName, String saveFolder) {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int date = c.get(Calendar.DATE);
+
+        String homeDir = saveFolder + "/" + year + "-" + month + "-" + date;
+
+        logger.info("save home dir : " + homeDir);
+
+        File path1 = new File(homeDir);
+
+        try {
+            if (!(path1.exists())) {
+                logger.info("before make dir path: " + path1);
+                boolean result = path1.mkdirs();
+                logger.info("after make dir result: " + result);
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+
+        Random r = new Random();
+        int random = r.nextInt(100000000);
+
+        int index = fileName.lastIndexOf(".");
+
+        String fileExtension = fileName.substring(index + 1);
+        logger.info("file extension : " + fileExtension);
+
+        String reFileName = "bbs" + year + month + date + random + "." + fileExtension;
+        logger.info("re file name : " + reFileName);
+
+        String fileDBName = "/" + year + "-" + month + "-" + date + "/" + reFileName;
+        logger.info("DB file name : " + fileDBName);
+
+        return fileDBName;
+    }
+
     @RequestMapping(value = "/menu-update", method = RequestMethod.GET)
     public String updateMenu(@RequestParam(value = "menu_id") int menu_id, Model model) {
         model.addAttribute("storeNav", "menuUpdate");
 
+        Menu menu = menuService.readMenu(menu_id);
+        model.addAttribute("menu", menu);
+
         return "store/menu-update";
+    }
+
+    @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
+    public String updateMenuAction(Menu menu, RedirectAttributes redirectAttributes,
+                                   @RequestParam("image_changed") boolean image_changed) throws IOException {
+        if (image_changed) {
+            MultipartFile menu_uploadFile = menu.getMenu_image();
+
+            if (!menu_uploadFile.isEmpty()) {
+                logger.info("create menu image file process");
+
+                String fileName = menu_uploadFile.getOriginalFilename();
+                menu.setMenu_original_image(fileName);
+
+                String fileDBName = fileDBName(fileName, saveFolder);
+
+                menu_uploadFile.transferTo(new File(saveFolder + fileDBName));
+
+                menu.setMenu_saved_image(fileDBName);
+            }
+        }
+
+        int createResult = menuService.updateMenu(menu);
+
+        if (createResult == 1) {
+            redirectAttributes.addFlashAttribute("info", "메뉴 수정에 성공했습니다");
+        } else {
+            redirectAttributes.addFlashAttribute("alert", "메뉴 수정에 실패했습니다");
+        }
+
+        return "redirect:/store/index";
     }
 
     @RequestMapping(value = "/menu-delete", method = RequestMethod.GET)

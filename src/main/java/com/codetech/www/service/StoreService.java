@@ -19,4 +19,6 @@ public interface StoreService {
     public int deleteStore();
 
     public int storeNameCheck(String name);
+
+    public boolean isStoreOwner(int owner_id, int store_id);
 }

@@ -16,19 +16,12 @@ public class Menu {
     private int menu_status;
 
     private MultipartFile menu_image;
-
     private String menu_saved_image;
     private String menu_original_image;
 
     private String store_name;
-
-    public String getStore_name() {
-        return store_name;
-    }
-
-    public void setStore_name(String store_name) {
-        this.store_name = store_name;
-    }
+    private String category_name;
+    private String menu_status_value;
 
     public int getMenu_id() {
         return menu_id;
@@ -140,5 +133,29 @@ public class Menu {
 
     public void setMenu_original_image(String menu_original_image) {
         this.menu_original_image = menu_original_image;
+    }
+
+    public String getStore_name() {
+        return store_name;
+    }
+
+    public void setStore_name(String store_name) {
+        this.store_name = store_name;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public String getMenu_status_value() {
+        return menu_status_value;
+    }
+
+    public void setMenu_status_value(String menu_status_value) {
+        this.menu_status_value = menu_status_value;
     }
 }
