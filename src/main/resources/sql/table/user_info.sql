@@ -25,5 +25,6 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (6, 'user2', '111-222-3333', 'korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '111-222-3333', 'korea', 7);
-
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (8, '유저', '111-222-3333', 'korea', 8);
 commit;

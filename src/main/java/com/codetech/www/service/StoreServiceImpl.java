@@ -29,7 +29,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStoreList() {
+    public List<Store> getStoreListByOwner(int owner_id) {
         return null;
     }
 

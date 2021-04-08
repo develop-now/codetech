@@ -21,7 +21,7 @@
   <link href="${pageContext.request.contextPath}/resources/mainlist/css/blog-home.css" rel="stylesheet">
 
   <!-- SearchBar CSS  -->
-    <link href="${pageContext.request.contextPath}/resources/css/owner/mainList.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/css/owner/mainList.css" rel="stylesheet">
   
 
 </head>

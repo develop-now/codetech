@@ -1,0 +1,46 @@
+.loginModal-title{
+	color:#a0794c;
+}
+
+.loginModal-body > input{ 
+	width: 100%;
+	padding: 9px 18px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #B63629;
+  }
+.loginModal-body > input:focus{
+	outline:none;
+}
+.loginModal-body > label{
+	margin: 5px 0 0 0;
+}
+.loginModal-footer{
+	display:inline-block;
+	
+}
+.loginModal-footer > button{
+	width:100%;
+	padding:10px;
+	border-radius:5px;
+	border-line: none;
+	border-color:#BE9F7B;
+	background-color: #BE9F7B;
+	color:white;
+	opacity:0.9;
+}
+.loginModal-footer > button:focus{
+	outline:none;
+}
+.loginModal-footer > button:hover{
+	background-color: #BE9F7B;
+	color:#B63629;
+}
+.loginModal-footer__links{
+	display:flex;
+	justify-content:center;
+	padding:20px 0;
+}
+.loginModal__link a:link {
+	color:#BE9F7B;
+}

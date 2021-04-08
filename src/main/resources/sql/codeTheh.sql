@@ -17,6 +17,7 @@ insert into role
 values (5, 'user');
 
 drop table user_status cascade constraints;
+
 create table user_status
 (
     user_status_id number(1) primary key,
@@ -31,6 +32,8 @@ insert into user_status
 values (3, 'suspending'); -- 활동 정지
 insert into user_status
 values (4, 'banned'); -- 추방
+
+drop table users cascade constraints;
 
 drop table users cascade constraints;
 create table users
@@ -61,7 +64,7 @@ values (5, 'user1@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
 values (6, 'user2@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (7, 'user3@test.com', '1234', 5);
+values (7, 'user_store_owner@test.com', '1234', 3);
 
 
 drop table user_info cascade constraints;
@@ -73,6 +76,7 @@ create table user_info
     user_address varchar2(20) not null,
     user_profile varchar2(20),
     point        number(6) default 0,
+    
     user_id      number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
@@ -91,7 +95,8 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (6, 'user2', '111-222-3333', 'korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '111-222-3333', 'korea', 7);
-
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (8, '유저', '111-222-3333', 'korea', 8);
 
 drop table store_status cascade constraints;
 create table store_status
@@ -129,9 +134,31 @@ create table stores
     holiday              varchar2(20)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
+
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
+
+
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
+                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', 'a.png', 'image_url',
+        '09:00~20:00', '10:00~20:00', 'friday', 3);
+
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
+                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', 'b.png', 'image_url',
+        '09:00~20:00', '10:00~20:00', 'friday', 3);
+
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
+                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'c.png', 'image_url',
+        '09:00~20:00', '10:00~20:00', 'friday', 7);
+
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
+                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+values (4, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
+        '09:00~20:00', '10:00~20:00', 'friday', 3);
 
 
 drop table categories cascade constraints;
@@ -188,6 +215,55 @@ create table menus
     constraint fk_menu_category foreign key (category_id) references categories (category_id),
     constraint fk_menu_status foreign key (menu_status) references menu_status (menu_status_id)
 );
+
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (1, '테스트 메뉴1', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (2, '테스트 메뉴2', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (3, '테스트 메뉴3', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (4, '테스트 메뉴4', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 1, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 1, 3);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 2, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (8, '테스트 메뉴8', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 2, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (9, '테스트 메뉴9', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 2, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (10, '테스트 메뉴10', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 2, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (11, '테스트 메뉴11', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 4, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 4, 3);
 
 drop table order_status cascade constraints;
 create table order_status
