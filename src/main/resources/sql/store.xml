@@ -69,7 +69,7 @@
 		count(*) cnt
 		from likes group by store_id order by cnt desc) r
 		where
-		s.store_id = r.store_id and rownum &lt;= 4
+		s.store_id = r.store_id and rownum &lt;= 4 order by cnt desc
 	</select>
 
 	<select id="store_likes" resultType="int">

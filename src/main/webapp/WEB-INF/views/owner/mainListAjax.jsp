@@ -2,14 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-
-			<!-- Blog Entries Column -->
-			<div class="col-md-8">
-
-				<h1 class="my-4">
-					이번달 랭커 카페 <small>소개합니다!</small>
-				</h1>
-
 				<!-- Blog Post -->
 				<c:forEach var="store" items="${stores}" varStatus="status">
 					<c:if test="${store.store_status == 1}">
