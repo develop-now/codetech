@@ -1,6 +1,7 @@
 package com.codetech.www.domain;
 
 public class User {
+
 	private int user_id;
 	private String user_email;
 	private String user_password;
@@ -9,6 +10,9 @@ public class User {
 	private String updated_at;
 	private int user_auth;
 	private int role_id;
+
+	private int user_status;
+
 	
 	public int getUser_id() {
 		return user_id;
@@ -64,6 +68,7 @@ public class User {
 	public void setUser_status(int user_status) {
 		this.user_status = user_status;
 	}
-	private int user_status;
+
+
 
 }

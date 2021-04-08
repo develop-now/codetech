@@ -11,6 +11,7 @@
         <typeAlias alias="store" type="com.codetech.www.domain.Store"/>
         <typeAlias alias="menu" type="com.codetech.www.domain.Menu"/>
         <typeAlias alias="order" type="com.codetech.www.domain.Order"/>
+        <typeAlias alias="user" type="com.codetech.www.domain.User"/>
         
         <!-- 2021-04-07 박인수 공지사항  -->
         <typeAlias alias="notice" type="com.codetech.www.domain.Notice"/>
@@ -24,6 +25,7 @@
         <mapper resource="sql/store.xml"/>
         <mapper resource="sql/menu.xml"/>
         <mapper resource="sql/order.xml"/>
+        <mapper resource="sql/user.xml"/>
       
         <!-- 2021-04-07 박인수 공지사항  -->
         <mapper resource="sql/notice.xml"/>
