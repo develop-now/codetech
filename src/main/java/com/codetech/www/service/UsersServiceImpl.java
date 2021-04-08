@@ -1,6 +1,9 @@
 package com.codetech.www.service;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,4 +45,10 @@ public class UsersServiceImpl implements UsersService {
         UserInfo user = dao.isName(user_name);
         return (user == null) ? -1 : 1;
     }
+
+	@Override
+	public int insert(User user, UserInfo info) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return 0;
+	}
 }

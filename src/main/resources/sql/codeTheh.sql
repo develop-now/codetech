@@ -65,6 +65,8 @@ insert into users (user_id, user_email, user_password, role_id)
 values (6, 'user2@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
 values (7, 'user_store_owner@test.com', '1234', 3);
+insert into users (user_id, user_email, user_password, role_id)
+values (8, 'user_3@test.com', '1234', 5);
 
 
 drop table user_info cascade constraints;
@@ -74,7 +76,8 @@ create table user_info
     user_name    varchar2(20) not null,
     user_tel     varchar2(20) not null,
     user_address varchar2(20) not null,
-    user_profile varchar2(20),
+    user_profile varchar2(50),
+    original_file varchar2(30),
     point        number(6) default 0,
     
     user_id      number(6)    not null,

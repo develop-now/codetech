@@ -1,14 +1,30 @@
 package com.codetech.www.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserInfo {
 	private int info_id;
 	private String user_name;
 	private String user_tel;
 	private String user_address;
 	private String user_profile;
+	private String originalfile;
+	private MultipartFile  uploadfile;
 	private int point;
 	private int user_id;
 	
+	public String getOriginalfile() {
+		return originalfile;
+	}
+	public void setOriginalfile(String originalfile) {
+		this.originalfile = originalfile;
+	}
+	public MultipartFile getUploadfile() {
+		return uploadfile;
+	}
+	public void setUploadfile(MultipartFile uploadfile) {
+		this.uploadfile = uploadfile;
+	}
 	public int getInfo_id() {
 		return info_id;
 	}
