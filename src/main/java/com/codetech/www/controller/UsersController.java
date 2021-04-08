@@ -26,7 +26,6 @@ public class UsersController {
     private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @Autowired
-
     private UsersService usersService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -57,6 +56,5 @@ public class UsersController {
         PrintWriter out = response.getWriter();
         out.println(result);
     }
-
 }
 

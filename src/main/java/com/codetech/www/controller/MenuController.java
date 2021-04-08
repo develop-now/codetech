@@ -34,7 +34,6 @@ public class MenuController {
 
         if (list.size() > 0)
             for (String key : list.keySet()) {
-                logger.info("가게 이름 : " + key);
                 storeList.add(key);
                 modelAndView.addObject(key, list.get(key));
             }

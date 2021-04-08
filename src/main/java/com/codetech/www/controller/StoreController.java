@@ -35,28 +35,9 @@ public class StoreController {
     @Autowired
     private MenuService menuService;
 
-
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "store/index";
-    }
-
-    @RequestMapping(value = "/comment-list", method = RequestMethod.GET)
-    public String getStoreCommentList(@RequestParam(value = "store_id") int store_id, Model model) {
-        model.addAttribute("storeNav", "commentList");
-        // TODO:: GET ID FROM SESSION OR SECURITY
-
-        List<Store> list = storeService.getStoreList();
-
-        return "store/comment-list";
-    }
-
-    @RequestMapping(value = "/comment-read", method = RequestMethod.GET)
-    public String getStoreCommentRead(@RequestParam(value = "comment_id") int comment_id, Model model) {
-        model.addAttribute("storeNav", "commentRead");
-
-
-        return "store/comment-list";
     }
 
     @RequestMapping(value = "/store-list", method = RequestMethod.GET)
@@ -64,9 +45,21 @@ public class StoreController {
         model.addAttribute("storeNav", "storeList");
         // TODO:: GET ID FROM SESSION OR SECURITY
 
-        List<Store> list = storeService.getStoreList();
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
 
         return "store/store-list";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/store-list-ajax", method = RequestMethod.GET)
+    public Map<String, Object> getStoreListAjax(@RequestParam(value = "owner_id") int owner_id) {
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+
+        Map<String, Object> rtn = new HashMap<String, Object>();
+
+        rtn.put("list", list);
+
+        return rtn;
     }
 
     @RequestMapping(value = "/store-read", method = RequestMethod.GET)

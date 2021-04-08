@@ -49,7 +49,7 @@
         </li>
         <li class="nav-item">
             <%-- TODO:: FIX HARD CODING VALUE!!--%>
-            <a href="<c:url value="/store/comment-list?store_id=3"/>"
+            <a href="<c:url value="/comment/comment-list?store_id=3"/>"
                class="nav-link <c:out value="${storeNavVal eq 'commentList' ? 'active' : ''}"/>">가게 리뷰</a>
         </li>
 
