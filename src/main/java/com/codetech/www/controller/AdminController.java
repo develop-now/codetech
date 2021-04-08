@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.User;
+import com.codetech.www.domain.UserInfo;
+import com.codetech.www.service.AdminService;
 import com.codetech.www.service.UsersService;
 
 @Controller
@@ -24,22 +27,75 @@ public class AdminController {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
-    private UsersService userService;
+    private AdminService adminService;
 
     // C:/Spring/Notice
     @Value("${saveFolderName}")
     private String saveFolder;
-
+    
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-        return "admin/index";
+    	return "admin/index";
     }
+    
+    @RequestMapping(value = "/userList")
+	public ModelAndView userList(
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv,
+			@RequestParam(value = "search_field", defaultValue = "-1") int index,
+			@RequestParam(value = "search_word", defaultValue = "") String search_word,
+			@RequestParam(value = "check_state", defaultValue = "0") int state) {
+    	
+		List<User> Userslist = null;
+		List<UserInfo> Infolist = null;
+		
+		int limit = 10;
+		int listcount = adminService.getSearchListCount(index, state, search_word);
+		
+		Userslist = adminService.getUsersSearchList(index, state, search_word, page, limit);
+		Infolist = adminService.getInfoSearchList(index, state, search_word, page, limit);
+		
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+		
+		// 현재 페이지에 보여줄 시작 페이지 수 (1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/user-list");
+
+		mv.addObject("page", page); // 현재 페이지 수
+		mv.addObject("maxpage", maxpage); // 최대 페이지 수
+
+		// 현재 페이지에 표시할 첫 페이지 수
+		mv.addObject("startpage", startpage);
+
+		// 현재 페이지에 표시할 끝 페이지 수
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("listcount", listcount); // 총 글의 수
+
+		mv.addObject("Userslist", Userslist);
+		mv.addObject("Infolist", Infolist);
+
+		// 해당 페이지의 글 목록을 갖고 있는 리스트
+		mv.addObject("search_field", index);
+		mv.addObject("search_word", search_word);
+		mv.addObject("check_state", state);
+		
+		return mv;
+	}
+    
 
     @RequestMapping(value = "/noticeList", method = RequestMethod.GET)
     public ModelAndView noticeList
             (@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv) {
         int limit = 10; // 한 화면에 출력할 레코드 갯수
-        int listcount = userService.getNoticeListCount(); // 샐랙트 구문을 통해 리스트 값을 가져옴
+        int listcount = adminService.getNoticeListCount(); // 샐랙트 구문을 통해 리스트 값을 가져옴
 
         // 총 페이지 수
         int maxpage = (listcount + limit - 1) / limit;
