@@ -1,21 +1,27 @@
 package com.codetech.www.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.codetech.www.domain.User;
+import com.codetech.www.domain.UserInfo;
 
 @Repository
 public class UsersDAO {
+	private static final Logger logger = LoggerFactory.getLogger(UsersDAO.class);
 	@Autowired
-	SqlSessionTemplate sqlSession;
+	private SqlSessionTemplate sqlSession; 
+	
+	public User isEmail(String user_email) {
+		return sqlSession.selectOne("users.isEmail",user_email);
+	}
 
-//	public List<Users> getSearchList(Map<String, Object> map) {
-//		return sqlSession.selectList("Users.getSearchList", map);
-//	}
+	public UserInfo isName(String user_name) {
+		return sqlSession.selectOne("users.isName",user_name);
+  }
 
 	public int getNoticeListCount() {
 		return sqlSession.selectOne("Notice.count");

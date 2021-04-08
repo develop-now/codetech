@@ -2,5 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Menus">
+    <insert id="createMenu" parameterType="menu">
+        <selectKey resultType="int" order="BEFORE" keyProperty="menu_id">
+            select nvl(max(store_id), 0) +1 from menus
+        </selectKey>
 
+        insert into menus (menu_id, menu_name, menu_desc, menu_price, menu_saved_image,
+        menu_original_image, store_id, category_id)
+        values (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
+        #{menu_original_image},#{store_id}, #{category_id})
+    </insert>
+    <select id="listByOwner" resultType="menu" parameterType="int">
+        select s.*, m.*, c.category_name, t.status_value
+        from stores s
+                 join menus m on s.store_id = m.store_id
+                 join categories c on m.category_id = c.category_id
+                 join store_status t on s.store_status = t.store_status_id
+        where s.owner_id = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
+    <select id="listByStore" resultType="menu" parameterType="int">
+        select s.*, m.*, c.category_name, t.status_value
+        from stores s
+                 join menus m on s.store_id = m.store_id
+                 join categories c on m.category_id = c.category_id
+                 join store_status t on s.store_status = t.store_status_id
+        where s.store_id = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
 </mapper>
