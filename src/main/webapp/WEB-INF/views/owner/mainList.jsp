@@ -7,6 +7,7 @@
 
 <head>
 
+
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -34,6 +35,7 @@
 <!-- SearchBar JS -->
 <script
 	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
+
 </head>
 
 <body>
