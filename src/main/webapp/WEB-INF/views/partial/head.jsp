@@ -16,7 +16,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/index.js"></script>
-
+<script src="${pageContext.request.contextPath}/resources/js/user/join.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
 <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -27,4 +28,6 @@
 />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/index.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/login.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/join.css">
 
