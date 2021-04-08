@@ -21,6 +21,9 @@ public class UsersDAO {
 
 	public UserInfo isName(String user_name) {
 		return sqlSession.selectOne("users.isName",user_name);
-	}
+  }
 
+	public int getNoticeListCount() {
+		return sqlSession.selectOne("Notice.count");
+	}
 }
