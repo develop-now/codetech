@@ -45,7 +45,7 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.listByOwner", owner_id);
     }
 
-    public Store readStore(int store_id){
+    public Store readStore(int store_id) {
         return sqlSession.selectOne("Stores.read", store_id);
     }
 
@@ -63,57 +63,57 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.store_likes_forReview");
     }
 
-	public List<Store> getStoreForSearchList(String searchWordLike) {
-		return sqlSession.selectList("Stores.store_search", searchWordLike);
+    public List<Store> getStoreForSearchList(String searchWordLike) {
+        return sqlSession.selectList("Stores.store_search", searchWordLike);
 
-	}
+    }
 
-	public List<Integer> getStoreLikesForSearchList(String searchWordLike) {
-		return sqlSession.selectList("Stores.store_likes_forSearch", searchWordLike);
+    public List<Integer> getStoreLikesForSearchList(String searchWordLike) {
+        return sqlSession.selectList("Stores.store_likes_forSearch", searchWordLike);
 
-	}
+    }
 
-	public List<Integer> getStoreCommentsForSearchList(String searchWordLike) {
-		return sqlSession.selectList("Stores.store_comment_forSearch", searchWordLike);
+    public List<Integer> getStoreCommentsForSearchList(String searchWordLike) {
+        return sqlSession.selectList("Stores.store_comment_forSearch", searchWordLike);
 
-	}
+    }
 
-	public List<User> getAdminList() {
-		return sqlSession.selectList("Users.managerList");
-	}
+    public List<User> getAdminList() {
+        return sqlSession.selectList("Users.managerList");
+    }
 
-	public List<Store> getStoreForMainList(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Stores.forMainList", map);
+    public List<Store> getStoreForMainList(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Stores.forMainList", map);
 
-	}
+    }
 
-	public List<Integer> getStoreLikesForMainList(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Stores.forMainList_Store_likes", map);
+    public List<Integer> getStoreLikesForMainList(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Stores.forMainList_Store_likes", map);
 
-	}
+    }
 
-	public List<Integer> getStoreCommentsForMainList(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Stores.forMainList_Store_comments", map);
+    public List<Integer> getStoreCommentsForMainList(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Stores.forMainList_Store_comments", map);
 
-	}
+    }
 
-	public int getListCount() {
-		return sqlSession.selectOne("Stores.getListCount");
-	}
-	
-	public int getListCountforMainList() {
-		return sqlSession.selectOne("Stores.getListCountforMainList");
-	}
+    public int getListCount() {
+        return sqlSession.selectOne("Stores.getListCount");
+    }
 
-	public int getListCountforMainListComments() {
-		return sqlSession.selectOne("Stores.getListCountforMainListComments");
+    public int getListCountforMainList() {
+        return sqlSession.selectOne("Stores.getListCountforMainList");
+    }
 
-	}
+    public int getListCountforMainListComments() {
+        return sqlSession.selectOne("Stores.getListCountforMainListComments");
 
-	public List<Integer> getStoreCommentsReview(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Stores.store_comment_forReview", map);
+    }
 
-	}
-	
+    public List<Integer> getStoreCommentsReview(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Stores.store_comment_forReview", map);
+
+    }
+
 
 }
