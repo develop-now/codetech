@@ -62,7 +62,6 @@ public class StoreControllerTest {
         String opening_h_h_start = "11:00";
         String opening_h_h_end = "17:00";
 
-
         try {
             mockMvc.perform(get("/store/createAction").param("id", "User14"))
                     .andDo(print())

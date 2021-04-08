@@ -20,6 +20,15 @@ public class Store {
     private String holiday;
     private int owner_id;
     private int store_status;
+    private String store_status_value;
+
+    public String getStore_status_value() {
+        return store_status_value;
+    }
+
+    public void setStore_status_value(String store_status_value) {
+        this.store_status_value = store_status_value;
+    }
 
     private MultipartFile store_image;
 

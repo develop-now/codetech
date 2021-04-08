@@ -32,25 +32,27 @@
         where s.owner_id = #{owner_id}
           and t.status_value not like '%in%'
     </select>
-    <select id="list" resultType="store" parameterType="int">
+
+    <select id="listByOwner" resultType="store" parameterType="int">
+        select s.*, u.*, f.*, t.status_value
+        from stores s
+                 join users u on s.owner_id = u.user_id
+                 join user_info f on s.owner_id = f.user_id
+                 join store_status t on s.store_status = t.store_status_id
+        where s.owner_id = #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
+
+    <select id="read" resultType="store" parameterType="int">
         select s.*, u.*, f.*, t.status_value
         from stores s
                  join users u on s.OWNER_ID = u.USER_ID
                  join user_info f on s.OWNER_ID = f.USER_ID
                  join store_status t on s.store_status = t.store_status_id
-        where s.OWNER_ID = #{owner_id}
+        where s.store_id = #{store_id}
           and t.status_value not like '%in%'
     </select>
-    <select id="read" resultType="store" parameterType="Map">
-        select s.*, u.*, f.*, t.status_value
-        from stores s
-                 join users u on s.OWNER_ID = u.USER_ID
-                 join user_info f on s.OWNER_ID = f.USER_ID
-                 join store_status t on s.store_status = t.store_status_id
-        where s.OWNER_ID = #{owner_id}
-          and s.store_id = #{store_id}
-          and t.status_value not like '%in%'
-    </select>
+
     <select id="forMain" resultType="store">
         select store_name, store_saved_image, store_status, cnt
         from stores s,

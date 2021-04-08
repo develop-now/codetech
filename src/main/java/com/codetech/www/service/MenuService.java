@@ -12,9 +12,9 @@ public interface MenuService {
 
     public int createMenu(Menu menu);
 
-    public Menu readMenu();
+    public Menu readMenu(int menu_id);
 
-    public int updateMenu();
+    public int updateMenu(Menu menu);
 
     public int deleteMenu();
 }

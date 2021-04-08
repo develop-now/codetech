@@ -39,6 +39,14 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.store_comments");
     }
 
+    public List<Store> getStoreListByOwner(int owner_id) {
+        return sqlSession.selectList("Stores.listByOwner", owner_id);
+    }
+
+    public Store readStore(int store_id){
+        return sqlSession.selectOne("Stores.read", store_id);
+    }
+
     public List<Store> getStoreForReviewList() {
         return sqlSession.selectList("Stores.forReviewList");
     }
