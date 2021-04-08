@@ -20,18 +20,6 @@ public class UsersServiceImpl implements UsersService {
     private UsersDAO dao;
 
     @Override
-    public int getSearchListCount(int index, int state, String search_word) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int getNoticeListCount() {
-        return dao.getNoticeListCount();
-    }
-
-
-    @Override
     public int isEmail(String user_email) {
         User user = dao.isEmail(user_email);
         return (user == null) ? -1 : 1;

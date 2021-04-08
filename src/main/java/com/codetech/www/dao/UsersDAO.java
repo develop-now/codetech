@@ -12,6 +12,7 @@ import com.codetech.www.domain.UserInfo;
 @Repository
 public class UsersDAO {
     private static final Logger logger = LoggerFactory.getLogger(UsersDAO.class);
+    
     @Autowired
     private SqlSessionTemplate sqlSession;
 
@@ -21,9 +22,5 @@ public class UsersDAO {
 
     public UserInfo isName(String user_name) {
         return sqlSession.selectOne("users.isName", user_name);
-    }
-
-    public int getNoticeListCount() {
-        return sqlSession.selectOne("Notice.count");
     }
 }
