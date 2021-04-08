@@ -17,6 +17,7 @@ insert into role
 values (5, 'user');
 
 drop table user_status cascade constraints;
+
 create table user_status
 (
     user_status_id number(1) primary key,
@@ -33,6 +34,7 @@ insert into user_status
 values (4, 'banned'); -- 추방
 
 drop table users cascade constraints;
+
 create table users
 (
     user_id       number(6) primary key,

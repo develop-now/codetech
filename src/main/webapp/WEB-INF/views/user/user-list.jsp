@@ -1,191 +1,138 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%--
+  Created by IntelliJ IDEA.
+  User: im-inseop
+  Date: 2021/03/31
+  Time: 2:15 오후
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
-<head>
-<jsp:include page="../etc/header.jsp"/>
 <style>
-table caption{caption-side:top; text-align:center }
-h1{text-align:center}
-li .current{
-   background:#faf7f7; color:gray;
-}
-
-body > div > table > tbody > tr > td:last-child > a{color:red}
-
-form{margin:0 auto; width:80%; text-align:center}
-
-select {
-   color: #495057;
-   background-color: #fff;
-   background-clip: padding-box;
-   border: 1px solid #ced4da;
-   border-radius: .25rem;
-   transition: border-color .15s ease-in-out, box-shadow .15e ease-in-out;
-   outline:none;
-}
-.container{width:60%}
-td:nth-child(1){width:33%}
-.input-group{margin-bottom:3em}
-
-.gray{color:gray}
-body>div>table>thead>tr:nth-child(2)>th:nth-child(1){width:8%}
-body>div>table>thead>tr:nth-child(2)>th:nth-child(2){width:50%}
-body>div>table>thead>tr:nth-child(2)>th:nth-child(3){width:14%}
-body>div>table>thead>tr:nth-child(2)>th:nth-child(4){width:17%}
-body>div>table>thead>tr:nth-child(2)>th:nth-child(5){width:11%}
+	/* 왼쪽 상단 회원관리 글씨 css */
+	.user_h3 {
+		margin: 20px 0px;
+	}
+	
+	.user_search {
+		width: 100%;
+		margin-top: 10px;
+		margin-bottom: 30px;
+		border: 2px solid #e2e2d0;
+		border-collapse: collapse;
+	}
+	
+	.user_search th, td {
+		padding: 5px 20px;
+    	border: 2px solid #e2e2d0;
+	}
+	
+	/* 짝수로 배경 색깔 지정 */
+	.user_search td:nth-child(odd) {
+    	background: #f5f5ef;
+	}
+	
+	.user_search label {
+		margin: 0px;
+	}
+	
+	/* 버튼 정중앙 */
+	.submit_btn {
+		text-align: center;
+		
+	}
+	
+	#search_btn {
+		border-radius: 5px;
+		border: 0px;
+		padding: 5px 15px;
+		background:  #4e3418;
+		color: white;
+		margin-bottom: 14px;
+	}
 </style>
-<script>
-   $(function() {
-      // 검색 클릭 후 응답 화면에는 검색시 선택한 필드가 선택되도록 합니다.
-      var selectedValue = '${search_field}'
-      if (selectedValue != '')
-         $("#viewcount").val(selectedValue);
-
-      // 검색 버튼 클릭한 경우
-      $("button").click(function() {
-		 var word = $(".input-group input").val();
-		 if (word == '') {
-			 alert("검색어를 입력하세요.");
-			 return false;
-		 }
-         
-		 selectedValue = $("#viewcount").val();
-         if (selectedValue =="A") {
-            pattern = /^[0-9]{2}$/;
-            if (!pattern.test(word)) {
-               alert("나이는 형식에 맞게 입력하세요(두자리 숫자)");
-               return false;
-            }
-         } else if (selectedValue == "G") {
-            if (word != "남" && word != "여") {
-               alert("남 또는 여를 입력하세요");
-               $('intput').val('');
-               return false;
-            }
-         }
-      }); //button click end
-      
-      //검색어 입력창에 placeholder가 나타나도록 합니다.
-      $("#viewcount").change(function() {
-         var value = $("select option:selected").text();
-         $("input").val('');
-         $("input").attr("placeholder", value + " 입력하세요");
-      }) //$("#viecount").change end
-
-      //회원 목록의 삭제를 클릭한 경우
-      $("tr > td:nth-child(3) > a").click(function(event) {
-         var answer = confirm("정말 삭제하시겠습니까?");
-         console.log(answer); //취소를 클릭한 경우 - false
-         if (!answer) { //취소를 클릭한 경우
-            event.preventDefault(); //이동하지 않습니다.
-         }
-      }) //삭제클릭 end
-   })
-</script>
- 
-<title>회원목록</title>
+<head>
+    <title>User Index</title>
+    <%@include file="../partial/head.jsp" %>
 </head>
 <body>
-   <div class="container">
-      <form action="userList">
-         <div class="input-group">
-            <select id="viewcount" name="search_field">
-               <option value="0" selected>이메일</option>
-               <option value="1">이름</option>
-               <option value="2">전화번호</option>
-            </select>   
-            <input name="search_word" type="text" class="form-control" placeholder="아이디 입력하세요"
-            	   value="${search_word}">
-            	   
-           	<label><input type="checkbox" name="check_state" value="0" checked>회원 활동</label>
-			<label><input type="checkbox" name="check_state" value="1">회원 탈퇴</label>
-			<label><input type="checkbox" name="check_state" value="2">활동 정지</label>
-			<label><input type="checkbox" name="check_state" value="3">회원 추방</label>
-            <button class="btn btn-primary" type="submit">검색</button>
-         </div>
-      </form>
+<div class="container-fluid px-0">
+    <%-- main nav --%>
+    <%@include file="../partial/nav.jsp" %>
 
-      <%-- 회원이 있는 경우 --%>
-      <c:if test="${listcount > 0}">
-         <table class="table table-striped">
-            <caption style="font-weight: bold">회원 목록</caption>
-            <thead>
-               <tr>
-                  <th colspan="2">MVC 게시판 - 회원 정보 list</th>
-                  <th><font size=3>회원 수 : ${listcount}</font></th>
-               </tr>
+    <%-- info Modal --%>
+    <%@include file="../partial/infoModal.jsp" %>
 
-               <tr>
-                  <th><div>아이디</div></th>
-                  <th><div>이름</div></th>
-                  <th><div>삭제</div></th>
-               </tr>
-            </thead>
-            <tbody>
-               <c:forEach var="m" items="${memberlist}">
-                  <tr>
-                     <td><a href="Info?id=${m.id}">${m.id}</a></td>
-                     <td>${m.name}</td>
-                     <td><a href="Delete?id=${m.id}">삭제</a></td>
-                  </tr>
-               </c:forEach>
-
-            </tbody>
-         </table>
-
-         <div>
-            <ul class="pagination justify-content-center">
-               <c:if test="${page <= 1}">
-                  <li class="page-item"><a class="page-link current" href="#">이전&nbsp;</a>
-                  </li>
-               </c:if>
-
-               <c:if test="${page > 1}">
-                  <li class="page-item"><a
-                     href="memberList?page=${page-1}&search_field=${search_field}&search_word=${search_word}"
-                     class="page-link">이전</a> &nbsp;</li>
-               </c:if>
+    <%-- alert Modal --%>
+    <%@include file="../partial/alertModal.jsp" %>
 
 
-               <c:forEach var="a" begin="${startpage}" end="${endpage }">
-                  <c:if test="${a == page }">
-                     <li class="page-item"><a class="page-link current" href="#">${a}</a>
-                     </li>
-                  </c:if>
-
-                  <c:if test="${a != page }">
-                     <li class="page-item"><a
-                        href="memberList?page=${a}&search_field=${search_field}&search_word=${search_word}"
-                        class="page-link">${a}</a></li>
-                  </c:if>
-               </c:forEach>
-
-
-               <c:if test="${page >= maxpage }">
-                  <li class="page-item"><a class="page-link current" href="#">&nbsp;다음</a>
-                  </li>
-               </c:if>
-
-               <c:if test="${page < maxpage }">
-                  <li class="page-item"><a
-                     href="memberList?page=${page+1}&search_field=${search_field}&search_word=${search_word}"
-                     class="page-link">&nbsp;다음</a></li>
-               </c:if>
-            </ul>
-         </div>
-      </c:if>
-      <%-- <c:if test="${listcount > 0}"> end --%>
-   </div>
-
-   <%-- 회원이 없는 경우 --%>
-   <c:if test="${listcount == 0 && empty search_word}">
-      <h1>회원이 없습니다.</h1>
-   </c:if>
-   
-      <c:if test="${listcount == 0 && !empty search_word}">
-      <h1>검색 결과가 없습니다..</h1>
-   </c:if>
+    <!-- Page Content -->
+    <div class="container-fluid">
+		<h3 class="user_h3">회원 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
+ 		<hr style="border: solid 1px #e2e2d0;">
+			<form action="userList">
+				<div class=search_div>
+					<b>회원 검색</b><br>
+					<div>
+						<table class="user_search">
+							<tr>
+								<td>검색어</td>
+								<td>
+									<select id="viewcount" name="search_field">
+										<option value="0" selected>이메일</option>
+										<option value="1">이름</option>
+										<option value="2">전화번호</option>
+									</select>
+									<input type="text" id="search_word" name="search_word" placeholder="이메일을 입력하세요." value="${search_word}">
+								</td>
+								
+								<td>회원 구분</td>
+								<td>
+									<label><input type="checkbox" name="check_state" value="0" checked>회원 활동</label>&nbsp;
+									<label><input type="checkbox" name="check_state" value="1">회원 탈퇴</label>&nbsp;
+									<label><input type="checkbox" name="check_state" value="2">활동 정지</label>&nbsp;
+									<label><input type="checkbox" name="check_state" value="3">회원 추방</label>&nbsp;
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="submit_btn">
+						<button type="submit" id="search_btn">검색</button>
+					</div>
+					<hr style="border: solid 1px #e2e2d0;">
+						
+						
+					<%-- 회원이 있는 경우 --%>
+      				<c:if test="${listcount > 0}"> 
+      				<table>
+						<thead>
+			               <tr>
+			                  <th><font size=3>회원 수 : ${listcount}</font></th>
+			                  <td><button type="button" name="suspending">활동 정지</button></td>
+			                  <td><button type="button" name="banned">강제 탈퇴</button></td>
+			               </tr>
+				
+			               <tr>
+			                  <th><div>이메일</div></th>
+			                  <th><div>이름</div></th>
+			                  <th><div>전화번호</div></th>
+			                  <th><div>포인트</div></th>
+			                  <th><div>국적</div></th>
+			                  <th><div>가입일</div></th>
+			                  <th><div>수정일</div></th>
+							</tr>
+			            <thead>
+      				</table>
+      			</c:if>
+			<%-- <c:if test="${listcount > 0}"> end --%>
+			</div>
+		</form>
+	</div>
+    <!-- /.container -->
+    <%-- footer --%>
+    <%@include file="../partial/footer.jsp" %>
+</div>
 </body>
 </html>

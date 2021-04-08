@@ -13,7 +13,11 @@ public class UsersDAO {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-	public List<Users> getSearchList(Map<String, Object> map) {
-		return sqlSession.selectList("Users.getSearchList", map);
+//	public List<Users> getSearchList(Map<String, Object> map) {
+//		return sqlSession.selectList("Users.getSearchList", map);
+//	}
+
+	public int getNoticeListCount() {
+		return sqlSession.selectOne("Notice.count");
 	}
 }
