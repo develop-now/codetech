@@ -13,6 +13,8 @@
         <typeAlias alias="order" type="com.codetech.www.domain.Order"/>
         <typeAlias alias="user" type="com.codetech.www.domain.User"/>
         <typeAlias alias="menu-category" type="com.codetech.www.domain.MenuCategory"/>
+        <typeAlias alias="user" type="com.codetech.www.domain.User"/>
+        <typeAlias alias="user-info" type="com.codetech.www.domain.UserInfo"/>
     </typeAliases>
 
     <mappers>
@@ -21,5 +23,6 @@
         <mapper resource="sql/order.xml"/>
         <mapper resource="sql/user.xml"/>
         <mapper resource="sql/menu-category.xml"/>
+        <mapper resource="sql/users.xml"/>
     </mappers>
 </configuration>
