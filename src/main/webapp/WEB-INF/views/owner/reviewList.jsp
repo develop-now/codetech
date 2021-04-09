@@ -16,12 +16,12 @@
 
 <!-- Bootstrap core CSS -->
 <link
-	href="${pageContext.request.contextPath}/resources/mainlist/vendor/bootstrap/css/bootstrap.min.css"
+	href="${pageContext.request.contextPath}/resources/css/owner/bootstrap.min.css"
 	rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link
-	href="${pageContext.request.contextPath}/resources/mainlist/css/blog-home.css"
+	href="${pageContext.request.contextPath}/resources/css/owner/blog-home.css"
 	rel="stylesheet">
 
 <!-- SearchBar CSS  -->
@@ -29,7 +29,9 @@
 	href="${pageContext.request.contextPath}/resources/css/owner/mainList.css"
 	rel="stylesheet">
 
-
+<!-- SearchBar JS -->
+<script
+	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
 </head>
 
 <body>
@@ -47,8 +49,8 @@
 				href="${pageContext.request.contextPath}/owner/mapPage">거리순</a> <a
 				href="${pageContext.request.contextPath}/owner/reviewListPage">리뷰순</a>
 			<div class="search-container">
-				<form action="/action_page.php">
-					<input type="text" placeholder="Search.." name="search">
+				<form action="${pageContext.request.contextPath}/owner/searchList" method="post">
+					<input type="text" placeholder="Search.." name="searchWord">
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -80,10 +82,10 @@
 								<a href="#" class="btn btn-primary">주문하기 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
-								<img class="card-img-heart"
+								<%-- <img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp;<img class="card-img-comments"
+								${likes[status.index]}&nbsp;&nbsp; --%><img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
 									width="30" height="30" alt="">&nbsp;${comments[status.index]}
 							</div>
@@ -104,10 +106,10 @@
 									style="background-color: gray">준비중 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
-								<img class="card-img-heart"
+								<%-- <img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp;<img class="card-img-comments"
+								${likes[status.index]}&nbsp;&nbsp; --%><img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
 									width="30" height="30" alt="">&nbsp;${comments[status.index]}
 							</div>
@@ -116,15 +118,17 @@
 
 				</c:forEach>
 
-				<!-- Pagination -->
-				<ul class="pagination justify-content-center mb-4">
-					<li class="page-item"><a class="page-link" href="#">&larr;
-							Older</a></li>
-					<li class="page-item disabled"><a class="page-link" href="#">Newer
-							&rarr;</a></li>
-				</ul>
+									<div class="row" id="moreAjax"></div>
+		<c:if test="${more eq 1}">
+				<!-- button for more -->
+				<div class="card mb-4">
+    <button class="pageInc btn btn-dark btn-lg" style="width: 300px;">더보기</button>
+				
+				</div>
+				</c:if>
 
 			</div>
+			<!-- col-md-8 -->
 
 
 
@@ -136,11 +140,28 @@
 
 
 
-	<!-- Bootstrap core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/resources/mainlist/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/mainlist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+<script>
+$(document).ready(function () {
+
+
+//button for more
+var page = 1;
+$('.pageInc').click(function () {
+    page += 1;
+    $.get("${pageContext.request.contextPath}/owner/reviewListPageAjax", {"page": page},
+        function (data) {
+            $("#moreAjax").append(data);
+            	
+        })
+
+})
+
+}
+)
+
+</script>
+
 
 </body>
 

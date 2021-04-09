@@ -14,6 +14,5 @@ function changeStore(storeName) {
                 $(el).addClass("d-block").removeClass("d-none")
             }
         }
-
     })
 }

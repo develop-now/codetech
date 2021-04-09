@@ -32,10 +32,7 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <%--  <div class="col-2">--%>
-                        <%--    <button class="btn btn-sm btn-secondary" id="backBtn">뒤로</button>--%>
-                        <%--  </div>--%>
-                        <div class="ml-auto">
+                        <div class="ml-auto mr-2">
                             <h3 class="text-right">가게 단골 리스트</h3>
                         </div>
                         <div class="w-100">
@@ -52,7 +49,6 @@
                                        class="custom-control-input" checked>
                                 <label class="custom-control-label" for="order-completed">주문 횟수 순</label>
                             </div>
-
                         </div>
                         <div class="col-12">
                             <table class="table table-hover text-center">

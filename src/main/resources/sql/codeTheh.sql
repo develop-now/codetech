@@ -47,7 +47,7 @@ create table users
     user_auth     number(1) default 0 not null,
     role_id       number(1) default 5 not null,
     user_status   number(1) default 1 not null,
-    constraint fk_users_role foreign key (role_id) references role (role_id),
+    constraint fk_users_role foreign key (role_id) references roUSERle (role_id),
     constraint fk_users_status foreign key (user_status) references user_status (user_status_id)
 );
 

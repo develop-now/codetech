@@ -29,8 +29,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStoreList() {
-        return null;
+    public List<Store> getStoreListByOwner(int owner_id) {
+        return store_dao.getStoreListByOwner(owner_id);
     }
 
     @Transactional
@@ -73,5 +73,15 @@ public class StoreServiceImpl implements StoreService {
         }
 
         return result;
+    }
+
+    @Override
+    public boolean isStoreOwner(int owner_id, int store_id) {
+        Store store = store_dao.readStore(store_id);
+
+        if (store != null)
+            return store.getOwner_id() == owner_id;
+
+        return false;
     }
 }
