@@ -12,9 +12,9 @@ public interface StoreService {
 
     public int createStore(Store store, Menu menu);
 
-    public Store readStore();
+    public Store readStore(int store_id);
 
-    public int updateStore();
+    public int updateStore(Store store);
 
     public int deleteStore();
 

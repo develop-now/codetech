@@ -12,11 +12,8 @@
 <head>
     <title>Store Create Page</title>
     <%@include file="../partial/head.jsp" %>
-    <script src="${pageContext.request.contextPath}/resources/js/store/store-create.js"></script>
-    <link href="${pageContext.request.contextPath}/resources/plugin/timePicker/mdtimepicker.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/resources/plugin/timePicker/mdtimepicker.js"></script>
-
     <%@include file="../partial/dateTimePicker.jsp" %>
+    <script src="${pageContext.request.contextPath}/resources/js/store/store-create.js"></script>
 
     <script>
         $(() => {
@@ -58,8 +55,7 @@
                         <div class="col-12">
                             <h4 class="mb-3">가게 기본 정보</h4>
                             <form action="<c:url value="/store/createAction"/>" method="post"
-                                  enctype="multipart/form-data" ,
-                                  id="createStoreForm">
+                                  enctype="multipart/form-data" id="createStoreForm">
                                 <%-- TODO:: FIX HARDCODING VALUE--%>
                                 <input type="hidden" name="owner_id" value="3">
                                 <%--<input type="hidden" name="owner_id" value="${idValue}">--%>
@@ -218,20 +214,20 @@
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-6">
-                                                <label class="sr-only" for="opening_h_w_start">영업시작</label>
-                                                <input type="text" class="form-control" id="opening_h_w_start"
+                                                <label class="sr-only" for="opening_h_w_open">영업시작</label>
+                                                <input type="text" class="form-control" id="opening_h_w_open"
                                                        placeholder="평일 영업 시작 시간" data-valid="required">
-                                                <input type="hidden" name="opening_h_w_start">
+                                                <input type="hidden" name="opening_h_w_open">
                                                 <div class="invalid-feedback">
                                                     평일 영업 시작 시간을 입력하세요
                                                 </div>
                                             </div>
 
                                             <div class="col-6">
-                                                <label class="sr-only" for="opening_h_w_end">영업종료</label>
-                                                <input type="text" class="form-control" id="opening_h_w_end"
+                                                <label class="sr-only" for="opening_h_w_close">영업종료</label>
+                                                <input type="text" class="form-control" id="opening_h_w_close"
                                                        placeholder="평일 영업 종료 시간" data-valid="required">
-                                                <input type="hidden" name="opening_h_w_end">
+                                                <input type="hidden" name="opening_h_w_close">
                                                 <div class="invalid-feedback">
                                                     평일 영업 종료 시간을 입력하세요
                                                 </div>
@@ -245,19 +241,19 @@
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-6">
-                                                <label class="sr-only" for="opening_h_h_start">영업시작</label>
-                                                <input type="text" class="form-control" id="opening_h_h_start"
+                                                <label class="sr-only" for="opening_h_h_open">영업시작</label>
+                                                <input type="text" class="form-control" id="opening_h_h_open"
                                                        placeholder="휴일 영업 시작 시간" data-valid="required">
-                                                <input type="hidden" name="opening_h_h_start">
+                                                <input type="hidden" name="opening_h_h_open">
                                                 <div class="invalid-feedback">
                                                     주말 영업 시작 시간을 입력하세요
                                                 </div>
                                             </div>
                                             <div class="col-6">
-                                                <label class="sr-only" for="opening_h_h_end">영업종료</label>
-                                                <input type="text" class="form-control" id="opening_h_h_end"
+                                                <label class="sr-only" for="opening_h_h_close">영업종료</label>
+                                                <input type="text" class="form-control" id="opening_h_h_close"
                                                        placeholder="휴일 영업 종료 시간" data-valid="required">
-                                                <input type="hidden" name="opening_h_h_end">
+                                                <input type="hidden" name="opening_h_h_close">
                                                 <div class="invalid-feedback">
                                                     주말 영업 종료 시간을 입력하세요
                                                 </div>

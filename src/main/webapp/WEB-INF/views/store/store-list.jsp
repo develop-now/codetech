@@ -43,44 +43,42 @@
                         <div class="w-100">
                             <hr>
                         </div>
-                        <div class="col-12">
-                            <table class="table table-hover">
-                                <thead>
+
+                        <div class="col-12 table-responsive">
+                            <table class="table table-hover text-center">
+                                <colgroup>
+                                    <col style="width:5%">
+                                    <col style="width:20%">
+                                    <col style="width:15%">
+                                    <col style="width:35%">
+                                    <col style="width:20%">
+                                </colgroup>
+                                <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">가게이름</th>
-                                    <th scope="col">가게상태</th>
+                                    <th scope="col">이름</th>
+                                    <th scope="col">상태</th>
                                     <th scope="col">대표이미지</th>
+                                    <th scope="col">상세보기</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>영업중</td>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/image/store/sample-store-image/1.jpg"
-                                             class="img-thumbnail" alt="sample-menu-image">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>영업중</td>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/image/store/sample-store-image/2.jpg"
-                                             class="img-thumbnail" alt="sample-menu-image">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Adrian</td>
-                                    <td>휴일</td>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/image/store/sample-store-image/3.jpg"
-                                             class="img-thumbnail" alt="sample-menu-image">
-                                    </td>
-                                </tr>
+                                <c:forEach var="store" items="${list}" varStatus="status">
+                                    <tr>
+                                        <th scope="row">${status.count}</th>
+                                        <td>${store.store_name}</td>
+                                        <td>${store.store_status_value}</td>
+                                        <td>
+                                            <img src="/resources/upload${store.store_saved_image}"
+                                                 class="img-thumbnail" alt="${store.store_original_image}"/>
+                                        </td>
+                                        <td>
+                                            <a href="<c:url value="/store/store-read?store_id=${store.store_id}"/>">
+                                                상세보기
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>

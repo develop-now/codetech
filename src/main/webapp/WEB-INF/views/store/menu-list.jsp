@@ -14,8 +14,8 @@
     <%@include file="../partial/head.jsp" %>
     <script src="${pageContext.request.contextPath}/resources/js/store/menu-list.js"></script>
     <style>
-        tbody td:nth-child(4) {
-            width: 50%;
+        table {
+            /*table-layout: fixed;*/
         }
 
         td img {
@@ -98,6 +98,14 @@
                                 </div>
                                 <div class="col-12 table-responsive">
                                     <table class="table table-hover text-center">
+                                        <colgroup>
+                                            <col style="width:5%">
+                                            <col style="width:15%">
+                                            <col style="width:10%">
+                                            <col style="width:45%">
+                                            <col style="width:10%">
+                                            <col style="width:25%">
+                                        </colgroup>
                                         <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">#</th>

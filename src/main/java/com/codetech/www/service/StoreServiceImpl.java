@@ -48,13 +48,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store readStore() {
-        return null;
+    public Store readStore(int store_id) {
+        return store_dao.readStore(store_id);
     }
 
     @Override
-    public int updateStore() {
-        return 0;
+    public int updateStore(Store store) {
+        return store_dao.updateStore(store);
     }
 
     @Override

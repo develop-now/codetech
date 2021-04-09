@@ -49,8 +49,10 @@ public class StoreTest {
         s.setStore_rnum("123-56-78954");
         s.setStore_saved_image("test.jpg");
         s.setStore_original_image("test.jpg");
-        s.setOpening_h_w("11:00~20:00");
-        s.setOpening_h_h("13:00~18:00");
+        s.setOpening_h_w_open("09:00");
+        s.setOpening_h_w_close("22:00");
+        s.setOpening_h_h_open("11:00");
+        s.setOpening_h_h_close("20:00");
         s.setHoliday("Monday");
         s.setOwner_id(3);
 

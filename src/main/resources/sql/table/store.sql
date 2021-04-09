@@ -15,9 +15,11 @@ create table stores
     report_count         number(5) default 0,
     created_at           date      default sysdate,
     updated_at           date      default sysdate,
-    opening_h_w          varchar2(20)        not null, -- 평일 영업시간
-    opening_h_h          varchar2(20)        not null, -- 휴일 영업시간
-    holiday              varchar2(20)        not null, -- 휴일
+    opening_h_w_open     varchar2(20)        not null, -- 평일 영업 시작 시간
+    opening_h_w_close    varchar2(20)        not null, -- 평일 영업 종료 시간
+    opening_h_h_open     varchar2(20)        not null, -- 휴일 영업 시작 시간
+    opening_h_h_close    varchar2(20)        not null, -- 휴일 영업 종료 시간
+    holiday              varchar2(30)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
 
@@ -26,29 +28,36 @@ create table stores
 );
 
 
-insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
-                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
 values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', 'a.png', 'image_url',
-        '09:00~20:00', '10:00~20:00', 'friday', 3);
+        '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
-insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
-                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
 values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', 'b.png', 'image_url',
-        '09:00~20:00', '10:00~20:00', 'friday', 3);
+        '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
-insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
-                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'c.png', 'image_url',
-        '09:00~20:00', '10:00~20:00', 'friday', 7);
+        '09:00', '20:00', '10:00', '20:00', 'friday', 7);
 
-insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc,
-                   store_rnum, store_saved_image, store_original_image, opening_h_w, opening_h_h, holiday, owner_id)
-values (9, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
-        '09:00~20:00', '10:00~20:00', 'friday', 3);
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
+values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
+        '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
-        
-        update stores set STORE_STATUS = 2 where store_id = 4;
-        
-select * from stores;
+
+update stores
+set STORE_STATUS = 2
+where store_id = 4;
+
+select *
+from stores;
 
 commit;

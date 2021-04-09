@@ -140,7 +140,7 @@
                                 <div class="form-group row">
                                     <input type="hidden" id="menu_status"
                                            value="${menu.menu_status_value}">
-                                    <label for="menu_activation" class="col-sm-2 col-form-label">메뉴 활성화*</label>
+                                    <label class="col-sm-2 col-form-label">메뉴 활성화*</label>
                                     <div class="col-sm-10">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="menu_status_value"
@@ -155,7 +155,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <hr>
                                 <button class="btn btn-success btn-block" id="submitBtn" type="submit">전송</button>
                                 <button class="btn btn-info btn-block" id="resetBtn" type="reset">초기화</button>
                             </form>
