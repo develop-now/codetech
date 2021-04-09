@@ -23,7 +23,19 @@
             max-height: 300px;
             object-fit: contain;
         }
+
+        table {
+            /*table-layout: fixed;*/
+        }
     </style>
+
+    <script>
+        $(() => {
+            $("#menuAddBtn").on("click", () => {
+                location.href = "/menu/menu-create"
+            })
+        })
+    </script>
 </head>
 <body>
 <div class="container-fluid" id="bodyWrapper">
@@ -44,7 +56,7 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-                        <div class="ml-auto">
+                        <div class="ml-auto mr-2">
                             <h3 class="text-right">메뉴 리스트</h3>
                         </div>
                         <div class="w-100">
@@ -53,19 +65,25 @@
 
                         <c:if test="${storeList != null}">
                             <div class="col-12 mb-3">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">내 가게
-                                            리스트
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#" onclick="changeStore('view_all_store')">전체보기</a>
-                                            <c:forEach var="store" items="${storeList}" varStatus="status">
+                                <div class="btn-toolbar justify-content-between" role="toolbar">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                내 가게 리스트
+                                            </button>
+                                            <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="#"
-                                                   onclick="changeStore('${store.replace(" ", "_")}')">${store}</a>
-                                            </c:forEach>
+                                                   onclick="changeStore('view_all_store')">전체보기</a>
+                                                <c:forEach var="store" items="${storeList}" varStatus="status">
+                                                    <a class="dropdown-item" href="#"
+                                                       onclick="changeStore('${store.replace(" ", "_")}')">${store}</a>
+                                                </c:forEach>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-success btn-sm" id="menuAddBtn">메뉴추가</button>
                                     </div>
                                 </div>
                             </div>
@@ -78,16 +96,18 @@
                                         <i class="fas fa-store"></i> ${stores.key}
                                     </h3>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 table-responsive">
                                     <table class="table table-hover text-center">
-                                        <thead>
+                                        <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">메뉴이름</th>
-                                            <th scope="col">메뉴가격</th>
+                                            <th scope="col">이름</th>
+                                            <th scope="col">가격(원)</th>
                                             <th scope="col">대표이미지</th>
+                                            <th scope="col">상태</th>
                                             <th scope="col">상세보기</th>
                                         </tr>
+
                                         </thead>
                                         <tbody>
                                         <c:forEach var="menu" items="${stores.value}" varStatus="status">
@@ -96,10 +116,13 @@
                                                 <td>${menu.menu_name}</td>
                                                 <td>${menu.menu_price}</td>
                                                 <td>
-                                                    <img src="${pageContext.request.contextPath}/resources/image/store/sample-menu-image/3.jpeg"
-                                                         class="img-thumbnail" alt="sample-menu-image">
+                                                    <img src="/resources/upload${menu.menu_saved_image}"
+                                                         class="img-thumbnail" alt="${menu.menu_original_image}"/>
                                                 </td>
-                                                <td>링크</td>
+                                                <td>${menu.menu_status_value}</td>
+                                                <td>
+                                                    <a href="<c:url value="/menu/menu-read?menu_id=${menu.menu_id}"/>">상세보기</a>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

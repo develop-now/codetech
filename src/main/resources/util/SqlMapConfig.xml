@@ -12,12 +12,9 @@
         <typeAlias alias="menu" type="com.codetech.www.domain.Menu"/>
         <typeAlias alias="order" type="com.codetech.www.domain.Order"/>
         
-        <!-- 2021-04-07 박인수 공지사항  -->
         <typeAlias alias="notice" type="com.codetech.www.domain.Notice"/>
         <typeAlias alias="menu-category" type="com.codetech.www.domain.MenuCategory"/>
-        <typeAlias alias="user" type="com.codetech.www.domain.User"/>
         <typeAlias alias="user-info" type="com.codetech.www.domain.UserInfo"/>
-
     </typeAliases>
 
     <mappers>
@@ -29,5 +26,6 @@
         <mapper resource="sql/notice.xml"/>
         <mapper resource="sql/menu-category.xml"/>
         <mapper resource="sql/users.xml"/>
+        <mapper resource="sql/admin.xml"/>
     </mappers>
 </configuration>

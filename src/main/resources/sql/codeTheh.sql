@@ -47,7 +47,7 @@ create table users
     user_auth     number(1) default 0 not null,
     role_id       number(1) default 5 not null,
     user_status   number(1) default 1 not null,
-    constraint fk_users_role foreign key (role_id) references role (role_id),
+    constraint fk_users_role foreign key (role_id) references roUSERle (role_id),
     constraint fk_users_status foreign key (user_status) references user_status (user_status_id)
 );
 
@@ -65,6 +65,8 @@ insert into users (user_id, user_email, user_password, role_id)
 values (6, 'user2@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
 values (7, 'user_store_owner@test.com', '1234', 3);
+insert into users (user_id, user_email, user_password, role_id)
+values (8, 'user_3@test.com', '1234', 5);
 
 
 drop table user_info cascade constraints;

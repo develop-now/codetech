@@ -102,7 +102,7 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
-    public String createStoreAction(Store store, Menu menu, HttpServletRequest req,
+    public String createStoreAction(Store store, Menu menu,
                                     RedirectAttributes redirectAttributes,
                                     @RequestParam(value = "opening_h_w_start") String opening_h_w_start,
                                     @RequestParam(value = "opening_h_w_end") String opening_h_w_end,
