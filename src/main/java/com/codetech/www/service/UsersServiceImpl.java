@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.codetech.www.dao.UsersDAO;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 
 @Service
@@ -35,8 +36,14 @@ public class UsersServiceImpl implements UsersService {
     }
 
 	@Override
-	public int insert(User user, UserInfo info) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		return 0;
+	public int userinsert(User user, UserInfo info) {
+		int result = dao.userinsert(user);
+		if(result == 1 ) {
+			int user_id = dao.userId(user);
+			info.setUser_id(user_id);
+			dao.infoinsert(info);
+		}
+		return result;
 	}
+	
 }

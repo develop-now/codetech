@@ -29,7 +29,7 @@ import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
-
+import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.UsersService;
 
 @Controller
@@ -70,82 +70,83 @@ public class UsersController {
         out.println(result);
     }
     
-    @RequestMapping(value="/joinpProcess", method = RequestMethod.POST)
-    public void joinprocess(User user, UserInfo info, RedirectAttributes rattr)throws Exception{
+    @RequestMapping(value="/joinProcess", method = RequestMethod.POST)
+    public String joinprocess(User user,UserInfo info, RedirectAttributes rattr/*@RequestParam("file") MultipartFile uploadfile*/)throws Exception{
+    	logger.info("여기는  joinProcess");
     	//이미지파일 저장하기 추가
     	//메일 페이지로 이동 (가능하면 로그인 모달 열어주기)
-    	String encPassword = passwordEncoder.encode(user.getUser_password());
-    	user.setUser_password(encPassword);
     	
-    	//파일 값 설정
-    	MultipartFile uploadfile = info.getUploadfile();
+    	MultipartFile  uploadfile = info.getUploadfile();
     	
+		/* 비밀번호 난수로 저장 */
+		String encPassword = passwordEncoder.encode(user.getUser_password());
+		user.setUser_password(encPassword);
+		logger.info("passenc" + encPassword);
+		 
+		/*
+		 * logger.info("uploadfile" + uploadfile); //Junit
+		 */    	
+		
+		//upload는 어디서 사용되는가? 로직에 사용하기 위해 담는 듯 하다. 단지 담을때  uploadfile의 형식을 multipart형으로 받을 뿐이다.
     	if(!uploadfile.isEmpty()) {
-			String fileName = uploadfile.getOriginalFilename();//원래 파일명
-			info.setOriginalfile(fileName);//원래 파일명 저장
-			logger.info("**************************************fileName*********" + fileName);
-			//새로운폴더 이름: 오늘 년 + 월 + 일
+			String fileName = uploadfile.getOriginalFilename();//원래 파일명 
+			//원래 파일은 언제 값을 넣어줬는데? jsp에서 name을 upload로 설정하고 그 값이 서버의 upload에 저장되었으며, 저장된파일의 원래 파일명을 반환해준다.
+			info.setOriginal_file(fileName);//원래 파일명 저장 //multipart로 가져온 파일의 원래 이름을 table변수에 저장해준다.
+			logger.info("*********fileName*********" + fileName); //multipart로 들어온 파일의 원래 파일명를 알 수 있다.
+			
+			/* 업로드 될 폴더명 생성 */
 			Calendar c = Calendar.getInstance();
-			int year = c.get(Calendar.YEAR); //오늘 년도 구한다.
-			int month = c.get(Calendar.MONTH); //오늘 월
-			int date = c.get(Calendar.DATE); //오늘 일
+			String yearO = c.get(Calendar.YEAR)+""; 
+			int year = Integer.parseInt(yearO.substring(2,4));
+			int month = c.get(Calendar.MONTH)+1; 
+			int date = c.get(Calendar.DATE); 
 			
 			String homedir = user_profile + year + "-" + month +"-" + date;
 			logger.info(homedir);
 			File path1 = new File(homedir);
 			if(!(path1.exists())) {
-				path1.mkdir(); //새로운 폴더를 생성
+				path1.mkdir(); 
 			}
 			
-			//난수를 구한다. -중복된 파일이 생기는 것을 방지하기 위함이다.
+			/* 중복된 파일이 생기는것을 방지하기위한 난수 생성 */
 			Random r = new Random();
 			int random = r.nextInt(1000000000);
 			
-			/*** 확장자 구하기 시작 ***/
+			/* 확장자구하기 */
 			int index = fileName.lastIndexOf(".");
-			//문자열에서 특정 문자열의 위치 값(index)를 반환한다.
-			//indexOf가 처음 발견되는 문자열에 대한 index를 반환하는 반면,
-			//lastIndexOf는 마지막으로 발견되는 문자열의 index를 반환한다.
-			//(파일명에 점이 여러개 있을 경우 맨 마지막에 발견되는 문자열의 위치를 리턴한다.)
 			logger.info("index = " + index);
 			
 			String fileExtension = fileName.substring(index + 1);
 			logger.info("fileExetension = " + fileExtension);
-			/***확장자 구하기 끝***/
 			
-			//새로운 파일명
+			
+			/* 새로운 파일명 */
 			String refileName = "p" + year + month + date + random + "." + fileExtension;
 			logger.info("refileName =" + refileName);
-			logger.info("****************새로운 파일명**********************refileName*********" + refileName);
+			logger.info("****************새로운 파일명***********refileName*********" + refileName);
 
 			
-			//오라클 디비에 저장될 파일명
+			/* 오라클 디비에 저장될 파일명 */
 			String fileDBName = "/" + year + "-" + month + "-"+ date + "/" + refileName;
 			logger.info("fileDBName = " + fileDBName);
-			logger.info("*****************오라클 디비에 저장될 파일명*********************fileDBName*********" + fileDBName);
+			logger.info("*************오라클 디비에 저장될 파일명**********fileDBName*********" + fileDBName);
 
-			//@AutoWired savefolder했으니 아리를 주석달아준다. HttpServletRequest request 매개변수도 필요없으니 지워준다.
-			//String saveFolder =	request.getSession().getServletContext().getRealPath("resources")+ "/upload/";
-					
-			
-			//transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장한다.
 			uploadfile.transferTo(new File(user_profile + fileDBName));
 			
-			//바뀐 파일명으로 저장
+			/* 바뀐 파일명으로 저장 */
 			info.setUser_profile(fileDBName);
 		}
-    	int result = usersService.insert(user, info);
-    	
-    	if(result ==1) {
-    		rattr.addFlashAttribute("infoMsg", "회원가입을 축하드립니다.");
-    		//메인페이지로 리다이렉트
-    		//return "redirect:";
-    	}else {
-    		rattr.addFlashAttribute("alertMsg","회원가입에 실패하였습니다.");
-    		//메인페이지로 리다이렉트
-    		//return "redirect:";
-    	}
-    	
+		 int result1 = usersService.userinsert(user,info);	
+		 
+		 
+		 if(result1 == 1) { 
+			 rattr.addFlashAttribute("info", "회원가입을 축하드립니다.");
+			 //메인페이지로 리다이렉트
+			 return "redirect:/home";
+		 }else {
+		 rattr.addFlashAttribute("alert","회원가입에 실패하였습니다."); //메인페이지로 리다이렉트 
+		 return "redirect:/home"; 
+		 }
     }
     
     @RequestMapping(value="/login", method = RequestMethod.POST)

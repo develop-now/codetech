@@ -4,7 +4,7 @@ create table user_info
     info_id      number(6) primary key,
     user_name    varchar2(20) not null,
     user_tel     varchar2(20) not null,
-    user_address varchar2(20) not null,
+    user_address varchar2(90) not null,
     user_profile varchar2(50),
     original_file varchar2(30),
     point        number(6) default 0,

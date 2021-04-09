@@ -4,13 +4,15 @@ import java.util.List;
 
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 
 public interface UsersService {
 	int isEmail(String user_email);
 
 	int isName(String user_name);
-	
-	public int insert(User user, UserInfo info);
+
+	int userinsert(User user, UserInfo info);
+
 
 }
