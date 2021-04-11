@@ -34,8 +34,8 @@
     <context:component-scan
             base-package="com.codetech.www"/>
 
-    <!-- 	<beans:bean id="bcryptPasswordEncoder"
-            class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
+    <beans:bean id="bcryptPasswordEncoder"
+            class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
     <!-- aop 관련 annotation들을 인식하고 처리해 줍니다. -->
     <aop:aspectj-autoproxy/>

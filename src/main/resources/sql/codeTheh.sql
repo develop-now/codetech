@@ -47,7 +47,7 @@ create table users
     user_auth     number(1) default 0 not null,
     role_id       number(1) default 5 not null,
     user_status   number(1) default 1 not null,
-    constraint fk_users_role foreign key (role_id) references roUSERle (role_id),
+    constraint fk_users_role foreign key (role_id) references role (role_id),
     constraint fk_users_status foreign key (user_status) references user_status (user_status_id)
 );
 
@@ -75,8 +75,9 @@ create table user_info
     info_id      number(6) primary key,
     user_name    varchar2(20) not null,
     user_tel     varchar2(20) not null,
-    user_address varchar2(20) not null,
-    user_profile varchar2(20),
+    user_address varchar2(90) not null,
+    user_profile varchar2(50),
+    original_file varchar2(30),
     point        number(6) default 0,
     
     user_id      number(6)    not null,
