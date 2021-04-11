@@ -14,5 +14,7 @@ public interface UsersService {
 
 	int userinsert(User user, UserInfo info);
 
+	int isUser(String user_id, String user_password);
+
 
 }
