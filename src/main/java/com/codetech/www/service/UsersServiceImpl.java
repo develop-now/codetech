@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.UsersDAO;
@@ -23,6 +24,9 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     private UsersDAO dao;
 
+    @Autowired
+	private PasswordEncoder passwordEncoder;
+    
     @Override
     public int isEmail(String user_email) {
         User user = dao.isEmail(user_email);
@@ -45,5 +49,22 @@ public class UsersServiceImpl implements UsersService {
 		}
 		return result;
 	}
+
+	@Override
+	public int isUser(String user_id, String user_password) {
+		User user = dao.isEmail(user_id);
+		int result=-1;
+		logger.info("dao.isEmail result : " + result);
+		if(user != null) {
+			if(passwordEncoder.matches(user_password, user.getUser_password())) {
+				result=1;
+		}else
+			result = 0;
+	}
+		return result;
+	
+}
+	
+	
 	
 }

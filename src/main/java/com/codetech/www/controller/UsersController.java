@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,12 +88,10 @@ public class UsersController {
 		 * logger.info("uploadfile" + uploadfile); //Junit
 		 */    	
 		
-		//upload는 어디서 사용되는가? 로직에 사용하기 위해 담는 듯 하다. 단지 담을때  uploadfile의 형식을 multipart형으로 받을 뿐이다.
     	if(!uploadfile.isEmpty()) {
 			String fileName = uploadfile.getOriginalFilename();//원래 파일명 
-			//원래 파일은 언제 값을 넣어줬는데? jsp에서 name을 upload로 설정하고 그 값이 서버의 upload에 저장되었으며, 저장된파일의 원래 파일명을 반환해준다.
-			info.setOriginal_file(fileName);//원래 파일명 저장 //multipart로 가져온 파일의 원래 이름을 table변수에 저장해준다.
-			logger.info("*********fileName*********" + fileName); //multipart로 들어온 파일의 원래 파일명를 알 수 있다.
+			info.setOriginal_file(fileName);//원래 파일명 저장
+			logger.info("*********fileName*********" + fileName); 
 			
 			/* 업로드 될 폴더명 생성 */
 			Calendar c = Calendar.getInstance();
@@ -141,17 +140,37 @@ public class UsersController {
 		 
 		 if(result1 == 1) { 
 			 rattr.addFlashAttribute("info", "회원가입을 축하드립니다.");
-			 //메인페이지로 리다이렉트
 			 return "redirect:/home";
 		 }else {
-		 rattr.addFlashAttribute("alert","회원가입에 실패하였습니다."); //메인페이지로 리다이렉트 
-		 return "redirect:/home"; 
+			 rattr.addFlashAttribute("alert","회원가입에 실패하였습니다."); 
+			 return "redirect:/home"; 
 		 }
     }
     
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public void login(String user_name, String user_password) {
+    @RequestMapping(value="/loginProcess", method = RequestMethod.POST)
+    public String login(String user_id, String user_password
+    					,RedirectAttributes rattr, HttpSession session ) {
     	//아이디 세션에 저장 후 주문하기 페이지로 이동 (가능하면 모달만 닫히고 같은 페이지에서 nav만 변경)
+    	
+		/* 아이디 유무 확인 */
+    	int result = usersService.isUser(user_id, user_password);
+    	logger.info("isUser result : " + result);
+    	if(result == 1) {
+    	/* id와 password를 session에 저장후 home으로 이동 */
+    		session.setAttribute("user_id", user_id);
+    		rattr.addFlashAttribute("info", "로그인 되었습니다 session ID:"+ session.getId());
+    		return "redirect:/home";
+    	}else {
+    		if(result == 0) {
+    			rattr.addFlashAttribute("alert", "비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해 주세요.");
+    			return "redirect:/home";
+    		}else {
+    			rattr.addFlashAttribute("alert", "해당 아이디가 없습니다. 아이디를 확인 해 주세요.");
+    			return "redirect:/home";
+    		}
+    		
+    	}
+    	
     }
     
     @RequestMapping(value="/infoModify",method =RequestMethod.GET)
