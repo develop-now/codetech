@@ -12,11 +12,13 @@ public interface StoreService {
 
     public int createStore(Store store, Menu menu);
 
-    public Store readStore();
+    public Store readStore(int store_id);
 
-    public int updateStore();
+    public int updateStore(Store store);
 
     public int deleteStore();
+
+    public int storeStatusChange(int store_id, String status_value);
 
     public int storeNameCheck(String name);
 
