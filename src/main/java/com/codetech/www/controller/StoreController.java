@@ -110,11 +110,19 @@ public class StoreController {
         return "redirect:/store/index";
     }
 
-    @RequestMapping(value = "/store-delete", method = RequestMethod.GET)
-    public String deleteStore(@RequestParam(value = "store_id") int store_id, Model model) {
+    @ResponseBody
+    @RequestMapping(value = "/store-status-change-ajax", method = RequestMethod.GET)
+    public Map<String, Object> deleteStore(@RequestParam(value = "store_id") int store_id,
+                                           @RequestParam(value = "status_value") String status_value, Model model) {
         model.addAttribute("storeNav", "storeDelete");
 
-        return "store/store-delete";
+        int result = storeService.storeStatusChange(store_id, status_value);
+
+        Map<String, Object> rtn = new HashMap<String, Object>();
+        rtn.put("success", result > 0);
+        rtn.put("result", result);
+
+        return rtn;
     }
 
     @ResponseBody

@@ -12,11 +12,12 @@
 <head>
     <title>Store List Page</title>
     <%@include file="../partial/head.jsp" %>
-    <style>
-        tbody td:nth-child(4) {
-            width: 50%;
-        }
-    </style>
+    <script src="${pageContext.request.contextPath}/resources/js/store/store-list.js"></script>
+    <script>
+        $(() => {
+
+        })
+    </script>
 </head>
 <body>
 <div class="container-fluid" id="bodyWrapper">
@@ -49,33 +50,51 @@
                                 <colgroup>
                                     <col style="width:5%">
                                     <col style="width:20%">
-                                    <col style="width:15%">
-                                    <col style="width:35%">
+                                    <col style="width:30%">
                                     <col style="width:20%">
+                                    <col style="width:25%">
                                 </colgroup>
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">이름</th>
-                                    <th scope="col">상태</th>
                                     <th scope="col">대표이미지</th>
-                                    <th scope="col">상세보기</th>
+                                    <th scope="col">상태</th>
+                                    <th scope="col">상태변경</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach var="store" items="${list}" varStatus="status">
                                     <tr>
                                         <th scope="row">${status.count}</th>
-                                        <td>${store.store_name}</td>
-                                        <td>${store.store_status_value}</td>
+                                        <td>
+                                            <a href="<c:url value="/store/store-read?store_id=${store.store_id}"/>">
+                                                    ${store.store_name}
+                                            </a>
+                                        </td>
                                         <td>
                                             <img src="/resources/upload${store.store_saved_image}"
                                                  class="img-thumbnail" alt="${store.store_original_image}"/>
                                         </td>
+                                        <td class="store_status_value"
+                                            id="store_status_value_${store.store_id}"
+                                            data-store_id="${store.store_id}"
+                                            data-store_status_value="${store.store_status_value}">
+                                            ...
+                                        </td>
                                         <td>
-                                            <a href="<c:url value="/store/store-read?store_id=${store.store_id}"/>">
-                                                상세보기
-                                            </a>
+                                            <c:if test="${store.store_status_value eq 'active' || store.store_status_value eq 'inactive'}">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="statusSwitch_${store.store_id}"
+                                                           value="${store.store_status_value}"
+                                                           onchange="changeStatus('${store.store_id}')">
+                                                    <label class="custom-control-label status_label_right"
+                                                           for="statusSwitch_${store.store_id}">
+                                                        영업중
+                                                    </label>
+                                                </div>
+                                            </c:if>
                                         </td>
                                     </tr>
                                 </c:forEach>

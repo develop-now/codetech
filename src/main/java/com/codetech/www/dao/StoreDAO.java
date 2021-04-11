@@ -3,6 +3,7 @@ package com.codetech.www.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import com.codetech.www.domain.Store;
@@ -46,6 +47,10 @@ public class StoreDAO {
 
     public Store readStore(int store_id) {
         return sqlSession.selectOne("Stores.readStore", store_id);
+    }
+
+    public int storeStatusUpdate(Map<String, Object> param){
+        return sqlSession.update("Stores.updateStoreStatus", param);
     }
 
     public int updateStore(Store store){

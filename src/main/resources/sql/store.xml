@@ -54,6 +54,13 @@
         where s.store_id = #{store_id}
     </select>
 
+    <update id="updateStoreStatus" parameterType="map">
+        update stores
+        set store_status =(select store_status_id from store_status where status_value = #{status_value}),
+            updated_at   = sysdate
+        where store_id = #{store_id}
+    </update>
+
     <update id="updateStore" parameterType="store">
         update stores
         set store_tel=#{store_tel}, store_address_si = #{store_address_si},

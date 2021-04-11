@@ -18,6 +18,8 @@ public interface StoreService {
 
     public int deleteStore();
 
+    public int storeStatusChange(int store_id, String status_value);
+
     public int storeNameCheck(String name);
 
     public boolean isStoreOwner(int owner_id, int store_id);

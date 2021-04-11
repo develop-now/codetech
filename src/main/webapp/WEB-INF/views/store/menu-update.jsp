@@ -140,17 +140,17 @@
                                 <div class="form-group row">
                                     <input type="hidden" id="menu_status"
                                            value="${menu.menu_status_value}">
-                                    <label class="col-sm-2 col-form-label">메뉴 활성화*</label>
+                                    <label class="col-sm-2 col-form-label">메뉴 상태*</label>
                                     <div class="col-sm-10">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="menu_status_value"
                                                    id="menu_active" value="active">
-                                            <label class="form-check-label" for="menu_active"> 활성화 </label>
+                                            <label class="form-check-label" for="menu_active"> 판매중 </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="menu_status_value"
                                                    id="menu_inactive" value="inactive">
-                                            <label class="form-check-label" for="menu_inactive"> 비활성화 </label>
+                                            <label class="form-check-label" for="menu_inactive"> 판매중지 </label>
                                             <div class="invalid-feedback">메뉴 활성화 상태를 체크하세요</div>
                                         </div>
                                     </div>
