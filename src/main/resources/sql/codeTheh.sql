@@ -136,7 +136,8 @@ create table stores
     holiday              varchar2(20)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
-
+	store_like 			number(5) default 0,
+	store_comment		number(5) default 0,
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );

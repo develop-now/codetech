@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import com.codetech.www.domain.Store;
+import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -32,14 +33,6 @@ public class StoreDAO {
         return sqlSession.insert("Stores.createStore", store);
     }
 
-    public List<Integer> getStoreLikes() {
-        return sqlSession.selectList("Stores.store_likes");
-    }
-
-    public List<Integer> getStoreComments() {
-        return sqlSession.selectList("Stores.store_comments");
-    }
-
 
     public List<Store> getStoreListByOwner(int owner_id) {
         return sqlSession.selectList("Stores.listByOwner", owner_id);
@@ -63,18 +56,18 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.store_likes_forReview");
     }
 
-    public List<Store> getStoreForSearchList(String searchWordLike) {
-        return sqlSession.selectList("Stores.store_search", searchWordLike);
+    public List<Store> getStoreForSearchList(HashMap<String, Object> map) {
+        return sqlSession.selectList("Stores.store_search", map);
 
     }
 
-    public List<Integer> getStoreLikesForSearchList(String searchWordLike) {
-        return sqlSession.selectList("Stores.store_likes_forSearch", searchWordLike);
+    public List<Integer> getStoreLikesForSearchList(HashMap<String, Object> map) {
+        return sqlSession.selectList("Stores.store_likes_forSearch", map);
 
     }
 
-    public List<Integer> getStoreCommentsForSearchList(String searchWordLike) {
-        return sqlSession.selectList("Stores.store_comment_forSearch", searchWordLike);
+    public List<Integer> getStoreCommentsForSearchList(HashMap<String, Object> map) {
+        return sqlSession.selectList("Stores.store_comment_forSearch", map);
 
     }
 
@@ -87,15 +80,6 @@ public class StoreDAO {
 
     }
 
-    public List<Integer> getStoreLikesForMainList(HashMap<String, Integer> map) {
-        return sqlSession.selectList("Stores.forMainList_Store_likes", map);
-
-    }
-
-    public List<Integer> getStoreCommentsForMainList(HashMap<String, Integer> map) {
-        return sqlSession.selectList("Stores.forMainList_Store_comments", map);
-
-    }
 
     public int getListCount() {
         return sqlSession.selectOne("Stores.getListCount");
@@ -114,6 +98,15 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.store_comment_forReview", map);
 
     }
+
+	public int getListCountforSearchList(String searchWord) {
+        return sqlSession.selectOne("Stores.getListCountforSearchList", searchWord);
+
+	}
+
+	public StoreMap getMap(String searchWordLike) {
+		  return sqlSession.selectOne("Stores.getMap", searchWordLike);
+	}
 
 
 }

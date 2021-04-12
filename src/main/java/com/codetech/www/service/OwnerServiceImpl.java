@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.domain.Store;
+import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 
 @Service
@@ -25,19 +26,6 @@ public class OwnerServiceImpl implements OwnerService {
         return dao.getStoreForMain();
     }
 
-
-    @Override
-    public List<Integer> getStoreLikes() {
-        return dao.getStoreLikes();
-    }
-
-
-    @Override
-    public List<Integer> getStoreComments() {
-        return dao.getStoreComments();
-    }
-
-
     @Override
     public List<Store> getStoreForReviewList(int page, int limit) {
     	HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -49,39 +37,19 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
 
-    @Override
-    public List<Integer> getStoreCommentsReview(int page, int limit) {
-    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	@Override
+	public List<Store> getStoreForSearchList(int page, int limit, String searchWord) {
+		String searchWordLike = "%" + searchWord + "%";
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		int startrow = (page - 1) * limit + 1;
 		int endrow = startrow + limit - 1;
 		map.put("start", startrow);
 		map.put("end", endrow);
-        return dao.getStoreCommentsReview(map);
-    }
-
-
-
-
-	@Override
-	public List<Store> getStoreForSearchList(String searchWord) {
-		String searchWordLike = "%" + searchWord + "%";
-		return dao.getStoreForSearchList(searchWordLike);
+		map.put("searchWord", searchWordLike);
+		return dao.getStoreForSearchList(map);
 
 	}
 
-
-	@Override
-	public List<Integer> getStoreLikesForSearchList(String searchWord) {
-		String searchWordLike = "%" + searchWord + "%";
-		return dao.getStoreLikesForSearchList(searchWordLike);
-	}
-
-
-	@Override
-	public List<Integer> getStoreCommentsForSearchList(String searchWord) {
-		String searchWordLike = "%" + searchWord + "%";
-		return dao.getStoreCommentsForSearchList(searchWordLike);
-	}
 
 
 	@Override
@@ -101,27 +69,6 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 
-	@Override
-	public List<Integer> getStoreLikesForMainList(int page, int limit) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		int startrow = (page - 1) * limit + 1;
-		int endrow = startrow + limit - 1;
-		map.put("start", startrow);
-		map.put("end", endrow);
-		return dao.getStoreLikesForMainList(map);
-	}
-
-
-	@Override
-	public List<Integer> getStoreCommentsForMainList(int page, int limit) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		int startrow = (page - 1) * limit + 1;
-		int endrow = startrow + limit - 1;
-		map.put("start", startrow);
-		map.put("end", endrow);
-		return dao.getStoreCommentsForMainList(map);
-	}
-
 
 	@Override
 	public int getListCount() {
@@ -135,16 +82,19 @@ public class OwnerServiceImpl implements OwnerService {
 
 	}
 	
-	@Override
-	public int getListCountforMainListComments() {
-		return dao.getListCountforMainListComments();
 
+	@Override
+	public int getListCountforSearchList(String searchWord) {
+		String searchWordLike = "%" + searchWord + "%";
+		return dao.getListCountforSearchList(searchWordLike);
+	}
+
+	@Override
+	public StoreMap getMap(String searchWord) {
+		String searchWordLike = "%" + searchWord + "%";
+		return dao.getMap(searchWordLike);
 	}
 
 
-    @Override
-    public List<Integer> getStoreLikesReview() {
-        return dao.getStoreLikesReview();
-    }
 
 }

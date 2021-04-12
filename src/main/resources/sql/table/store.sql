@@ -20,6 +20,8 @@ create table stores
     holiday              varchar2(20)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
+    store_like 		 	number(5) default 0, 			--좋아요 개수
+    store_comment     	  number(5) default 0, 	        --가게리뷰(댓글) 개수
 
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
@@ -50,5 +52,40 @@ values (9, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 �
         update stores set STORE_STATUS = 2 where store_id = 4;
         
 select * from stores;
+
+
+--trigger likes for store
+create or replace trigger store_like_trigger
+after insert on likes
+for each row
+declare
+istore_id likes.store_id%type;
+begin
+istore_id := :new.store_id;
+update
+stores 
+set store_like = store_like + 1
+where
+store_id = istore_id;
+end;
+/
+
+--trigger comment for store
+create or replace trigger store_comment_trigger
+after insert on comments
+for each row
+declare
+icomment_ref comments.comment_ref%type;
+begin
+icomment_ref := :new.comment_ref;
+update
+stores 
+set store_comment = store_comment + 1
+where
+store_id = icomment_ref;
+end;
+/
+
+
 
 commit;

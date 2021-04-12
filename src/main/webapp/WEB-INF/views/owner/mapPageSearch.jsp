@@ -17,7 +17,7 @@
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9e946bed5a65161662be25b84ec50e9c"></script>
 	
 	<!-- JS of Loading Map -->
-	<script src="${pageContext.request.contextPath}/resources/js/owner/mapPage.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/owner/mapPageSearch.js"></script>
 	
   <!-- SearchBar CSS  -->
     <link href="${pageContext.request.contextPath}/resources/css/owner/mainList.css" rel="stylesheet">
@@ -47,7 +47,8 @@
 </div>
 		
 		   <div class="row">
-		   
+		   <input type="hidden" name="lat" id="lat" value="${storeMap.lat }">
+		   <input type="hidden" name="lon" id="lon" value="${storeMap.lon }">
 		<!-- map -->
      <div class="container">
 		<div id="map" style="width: 1100px; height: 600px;">

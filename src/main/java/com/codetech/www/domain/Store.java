@@ -21,8 +21,26 @@ public class Store {
     private int owner_id;
     private int store_status;
     private String store_status_value;
+    private int store_like;
+    private int store_comment;
 
-    public String getStore_status_value() {
+    public int getStore_like() {
+		return store_like;
+	}
+
+	public void setStore_like(int store_like) {
+		this.store_like = store_like;
+	}
+
+	public int getStore_comment() {
+		return store_comment;
+	}
+
+	public void setStore_comment(int store_comment) {
+		this.store_comment = store_comment;
+	}
+
+	public String getStore_status_value() {
         return store_status_value;
     }
 

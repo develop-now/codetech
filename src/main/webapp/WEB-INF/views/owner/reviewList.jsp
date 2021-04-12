@@ -50,8 +50,8 @@
 				href="${pageContext.request.contextPath}/owner/reviewListPage">리뷰순</a>
 			<div class="search-container">
 				<form action="${pageContext.request.contextPath}/owner/searchList" method="post">
-					<input type="text" placeholder="Search.." name="searchWord">
-					<button type="submit">
+					<input type="text" placeholder="Search.." name="searchWord" id="search">
+					<button type="submit" >
 						<i class="fa fa-search"></i>
 					</button>
 				</form>
@@ -82,12 +82,12 @@
 								<a href="#" class="btn btn-primary">주문하기 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
-								<%-- <img class="card-img-heart"
+								 <img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp; --%><img class="card-img-comments"
+								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]}
+									width="30" height="30" alt="">&nbsp;${store.store_comment}
 							</div>
 						</div>
 					</c:if>
@@ -106,12 +106,12 @@
 									style="background-color: gray">준비중 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
-								<%-- <img class="card-img-heart"
+								 <img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp; --%><img class="card-img-comments"
+								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]}
+									width="30" height="30" alt="">&nbsp;${store.store_comment}
 							</div>
 						</div>
 					</c:if>

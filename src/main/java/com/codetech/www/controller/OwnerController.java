@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codetech.www.domain.Store;
+import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.service.OwnerService;
 
@@ -27,47 +28,39 @@ public class OwnerController {
 
 	// Sort of like
 	@RequestMapping(value = "/mainList")
-	public ModelAndView mainList(ModelAndView mv, 
+	public ModelAndView mainList(ModelAndView mv,
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-		int limit = 4; //한 화면에 출력할 가게 수
-		int listCount = ownerService.getListCountforMainList();
+		int limit = 4; // 한 화면에 출력할 가게 수
+		int listCount = ownerService.getListCount();
 		List<Store> stores = ownerService.getStoreForMainList(page, limit);
-		List<Integer> likes = ownerService.getStoreLikesForMainList(page, limit);
-		//List<Integer> comments = ownerService.getStoreCommentsForMainList(page, limit);
-		
-		if(listCount > stores.size()) {
+
+		if (listCount > stores.size()) {
 			mv.addObject("more", 1);
 		}
 		mv.setViewName("owner/mainList");
 		mv.addObject("stores", stores);
-		mv.addObject("likes", likes);
-		//mv.addObject("comments", comments);
 		mv.addObject("limit", limit);
 		mv.addObject("listCount", listCount);
 		return mv;
 	}
-	
+
 	// Sort of like
-		@RequestMapping(value = "/mainListAjax")
-		public ModelAndView mainListAjax(ModelAndView mv, 
-				@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-			int limit = 4; //한 화면에 출력할 가게 수
-			int listCount = ownerService.getListCountforMainList() - limit;
-			List<Store> stores = ownerService.getStoreForMainList(page, limit);
-			List<Integer> likes = ownerService.getStoreLikesForMainList(page, limit);
-			//List<Integer> comments = ownerService.getStoreCommentsForMainList(page, limit);
-			
-			if(listCount > stores.size()) {
-				mv.addObject("more", 1);
-			}
-			mv.setViewName("owner/mainListAjax");
-			mv.addObject("stores", stores);
-			mv.addObject("likes", likes);
-			//mv.addObject("comments", comments);
-			mv.addObject("limit", limit);
-			mv.addObject("listCount", listCount);
-			return mv;
+	@RequestMapping(value = "/mainListAjax")
+	public ModelAndView mainListAjax(ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4; // 한 화면에 출력할 가게 수
+		int listCount = ownerService.getListCount() - limit;
+		List<Store> stores = ownerService.getStoreForMainList(page, limit);
+
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
 		}
+		mv.setViewName("owner/mainListAjax");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		return mv;
+	}
 
 	// Sort of distance
 	@RequestMapping(value = "/mapPage")
@@ -75,47 +68,48 @@ public class OwnerController {
 		return "owner/mapPage";
 	}
 
+	@RequestMapping(value = "/searchListMap")
+	public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
+
+		StoreMap storeMap = ownerService.getMap(searchWord);
+		mv.addObject("storeMap", storeMap);
+		mv.setViewName("owner/mapPageSearch");
+		return mv;
+	}
+
 	// Sort of review
 	@RequestMapping(value = "/reviewListPage")
-	public ModelAndView reviewListPage(ModelAndView mv, 
+	public ModelAndView reviewListPage(ModelAndView mv,
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-		
-		int limit = 4; 
-		int listCount = ownerService.getListCountforMainListComments();
+
+		int limit = 4;
+		int listCount = ownerService.getListCount();
 
 		List<Store> stores = ownerService.getStoreForReviewList(page, limit);
-		List<Integer> comments = ownerService.getStoreCommentsReview(page, limit);
-		//List<Integer> likes = ownerService.getStoreLikesReview();
-		
-		if(listCount > stores.size()) {
+
+		if (listCount > stores.size()) {
 			mv.addObject("more", 1);
 		}
 		mv.setViewName("owner/reviewList");
-		
+
 		mv.addObject("limit", limit);
 		mv.addObject("listCount", listCount);
 		mv.addObject("stores", stores);
-		//mv.addObject("likes", likes);
-		mv.addObject("comments", comments);
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "/reviewListPageAjax")
-	public ModelAndView reviewListPageAjax(ModelAndView mv, 
+	public ModelAndView reviewListPageAjax(ModelAndView mv,
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-		int limit = 4; 
-		int listCount = ownerService.getListCountforMainListComments() - limit;
+		int limit = 4;
+		int listCount = ownerService.getListCount() - limit;
 		List<Store> stores = ownerService.getStoreForReviewList(page, limit);
-		List<Integer> comments = ownerService.getStoreCommentsReview(page, limit);
-		//List<Integer> likes = ownerService.getStoreLikesForMainList(page, limit);
-		
-		if(listCount > stores.size()) {
+
+		if (listCount > stores.size()) {
 			mv.addObject("more", 1);
 		}
 		mv.setViewName("owner/reviewListAjax");
 		mv.addObject("stores", stores);
-		//mv.addObject("likes", likes);
-		mv.addObject("comments", comments);
 		mv.addObject("limit", limit);
 		mv.addObject("listCount", listCount);
 		return mv;
@@ -123,16 +117,40 @@ public class OwnerController {
 
 	// Search
 	@RequestMapping(value = "/searchList")
-	public ModelAndView searchList(ModelAndView mv, String searchWord) {
-		List<Store> stores = ownerService.getStoreForSearchList(searchWord);
-		List<Integer> likes = ownerService.getStoreLikesForSearchList(searchWord);
-		List<Integer> comments = ownerService.getStoreCommentsForSearchList(searchWord);
+	public ModelAndView searchList(ModelAndView mv, String searchWord,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4;
+		int listCount = ownerService.getListCountforSearchList(searchWord);
+		List<Store> stores = ownerService.getStoreForSearchList(page, limit, searchWord);
 
-		
-		mv.setViewName("owner/reviewList");
-		mv.addObject("likes", likes);
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+
+		mv.setViewName("owner/searchList");
 		mv.addObject("stores", stores);
-		mv.addObject("comments", comments);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		mv.addObject("searchWord", searchWord);
+		logger.info(searchWord);
+		return mv;
+	}
+
+	@RequestMapping(value = "/searchListAjax")
+	public ModelAndView searchListAjax(ModelAndView mv, String searchWord,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4;
+		int listCount = ownerService.getListCountforSearchList(searchWord) - limit;
+		List<Store> stores = ownerService.getStoreForSearchList(page, limit, searchWord);
+
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+
+		mv.setViewName("owner/searchListAjax");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
 		return mv;
 	}
 
