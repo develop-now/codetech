@@ -1,7 +1,6 @@
 package com.codetech.www.domain;
 
 import org.springframework.web.multipart.MultipartFile;
-
 public class UserPlusInfo {
 	// UserInfo Bean 내용
 	private int info_id;
