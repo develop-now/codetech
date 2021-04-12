@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+body > div:nth-child(1) {
+    min-height: 100vh;
+    margin-bottom: 4rem;
+}
+
 #bodyWrapper {
     padding-left: 0;
     padding-right: 0;
@@ -12,7 +17,7 @@
 
 div#sideNav {
     min-height: 100px;
-    max-height: 50vh;
+    /*max-height: 50vh;*/
     background-color: #be9f7b;
     overflow: scroll;
 }

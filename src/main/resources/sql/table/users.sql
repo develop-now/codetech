@@ -31,5 +31,7 @@ values (7, 'user_store_owner@test.com', '1234', 3);
 insert into users (user_id, user_email, user_password, role_id)
 values (8, 'user_3@test.com', '1234', 5);
 
-select * from users;
+select *
+from users;
+
 commit;

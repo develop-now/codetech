@@ -12,7 +12,7 @@
 <head>
     <title>Store Index Page</title>
     <%@include file="../partial/head.jsp" %>
-</head>
+</head>CATEGORIES
 <body>
 <div class="container-fluid px-0">
     <%-- main nav --%>
