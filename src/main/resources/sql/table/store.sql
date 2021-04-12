@@ -10,7 +10,7 @@ create table stores
     store_address_etc    varchar2(50),
     store_desc           varchar2(200)       not null,
     store_rnum           varchar2(20)        not null,
-    store_saved_image    varchar2(50)        not null,
+    store_saved_image    varchar2(200)        not null,
     store_original_image varchar2(200)       not null,
     report_count         number(5) default 0,
     created_at           date      default sysdate,

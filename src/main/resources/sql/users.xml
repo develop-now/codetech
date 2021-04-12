@@ -5,6 +5,7 @@
 <mapper namespace="users">
 	<select id="getSearchList" parameterType="map" resultType="user">
 
+
 	</select>
 	<select id="isEmail" parameterType="String" resultType="user">
 		select *
@@ -45,4 +46,12 @@
 	<select id="managerInfo" resultType="user-info" parameterType="int">
 	select * from user_info where user_id = #{user_id}
 	</select>
+  
+  <select id="authIdCheck" resultType="user">
+        select u.*, r.role_value as auth
+        from users u
+                 join role r on u.role_id = r.role_id
+        where u.user_email = #{username}
+    </select>
+
 </mapper>

@@ -72,15 +72,14 @@ values (8, 'user_3@test.com', '1234', 5);
 drop table user_info cascade constraints;
 create table user_info
 (
-    info_id      number(6) primary key,
-    user_name    varchar2(20) not null,
-    user_tel     varchar2(20) not null,
-    user_address varchar2(90) not null,
-    user_profile varchar2(50),
+    info_id       number(6) primary key,
+    user_name     varchar2(20) not null,
+    user_tel      varchar2(20) not null,
+    user_address  varchar2(90) not null,
+    user_profile  varchar2(50),
     original_file varchar2(30),
-    point        number(6) default 0,
-
-    user_id      number(6)    not null,
+    point         number(6) default 0,
+    user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
 
@@ -101,6 +100,16 @@ values (7, 'user3', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (8, '유저', '111-222-3333', 'korea', 8);
 
+drop table persistent_logins cascade constraints;
+create table persistent_logins
+(
+    username  varchar2(64) not null,
+    series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
+    token     varchar2(64) not null, -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null -- 가장 최신 자동 로그인 시간
+);
+
+
 drop table store_status cascade constraints;
 create table store_status
 (
@@ -111,11 +120,11 @@ create table store_status
 insert into store_status
 values (1, 'active');
 insert into store_status
-values (2, 'inactive');     -- 가게가 문을 닫을때
+values (2, 'inactive'); -- 가게가 문을 닫을때
 insert into store_status
-values (3, 'pending');   -- 가게가 막 생성됐을때
+values (3, 'pending'); -- 가게가 막 생성됐을때
 insert into store_status
-values (4, 'suspending');   -- 활동 정지 상태
+values (4, 'suspending'); -- 활동 정지 상태
 
 drop table stores cascade constraints;
 create table stores
