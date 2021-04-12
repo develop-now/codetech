@@ -30,9 +30,7 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                
-            </div>
+            <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
                 <p>User Main Content</p>
             </div>

@@ -173,6 +173,18 @@ public class UsersController {
     	
     }
     
+	/*
+	 * @RequestMapping(value="/infoMain",method =RequestMethod.GET) public
+	 * ModelAndView infomain(HttpSession session, ModelAndView mv){ //session id확인해서
+	 * 그아이디에 해당하는 정보를 가지고 돌아간다. //TODO 회원 정보, 토탈포인트, 작성된 리뷰수review, 즐겨찾기 한 가게 수 값
+	 * 전달하기likes Integer sessionId = (Integer)session.getAttribute("user_id"); int
+	 * id = sessionId.intValue(); if(sessionId == null) {
+	 * mv.setViewName("redirect:home"); }else { UserPlusInfo upi =
+	 * usersService.user_info(id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)
+	 * mv.setViewName("user/mypage-infomain"); mv.addObject("userinfo", upi); }
+	 * return mv; }
+	 */
+    
     @RequestMapping(value="/infoModify",method =RequestMethod.GET)
     public void infomodify(){
     	//mapage-info_modify.jsp로 이동
@@ -232,7 +244,7 @@ public class UsersController {
 	   //ajax로 리턴값알려줄 거니까 httpResponse또는 map으로 싸서 oreder-main.jsp의 모달로 보내주기
    }
     
-    @RequestMapping(value="/Cart", method = RequestMethod.GET)
+    @RequestMapping(value="/cart", method = RequestMethod.GET)
     public void cart(/*cart 빈 */) {
     	//cart 빈에 담기 정보들을 불러와서 보내줘야함(가게id, menuid, optionid, amount, total) arrya사용
     	//각 메뉴에대한 개수를 넘겨받아야한다. 총금액은 이곳에서 다시 설정해서 보여준다.(메뉴수를 변경 가능하기 때문에)

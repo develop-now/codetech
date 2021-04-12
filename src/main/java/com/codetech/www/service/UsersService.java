@@ -16,5 +16,7 @@ public interface UsersService {
 
 	int isUser(String user_id, String user_password);
 
+	//UserPlusInfo user_info(int id);
+
 
 }

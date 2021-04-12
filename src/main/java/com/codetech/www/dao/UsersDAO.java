@@ -36,4 +36,9 @@ public class UsersDAO {
 	public int userId(User user) {
 		return sqlSession.selectOne("users.userId", user);
 	}
+
+	/*
+	 * public UserPlusInfo user_total_info(int id) { return
+	 * sqlSession.selectOne("users.userTotalInfo", id); }
+	 */
 }

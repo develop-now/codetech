@@ -64,7 +64,11 @@ public class UsersServiceImpl implements UsersService {
 		return result;
 	
 }
-	
+
+	/*
+	 * @Override public UserPlusInfo user_info(int id) { return
+	 * dao.user_total_info(id); }
+	 */
 	
 	
 }

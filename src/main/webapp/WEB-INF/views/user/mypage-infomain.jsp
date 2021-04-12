@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: im-inseop
-  Date: 2021/03/31
-  Time: 2:15 오후
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -30,11 +23,11 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                
-            </div>
+            <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
-                <p>User Main Content</p>
+                <div class="infomain">
+                	
+                </div>
             </div>
         </div>
     </div>
