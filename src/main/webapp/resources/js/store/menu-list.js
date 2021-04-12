@@ -3,7 +3,6 @@ $(() => {
 })
 
 function changeStore(storeName) {
-    console.log("storeName : ", storeName)
     $(".store-menu__wrapper").each((idx, el) => {
         if (storeName === "view_all_store") {
             $(el).removeClass("d-none")

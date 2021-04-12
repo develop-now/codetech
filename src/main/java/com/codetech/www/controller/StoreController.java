@@ -46,6 +46,7 @@ public class StoreController {
         // TODO:: GET ID FROM SESSION OR SECURITY
 
         List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("list", list);
 
         return "store/store-list";
     }
@@ -66,6 +67,8 @@ public class StoreController {
     public String readStore(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "storeRead");
 
+        Store store = storeService.readStore(store_id);
+        model.addAttribute("store", store);
         return "store/store-read";
     }
 
@@ -73,14 +76,53 @@ public class StoreController {
     public String updateStore(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "storeUpdate");
 
+        Store store = storeService.readStore(store_id);
+        model.addAttribute("store", store);
         return "store/store-update";
     }
 
-    @RequestMapping(value = "/store-delete", method = RequestMethod.GET)
-    public String deleteStore(@RequestParam(value = "store_id") int store_id, Model model) {
+    @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
+    public String updateStoreAction(Store store, RedirectAttributes redirectAttributes,
+                                    @RequestParam("image_changed") boolean image_changed) throws IOException {
+
+        if (image_changed) {
+            MultipartFile store_uploadFile = store.getStore_image();
+
+            logger.info("update store image file process");
+            String fileName = store_uploadFile.getOriginalFilename();
+            store.setStore_original_image(fileName);
+
+            String fileDBName = fileDBName(fileName, saveFolder);
+
+            store_uploadFile.transferTo(new File(saveFolder + fileDBName));
+
+            store.setStore_saved_image(fileDBName);
+        }
+
+        int updateResult = storeService.updateStore(store);
+
+        if (updateResult == 1) {
+            redirectAttributes.addFlashAttribute("info", "가게정보 수정에 성공했습니다");
+        } else {
+            redirectAttributes.addFlashAttribute("alert", "가게정보 수정에 실패했습니다");
+        }
+
+        return "redirect:/store/index";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/store-status-change-ajax", method = RequestMethod.GET)
+    public Map<String, Object> deleteStore(@RequestParam(value = "store_id") int store_id,
+                                           @RequestParam(value = "status_value") String status_value, Model model) {
         model.addAttribute("storeNav", "storeDelete");
 
-        return "store/store-delete";
+        int result = storeService.storeStatusChange(store_id, status_value);
+
+        Map<String, Object> rtn = new HashMap<String, Object>();
+        rtn.put("success", result > 0);
+        rtn.put("result", result);
+
+        return rtn;
     }
 
     @ResponseBody
@@ -103,11 +145,7 @@ public class StoreController {
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
     public String createStoreAction(Store store, Menu menu,
-                                    RedirectAttributes redirectAttributes,
-                                    @RequestParam(value = "opening_h_w_start") String opening_h_w_start,
-                                    @RequestParam(value = "opening_h_w_end") String opening_h_w_end,
-                                    @RequestParam(value = "opening_h_h_start") String opening_h_h_start,
-                                    @RequestParam(value = "opening_h_h_end") String opening_h_h_end) throws IOException {
+                                    RedirectAttributes redirectAttributes) throws IOException {
 
         MultipartFile store_uploadFile = store.getStore_image();
         MultipartFile menu_uploadFile = menu.getMenu_image();
@@ -138,9 +176,6 @@ public class StoreController {
 
             menu.setMenu_saved_image(fileDBName);
         }
-
-        store.setOpening_h_w(opening_h_w_start + "~" + opening_h_w_end);
-        store.setOpening_h_h(opening_h_h_start + "~" + opening_h_h_end);
 
         int createResult = storeService.createStore(store, menu);
 

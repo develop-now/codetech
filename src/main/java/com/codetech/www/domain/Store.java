@@ -15,12 +15,15 @@ public class Store {
     private int report_count;
     private String created_at;
     private String updated_at;
-    private String opening_h_w;
-    private String opening_h_h;
+    private String opening_h_w_open;
+    private String opening_h_w_close;
+    private String opening_h_h_open;
+    private String opening_h_h_close;
     private String holiday;
     private int owner_id;
     private int store_status;
-    private String store_status_value;
+    
+
     private int store_like;
     private int store_comment;
 
@@ -40,18 +43,11 @@ public class Store {
 		this.store_comment = store_comment;
 	}
 
-	public String getStore_status_value() {
-        return store_status_value;
-    }
-
-    public void setStore_status_value(String store_status_value) {
-        this.store_status_value = store_status_value;
-    }
-
     private MultipartFile store_image;
-
     private String store_saved_image; // 실제 저정된 파일 이름
     private String store_original_image; // 첨부될 파일 이름
+
+    private String store_status_value;
 
     public int getStore_id() {
         return store_id;
@@ -149,20 +145,36 @@ public class Store {
         this.updated_at = updated_at;
     }
 
-    public String getOpening_h_w() {
-        return opening_h_w;
+    public String getOpening_h_w_open() {
+        return opening_h_w_open;
     }
 
-    public void setOpening_h_w(String opening_h_w) {
-        this.opening_h_w = opening_h_w;
+    public void setOpening_h_w_open(String opening_h_w_open) {
+        this.opening_h_w_open = opening_h_w_open;
     }
 
-    public String getOpening_h_h() {
-        return opening_h_h;
+    public String getOpening_h_w_close() {
+        return opening_h_w_close;
     }
 
-    public void setOpening_h_h(String opening_h_h) {
-        this.opening_h_h = opening_h_h;
+    public void setOpening_h_w_close(String opening_h_w_close) {
+        this.opening_h_w_close = opening_h_w_close;
+    }
+
+    public String getOpening_h_h_open() {
+        return opening_h_h_open;
+    }
+
+    public void setOpening_h_h_open(String opening_h_h_open) {
+        this.opening_h_h_open = opening_h_h_open;
+    }
+
+    public String getOpening_h_h_close() {
+        return opening_h_h_close;
+    }
+
+    public void setOpening_h_h_close(String opening_h_h_close) {
+        this.opening_h_h_close = opening_h_h_close;
     }
 
     public String getHoliday() {
@@ -211,5 +223,13 @@ public class Store {
 
     public void setStore_original_image(String store_original_image) {
         this.store_original_image = store_original_image;
+    }
+
+    public String getStore_status_value() {
+        return store_status_value;
+    }
+
+    public void setStore_status_value(String store_status_value) {
+        this.store_status_value = store_status_value;
     }
 }

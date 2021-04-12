@@ -3,6 +3,7 @@ package com.codetech.www.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import com.codetech.www.domain.Store;
@@ -34,18 +35,33 @@ public class StoreDAO {
     }
 
 
+    public List<Integer> getStoreLikes() {
+        return sqlSession.selectList("Stores.store_likes");
+    }
+
+    public List<Integer> getStoreComments() {
+        return sqlSession.selectList("Stores.store_comments");
+    }
+
+
     public List<Store> getStoreListByOwner(int owner_id) {
         return sqlSession.selectList("Stores.listByOwner", owner_id);
     }
 
     public Store readStore(int store_id) {
-        return sqlSession.selectOne("Stores.read", store_id);
+        return sqlSession.selectOne("Stores.readStore", store_id);
     }
 
+    public int storeStatusUpdate(Map<String, Object> param){
+        return sqlSession.update("Stores.updateStoreStatus", param);
+    }
+
+    public int updateStore(Store store){
+        return sqlSession.update("Stores.updateStore", store);
+    }
 
     public List<Store> getStoreForReviewList(HashMap<String, Integer> map) {
         return sqlSession.selectList("Stores.forReviewList", map);
-
     }
 
     public List<Integer> getStoreCommentsReview() {

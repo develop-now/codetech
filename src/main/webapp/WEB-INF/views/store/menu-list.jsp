@@ -14,8 +14,8 @@
     <%@include file="../partial/head.jsp" %>
     <script src="${pageContext.request.contextPath}/resources/js/store/menu-list.js"></script>
     <style>
-        tbody td:nth-child(4) {
-            width: 50%;
+        table {
+            /*table-layout: fixed;*/
         }
 
         td img {
@@ -98,6 +98,13 @@
                                 </div>
                                 <div class="col-12 table-responsive">
                                     <table class="table table-hover text-center">
+                                        <colgroup>
+                                            <col style="width:5%">
+                                            <col style="width:15%">
+                                            <col style="width:10%">
+                                            <col style="width:45%">
+                                            <col style="width:10%">
+                                        </colgroup>
                                         <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">#</th>
@@ -105,7 +112,6 @@
                                             <th scope="col">가격(원)</th>
                                             <th scope="col">대표이미지</th>
                                             <th scope="col">상태</th>
-                                            <th scope="col">상세보기</th>
                                         </tr>
 
                                         </thead>
@@ -113,16 +119,36 @@
                                         <c:forEach var="menu" items="${stores.value}" varStatus="status">
                                             <tr>
                                                 <th scope="row">${status.count}</th>
-                                                <td>${menu.menu_name}</td>
+                                                <td>
+                                                    <a href="<c:url value="/menu/menu-read?menu_id=${menu.menu_id}"/>">
+                                                            ${menu.menu_name}
+                                                    </a>
+                                                </td>
                                                 <td>${menu.menu_price}</td>
                                                 <td>
                                                     <img src="/resources/upload${menu.menu_saved_image}"
                                                          class="img-thumbnail" alt="${menu.menu_original_image}"/>
                                                 </td>
-                                                <td>${menu.menu_status_value}</td>
-                                                <td>
-                                                    <a href="<c:url value="/menu/menu-read?menu_id=${menu.menu_id}"/>">상세보기</a>
-                                                </td>
+                                                <c:choose>
+                                                    <c:when test="${menu.menu_status_value eq 'active'}">
+                                                        <td class="text-success">
+                                                            판매중
+                                                        </td>
+                                                    </c:when>
+                                                    <c:when test="${menu.menu_status_value eq 'inactive'}">
+                                                        <td class="text-warning">
+                                                            판매중지
+                                                        </td>
+                                                    </c:when>
+                                                    <c:when test="${menu.menu_status_value eq 'soldout'}">
+                                                        <td class="text-danger">
+                                                            재고없음
+                                                        </td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td>...</td>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

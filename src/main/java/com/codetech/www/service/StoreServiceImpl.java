@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -48,18 +50,27 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store readStore() {
-        return null;
+    public Store readStore(int store_id) {
+        return store_dao.readStore(store_id);
     }
 
     @Override
-    public int updateStore() {
-        return 0;
+    public int updateStore(Store store) {
+        return store_dao.updateStore(store);
     }
 
     @Override
     public int deleteStore() {
         return 0;
+    }
+
+    @Override
+    public int storeStatusChange(int store_id, String status_value) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("store_id", store_id);
+        param.put("status_value", status_value);
+
+        return store_dao.storeStatusUpdate(param);
     }
 
     @Override
