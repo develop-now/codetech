@@ -10,4 +10,12 @@ public interface AdminService {
 	public int getSearchListCount(int index, int state, String search_word);
 	
 	public int getNoticeListCount();
+
+	public int user_susp(String user_id);
+
+	public int user_reac(String user_id);
+
+	public int user_banned(String user_id);
+
+	public int user_inac(String user_id);
 }

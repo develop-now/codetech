@@ -59,16 +59,17 @@ insert into users (user_id, user_email, user_password, role_id)
 values (3, 'sotre_owner@test.com', '1234', 3);
 insert into users (user_id, user_email, user_password, role_id)
 values (4, 'staff@test.com', '1234', 4);
+
 insert into users (user_id, user_email, user_password, role_id)
 values (5, 'user1@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
 values (6, 'user2@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (7, 'user_store_owner@test.com', '1234', 3);
+values (7, 'user3@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (8, 'user_3@test.com', '1234', 5);
+values (8, 'user4@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (9, 'user9@test.com', '1111', 5);
+VALUES (9, 'user5@test.com', '1111', 5);
 
 
 drop table user_info cascade constraints;
@@ -94,6 +95,7 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (3, 'store_owner', '111-222-3333', 'korea', 3);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (4, 'staff', '111-222-3333', 'korea', 4);
+
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (5, 'user1', '111-222-3333', 'korea', 5);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
@@ -101,9 +103,9 @@ values (6, 'user2', '111-222-3333', 'korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (8, '유저', '111-222-3333', 'korea', 8);
+values (8, 'user4', '111-222-3333', 'korea', 8);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (9, 'user9', '111-222-3333', 'korea', 9);
+values (9, 'user5', '111-222-3333', 'korea', 9);
 
 drop table store_status cascade constraints;
 create table store_status
