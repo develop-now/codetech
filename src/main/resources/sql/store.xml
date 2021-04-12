@@ -153,11 +153,11 @@
 		#{searchWord}
 	</sql>
 
-	<select id="getMap" resultType="storemap" parameterType="String">
-		select * from storemap where
-		<include refid="forSearch" />
-		and rownum &lt;= 1
-	</select>
+<!--	<select id="getMap" resultType="storemap" parameterType="String">-->
+<!--		select * from storemap where-->
+<!--		<include refid="forSearch" />-->
+<!--		and rownum &lt;= 1-->
+<!--	</select>-->
 
 
 </mapper>
