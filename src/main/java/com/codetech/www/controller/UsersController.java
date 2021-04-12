@@ -6,6 +6,8 @@ import java.util.Random;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -14,10 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,6 +46,9 @@ public class UsersController {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private HttpSession session;
     
     @Value("${saveFolderName}")
 	private String user_profile;
@@ -148,15 +154,17 @@ public class UsersController {
     }
     
     @RequestMapping(value="/loginProcess", method = RequestMethod.POST)
-    public String login(String user_id, String user_password
-    					,RedirectAttributes rattr, HttpSession session ) {
+    public String login(String user_email, String user_password	,RedirectAttributes rattr ) {
     	//아이디 세션에 저장 후 주문하기 페이지로 이동 (가능하면 모달만 닫히고 같은 페이지에서 nav만 변경)
     	
 		/* 아이디 유무 확인 */
-    	int result = usersService.isUser(user_id, user_password);
+    	int result = usersService.isUser(user_email, user_password);
     	logger.info("isUser result : " + result);
     	if(result == 1) {
     	/* id와 password를 session에 저장후 home으로 이동 */
+    		User user = usersService.getUserId(user_email);
+    		int user_id = user.getUser_id();
+    		logger.info("==========getuser_id===========" + user_id);
     		session.setAttribute("user_id", user_id);
     		rattr.addFlashAttribute("info", "로그인 되었습니다 session ID:"+ session.getId());
     		return "redirect:/home";
@@ -173,21 +181,44 @@ public class UsersController {
     	
     }
     
-	/*
-	 * @RequestMapping(value="/infoMain",method =RequestMethod.GET) public
-	 * ModelAndView infomain(HttpSession session, ModelAndView mv){ //session id확인해서
-	 * 그아이디에 해당하는 정보를 가지고 돌아간다. //TODO 회원 정보, 토탈포인트, 작성된 리뷰수review, 즐겨찾기 한 가게 수 값
-	 * 전달하기likes Integer sessionId = (Integer)session.getAttribute("user_id"); int
-	 * id = sessionId.intValue(); if(sessionId == null) {
-	 * mv.setViewName("redirect:home"); }else { UserPlusInfo upi =
-	 * usersService.user_info(id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)
-	 * mv.setViewName("user/mypage-infomain"); mv.addObject("userinfo", upi); }
-	 * return mv; }
-	 */
+	
+	  @RequestMapping(value="/infoMain",method =RequestMethod.GET)
+	  public  String infomain(Model mv, HttpServletRequest request, RedirectAttributes rattr){ 
+		//session id확인해서  그아이디에 해당하는 정보를 가지고 돌아간다. 
+		  //TODO 회원 정보, 토탈포인트, 작성된 리뷰수review, 즐겨찾기 한 가게 수 값  전달하기likes 
+	  Integer sessionId = (Integer) session.getAttribute("user_id"); 
+	  String url="";
+	  if(sessionId == null||!request.isRequestedSessionIdValid()) {
+		 rattr.addFlashAttribute("alert", "로그인이 필요한 서비스 입니다.");
+		 return "redirect:/home"; 
+		
+	  }else { 
+		  int user_id= (int)sessionId;
+		  logger.info("==========user_id========="+user_id);
+		  UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)
+		 
+		 mv.addAttribute("userinfo", upi);
+		  url= "user/mypage-infomain";
+	  }
+	  return url;
+	}
+	 
     
     @RequestMapping(value="/infoModify",method =RequestMethod.GET)
-    public void infomodify(){
+    public String infomodify(int user_id, RedirectAttributes rattr){
     	//mapage-info_modify.jsp로 이동
+    	//user_id = session 의 id와 같으면 정보수정으로 이동
+    	String url = "";
+    	int sessionId = (int)session.getAttribute("user_id");//중간에 세션값이 사라질 수 도 있기 때문에 비교를 해준다.
+    	if(sessionId == user_id) {
+    		 UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)
+    		 
+    		 rattr.addFlashAttribute("userinfo", upi);
+    		 url = "user/mypage-infomain_modify";
+    	}else {
+    		//세션이 만료되었으니 로그인을 다시하라는 안내를 해준다.
+    	}
+		return url;
     }
     
     @RequestMapping(value="/infoModifyAction", method = RequestMethod.GET)

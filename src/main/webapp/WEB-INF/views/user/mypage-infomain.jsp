@@ -26,7 +26,11 @@
             <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
                 <div class="infomain">
-                	
+                <!--화면의 유저 아이디를 가지고 정보수정으로 넘어가야한다. -->
+                <input type="hidden" name="user_id" value="${user_id}">
+                <div>
+                <a href="../user/infoModify">정보수정하기</a>
+                </div>
                 </div>
             </div>
         </div>

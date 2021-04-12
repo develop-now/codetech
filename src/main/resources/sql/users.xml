@@ -30,7 +30,7 @@
     	values((select nvl(max(user_id),0)+1 from user_info),#{user_name},#{user_tel},#{user_address},#{user_profile},#{original_file},#{point},#{user_id})
     	
     </insert>
-    <!-- <select id="userTotalInfo" parameterType="id" resultType="upi">
+    <select id="userTotalInfo" parameterType="int" resultType="upi">
     	select * 
 		from (
 			select user_email, user_password, user_name
@@ -40,5 +40,8 @@
 			on USERS.USER_ID = USER_INFO.USER_ID
 			where USERS.user_id = #{id}
 		    )
-    </select> -->
+    </select>
+    <select id="selectUsers" parameterType="String" resultType="user">
+    	select * from users where user_email=#{user_email}
+    </select>
 </mapper>

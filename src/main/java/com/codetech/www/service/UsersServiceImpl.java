@@ -51,8 +51,8 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public int isUser(String user_id, String user_password) {
-		User user = dao.isEmail(user_id);
+	public int isUser(String user_email, String user_password) {
+		User user = dao.isEmail(user_email);
 		int result=-1;
 		logger.info("dao.isEmail result : " + result);
 		if(user != null) {
@@ -65,10 +65,16 @@ public class UsersServiceImpl implements UsersService {
 	
 }
 
-	/*
-	 * @Override public UserPlusInfo user_info(int id) { return
-	 * dao.user_total_info(id); }
-	 */
+	
+	  @Override public UserPlusInfo user_info(int user_id) { 
+		  return dao.user_total_info(user_id); 
+	}
+
+	@Override
+	public User getUserId(String user_email) {
+		return dao.getUserId(user_email);
+	}
+	 
 	
 	
 }
