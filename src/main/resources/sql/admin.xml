@@ -4,13 +4,15 @@
         
 <mapper namespace="Admin">
 	<!-- 유저 리스트 쿼리 -->
-	<select id="getUsersSearchList" parameterType="map" resultType="user">
+	<select id="getUsersSearchList" parameterType="map" resultType="upi">
 	
 		SELECT *
-		FROM (SELECT ROWNUM RNUM, U.USER_EMAIL, U.USER_PASSWORD, U.REPORT_COUNT,
-			 		 U.USER_AUTH, U.CREATED_AT, U.UPDATED_AT, U.ROLE_ID, U.USER_STATUS
-			  FROM (SELECT * FROM USERS, USER_INFO
-			  		WHERE USERS.USER_ID = USER_INFO.INFO_ID
+		FROM (SELECT ROWNUM RNUM, U.USER_ID, U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT,
+			 		 U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS, U.USER_STATUS
+			  FROM (SELECT USERS.*, USER_INFO.USER_NAME, USER_INFO.USER_TEL,
+			  		 	   USER_INFO.USER_ADDRESS, USER_INFO.POINT
+			 	    FROM USERS, USER_INFO
+			  		WHERE USERS.USER_ID = USER_INFO.USER_ID
 			  		AND USERS.ROLE_ID = 5
 			  		<if test="search_field != null">
 			  		AND
@@ -35,48 +37,16 @@
 			  		 ORDER BY USER_INFO.USER_NAME
 			  ) U
 		)
-		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	
-	</select>
-	
-	<select id="getInfoSearchList" parameterType="map" resultType="user-info">
-		SELECT *
-		FROM (SELECT ROWNUM RNUM, U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS, U.USER_PROFILE
-			  FROM (SELECT * FROM USERS, USER_INFO
-			  		WHERE USERS.USER_ID = USER_INFO.INFO_ID
-			  		AND USERS.ROLE_ID = 5
-			  		<if test="search_field != null">
-			  		AND
-			  		<choose>
-			  			<!-- user_info 테이블 참조 -->
-			  			<when test="search_field == 'user_email'"><![CDATA[USERS.USER_EMAIL]]></when>
-			  			<when test="search_field == 'user_name'"><![CDATA[USER_INFO.USER_NAME]]></when>
-			  			<when test="search_field == 'user_tel'"><![CDATA[USER_INFO.USER_TEL]]></when>
-			  		</choose>
-			  		LIKE #{search_word}
-			  		</if>
-			  			
-			  		<if test="check_state != null">
-			  		AND USERS.USER_STATUS =
-			  		<choose>
-			  			<when test="check_state == 1">1</when>
-			  			<when test="check_state == 2">2</when>
-			  			<when test="check_state == 3">3</when>
-			  			<when test="check_state == 4">4</when>
-			  		</choose> 		
-			  		</if>
-			  		 ORDER BY USER_INFO.USER_NAME
-			  ) U
-		)
-		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}	
 	</select>
 	
 	<select id="searchCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
-		FROM (SELECT U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT,
-			 		 U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS
-			  FROM (SELECT * FROM USERS, USER_INFO
-			  		WHERE USERS.USER_ID = USER_INFO.INFO_ID
+		FROM (SELECT U.USER_ID, U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT,
+			 		 U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS, U.USER_STATUS
+			  FROM (SELECT USERS.*, USER_INFO.USER_NAME, USER_INFO.USER_TEL, USER_INFO.USER_ADDRESS, USER_INFO.POINT
+			 	    FROM USERS, USER_INFO
+			  		WHERE USERS.USER_ID = USER_INFO.USER_ID
 			  		AND USERS.ROLE_ID = 5
 			  		<if test="search_field != null">
 			  		AND

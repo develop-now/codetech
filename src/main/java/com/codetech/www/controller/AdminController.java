@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.codetech.www.domain.Notice;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
-import com.codetech.www.service.UsersService;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -45,14 +42,12 @@ public class AdminController {
 			@RequestParam(value = "search_word", defaultValue = "") String search_word,
 			@RequestParam(value = "check_state", defaultValue = "0") int state) {
     	
-		List<User> Userslist = null;
-		List<UserInfo> Infolist = null;
+		List<UserPlusInfo> Userslist = null;
 		
 		int limit = 10;
 		int listcount = adminService.getSearchListCount(index, state, search_word);
 		
 		Userslist = adminService.getUsersSearchList(index, state, search_word, page, limit);
-		Infolist = adminService.getInfoSearchList(index, state, search_word, page, limit);
 		
 		// 총 페이지 수
 		int maxpage = (listcount + limit - 1) / limit;
@@ -80,7 +75,6 @@ public class AdminController {
 		mv.addObject("listcount", listcount); // 총 글의 수
 
 		mv.addObject("Userslist", Userslist);
-		mv.addObject("Infolist", Infolist);
 
 		// 해당 페이지의 글 목록을 갖고 있는 리스트
 		mv.addObject("search_field", index);

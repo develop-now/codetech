@@ -7,20 +7,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 @Repository
 public class AdminDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<User> getUsersSearchList(Map<String, Object> map) {
+	public List<UserPlusInfo> getUsersSearchList(Map<String, Object> map) {
 		return sqlSession.selectList("Admin.getUsersSearchList", map);
-	}
-
-	public List<UserInfo> getInfoSearchList(Map<String, Object> map) {
-		return sqlSession.selectList("Admin.getInfoSearchList", map);
 	}
 	
 	public int getSearchListCount(Map<String, Object> map) {
