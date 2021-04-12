@@ -18,14 +18,9 @@
 	href="${pageContext.request.contextPath}/resources/css/owner/mainList.css"
 	rel="stylesheet">
 
-<!-- SearchBar JS -->
-<script
-	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
+
 </head>
 
-
-
-	
 				<!-- Blog Post -->
 				<c:forEach var="store" items="${stores}" varStatus="status">
 					<c:if test="${store.store_status == 1}">
@@ -41,12 +36,12 @@
 								<a href="#" class="btn btn-primary">주문하기 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
-								<%-- <img class="card-img-heart"
+								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp; --%><img class="card-img-comments"
+								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]}
+									width="30" height="30" alt="">&nbsp;${store.store_comment}
 							</div>
 						</div>
 					</c:if>
@@ -65,12 +60,12 @@
 									style="background-color: gray">준비중 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
-								<%-- <img class="card-img-heart"
+								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp; --%><img class="card-img-comments"
+								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]}
+									width="30" height="30" alt="">&nbsp;${store.store_comment}
 							</div>
 						</div>
 					</c:if>

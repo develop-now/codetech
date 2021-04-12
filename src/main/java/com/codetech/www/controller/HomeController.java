@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.codetech.www.domain.Store;
 import com.codetech.www.service.OwnerService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Handles requests for the application home page.
  */
@@ -21,18 +23,30 @@ import com.codetech.www.service.OwnerService;
 public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	@Autowired
-	private OwnerService ownerService;
-	
+    @Autowired
+    private OwnerService ownerService;
+
     @RequestMapping(value = "/home")
-    public ModelAndView home(ModelAndView mv) {
-    	List<Store> stores = ownerService.getStoreForMain();
-    	List<Integer> likes = ownerService.getStoreLikes();
-    	List<Integer> comments = ownerService.getStoreComments();
-    	mv.setViewName("home");
-		mv.addObject("stores", stores);
-		mv.addObject("likes", likes);
-		mv.addObject("comments", comments);
+
+    public ModelAndView home(ModelAndView mv, HttpSession session) {
+        List<Store> stores = ownerService.getStoreForMain();
+
+        mv.setViewName("home");
+        mv.addObject("stores", stores);
+
+
+        //		login Fail Message Handling
+        if (session.getAttribute("loginFailMsg") != null) {
+            mv.addObject("alert", session.getAttribute("loginFailMsg"));
+            session.removeAttribute("loginFailMsg");
+        }
+
+        //		login Success Message Handling
+        if (session.getAttribute("greetingMsg") != null) {
+            mv.addObject("info", session.getAttribute("greetingMsg"));
+            session.removeAttribute("greetingMsg");
+        }
+
         return mv;
     }
 

@@ -1,14 +1,14 @@
 drop table user_info cascade constraints;
 create table user_info
 (
-    info_id      number(6) primary key,
-    user_name    varchar2(20) not null,
-    user_tel     varchar2(20) not null,
-    user_address varchar2(90) not null,
-    user_profile varchar2(50),
-    original_file varchar2(30),
-    point        number(6) default 0,
-    user_id      number(6)    not null,
+    info_id       number(6) primary key,
+    user_name     varchar2(20) not null,
+    user_tel      varchar2(20) not null,
+    user_address  varchar2(90) not null,
+    user_profile  varchar2(200),
+    original_file varchar2(200),
+    point         number(6) default 0,
+    user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
 
@@ -28,4 +28,5 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (8, '유저', '111-222-3333', 'korea', 8);
+
 commit;

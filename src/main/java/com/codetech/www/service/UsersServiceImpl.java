@@ -25,8 +25,8 @@ public class UsersServiceImpl implements UsersService {
     private UsersDAO dao;
 
     @Autowired
-	private PasswordEncoder passwordEncoder;
-    
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public int isEmail(String user_email) {
         User user = dao.isEmail(user_email);
