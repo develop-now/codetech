@@ -30,12 +30,10 @@ public class HomeController {
 
     public ModelAndView home(ModelAndView mv, HttpSession session) {
         List<Store> stores = ownerService.getStoreForMain();
-        List<Integer> likes = ownerService.getStoreLikes();
-        List<Integer> comments = ownerService.getStoreComments();
+
         mv.setViewName("home");
         mv.addObject("stores", stores);
-        mv.addObject("likes", likes);
-        mv.addObject("comments", comments);
+
 
         //		login Fail Message Handling
         if (session.getAttribute("loginFailMsg") != null) {
