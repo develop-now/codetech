@@ -177,9 +177,9 @@ public class MenuController {
             }
         }
 
-        int createResult = menuService.updateMenu(menu);
+        int updateResult = menuService.updateMenu(menu);
 
-        if (createResult == 1) {
+        if (updateResult == 1) {
             redirectAttributes.addFlashAttribute("info", "메뉴 수정에 성공했습니다");
         } else {
             redirectAttributes.addFlashAttribute("alert", "메뉴 수정에 실패했습니다");

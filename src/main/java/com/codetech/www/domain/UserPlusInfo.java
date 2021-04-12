@@ -1,5 +1,6 @@
 package com.codetech.www.domain;
 
+import org.springframework.web.multipart.MultipartFile;
 public class UserPlusInfo {
 	// UserInfo Bean 내용
 	private int info_id;
@@ -8,6 +9,8 @@ public class UserPlusInfo {
 	private String user_address;
 	private String user_profile;
 	private int point;
+	private String originalfile;
+	private MultipartFile uploadfile;
 	
 	// User Bean 내용
 	private int user_id;
@@ -55,6 +58,18 @@ public class UserPlusInfo {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public String getOriginalfile() {
+		return originalfile;
+	}
+	public void setOriginalfile(String originalfile) {
+		this.originalfile = originalfile;
+	}
+	public MultipartFile getUploadfile() {
+		return uploadfile;
+	}
+	public void setUploadfile(MultipartFile uploadfile) {
+		this.uploadfile = uploadfile;
 	}
 	public int getUser_id() {
 		return user_id;

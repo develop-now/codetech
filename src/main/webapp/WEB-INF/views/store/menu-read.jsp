@@ -105,8 +105,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="menu_image" class="col-sm-2 col-form-label">메뉴 이미지*</label>
-                                    <div class="col-6">
+                                    <label class="col-sm-2 col-form-label">메뉴 이미지*</label>
+                                    <div class="col-sm-10">
                                         <img src="/resources/upload/${menu.menu_saved_image}" id="menu_preview"
                                              alt="${menu.menu_original_image}" class="img-fluid">
                                     </div>

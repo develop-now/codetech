@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 @Repository
 public class UsersDAO {
@@ -23,4 +24,16 @@ public class UsersDAO {
     public UserInfo isName(String user_name) {
         return sqlSession.selectOne("users.isName", user_name);
     }
+
+	public int userinsert(User user) {
+		return sqlSession.insert("users.userInsert", user);
+	}
+
+	public int infoinsert(UserInfo info) {
+		return sqlSession.insert("users.infoInsert", info);
+	}
+
+	public int userId(User user) {
+		return sqlSession.selectOne("users.userId", user);
+	}
 }

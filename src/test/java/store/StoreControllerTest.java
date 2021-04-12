@@ -54,13 +54,12 @@ public class StoreControllerTest {
         s.setStore_original_image("test.jpg");
         s.setHoliday("Monday");
         s.setOwner_id(3);
+        s.setOpening_h_w_open("09:00");
+        s.setOpening_h_w_close("22:00");
+        s.setOpening_h_h_open("11:00");
+        s.setOpening_h_h_close("20:00");
 
         Menu m = new Menu();
-
-        String opening_h_w_start = "09:00";
-        String opening_h_w_end = "18:00";
-        String opening_h_h_start = "11:00";
-        String opening_h_h_end = "17:00";
 
         try {
             mockMvc.perform(get("/store/createAction").param("id", "User14"))

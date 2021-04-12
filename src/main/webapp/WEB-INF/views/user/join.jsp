@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <div class="modal fade loginModal" id="joinModal" tabindex="-1" role="dialog" aria-labelledby="joinModalTitle" aria-hidden="true">
-<form name="joinform" id="joinModalForm" action="jopin_process" method="post" class="border-light p-5" >
+<form name="joinform" id="joinModalForm" action="user/joinProcess" method="post" enctype="multipart/form-data" class="border-light p-5" >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header joinModal-header">
