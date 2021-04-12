@@ -22,6 +22,26 @@ public class Store {
     private String holiday;
     private int owner_id;
     private int store_status;
+    
+
+    private int store_like;
+    private int store_comment;
+
+    public int getStore_like() {
+		return store_like;
+	}
+
+	public void setStore_like(int store_like) {
+		this.store_like = store_like;
+	}
+
+	public int getStore_comment() {
+		return store_comment;
+	}
+
+	public void setStore_comment(int store_comment) {
+		this.store_comment = store_comment;
+	}
 
     private MultipartFile store_image;
     private String store_saved_image; // 실제 저정된 파일 이름

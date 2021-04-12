@@ -11,4 +11,6 @@ create table likes
 
 select * from likes;
 
+insert into likes values(24, sysdate, 7, 1);
+
 commit;
