@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: im-inseop
-  Date: 2021/03/31
-  Time: 2:15 오후
+  Date: 2021/04/12
+  Time: 12:23 오후
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -28,9 +28,13 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <%@include file="store-nav.jsp"%>
-            <div class="col-12 col-sm-10">
-                <p>Store Main Content</p>
+            <div class="col-12">
+                <h3 class="text-danger">Error Code</h3>
+                <p>${error_code}</p>
+            </div>
+            <div class="col-12">
+                <h3 class="text-danger">Error Message</h3>
+                <p>${error_msg}</p>
             </div>
         </div>
     </div>

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -72,21 +73,22 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/joinProcess", method = RequestMethod.POST)
-    public String joinprocess(User user, UserInfo info, RedirectAttributes rattr/*@RequestParam("file") MultipartFile uploadfile*/) throws Exception {
-        logger.info("여기는  joinProcess");
+    public String joinprocess(
+            User user, UserInfo info, RedirectAttributes rattr) throws Exception {
+
+        logger.info("여기는 joinProcess");
+
         //이미지파일 저장하기 추가
         //메일 페이지로 이동 (가능하면 로그인 모달 열어주기)
 
         MultipartFile uploadfile = info.getUploadfile();
 
+        logger.info("입력한 password 값 : " + user.getUser_password());
+
         /* 비밀번호 난수로 저장 */
         String encPassword = passwordEncoder.encode(user.getUser_password());
         user.setUser_password(encPassword);
         logger.info("passenc" + encPassword);
-
-        /*
-         * logger.info("uploadfile" + uploadfile); //Junit
-         */
 
         if (!uploadfile.isEmpty()) {
             String fileName = uploadfile.getOriginalFilename();//원래 파일명
@@ -135,6 +137,7 @@ public class UsersController {
             /* 바뀐 파일명으로 저장 */
             info.setUser_profile(fileDBName);
         }
+
         int result1 = usersService.userinsert(user, info);
 
 
@@ -157,7 +160,7 @@ public class UsersController {
         logger.info("isUser result : " + result);
         if (result == 1) {
             /* id와 password를 session에 저장후 home으로 이동 */
-            session.setAttribute("user_id", user_id);
+//            session.setAttribute("user_id", user_id);
             rattr.addFlashAttribute("info", "로그인 되었습니다 session ID:" + session.getId());
             return "redirect:/home";
         } else {
@@ -168,9 +171,7 @@ public class UsersController {
                 rattr.addFlashAttribute("alert", "해당 아이디가 없습니다. 아이디를 확인 해 주세요.");
                 return "redirect:/home";
             }
-
         }
-
     }
 
     @RequestMapping(value = "/infoModify", method = RequestMethod.GET)

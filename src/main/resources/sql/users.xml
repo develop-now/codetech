@@ -31,4 +31,11 @@
                 #{user_profile}, #{original_file}, #{point}, #{user_id})
 
     </insert>
+
+    <select id="authIdCheck" resultType="user">
+        select u.*, r.role_value as auth
+        from users u
+                 join role r on u.role_id = r.role_id
+        where u.user_email = #{username}
+    </select>
 </mapper>
