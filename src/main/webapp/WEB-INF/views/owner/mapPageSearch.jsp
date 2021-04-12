@@ -24,6 +24,7 @@
   
     <!-- SearchBar JS -->
 <script src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
+
 </head>
 
 <body>

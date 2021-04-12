@@ -1,5 +1,7 @@
 package com.codetech.www.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,18 +14,18 @@ import com.codetech.www.domain.UserPlusInfo;
 
 @Repository
 public class UsersDAO {
-    private static final Logger logger = LoggerFactory.getLogger(UsersDAO.class);
-    
-    @Autowired
-    private SqlSessionTemplate sqlSession;
+	private static final Logger logger = LoggerFactory.getLogger(UsersDAO.class);
 
-    public User isEmail(String user_email) {
-        return sqlSession.selectOne("users.isEmail", user_email);
-    }
+	@Autowired
+	private SqlSessionTemplate sqlSession;
 
-    public UserInfo isName(String user_name) {
-        return sqlSession.selectOne("users.isName", user_name);
-    }
+	public User isEmail(String user_email) {
+		return sqlSession.selectOne("users.isEmail", user_email);
+	}
+
+	public UserInfo isName(String user_name) {
+		return sqlSession.selectOne("users.isName", user_name);
+	}
 
 	public int userinsert(User user) {
 		return sqlSession.insert("users.userInsert", user);
@@ -36,4 +38,18 @@ public class UsersDAO {
 	public int userId(User user) {
 		return sqlSession.selectOne("users.userId", user);
 	}
+
+	public List<UserInfo> getAdminList() {
+		return sqlSession.selectList("users.managerName");
+	}
+
+	public List<User> getAdmin(int user_id) {
+		return sqlSession.selectOne("users.manager", user_id);
+	}
+
+	public List<UserInfo> getAdminInfo(int user_id) {
+		return sqlSession.selectOne("users.managerInfo", user_id);
+
+	}
+
 }

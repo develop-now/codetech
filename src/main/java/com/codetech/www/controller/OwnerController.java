@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
+import com.codetech.www.domain.UserInfo;
 import com.codetech.www.service.OwnerService;
 
 @Controller
@@ -156,11 +157,22 @@ public class OwnerController {
 
 	// Management
 	@RequestMapping(value = "/manage")
-	public ModelAndView managerView(ModelAndView mv, User user) {
-		List<User> users = ownerService.getAdminList();
-
+	public ModelAndView managerView(ModelAndView mv) {
+		List<UserInfo> userInfo = ownerService.getAdminList();
 		mv.setViewName("owner/managerList");
-		mv.addObject("users", users);
+		mv.addObject("userInfo", userInfo);
+		return mv;
+
+	}
+	
+	// Management
+	@RequestMapping(value = "/managerDetail")
+	public ModelAndView managerView(ModelAndView mv, int user_id) {
+		List<User> user = ownerService.getAdmin(user_id);
+		List<UserInfo> userInfo = ownerService.getAdminInfo(user_id);
+		mv.setViewName("owner/managerDetail");
+		mv.addObject("userInfo", userInfo);
+		mv.addObject("user", user);
 		return mv;
 
 	}

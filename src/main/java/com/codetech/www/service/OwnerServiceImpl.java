@@ -9,33 +9,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.StoreDAO;
+import com.codetech.www.dao.UsersDAO;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
+import com.codetech.www.domain.UserInfo;
 
 @Service
 public class OwnerServiceImpl implements OwnerService {
-    private static final Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
-    @Autowired
-    private StoreDAO dao;
+	@Autowired
+	private StoreDAO dao;
+	
+	@Autowired 
+	private UsersDAO udao;
 
+	@Override
+	public List<Store> getStoreForMain() {
+		return dao.getStoreForMain();
+	}
 
-    @Override
-    public List<Store> getStoreForMain() {
-        return dao.getStoreForMain();
-    }
-
-    @Override
-    public List<Store> getStoreForReviewList(int page, int limit) {
-    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	@Override
+	public List<Store> getStoreForReviewList(int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		int startrow = (page - 1) * limit + 1;
 		int endrow = startrow + limit - 1;
 		map.put("start", startrow);
 		map.put("end", endrow);
-        return dao.getStoreForReviewList(map);
-    }
-
+		return dao.getStoreForReviewList(map);
+	}
 
 	@Override
 	public List<Store> getStoreForSearchList(int page, int limit, String searchWord) {
@@ -50,13 +53,10 @@ public class OwnerServiceImpl implements OwnerService {
 
 	}
 
-
-
 	@Override
-	public List<User> getAdminList() {
-		return dao.getAdminList();
+	public List<UserInfo> getAdminList() {
+		return udao.getAdminList();
 	}
-
 
 	@Override
 	public List<Store> getStoreForMainList(int page, int limit) {
@@ -68,20 +68,17 @@ public class OwnerServiceImpl implements OwnerService {
 		return dao.getStoreForMainList(map);
 	}
 
-
-
 	@Override
 	public int getListCount() {
 		return dao.getListCount();
 
 	}
-	
+
 	@Override
 	public int getListCountforMainList() {
 		return dao.getListCountforMainList();
 
 	}
-	
 
 	@Override
 	public int getListCountforSearchList(String searchWord) {
@@ -93,6 +90,18 @@ public class OwnerServiceImpl implements OwnerService {
 	public StoreMap getMap(String searchWord) {
 		String searchWordLike = "%" + searchWord + "%";
 		return dao.getMap(searchWordLike);
+	}
+
+
+	@Override
+	public List<User> getAdmin(int user_id) {
+		return udao.getAdmin(user_id);
+
+	}
+
+	@Override
+	public List<UserInfo> getAdminInfo(int user_id) {
+		return udao.getAdminInfo(user_id);
 	}
 
 
