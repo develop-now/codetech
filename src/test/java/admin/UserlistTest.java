@@ -52,6 +52,7 @@ public class UserlistTest {
 			 logger.info("포인트: " + result.getPoint());
 			 logger.info("전화번호: " + result.getUser_tel());
 			 logger.info("주소: " + result.getUser_address());
+			 logger.info("주소: " + result.getUser_status());
 		 }
 	 }
 }
