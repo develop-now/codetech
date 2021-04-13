@@ -81,7 +81,6 @@ INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (15, 'user15@test.com', '1111', 5);
 
 
-
 drop table user_info cascade constraints;
 create table user_info
 (
