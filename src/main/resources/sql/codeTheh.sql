@@ -1,4 +1,4 @@
-drop table role cascade constraints;
+drop table role cascade constraints ;
 create table role
 (
     role_id    number(1) primary key,
@@ -6,15 +6,15 @@ create table role
 );
 
 insert into role
-values (1, 'site_owner');
+values (1, 'ROLE_SITE_OWNER');
 insert into role
-values (2, 'site_admin');
+values (2, 'ROLE_ADMIN');
 insert into role
-values (3, 'store_owner');
+values (3, 'ROLE_STORE_OWNER');
 insert into role
-values (4, 'store_staff');
+values (4, 'ROLE_STORE_STAFF');
 insert into role
-values (5, 'user');
+values (5, 'ROLE_MEMBER');
 
 drop table user_status cascade constraints;
 
@@ -126,13 +126,14 @@ values (14, 'user14', '111-222-3333', 'korea', 14);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (15, 'user15', '111-222-3333', 'korea', 15);
 
+
 drop table persistent_logins cascade constraints;
 create table persistent_logins
 (
     username  varchar2(64) not null,
     series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null, -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null -- 가장 최신 자동 로그인 시간
+    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
 );
 
 
@@ -141,8 +142,8 @@ create table persistent_logins
 (
     username  varchar2(64) not null,
     series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null, -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null -- 가장 최신 자동 로그인 시간
+    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
 );
 
 
@@ -186,8 +187,8 @@ create table stores
     holiday              varchar2(30)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
-	store_like 			number(5) default 0,
-	store_comment		number(5) default 0,
+    store_like           number(5) default 0,
+    store_comment        number(5) default 0,
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
