@@ -105,35 +105,35 @@
 	</select>
 	<!-- 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End-->
 	
-	<select id="getPartnerSearchList" parameterType="map" resultType="">
-		SELECT *
-		FROM (SELECT ROWNUM RNUM, UIS.*
-    		  FROM (SELECT 
-          			U.USER_ID, U.USER_EMAIL, U.ROLE_ID,
-                      
-          			UI.USER_NAME, UI.USER_TEL, UI.USER_ADDRESS,
-                      
-          			S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE, S.STORE_ORIGINAL_IMAGE,
-          			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC
-                      
-          			FROM
-                      
-           			USERS U INNER JOIN USER_INFO UI ON U.USER_ID = UI.USER_ID
-                    		INNER JOIN STORES S ON UI.USER_ID = S.OWNER_ID
-                      
-           			WHERE U.ROLE_ID = 3
-					<if test="search_field != null">
-					AND
-						<choose>
-							<when test="search_field == 'user_email'">U.USER_EMAIL</when>
-							<when test="search_field == 'store_name'">S.STORE_NAME</when>
-							<when test="search_field == 'user_email'">S.STORE_TEL</when>
-						</choose>
-					LIKE #{search_word}
-					</if>
-					ORDER BY S.STORE_NAME
-			 ) U
-		)
-		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	</select>
+<!--	<select id="getPartnerSearchList" parameterType="map" resultType="">-->
+<!--		SELECT *-->
+<!--		FROM (SELECT ROWNUM RNUM, UIS.*-->
+<!--    		  FROM (SELECT -->
+<!--          			U.USER_ID, U.USER_EMAIL, U.ROLE_ID,-->
+<!--                      -->
+<!--          			UI.USER_NAME, UI.USER_TEL, UI.USER_ADDRESS,-->
+<!--                      -->
+<!--          			S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE, S.STORE_ORIGINAL_IMAGE,-->
+<!--          			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC-->
+<!--                      -->
+<!--          			FROM-->
+<!--                      -->
+<!--           			USERS U INNER JOIN USER_INFO UI ON U.USER_ID = UI.USER_ID-->
+<!--                    		INNER JOIN STORES S ON UI.USER_ID = S.OWNER_ID-->
+<!--                      -->
+<!--           			WHERE U.ROLE_ID = 3-->
+<!--					<if test="search_field != null">-->
+<!--					AND-->
+<!--						<choose>-->
+<!--							<when test="search_field == 'user_email'">U.USER_EMAIL</when>-->
+<!--							<when test="search_field == 'store_name'">S.STORE_NAME</when>-->
+<!--							<when test="search_field == 'user_email'">S.STORE_TEL</when>-->
+<!--						</choose>-->
+<!--					LIKE #{search_word}-->
+<!--					</if>-->
+<!--					ORDER BY S.STORE_NAME-->
+<!--			 ) U-->
+<!--		)-->
+<!--		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}-->
+<!--	</select>-->
 </mapper>
