@@ -54,9 +54,7 @@
                         <div class="col-12">
                             <form action="<c:url value="/menu/updateAction"/>" method="post"
                                   enctype="multipart/form-data" id="updateMenuForm">
-                                <%-- TODO:: FIX HARDCODING VALUE--%>
-                                <input type="hidden" name="owner_id" value="3" id="owner_id">
-                                <%--<input type="hidden" name="owner_id" value="${idValue}">--%>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                 <input type="hidden" name="menu_id" value="${menu.menu_id}">
                                 <div class="form-group row">
                                     <label for="store_name" class="col-sm-2 col-form-label">가게이름*</label>
@@ -132,7 +130,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <img src="/resources/upload/${menu.menu_saved_image}" id="menu_preview"
+                                            <img src="/resources/upload${menu.menu_saved_image}" id="menu_preview"
                                                  alt="${menu.menu_original_image}" class="img-fluid float-right">
                                         </div>
                                     </div>

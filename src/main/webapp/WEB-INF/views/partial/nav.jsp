@@ -40,7 +40,16 @@
 
                 <sec:authorize access="hasRole('ROLE_STORE_OWNER')">
                     <li class="nav-item">
-                        <a class="nav-link text-right" href="<c:url value="/store"/>">가게</a>
+                        <a class="nav-link text-right" href="<c:url value="/store"/>">내가게</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-right" href="<c:url value="/store/order-list"/>">오더확인</a>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="hasRole('ROLE_STORE_STAFF')">
+                    <li class="nav-item">
+                        <a class="nav-link text-right" href="<c:url value="/staff/order-list"/>">오더확인</a>
                     </li>
                 </sec:authorize>
 

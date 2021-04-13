@@ -32,9 +32,8 @@
                 history.back();
             })
 
-            // TODO:: FIX HARDCODING OWNER ID VALUE
             $("#listBtn").on("click", () => {
-                location.href = "/store/store-list?owner_id=3"
+                location.href = "/store/store-list"
             })
 
             $("#updateBtn").on("click", () => {
