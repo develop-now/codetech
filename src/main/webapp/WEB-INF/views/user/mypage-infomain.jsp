@@ -7,7 +7,7 @@
     <!--toggle으 마이페이지 클릭시 nav의 정보관리와 연결, 현재 정보, 토탈포인트, 작성된 리뷰수, 즐겨찾기 한 가게 수, 회원 탈퇴하기 테이블로 보여주기
     	정보수정클릭할경우 수정페이지로 이동 -->
     <%@include file="../partial/head.jsp" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/infomain.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -29,20 +29,20 @@
                 <div class="container infomain">
                 <!--화면의 유저 아이디를 가지고 정보수정으로 넘어가야한다. -->
               <%--   <input type="hidden" name="user_id" value="${user_id}"> --%>
-	              	<div class="infomain__header">
+	              	<div class="userContainer__header">
 	              		<h2 class="text-right">정보관리</h2>
 	              	</div>
 	              		<hr>
 	              	<div class="infomain__img">
-	              		<img src="${pageContext.request.contextPath}/resources/image/default.png" alt="profile">
+	              		<img src="${pageContext.request.contextPath}/resources/image/common/default.png" alt="profile">
 	              	</div>
 	              	<div class="infomain__count">
 	              		<span>포인트&nbsp;:&nbsp;4,000P</span>
-	              		<span>리뷰개수&nbsp;:&nbsp;4개</span>
 	              		<span>즐겨찾는카페수&nbsp;:&nbsp;12지점</span>
+	              		<span>리뷰개수&nbsp;:&nbsp;4개</span>
 	              	</div>
-	              	<div class="infomaun__list">
-	              	<table>
+	              	<div class="infomain__list">
+	              	<table class="infomain__list-table">
 	              		<tr>
 	              			<td><span>아이디</span></td>
 	              			<td>test@test.com</td>
@@ -62,8 +62,8 @@
 	              	</table>
               		</div>
 	                <div class="infomain__link">
-		                <a href="../user/infoModify">비밀번호수정</a>
-		                <a href="../user/infoModify">정보수정</a>
+	                <span><button type="button" onclick="locaton.href='../user/infoModify'">비밀번호수정</button></span>
+		            <span><button type="button" onclick="locaton.href='../user/infoModify'">정보수정</button></span>
 	                </div>
                 </div>
             </div>

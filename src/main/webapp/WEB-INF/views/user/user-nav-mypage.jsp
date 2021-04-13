@@ -11,19 +11,19 @@
 	<div  class="mypage-logo"><strong>마이페이지</strong></div>
 	<ul class="nav" id="storeNavWrapper">
 		<li class="nav-item">
-			<a href="user/infoMain"
+			<a href="${pageContext.request.contextPath}/user/infoMain"
 				class="nav-link">정보관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="user/pointList"
+			<a href="${pageContext.request.contextPath}/user/pointList"
 				class="nav-link">포인트내역</a>
 		</li>
 		<li class="nav-item">
-			<a href="user/reportList"
+			<a href="${pageContext.request.contextPath}/user/reportList"
 				class="nav-link">신고관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="user/reviewList"
+			<a href="${pageContext.request.contextPath}/user/reviewList"
 				class="nav-link">리뷰관리</a>
 		</li>
 		
