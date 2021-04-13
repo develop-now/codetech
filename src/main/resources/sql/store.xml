@@ -4,55 +4,54 @@
 
 <mapper namespace="Stores">
 
-	<select id="nameCheck" resultType="store" parameterType="String">
-		select *
-		from stores
-		where store_name = #{name}
-	</select>
+    <select id="nameCheck" resultType="store" parameterType="String">
+        select *
+        from stores
+        where store_name = #{name}
+    </select>
 
-	<insert id="createStore" parameterType="store"
-		useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
-		<selectKey resultType="int" order="BEFORE"
-			keyProperty="store_id">
-			select nvl(max(store_id), 0) +1 from stores
-		</selectKey>
+    <insert id="createStore" parameterType="store"
+            useGeneratedKeys="true" keyProperty="store_id" keyColumn="store_id">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="store_id">
+            select nvl(max(store_id), 0) +1 from stores
+        </selectKey>
 
-		insert into stores (store_id, store_name, store_tel, store_address_si,
-		store_address_gu,store_address_dong, store_address_etc, store_desc,
-		store_rnum,
-		store_saved_image, store_original_image, opening_h_w_open,
-		opening_h_w_close,
-		opening_h_h_open, opening_h_h_close, holiday,
-		owner_id, store_status)
-		values
-		(#{store_id},#{store_name},#{store_tel},#{store_address_si},#{store_address_gu},
-		#{store_address_dong},#{store_address_etc},#{store_desc},#{store_rnum},
-		#{store_saved_image},#{store_original_image},#{opening_h_w_open},#{opening_h_w_close},
-		#{opening_h_h_open},#{opening_h_h_close},#{holiday}, #{owner_id},
-		(select store_status_id from store_status where
-		status_value='pending'))
-	</insert>
+        insert into stores (store_id, store_name, store_tel, store_address_si,
+        store_address_gu,store_address_dong, store_address_etc, store_desc,
+        store_rnum,
+        store_saved_image, store_original_image, opening_h_w_open,
+        opening_h_w_close,
+        opening_h_h_open, opening_h_h_close, holiday,
+        owner_id, store_status)
+        values
+        (#{store_id},#{store_name},#{store_tel},#{store_address_si},#{store_address_gu},
+        #{store_address_dong},#{store_address_etc},#{store_desc},#{store_rnum},
+        #{store_saved_image},#{store_original_image},#{opening_h_w_open},#{opening_h_w_close},
+        #{opening_h_h_open},#{opening_h_h_close},#{holiday}, #{owner_id},
+        (select store_status_id from store_status where
+        status_value='pending'))
+    </insert>
 
-	<select id="count" resultType="int">
-		select count(*)
-		from stores s
-		join
-		store_status t on s.store_status = t.store_status_id
-		where s.owner_id =
-		#{owner_id}
-		and t.status_value not like '%in%'
-	</select>
+    <select id="count" resultType="int">
+        select count(*)
+        from stores s
+                 join
+             store_status t on s.store_status = t.store_status_id
+        where s.owner_id =
+              #{owner_id}
+          and t.status_value not like '%in%'
+    </select>
 
-	<select id="listByOwner" resultType="store" parameterType="int">
-		select s.*, u.*, f.*, t.status_value as store_status_value
-		from stores
-		s
-		join users u on s.owner_id = u.user_id
-		join user_info f on s.owner_id
-		= f.user_id
-		join store_status t on s.store_status = t.store_status_id
-		where s.owner_id = #{owner_id}
-	</select>
+    <select id="listByOwner" resultType="store" parameterType="int">
+        select s.*, u.*, f.*, t.status_value as store_status_value
+        from stores s
+                 join users u on s.owner_id = u.user_id
+                 join user_info f on s.owner_id
+            = f.user_id
+                 join store_status t on s.store_status = t.store_status_id
+        where s.owner_id = #{owner_id}
+    </select>
 
     <select id="listByStaff" resultType="store" parameterType="int">
         select s.*
@@ -61,142 +60,143 @@
         where t.user_id = #{staff_id}
     </select>
 
-	<select id="readStore" resultType="store" parameterType="int">
-		select
-		s.*, u.*, f.*, t.status_value as store_status_value
-		from stores s
-		join
-		users u on s.OWNER_ID = u.USER_ID
-		join user_info f on s.OWNER_ID =
-		f.USER_ID
-		join store_status t on s.store_status = t.store_status_id
-		where s.store_id = #{store_id}
-	</select>
+    <select id="readStore" resultType="store" parameterType="int">
+        select s.*,
+               u.*,
+               f.*,
+               t.status_value as store_status_value
+        from stores s
+                 join
+             users u on s.OWNER_ID = u.USER_ID
+                 join user_info f on s.OWNER_ID =
+                                     f.USER_ID
+                 join store_status t on s.store_status = t.store_status_id
+        where s.store_id = #{store_id}
+    </select>
 
-	<update id="updateStoreStatus" parameterType="map">
-		update stores
-		set
-		store_status =(select store_status_id from store_status where
-		status_value = #{status_value}),
-		updated_at = sysdate
-		where store_id =
-		#{store_id}
-	</update>
+    <update id="updateStoreStatus" parameterType="map">
+        update stores
+        set store_status =(select store_status_id
+                           from store_status
+                           where status_value = #{status_value}),
+            updated_at   = sysdate
+        where store_id =
+              #{store_id}
+    </update>
 
-	<update id="updateStore" parameterType="store">
-		update stores
-		set store_tel=#{store_tel}, store_address_si =
-		#{store_address_si},
-		store_address_gu = #{store_address_gu},
-		store_address_dong =
-		#{store_address_dong},
-		store_address_etc =
-		#{store_address_etc}, store_desc=#{store_desc},
-		store_rnum=#{store_rnum},
-		<if test="store_saved_image != null">
-			store_saved_image=#{store_saved_image},
-			store_original_image=#{store_original_image},
-		</if>
-		opening_h_w_open=#{opening_h_w_open},
-		opening_h_w_close=#{opening_h_w_close},
-		opening_h_h_open=#{opening_h_h_open},
-		opening_h_h_close=#{opening_h_h_open},
-		holiday=#{holiday},
-		updated_at=sysdate
-		where store_id = #{store_id}
-	</update>
+    <update id="updateStore" parameterType="store">
+        update stores
+        set store_tel=#{store_tel}, store_address_si =
+        #{store_address_si},
+        store_address_gu = #{store_address_gu},
+        store_address_dong =
+        #{store_address_dong},
+        store_address_etc =
+        #{store_address_etc}, store_desc=#{store_desc},
+        store_rnum=#{store_rnum},
+        <if test="store_saved_image != null">
+            store_saved_image=#{store_saved_image},
+            store_original_image=#{store_original_image},
+        </if>
+        opening_h_w_open=#{opening_h_w_open},
+        opening_h_w_close=#{opening_h_w_close},
+        opening_h_h_open=#{opening_h_h_open},
+        opening_h_h_close=#{opening_h_h_open},
+        holiday=#{holiday},
+        updated_at=sysdate
+        where store_id = #{store_id}
+    </update>
 
-	<select id="forMain" resultType="store">
-		select bb.*, rownum from (
-		<include refid="storeCall" />
-		order by like_count desc) bb where rownum &lt;= 4
-	</select>
+    <!--    after this line for main    -->
 
-
-	<select id="getListCount" resultType="int">
-		select count(store_id)
-		from
-		stores
-	</select>
-
-	<select id="getListCountforSearchList" resultType="int"
-		parameterType="String">
-		select count(*) from stores where
-		<include refid="forSearch" />
-	</select>
-
-	<select id="forMainList" resultType="store" parameterType="Map">
-select * from (
-		select row_number() over(order by like_count desc) row_num, bb.* from (
-		<include refid="storeCall" />
-		) bb )
-		where row_num &gt;= #{start}
-		and row_num &lt;= #{end}
-
-	</select>
+    <select id="forMain" resultType="store">
+        select bb.*, rownum from (
+        <include refid="storeCall"/>
+        order by like_count desc) bb where rownum &lt;= 4
+    </select>
 
 
-	<select id="forReviewList" resultType="store"
-		parameterType="Map">
-		select * from (
-			select row_number() over(order by comment_count desc) row_num, bb.* from (
-		<include refid="storeCall" />
-		) bb )
-		where row_num &gt;= #{start}
-		and row_num &lt;= #{end}
-	</select>
+    <select id="getListCount" resultType="int">
+        select count(store_id)
+        from stores
+    </select>
+
+    <select id="getListCountforSearchList" resultType="int"
+            parameterType="String">
+        select count(*) from stores where
+        <include refid="forSearch"/>
+    </select>
+
+    <select id="forMainList" resultType="store" parameterType="Map">
+        select * from (
+        select row_number() over(order by like_count desc) row_num, bb.* from (
+        <include refid="storeCall"/>
+        ) bb )
+        where row_num &gt;= #{start}
+        and row_num &lt;= #{end}
+    </select>
 
 
+    <select id="forReviewList" resultType="store"
+            parameterType="Map">
+        select * from (
+        select row_number() over(order by comment_count desc) row_num, bb.* from (
+        <include refid="storeCall"/>
+        ) bb )
+        where row_num &gt;= #{start}
+        and row_num &lt;= #{end}
+    </select>
 
-	<select id="store_search" resultType="store" parameterType="Map">
-		select bb.*, rownum from (
-		<include refid="storeCall" />
-		order by like_count desc) bb
-		where
-		<include refid="forSearch" />
-		and rownum &gt;= #{start}
-		and rownum &lt;= #{end}
-	</select>
+
+    <select id="store_search" resultType="store" parameterType="Map">
+        select bb.*, rownum from (
+        <include refid="storeCall"/>
+        order by like_count desc) bb
+        where
+        <include refid="forSearch"/>
+        and rownum &gt;= #{start}
+        and rownum &lt;= #{end}
+    </select>
 
 
-	<sql id="forSearch">
-		(store_name || store_address_si || store_address_gu ||
-		store_address_dong)
-		like
-		#{searchWord}
-	</sql>
+    <sql id="forSearch">
+        (store_name || store_address_si || store_address_gu ||
+            store_address_dong)
+        like
+        #{searchWord}
+    </sql>
 
-	<sql id="storeCall">
-		select s1.*, nvl(j1.comment_count, 0) as comment_count,
-		nvl(j2.like_count,
-		0) as like_count
-		from STORES s1
-		left join (
-		select
-		s2.store_id as store_id, nvl(count(*), 0) as comment_count
-		from stores
-		s2
-		join comments c on c.comment_ref = s2.store_id
-		group by s2.store_id
-		)
-		j1 on j1.store_id = s1.store_id
-		left join (
-		select s3.store_id as
-		store_id, nvl(count(*), 0) as like_count
-		from stores s3
-		join likes l on
-		l.store_id = s3.store_id
-		group by s3.store_id
-		) j2 on j2.store_id =
-		s1.store_id
-	</sql>
 
-	<select id="getMap" resultType="storemap" parameterType="String">
-		select * from storemap where
-		<include refid="forSearch" />
-		and rownum &lt;= 1
-	</select>
+    <sql id="storeCall">
+        select s1.*,
+               nvl(j1.comment_count, 0) as comment_count,
+               nvl(j2.like_count,
+                   0)                   as like_count
+        from STORES s1
+                 left join (
+            select s2.store_id      as store_id,
+                   nvl(count(*), 0) as comment_count
+            from stores s2
+                     join comments c on c.comment_ref = s2.store_id
+            group by s2.store_id
+        ) j1 on j1.store_id = s1.store_id
+                 left join (
+            select s3.store_id      as
+                                       store_id,
+                   nvl(count(*), 0) as like_count
+            from stores s3
+                     join likes l on
+                l.store_id = s3.store_id
+            group by s3.store_id
+        ) j2 on j2.store_id =
+                s1.store_id
+    </sql>
 
+    <!--    <select id="getMap" resultType="storemap" parameterType="String">-->
+    <!--        select * from storemap where-->
+    <!--        <include refid="forSearch"/>-->
+    <!--        and rownum &lt;= 1-->
+    <!--    </select>-->
 
 
 </mapper>
