@@ -21,8 +21,6 @@ create table stores
     opening_h_h_close    varchar2(20)        not null, -- 휴일 영업 종료 시간
     holiday              varchar2(30)        not null, -- 휴일
     owner_id             number(6)           not null,
-    store_status         number(1) default 1 not null,
-    store_like           number(5) default 0,          --좋아요 개수
     store_comment        number(5) default 0,          --가게리뷰(댓글) 개수
 
     constraint fk_store_owner foreign key (owner_id) references users (user_id),

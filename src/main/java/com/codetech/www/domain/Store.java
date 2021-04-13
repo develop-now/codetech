@@ -23,10 +23,29 @@ public class Store {
     private int owner_id;
     private int store_status;
 
-    private int store_like;
-    private int store_comment;
+    private int like_count;
+    private int comment_count;
 
-    private MultipartFile store_image;
+
+
+    public int getLike_count() {
+		return like_count;
+	}
+
+	public void setLike_count(int like_count) {
+		this.like_count = like_count;
+	}
+
+	public int getComment_count() {
+		return comment_count;
+	}
+
+	public void setComment_count(int comment_count) {
+		this.comment_count = comment_count;
+	}
+
+	private MultipartFile store_image;
+
     private String store_saved_image; // 실제 저정된 파일 이름
     private String store_original_image; // 첨부될 파일 이름
 
