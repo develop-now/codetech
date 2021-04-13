@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <div class="modal fade loginModal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle"
      aria-hidden="true">
     <form name="loginform" action="<c:url value="/auth/loginAction"/>" method="post" class="border-light p-5">
