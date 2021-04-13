@@ -21,6 +21,46 @@ insert into comments values(16, 't', 0, 0, sysdate, sysdate, 1, 1, 1)
 
 
 
+select ab.*, like_count from (
+
+select s1.*, nvl(j1.comment_count, 0) as comment_count
+from STORES s1
+         left join (
+    select s2.store_id as store_id, nvl(count(*), 0) as comment_count
+    from stores s2
+             join comments c on c.comment_ref = s2.store_id
+    group by s2.store_id
+) j1 on j1.store_id = s1.store_id
+
+) ab join (
+
+select s1.*, nvl(j1.like_count, 0) as like_count
+from STORES s1
+         left join (
+    select s2.store_id as store_id, nvl(count(*), 0) as like_count
+    from stores s2
+             join likes c on c.store_id = s2.store_id
+    group by s2.store_id
+) j1 on j1.store_id = s1.store_id
+
+) bc on ab.store_id = bc.store_id order by comment_count desc;
 
 
+
+
+--
+select s1.*, nvl(j1.comment_count, 0) as comment_count, nvl(j2.like_count, 0) as like_count
+from STORES s1
+         left join (
+    select s2.store_id as store_id, nvl(count(*), 0) as comment_count
+    from stores s2
+             join comments c on c.comment_ref = s2.store_id
+    group by s2.store_id
+) j1 on j1.store_id = s1.store_id
+         left join (
+    select s3.store_id as store_id, nvl(count(*), 0) as like_count
+    from stores s3
+             join likes l on l.store_id = s3.store_id
+    group by s3.store_id
+) j2 on j2.store_id = s1.store_id;
 
