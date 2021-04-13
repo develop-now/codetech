@@ -34,8 +34,6 @@ insert into user_status
 values (4, 'banned'); -- 추방
 
 drop table users cascade constraints;
-
-drop table users cascade constraints;
 create table users
 (
     user_id       number(6) primary key,
@@ -52,21 +50,23 @@ create table users
 );
 
 insert into users (user_id, user_email, user_password, role_id)
-values (1, 'site_owner@test.com', '1234', 1);
+values (1, 'site_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 1);
 insert into users (user_id, user_email, user_password, role_id)
-values (2, 'admin@test.com', '1234', 2);
+values (2, 'admin@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 2);
 insert into users (user_id, user_email, user_password, role_id)
-values (3, 'sotre_owner@test.com', '1234', 3);
+values (3, 'sotre_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
 insert into users (user_id, user_email, user_password, role_id)
-values (4, 'staff@test.com', '1234', 4);
+values (4, 'staff@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 4);
 insert into users (user_id, user_email, user_password, role_id)
-values (5, 'user1@test.com', '1234', 5);
+values (5, 'user1@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (6, 'user2@test.com', '1234', 5);
+values (6, 'user2@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (7, 'user_store_owner@test.com', '1234', 3);
+values (7, 'user_store_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
 insert into users (user_id, user_email, user_password, role_id)
-values (8, 'user_3@test.com', '1234', 5);
+values (8, 'user_3@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (9, 'user9@test.com', '1111', 5);
 
 
 drop table user_info cascade constraints;
@@ -99,6 +99,18 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (8, '유저', '111-222-3333', 'korea', 8);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (9, 'user9', '111-222-3333', 'korea', 9);
+
+drop table persistent_logins cascade constraints;
+create table persistent_logins
+(
+    username  varchar2(64) not null,
+    series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
+    token     varchar2(64) not null, -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null -- 가장 최신 자동 로그인 시간
+);
+
 
 drop table persistent_logins cascade constraints;
 create table persistent_logins

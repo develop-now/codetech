@@ -27,7 +27,6 @@ public class HomeController {
     private OwnerService ownerService;
 
     @RequestMapping(value = "/home")
-
     public ModelAndView home(ModelAndView mv, HttpSession session) {
         List<Store> stores = ownerService.getStoreForMain();
 

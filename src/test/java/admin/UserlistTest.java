@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,20 +41,17 @@ public class UserlistTest {
 		 map.put("start", 1);
 		 map.put("end", 3);
 		 
-		 List<User> Userlist = sqlSession.selectList("Admin.getUsersSearchList", map);
-		 List<UserInfo> Infolist = sqlSession.selectList("Admin.getInfoSearchList", map);
+		 List<UserPlusInfo> Userlist = sqlSession.selectList("Admin.getUsersSearchList", map);
 		   
-		 for (User result : Userlist) {
+		 for (UserPlusInfo result : Userlist) {
+			 logger.info("번호: " + result.getUser_id());
 			 logger.info("이메일: " + result.getUser_email());
 			 logger.info("가입일: " + result.getCreated_at());
 			 logger.info("수정일: " + result.getUpdated_at());
-		 }
-		 
-		 for (UserInfo result : Infolist) {
 			 logger.info("이름: " + result.getUser_name());
 			 logger.info("포인트: " + result.getPoint());
 			 logger.info("전화번호: " + result.getUser_tel());
 			 logger.info("주소: " + result.getUser_address());
-		 } 
+		 }
 	 }
 }
