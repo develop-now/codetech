@@ -1,3 +1,6 @@
 $(() => {
-    console.log("Index JS loaded")
+    $("#logoutBtn").on("click", (e) => {
+        e.preventDefault();
+        $("#logoutForm").submit()
+    })
 })

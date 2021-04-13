@@ -49,9 +49,9 @@
 									<p class="card-text">
 										5분 후 수령 가능 <br>
 										<img class="card-img-heart" src="resources/upload/love.png"
-											width="20" height="20" alt=""> ${likes[status.index]}&nbsp;&nbsp;<img
+											width="20" height="20" alt=""> ${store.store_like}&nbsp;&nbsp;<img
 											class="card-img-comments" src="resources/upload/message.png"
-											width="20" height="20" alt="">&nbsp;${comments[status.index]}
+											width="20" height="20" alt="">&nbsp;${store.store_comment}
 									</p>
 								</div>
 
@@ -73,10 +73,10 @@
 									<p class="card-text">
 										준비중<br> <img class="card-img-heart"
 											src="resources/upload/love.png" width="20" height="20" alt="">
-										${likes[status.index]} &nbsp;&nbsp;
+										${store.store_like} &nbsp;&nbsp;
 										<img class="card-img-comments"
 											src="resources/upload/message.png" width="20" height="20"
-											alt="">&nbsp;${comments[status.index]}
+											alt="">&nbsp;${store.store_comment}
 									</p>
 								</div>
 								<div class="card-footer">

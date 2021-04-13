@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       https://www.springframework.org/schema/security/spring-security.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/resources/**/**" access="permitAll"/>
+        <security:intercept-url pattern="/auth/login" access="permitAll"/>
+        <security:intercept-url pattern="/auth/loginAction" access="permitAll"/>
+        <security:intercept-url pattern="/user/join" access="permitAll"/>
+        <security:intercept-url pattern="/user/idCheck" access="permitAll"/>
+        <security:intercept-url pattern="/user/joinProcess" access="permitAll"/>
+        <security:intercept-url pattern="/order/order-list"
+                                access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/store/**" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/home" access="permitAll"/>
+        <security:intercept-url pattern="/" access="permitAll"/>
+
+        <security:form-login login-page="/auth/login"
+                             login-processing-url="/auth/loginAction"
+                             username-parameter="user_id"
+                             password-parameter="user_password"
+                             default-target-url="/"
+                             always-use-default-target="false"
+                             authentication-success-handler-ref="customLoginSuccessHandler"
+                             authentication-failure-handler-ref="customLoginFailHandler"
+        />
+        <security:access-denied-handler ref="customAccessDeniedHandler"/>
+
+        <security:remember-me
+                user-service-ref="customUserDetailService"
+                data-source-ref="dataSource"
+                remember-me-parameter="remember-me"
+                remember-me-cookie="remember-me"
+                token-validity-seconds="2419200"
+        />
+        <security:logout
+                logout-success-url="/"
+                logout-url="/auth/logout"
+                invalidate-session="true"
+                delete-cookies="true"
+        />
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="customUserDetailService">
+            <security:password-encoder ref="bcryptPasswordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <context:component-scan base-package="com.codetech.www.security"/>
+</beans>

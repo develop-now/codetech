@@ -5,29 +5,59 @@
 <mapper namespace="users">
     <select id="getSearchList" parameterType="map" resultType="user">
 
+
     </select>
     <select id="isEmail" parameterType="String" resultType="user">
         select *
         from users
         where user_email = #{user_email}
     </select>
-    <select id="isName" parameterType="String" resultType="user-info">
+    <select id="isName" parameterType="String"
+            resultType="user-info">
         select *
         from user_info
         where user_name = #{user_name}
     </select>
     <insert id="userInsert" parameterType="user">
-    	insert into users(user_id, user_email, user_password)
-    	values((select nvl(max(user_id),0)+1 from users),#{user_email},#{user_password})
+        insert into users(user_id, user_email, user_password)
+        values ((select nvl(max(user_id), 0) + 1 from users), #{user_email}, #{user_password})
     </insert>
     <select id="userId" parameterType="user" resultType="int">
-    	select user_id 
-    	from users
-    	where user_email=#{user_email}
+        select user_id
+        from users
+        where user_email = #{user_email}
     </select>
     <insert id="infoInsert" parameterType="user-info">
-    	insert into user_info
-    	values((select nvl(max(user_id),0)+1 from user_info),#{user_name},#{user_tel},#{user_address},#{user_profile},#{original_file},#{point},#{user_id})
-    	
+        insert into user_info
+        values ((select nvl(max(user_id), 0) + 1
+                 from user_info), #{user_name}, #{user_tel}, #{user_address}, #{user_profile}, #{original_file},
+                #{point}, #{user_id})
+
     </insert>
+    <select id="managerName" resultType="user-info">
+        select user_name, a.user_id
+        from user_info a
+                 join users b
+                      on role_id = 2 and a.user_id = b.user_id
+    </select>
+
+    <select id="manager" resultType="user" parameterType="int">
+        select *
+        from users
+        where user_id = #{user_id}
+    </select>
+
+    <select id="managerInfo" resultType="user-info" parameterType="int">
+        select *
+        from user_info
+        where user_id = #{user_id}
+    </select>
+
+    <select id="authIdCheck" resultType="user">
+        select u.*, r.role_value as auth
+        from users u
+                 join role r on u.role_id = r.role_id
+        where u.user_email = #{username}
+    </select>
+
 </mapper>

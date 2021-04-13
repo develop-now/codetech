@@ -25,8 +25,8 @@ public class UsersServiceImpl implements UsersService {
     private UsersDAO dao;
 
     @Autowired
-	private PasswordEncoder passwordEncoder;
-    
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public int isEmail(String user_email) {
         User user = dao.isEmail(user_email);
@@ -39,32 +39,31 @@ public class UsersServiceImpl implements UsersService {
         return (user == null) ? -1 : 1;
     }
 
-	@Override
-	public int userinsert(User user, UserInfo info) {
-		int result = dao.userinsert(user);
-		if(result == 1 ) {
-			int user_id = dao.userId(user);
-			info.setUser_id(user_id);
-			dao.infoinsert(info);
-		}
-		return result;
-	}
+    @Override
+    public int userinsert(User user, UserInfo info) {
+        int result = dao.userinsert(user);
+        if (result == 1) {
+            int user_id = dao.userId(user);
+            info.setUser_id(user_id);
+            dao.infoinsert(info);
+        }
+        return result;
+    }
 
-	@Override
-	public int isUser(String user_id, String user_password) {
-		User user = dao.isEmail(user_id);
-		int result=-1;
-		logger.info("dao.isEmail result : " + result);
-		if(user != null) {
-			if(passwordEncoder.matches(user_password, user.getUser_password())) {
-				result=1;
-		}else
-			result = 0;
-	}
-		return result;
-	
-}
-	
-	
-	
+    @Override
+    public int isUser(String user_id, String user_password) {
+        User user = dao.isEmail(user_id);
+        int result = -1;
+        logger.info("dao.isEmail result : " + result);
+        if (user != null) {
+            if (passwordEncoder.matches(user_password, user.getUser_password())) {
+                result = 1;
+            } else
+                result = 0;
+        }
+        return result;
+
+    }
+
+
 }
