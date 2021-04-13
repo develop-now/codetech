@@ -52,7 +52,7 @@ public class AdminController {
     	
 		List<UserPlusInfo> Userslist = null;
 		
-		int limit = 10;
+		int limit = 5;
 		int listcount = adminService.getSearchListCount(index, state, search_word);
 		
 		Userslist = adminService.getUsersSearchList(index, state, search_word, page, limit);

@@ -23,15 +23,27 @@ values (3, 'sotre_owner@test.com', '1234', 3);
 insert into users (user_id, user_email, user_password, role_id)
 values (4, 'staff@test.com', '1234', 4);
 insert into users (user_id, user_email, user_password, role_id)
-values (5, 'user1@test.com', '1234', 5);
+values (5, 'user5@test.com', '1111', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (6, 'user2@test.com', '1234', 5);
+values (6, 'user6@test.com', '1111', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (7, 'user_store_owner@test.com', '1234', 3);
+values (7, 'user7@test.com', '1111', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (8, 'user_3@test.com', '1234', 5);
+values (8, 'user8@test.com', '1111', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (9, 'user9@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (10, 'user10@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (11, 'user11@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (12, 'user12@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (13, 'user13@test.com', '1111', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (14, 'user14@test.com', '1111', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (15, 'user15@test.com', '1111', 5);
 
 select * from users;
 commit;

@@ -148,29 +148,26 @@
     <title>User Index</title>
     <%@include file="../partial/head.jsp" %>
 <script>
-	var selectedValue = '${search_field}'
-	
-	/* 선택된 필드 값이 있으면 select class="viewcount"를 가진
-	   option value 값을 유지 */
-	if (selectedValue != '-1')
-		$(".viewcount").val(selectedValue);
-	
-	$("check_state").click(function() {
-		checkedValue = $(this).val();
-		$(this).checked(true);
-	})
-	
+	/* 21-04-13 버그 수정 예정 */
 	// 선택한 옵션 값을 placeholder에 표시
 	$(".viewcount").change(function() {
 		selectedValue = $(this).val();
-		
+			
 		$("input").val('');
-		
+			
 		message=["이메일을", "이름을", "전화번호를"]
 		$("input").attr("placeholder", message[selectedValue] + " 입력하세요.");
 	})
-
-	$(function() {		
+	
+	$(function() {
+		var selectedValue = '${search_field}'
+			
+		/* 선택된 필드 값이 있으면 select class="viewcount"를 가진 option value 값을 유지 */	
+		if (selectedValue != '-1')
+			$(".viewcount").val(selectedValue);
+		
+		$("input[value='${check_state}']").prop('checked', true);
+		
 		$(".UserSusp").click(function(event) {
 			var answer = confirm("회원 정지를 하시겠습니까?");
 			
@@ -202,33 +199,34 @@
 				event.preventDefault();
 			}
 		});
+		
+		/* 기능 사용시 나오는 알림창 */
+		var result = "${ result }";
+		
+		if (result == 'suspSuccess') {
+			alert("선택한 아이디 회원을 정지 성공.");	
+		} else if (result == 'suspFail') {
+			alert("선택한 아이디 회원 정지 실패.");
+		}
+		
+		if (result == 'reacSuccess') {
+			alert("선택한 아이디 정지 해제 완료");
+		} else if (result == 'reacFail') {
+			alert("선택한 아이디 정지 해제 실패");
+		}
+		
+		if (result == 'bannedSuccess') {
+			alert("선택한 아이디 강제 추방 완료");
+		} else if (result == 'bannedFail') {
+			alert("선택한 아이디 탈퇴 취소 완료");
+		}
+		
+		if (result == 'inacSuccess') {
+			alert ("선택한 아이디 탈퇴 취소 성공");
+		} else if (result == 'inacFail') {
+			alert ("선택한 아이디 탈퇴 취소 실패");
+		}
 	});
-	
-	var result = "${ result }";
-	
-	if (result == 'suspSuccess') {
-		alert("선택한 아이디 회원을 정지 겅공.");	
-	} else if (result == 'suspFail') {
-		alert("선택한 아이디 회원 정지 실패.");
-	}
-	
-	if (result == 'reacSuccess') {
-		alert("선택한 아이디 정지 해제 완료");
-	} else if (result == 'reacFail') {
-		alert("선택한 아이디 정지 해제 실패");
-	}
-	
-	if (result == 'bannedSuccess') {
-		alert("선택한 아이디 강제 추방 완료");
-	} else if (result == 'bannedFail') {
-		alert("선택한 아이디 탈퇴 취소 완료");
-	}
-	
-	if (result == 'inacSuccess') {
-		alert ("선택한 아이디 탈퇴 취소 성공");
-	} else if (result == 'inacFail') {
-		alert ("선택한 아이디 탈퇴 취소 실패");
-	}	
 </script>
 </head>
 <body>
@@ -259,13 +257,13 @@
 										<option value="1">이름</option>
 										<option value="2">전화번호</option>
 									</select>
-									<input type="text" id="search_word" name="search_word" value="${search_word}">
+									<input type="text" id="search_word" name="search_word" placeholder="이메일을 입력하세요." value="${search_word}">
 								</td>
 								
 								<td>회원 구분</td>
 								<td>
 								<ul class="checkbox_ul">
-									<li><label><input type="radio" name="check_state" value="0" checked/> 회원 활동</label>&nbsp;</li>
+									<li><label><input type="radio" name="check_state" value="0" /> 회원 활동</label>&nbsp;</li>
 									<li><label><input type="radio" name="check_state" value="1" /> 회원 탈퇴</label>&nbsp;</li>
 									<li><label><input type="radio" name="check_state" value="2" /> 활동 정지</label>&nbsp;</li>
 									<li><label><input type="radio" name="check_state" value="3" /> 회원 추방</label>&nbsp;</li>
@@ -349,7 +347,47 @@
 			            	</c:forEach>
 			            </tbody>
       				</table>
-      			</c:if>
+		      	 <div style="margin: 50px;">
+		         <ul class="pagination justify-content-center">
+		              <c:if test="${page <= 1}">
+		                 <li class="page-item"><a class="page-link current" href="#">이전&nbsp;</a>
+		                 </li>
+		               </c:if>
+		
+		               <c:if test="${page > 1}">
+		                  <li class="page-item"><a
+		                     href="userList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     class="page-link">이전</a> &nbsp;</li>
+		               </c:if>
+		
+		
+		               <c:forEach var="a" begin="${startpage}" end="${endpage }">
+		                  <c:if test="${a == page }">
+		                     <li class="page-item"><a class="page-link current" href="#">${a}</a>
+		                     </li>
+		                  </c:if>
+		
+		                  <c:if test="${a != page }">
+		                     <li class="page-item"><a
+		                        href="userList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                        class="page-link">${a}</a></li>
+		                  </c:if>
+		               </c:forEach>
+		
+		
+		               <c:if test="${page >= maxpage }">
+		                  <li class="page-item"><a class="page-link current" href="#">&nbsp;다음</a>
+		                  </li>
+		               </c:if>
+		
+		               <c:if test="${page < maxpage }">
+		                  <li class="page-item"><a
+		                     href="userList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     class="page-link">&nbsp;다음</a></li>
+		               </c:if>
+		         </ul>
+		         </div>
+			</c:if>
 			<%-- <c:if test="${listcount > 0}"> end --%>
 			</div>
 			

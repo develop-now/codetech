@@ -21,14 +21,26 @@ values (3, 'store_owner', '111-222-3333', 'korea', 3);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (4, 'staff', '111-222-3333', 'korea', 4);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (5, 'user1', '111-222-3333', 'korea', 5);
+values (5, 'user5', '111-222-3333', 'korea', 5);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (6, 'user2', '111-222-3333', 'korea', 6);
+values (6, 'user6', '111-222-3333', 'korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (7, 'user3', '111-222-3333', 'korea', 7);
+values (7, 'user7', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (8, '유저', '111-222-3333', 'korea', 8);
+values (8, 'user8', '111-222-3333', 'korea', 8);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (9, 'user9', '111-222-3333', 'korea', 9);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (10, 'user10', '111-222-3333', 'korea', 10);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (11, 'user11', '111-222-3333', 'korea', 11);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (12, 'user12', '111-222-3333', 'korea', 12);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (13, 'user13', '111-222-3333', 'korea', 13);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (14, 'user14', '111-222-3333', 'korea', 14);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (15, 'user15', '111-222-3333', 'korea', 15);
 
 commit;
