@@ -17,6 +17,11 @@ create table comments
 
 select * from comments;
 
+insert into comments values(1, 'test11', 0, 0, sysdate, sysdate, 5, 3, 1);
+insert into comments values(2, 'test22', 0, 0, sysdate, sysdate, 4, 3, 1);
+insert into comments values(3, 'test33', 0, 0, sysdate, sysdate, 4, 2, 1);
+insert into comments values(4, 'test44', 0, 0, sysdate, sysdate, 5, 2, 1);
+
 insert into comments values(16, 't', 0, 0, sysdate, sysdate, 1, 1, 1)
 
 
