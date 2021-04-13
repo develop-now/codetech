@@ -28,10 +28,7 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (8, '유저', '111-222-3333', 'korea', 8);
-<<<<<<< HEAD
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (9, 'user9', '111-222-3333', 'korea', 9);
-=======
->>>>>>> b971a36718bb2150cf3c7dbb6a73e7ff9ef63b0d
 
 commit;
