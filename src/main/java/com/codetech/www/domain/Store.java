@@ -22,31 +22,16 @@ public class Store {
     private String holiday;
     private int owner_id;
     private int store_status;
-    private int like_count;
-    private int comment_count;
 
+    private MultipartFile store_image;
 
-    public int getLike_count() {
-		return like_count;
-	}
-
-	public void setLike_count(int like_count) {
-		this.like_count = like_count;
-	}
-
-	public int getComment_count() {
-		return comment_count;
-	}
-
-	public void setComment_count(int comment_count) {
-		this.comment_count = comment_count;
-	}
-
-	private MultipartFile store_image;
     private String store_saved_image; // 실제 저정된 파일 이름
     private String store_original_image; // 첨부될 파일 이름
 
     private String store_status_value;
+
+    private int like_count;
+    private int comment_count;
 
     public int getStore_id() {
         return store_id;
@@ -230,5 +215,21 @@ public class Store {
 
     public void setStore_status_value(String store_status_value) {
         this.store_status_value = store_status_value;
+    }
+
+    public int getLike_count() {
+        return like_count;
+    }
+
+    public void setLike_count(int like_count) {
+        this.like_count = like_count;
+    }
+
+    public int getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(int comment_count) {
+        this.comment_count = comment_count;
     }
 }

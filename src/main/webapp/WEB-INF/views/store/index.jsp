@@ -28,9 +28,10 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <%@include file="store-nav.jsp"%>
+            <%@include file="store-nav.jsp" %>
             <div class="col-12 col-sm-10">
                 <p>Store Main Content</p>
+                <p>Store Owner id : <c:out value="${user_id}"/></p>
             </div>
         </div>
     </div>

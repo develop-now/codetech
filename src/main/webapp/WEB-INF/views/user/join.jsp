@@ -24,7 +24,7 @@
                                class="loginModal__img-profile"
                                accept="image/gif, image/jpeg,image/jpg, image/png"
                                style="display:none">
-                        <img src="${pageContext.request.contextPath}/resources/image/default.png" alt="profile"
+                        <img src="${pageContext.request.contextPath}/resources/image/common/default.png" alt="profile"
                              class="loginModal__img-profile" title="프로필사진 변경"><br>
                         <span class="loginModal-imgcontainer-dis">*profile사진 변경 가능</span><br>
                         <span id="message-profile"></span>
@@ -35,10 +35,6 @@
                     <span id="message-id"></span>
                     <input type="text" placeholder="이메일형식의 아이디를 입력하세요" name="user_email" id="user_email" required>
 
-                    <label for="user_name"><strong>닉네임</strong></label>
-                    <span id="message-nick"></span>
-                    <input type="text" placeholder="닉네임을 입력하세요" name="user_name" id="user_name" required>
-
                     <label for="user_password"><strong>비밀번호</strong></label>
                     <span id="message-pass"></span>
                     <input type="password" placeholder="비밀번호를 입력하세요" name="user_password" id="user_password" required>
@@ -48,6 +44,10 @@
                     <input type="password" placeholder="위와 일치하는 비밀번호를 입력하세요" name="user_password_check"
                            id="user_password_check" required>
 
+                    <label for="user_name"><strong>닉네임</strong></label>
+                    <span id="message-nick"></span>
+                    <input type="text" placeholder="닉네임을 입력하세요" name="user_name" id="user_name" required>
+                    
                     <label for="user_tel"><strong>연락처</strong></label>
                     <span id="message-tel"></span>
                     <input type="text" placeholder="예)01012341234" name="user_tel" id="user_tel" required>

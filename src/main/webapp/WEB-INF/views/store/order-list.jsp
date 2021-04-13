@@ -42,6 +42,8 @@
                         <div class="w-100">
                             <hr>
                         </div>
+
+                        <%-- Date Start --%>
                         <div class="col-12 mb-3">
                             <div class="input-group ">
                                 <div class="input-group-append">
@@ -54,7 +56,9 @@
                                 </div>
                             </div>
                         </div>
+                        <%-- Date End --%>
 
+                        <%-- Radio Start --%>
                         <div class="col-12 mb-3">
                             <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="order-all" name="order-status"
@@ -87,7 +91,9 @@
                                 <label class="custom-control-label" for="order-cancel">취소만 보기</label>
                             </div>
                         </div>
+                        <%-- Radio End --%>
 
+                        <%-- Table Start --%>
                         <div class="col-12">
                             <table class="table table-sm table-hover text-center">
                                 <thead>
@@ -128,6 +134,14 @@
                                 </tbody>
                             </table>
                         </div>
+                        <%-- Table Start --%>
+
+                        <div class="col-12">
+                            <c:forEach var="store" items="${list}" varStatus="status">
+                                <h6>${store.store_name}</h6>
+                            </c:forEach>
+                        </div>
+
                     </div>
                 </div>
             </div>

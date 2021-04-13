@@ -54,4 +54,11 @@ public class UsersDAO {
 
 	}
 
+	public UserPlusInfo user_total_info(int user_id) {
+		return sqlSession.selectOne("users.userTotalInfo", user_id); 
+	}
+	
+	public User getUserId(String user_email) {
+		return sqlSession.selectOne("users.selectUsers", user_email);
+	}
 }

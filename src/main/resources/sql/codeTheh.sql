@@ -197,25 +197,25 @@ create table stores
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', 'a.png', 'image_url',
+values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', 'b.png', 'image_url',
+values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'c.png', 'image_url',
+values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 7);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (4, 'Test Store4', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
+values (4, 'Test Store4', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
 
@@ -396,6 +396,14 @@ create table staffs
     constraint fk_staff_user foreign key (user_id) references users (user_id),
     constraint fk_staff_store foreign key (store_id) references stores (store_id)
 );
+
+insert into staffs values(1, 4, 1);
+insert into staffs values(2, 4, 3);
+insert into staffs values(3, 4, 4);
+insert into staffs values(4, 12, 1);
+insert into staffs values(5, 12, 3);
+insert into staffs values(6, 13, 4);
+insert into staffs values(7, 12, 2);
 
 drop table likes cascade constraints;
 create table likes

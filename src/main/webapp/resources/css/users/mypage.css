@@ -1,0 +1,148 @@
+@charset "UTF-8";
+/*mypage-maininfo start*/
+.infomain__img{
+	text-align:center;
+}
+.infomain__img > img{
+	width:150px;
+}
+.infomain__count{
+	width: 100%;
+	padding: 30px;
+	display: flex;
+	justify-content: space-between;
+	font-size: 22px;
+}
+.infomain__list{
+	display: flex;
+	justify-content:center !important;
+}
+.infomain__list-table tr  td{
+	padding: 10px 20px;
+	font-size: 20px;
+}
+.infomain__list-table tr td:nth-child(1){
+	margin: 0 20px;
+}
+.infomain__link{
+	display:flex;
+	justify-content:center;
+}
+.infomain__link span{
+	width: 23%;
+	margin: 30px;
+}
+.infomain__link span button{
+	padding: 10px 20px;
+	width:100%;
+	border-radius:5px;
+	border-line: none;
+	border-color:#BE9F7B;
+	background-color: #BE9F7B;
+	color:white;
+	opacity:0.9;
+}
+.infomain__link span button:hover{
+	background-color: #BE9F7B;
+	color:#B63629;
+}
+/*mypage-maininfo end*/
+
+/*mypage-pointlist start*/
+
+.pointList div span{
+	font-size: 25px;
+	padding: 10px 30px;
+}
+.pointList__body{
+	display:flex ;
+	flex-direction:column;
+	justify-content:center;
+	width: 100%;
+	padding: 60px 100px;
+	
+}
+.pointList__table{
+	text-align: center;
+}
+.pointList__table-head{
+	background-color:#fbf9f7; 
+}
+/*mypage-pointlist end*/
+
+/*mypage-report start*/
+
+.mypageReport__body{
+	text-align:center;
+	width: 100%;
+	padding: 60px 100px;
+	
+}
+.mypageReport__body--radio{
+	display:flex;
+}
+.mypageReport__table-head{
+	background-color:#fbf9f7; 
+}
+/*mypage-report end*/
+
+/*mypage-review start*/
+.mypageReview__body{
+	width:80%;
+	margin: 40px 40px 0 40px;
+	background-color: oldlace;
+	box-shadow: -7px 7px 9px darkgrey;
+	border-radius: 50px 50px 0 50px;
+	
+}
+.mypageReview__content-left{
+	width: 500px;
+}
+.mypageReview__content-left div{
+	text-align:center;
+}
+.mypageReview__content-left>div{
+	margin: 20px;
+}
+.mypageReview__content-left div span{
+	padding:0 0 0 10px;
+}
+.mypageReview__content-left > div > span:nth-child(1){
+	position: relative;
+	bottom:20px;
+}
+.mypageReview__content-left > div > span:nth-child(2){
+	position: relative;
+	right: 15px;
+    font-weight: 700;
+    
+}
+.mypageReview__content-left--img{
+	margin: 10px 30px 30px 30px;
+	
+}
+.mypageReview__content-left--img > img{
+	width:150px;
+}
+.mypageReview__content-right{
+	display:grid;
+	grid-template-rows: 140px 1fr 1fr;
+	padding-right:40px;
+	padding-bottom: 20px;
+}
+.mypageReview__content-right--rivew{
+	padding-top:30px;
+}
+.mypageReview__content-right > .order-summary{
+	color: #6b9068;
+    font-weight: bold;
+    opacity: 0.8;}
+    
+.mypageReview__content-right > .text-right > button{
+	border-radius:5px;
+	border-line: none;
+	border-color:#6b9068ba;
+	background-color: #6b9068ba;
+	color:white;
+	opacity:0.9;}
+/*mypage-review end*/
