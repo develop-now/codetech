@@ -39,9 +39,9 @@
 								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
+								${store.like_count}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${store.store_comment}
+									width="30" height="30" alt="">&nbsp;${store.comment_count}
 							</div>
 						</div>
 					</c:if>
@@ -63,9 +63,9 @@
 								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
+								${store.like_count}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${store.store_comment}
+									width="30" height="30" alt="">&nbsp;${store.comment_count}
 							</div>
 						</div>
 					</c:if>
