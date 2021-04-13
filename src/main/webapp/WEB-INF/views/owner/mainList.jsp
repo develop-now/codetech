@@ -91,9 +91,9 @@
 								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp;<%-- <img class="card-img-comments"
+								${store.store_like}&nbsp;&nbsp; <img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]} --%>
+									width="30" height="30" alt="">&nbsp;${store.store_comment}
 							</div>
 						</div>
 					</c:if>
@@ -115,9 +115,9 @@
 								<img class="card-img-heart"
 									src="${pageContext.request.contextPath}/resources/upload/love.png"
 									width="30" height="30" alt="">
-								${likes[status.index]}&nbsp;&nbsp;<%-- <img class="card-img-comments"
+								${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${comments[status.index]} --%>
+									width="30" height="30" alt="">&nbsp;${store.store_comment}
 							</div>
 						</div>
 					</c:if>
@@ -150,7 +150,6 @@
 
 <script>
 $(document).ready(function () {
-
 
 //button for more
 var page = 1;

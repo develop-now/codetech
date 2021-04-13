@@ -17,6 +17,9 @@ create table comments
 
 select * from comments;
 
+insert into comments values(16, 't', 0, 0, sysdate, sysdate, 1, 1, 1)
+
+
 
 
 

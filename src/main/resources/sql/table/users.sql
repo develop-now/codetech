@@ -33,5 +33,7 @@ values (8, 'user_3@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (9, 'user9@test.com', '1111', 5);
 
-select * from users;
+select *
+from users;
+
 commit;
