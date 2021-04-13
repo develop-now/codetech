@@ -5,21 +5,22 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.codetech.www.domain.Notice;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
-import com.codetech.www.service.UsersService;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -43,16 +44,18 @@ public class AdminController {
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv,
 			@RequestParam(value = "search_field", defaultValue = "-1") int index,
 			@RequestParam(value = "search_word", defaultValue = "") String search_word,
-			@RequestParam(value = "check_state", defaultValue = "0") int state) {
+			@RequestParam(value = "check_state", defaultValue = "-1") int state) {
+    	System.out.println("----------------------------");
+    	System.out.println("int index: " + index);
+    	System.out.println("int state: " + state);
+    	System.out.println("----------------------------\n");
     	
-		List<User> Userslist = null;
-		List<UserInfo> Infolist = null;
+		List<UserPlusInfo> Userslist = null;
 		
-		int limit = 10;
+		int limit = 5;
 		int listcount = adminService.getSearchListCount(index, state, search_word);
 		
 		Userslist = adminService.getUsersSearchList(index, state, search_word, page, limit);
-		Infolist = adminService.getInfoSearchList(index, state, search_word, page, limit);
 		
 		// 총 페이지 수
 		int maxpage = (listcount + limit - 1) / limit;
@@ -80,7 +83,6 @@ public class AdminController {
 		mv.addObject("listcount", listcount); // 총 글의 수
 
 		mv.addObject("Userslist", Userslist);
-		mv.addObject("Infolist", Infolist);
 
 		// 해당 페이지의 글 목록을 갖고 있는 리스트
 		mv.addObject("search_field", index);
@@ -90,7 +92,70 @@ public class AdminController {
 		return mv;
 	}
     
-
+    // 회원 정지
+    @RequestMapping(value ="/UserSusp", method = RequestMethod.GET)
+    public String userSusp(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.user_susp(user_id);
+    	
+    	if (result == 1) {
+			logger.info("회원 정지 성공!");
+			rattr.addFlashAttribute("result", "suspSuccess");
+			return "redirect:/admin/userList";
+		} else {
+			logger.info("회원 정지 실패!");
+			rattr.addFlashAttribute("result", "suspFail");
+			return "redirect:/admin/userList";
+		}
+    }
+    
+    // 정지 해제
+    @RequestMapping(value ="/UserReAc", method = RequestMethod.GET)
+    public String userReAc(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.user_reac(user_id);
+    	
+    	if (result == 1) {
+			logger.info("회원 정지 해제!");
+			rattr.addFlashAttribute("result", "reacSuccess");
+			return "redirect:/admin/userList";
+		} else {
+			logger.info("회원 정지 해제 실패!");
+			rattr.addFlashAttribute("result", "reacFail");
+			return "redirect:/admin/userList";
+		}
+    }
+    
+    // 강제 탈퇴
+    @RequestMapping(value ="/UserBanned", method = RequestMethod.GET)
+    public String userBanned(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.user_banned(user_id);
+    	
+    	if (result == 1) {
+			logger.info("회원 강제 추방!");
+			rattr.addFlashAttribute("result", "bannedSuccess");
+			return "redirect:/admin/userList";
+		} else {
+			logger.info("회원 추방 실패!");
+			rattr.addFlashAttribute("result", "bannedFail");
+			return "redirect:/admin/userList";
+		}
+    }
+    
+    // 탈퇴 취소
+    @RequestMapping(value ="/UserInac", method = RequestMethod.GET)
+    public String userInac(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.user_inac(user_id);
+    	
+    	if (result == 1) {
+			logger.info("회원 탈퇴 취소!");
+			rattr.addFlashAttribute("result", "inacSuccess");
+			return "redirect:/admin/userList";
+		} else {
+			logger.info("회원 탈퇴 취소 실패!");
+			rattr.addFlashAttribute("result", "inacFail");
+			return "redirect:/admin/userList";
+		}
+    }
+    
     @RequestMapping(value = "/noticeList", method = RequestMethod.GET)
     public ModelAndView noticeList
             (@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv) {

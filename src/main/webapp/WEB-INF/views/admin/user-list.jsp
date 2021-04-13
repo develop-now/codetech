@@ -15,6 +15,16 @@
 		margin: 20px 0px;
 	}
 	
+	select {
+		width: 110px;
+		padding: .4em .5em;
+	}
+	
+	#search_word {
+		width:300px;
+		padding: .3em .5em;
+	}
+	
 	.user_search {
 		width: 100%;
 		margin-top: 10px;
@@ -23,7 +33,7 @@
 		border-collapse: collapse;
 	}
 	
-	.user_search th, td {
+	.user_search th, .user_search td {
 		padding: 5px 20px;
     	border: 2px solid #e2e2d0;
 	}
@@ -40,7 +50,6 @@
 	/* 버튼 정중앙 */
 	.submit_btn {
 		text-align: center;
-		
 	}
 	
 	#search_btn {
@@ -50,11 +59,175 @@
 		background:  #4e3418;
 		color: white;
 		margin-bottom: 14px;
+	} /* 버튼 Css End */
+	
+	/* 체크 박스 일정 간격으로 정리  */
+	.checkbox_ul {
+		padding: 0px;
+		list-style-type: none;
+		width: 100%;
 	}
+	
+	.checkbox_ul li {
+		float: left;
+		width: 25%;
+		line-height: 50px;
+		text-align: center;
+	} /* 체크 박스 Css End */
+	
+	.Users_tb {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	.Users_tb tbody {
+		text-align: center;
+	}
+	
+	/* 표의 헤더 부분 */
+	.Users_tb tbody > tr:nth-child(1) > th {
+		background: #f5f5ef;
+		font-size: 20px;
+		border-top: 2px solid #e2e2d0;
+		padding: 10px 25px;
+	}
+	
+	/* 표의 td 부분 */
+	.Users_tb td {
+		padding: 10px 20px;
+		border-top: 2px solid #e2e2d0;
+		border-bottom: 2px solid #e2e2d0;
+	}
+	
+	/* row에 마우스 가져다 놓으면 색깔 변경 */
+	.Users_tb tr:hover {
+		background: #f2f2f2;
+		padding: 10px 20px;
+		border-top: 2px solid #e2e2d0;
+		border-bottom: 2px solid #e2e2d0;
+	}
+	
+	.Usersfunction_gird {
+		text-align: center;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+		margin: 20px 0px;
+	}
+	
+	a:link { color: black; text-decoration-line: none;}
+ 	a:visited { color: black; text-decoration-line: none;}
+ 	a:hover { color: black; text-decoration-line: none;}
+	
+	.UserSusp {
+		background: #ff9900;
+		text-color: black;
+		padding: 5px;
+	}
+	
+	.UserReAc {
+		background: #e6ccb3;
+		text-color: white;
+		padding: 5px;
+	}
+	
+	.UserBanned {
+		background: red;
+		text-color: black;
+		padding: 5px;
+	}
+	
+	.UserInac {
+		background: #d9b18c;
+		text-color: black;
+		padding: 5px;
+	}
+	
 </style>
+
 <head>
     <title>User Index</title>
     <%@include file="../partial/head.jsp" %>
+<script>
+	/* 21-04-13 버그 수정 예정 */
+	// 선택한 옵션 값을 placeholder에 표시
+	$(".viewcount").change(function() {
+		selectedValue = $(this).val();
+			
+		$("input").val('');
+			
+		message=["이메일을", "이름을", "전화번호를"]
+		$("input").attr("placeholder", message[selectedValue] + " 입력하세요.");
+	})
+	
+	$(function() {
+		var selectedValue = '${search_field}'
+			
+		/* 선택된 필드 값이 있으면 select class="viewcount"를 가진 option value 값을 유지 */	
+		if (selectedValue != '-1')
+			$(".viewcount").val(selectedValue);
+		
+		$("input[value='${check_state}']").prop('checked', true);
+		
+		$(".UserSusp").click(function(event) {
+			var answer = confirm("회원 정지를 하시겠습니까?");
+			
+			if (!answer) {
+				event.preventDefault();
+			}
+		});
+		
+		$(".UserReAc").click(function(event) {
+			var answer = confirm("정지 해제를 하시겠습니까?");
+			
+			if (!answer) {
+				event.preventDefault();
+			}
+		});
+		
+		$(".UserBanned").click(function(event) {
+			var answer = confirm("회원을 추방 하시겠습니까?");
+			
+			if (!answer) {
+				event.preventDefault();
+			}
+		});
+		
+		$(".UserInac").click(function(event) {
+			var answer = confirm("회원 탈퇴를 취소 하시겠습니까?");
+			
+			if (!answer) {
+				event.preventDefault();
+			}
+		});
+		
+		/* 기능 사용시 나오는 알림창 */
+		var result = "${ result }";
+		
+		if (result == 'suspSuccess') {
+			alert("선택한 아이디 회원을 정지 성공.");	
+		} else if (result == 'suspFail') {
+			alert("선택한 아이디 회원 정지 실패.");
+		}
+		
+		if (result == 'reacSuccess') {
+			alert("선택한 아이디 정지 해제 완료");
+		} else if (result == 'reacFail') {
+			alert("선택한 아이디 정지 해제 실패");
+		}
+		
+		if (result == 'bannedSuccess') {
+			alert("선택한 아이디 강제 추방 완료");
+		} else if (result == 'bannedFail') {
+			alert("선택한 아이디 탈퇴 취소 완료");
+		}
+		
+		if (result == 'inacSuccess') {
+			alert ("선택한 아이디 탈퇴 취소 성공");
+		} else if (result == 'inacFail') {
+			alert ("선택한 아이디 탈퇴 취소 실패");
+		}
+	});
+</script>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -66,43 +239,7 @@
 
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
-
-	<script type="text/javascript">
-		
-	$(function() {
-		// 검색 클릭 후 응답 화면에는 검색시 선택한 필드가 선택되도록 한다.
-			
-		/* 선택된 필드 값 저장 */
-		var selectedValue = '${search_field}'
-			
-		/* 선택된 필드 값이 있으면 select class="viewcount"를 가진
-		   option value 값을 유지 */
-		if (selectedValue != '-1')
-			$(".viewcount").val(selectedValue);
-		
-		// 선택한 옵션 값을 placeholder에 표시
-		$(".viewcount").change(function(){
-			selectedValue = $(this).val();
-			
-			$("input").val('');
-			
-			message=["이메일을", "이름을", "전화번호를"]
-			$("input").attr("placeholder", message[selectedValue] + " 입력하세요.");
-		})
-	});
-	
-	/* 회원 구분 체크박스 중복 체크 불가 */
-	function checkOverlap(chk) {
-		var overlap = document.getElementsByName("check_state");
-		for (i = 0; i < overlap.length; i ++) {
-			/* 체크로 들어온 값이 전에 갖고 있는 값과 다르면 */
-			if (overlap[i] != chk) {
-				/* 전에 갖고 있던 체크값 false로 비활성화 */
-				overlap[i].checked = false
-			}
-		}
-	}
-	</script>
+    
     <!-- Page Content -->
     <div class="container-fluid">
 		<h3 class="user_h3">회원 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
@@ -125,10 +262,12 @@
 								
 								<td>회원 구분</td>
 								<td>
-									<label><input type="checkbox" name="check_state" value="0" onclick="checkOverlap(this)"/>회원 활동</label>&nbsp;
-									<label><input type="checkbox" name="check_state" value="1" onclick="checkOverlap(this)"/>회원 탈퇴</label>&nbsp;
-									<label><input type="checkbox" name="check_state" value="2" onclick="checkOverlap(this)"/>활동 정지</label>&nbsp;
-									<label><input type="checkbox" name="check_state" value="3" onclick="checkOverlap(this)"/>회원 추방</label>&nbsp;
+								<ul class="checkbox_ul">
+									<li><label><input type="radio" name="check_state" value="0" /> 회원 활동</label>&nbsp;</li>
+									<li><label><input type="radio" name="check_state" value="1" /> 회원 탈퇴</label>&nbsp;</li>
+									<li><label><input type="radio" name="check_state" value="2" /> 활동 정지</label>&nbsp;</li>
+									<li><label><input type="radio" name="check_state" value="3" /> 회원 추방</label>&nbsp;</li>
+								</ul>
 								</td>
 							</tr>
 						</table>
@@ -136,45 +275,130 @@
 					<div class="submit_btn">
 						<button type="submit" id="search_btn">검색</button>
 					</div>
-					<hr style="border: solid 1px #e2e2d0;">	
+					<hr style="border: solid 1px #e2e2d0;">
+					
 						
 					<%-- 회원이 있는 경우 --%>
-      				<c:if test="${listcount > 0}"> 
-      				<table>
-						<thead>
-			               <tr>
-			                  <th><font size=3>회원 수 : ${listcount}</font></th>
-			                  <td><button type="button" name="suspending">활동 정지</button></td>
-			                  <td><button type="button" name="banned">강제 탈퇴</button></td>
-			               </tr>
-				
-			               <tr>
-			                  <th><div>이메일</div></th>
-			                  <th><div>이름</div></th>
-			                  <th><div>전화번호</div></th>
-			                  <th><div>포인트</div></th>
-			                  <th><div>주소</div></th>
-			                  <th><div>가입일</div></th>
-			                  <th><div>수정일</div></th>
-							</tr>
-			            <thead>
+      				<c:if test="${listcount > 0}">
+	      			<div class="Usersfunction_gird">
+	      				<div id="listcount_div">
+			      			<b><font size=4>회원 수 : ${listcount}</font></b>	      				
+	      				</div>
+	      				<div></div>
+	      				<div></div>
+	      				<div></div>
+	      				<div></div>
+      				</div>    				
+      				
+      				<table class="Users_tb">
 			            <tbody>
-			            	<c:forEach var="users" items="${Userslist}" varStatus="status">
+			               <tr>
+			                  <th>이메일</th>
+			                  <th>이름</th>
+			                  <th>전화번호</th>
+			                  <th>포인트</th>
+			                  <th>주소</th>
+			                  <th>가입일</th>
+			                  <th>수정일</th>
+			                  <th>회원 상태</th>
+			                  <th>관리</th>
+							</tr>
+							
+			            	<c:forEach var="users" items="${Userslist}">
 			            		<tr>
 			            			<td>${users.user_email}</td>
-			         				<td>${Infolist[status.index].user_name}</td>
-			         				<td>${Infolist[status.index].user_tel}</td>
-			         				<td>${Infolist[status.index].user_point}</td>
-			         				<td>${Infolist[status.index].user_address}</td>
+			         				<td>${users.user_name}</td>
+			         				<td>${users.user_tel}</td>
+			         				<td>${users.point}</td>
+			         				<td>${users.user_address}</td>
 			         				<td>${users.created_at}</td>
 			         				<td>${users.updated_at}</td>
+			         				<td>
+			         					<c:choose>
+			         						<c:when test="${users.user_status == 1}">
+				         						<c:out value="활동"/>
+			         						</c:when>
+			         						
+			         						<c:when test="${users.user_status == 2}">
+				         						<c:out value="탈퇴"/>
+			         						</c:when>
+			         						
+			         						<c:when test="${users.user_status == 3}">
+				         						<c:out value="정지"/>
+			         						</c:when>
+			         						
+			         						<c:when test="${users.user_status == 4}">
+				         						<c:out value="추방"/>
+			         						</c:when>
+			         					</c:choose>
+			         				</td>
+			         				<td>
+			         					<a href="UserSusp?user_id=${users.user_id}" class="UserSusp">회원 정지</a>&nbsp;
+			         					<a href="UserReAc?user_id=${users.user_id}" class="UserReAc">정지 해제</a>&nbsp;
+			         					<a href="UserBanned?user_id=${users.user_id}" class="UserBanned">강제 탈퇴</a>&nbsp;
+			         					<a href="UserInac?user_id=${users.user_id}" class="UserInac">탈퇴 취소</a>&nbsp;
+			         					
+				         				<!-- <button type="button" id="suspending" onclick="">회원 정지</button>&nbsp;
+										<button type="button" id="re_active">정지 해제</button>&nbsp;
+										<button type="button" id="banned">강제 탈퇴</button>&nbsp;
+										<button type="button" id="inactive">탈퇴 취소</button>&nbsp; -->
+									</td>
 			            		</tr>	
 			            	</c:forEach>
 			            </tbody>
       				</table>
-      			</c:if>
+		      	 <div style="margin: 50px;">
+		         <ul class="pagination justify-content-center">
+		              <c:if test="${page <= 1}">
+		                 <li class="page-item"><a class="page-link current" href="#">이전&nbsp;</a>
+		                 </li>
+		               </c:if>
+		
+		               <c:if test="${page > 1}">
+		                  <li class="page-item"><a
+		                     href="userList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     class="page-link">이전</a> &nbsp;</li>
+		               </c:if>
+		
+		
+		               <c:forEach var="a" begin="${startpage}" end="${endpage }">
+		                  <c:if test="${a == page }">
+		                     <li class="page-item"><a class="page-link current" href="#">${a}</a>
+		                     </li>
+		                  </c:if>
+		
+		                  <c:if test="${a != page }">
+		                     <li class="page-item"><a
+		                        href="userList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                        class="page-link">${a}</a></li>
+		                  </c:if>
+		               </c:forEach>
+		
+		
+		               <c:if test="${page >= maxpage }">
+		                  <li class="page-item"><a class="page-link current" href="#">&nbsp;다음</a>
+		                  </li>
+		               </c:if>
+		
+		               <c:if test="${page < maxpage }">
+		                  <li class="page-item"><a
+		                     href="userList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     class="page-link">&nbsp;다음</a></li>
+		               </c:if>
+		         </ul>
+		         </div>
+			</c:if>
 			<%-- <c:if test="${listcount > 0}"> end --%>
 			</div>
+			
+			<%-- 회원이 없는 경우 --%>
+			<c:if test="${listcount == 0 && empty search_word}">
+				<h1>회원이 없습니다.</h1>
+			</c:if>
+			   
+			<c:if test="${listcount == 0 && !empty search_word}">
+			    <h1>검색 결과가 없습니다.</h1>
+			</c:if>
 		</form>
 	</div>
     <!-- /.container -->

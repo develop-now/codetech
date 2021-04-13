@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.AdminDAO;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -18,12 +17,12 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDAO dao;
 	
 	@Override
-	public List<User> getUsersSearchList(int index, int state, String search_word, int page, int limit) {
+	public List<UserPlusInfo> getUsersSearchList(int index, int state, String search_word, int page, int limit) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		if (index != -1) {
+		if (index != -1 && state != -1) {
 			String[] search_field = new String[] { "user_email", "user_name", "user_tel" };
-			String[] check_state = new String[] { "1", "2", "3", "4" };
+			String[] check_state = new String[] { "0", "1", "2", "3" };
 			
 			map.put("search_field", search_field[index]);
 			map.put("check_state", check_state[state]);
@@ -39,35 +38,14 @@ public class AdminServiceImpl implements AdminService {
 		return dao.getUsersSearchList(map);
 	}
 	
-	@Override
-	public List<UserInfo> getInfoSearchList(int index, int state, String search_word, int page, int limit) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		if (index != -1) {
-			String[] search_field = new String[] { "user_email", "user_name", "user_tel" };
-			String[] check_state = new String[] { "1", "2", "3", "4" };
-			
-			map.put("search_field", search_field[index]);
-			map.put("check_state", check_state[state]);
-			map.put("search_word", "%" + search_word + "%");
-		}
-		
-		int startrow = (page - 1) * limit + 1;
-		int endrow = startrow + limit - 1;
-		
-		map.put("start", startrow);
-		map.put("end", endrow);
-		
-		return dao.getInfoSearchList(map);
-	}
 
     @Override
     public int getSearchListCount(int index, int state, String search_word) {
     	Map<String, Object> map = new HashMap<String, Object>();
     	
-    	if (index != -1) {
+    	if (index != -1 && state != -1) {
 			String[] search_field = new String[] { "user_email", "user_name", "user_tel" };
-			String[] check_state = new String[] { "1", "2", "3", "4" };
+			String[] check_state = new String[] { "0", "1", "2", "3" };
 			
 			map.put("search_field", search_field[index]);
 			map.put("check_state", check_state[state]);
@@ -78,7 +56,29 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int getNoticeListCount() {
-        return dao.getNoticeListCount();
+    public int user_susp(String user_id) {
+    	return dao.user_susp(user_id);
     }
+
+	@Override
+	public int user_reac(String user_id) {
+		return dao.user_reac(user_id);
+	}
+
+
+	@Override
+	public int user_banned(String user_id) {
+		return dao.user_banned(user_id);
+	}
+
+
+	@Override
+	public int user_inac(String user_id) {
+		return dao.user_inac(user_id);
+	}
+	
+	@Override
+	public int getNoticeListCount() {
+		return dao.getNoticeListCount();
+	}
 }

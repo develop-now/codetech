@@ -18,8 +18,10 @@
         <security:intercept-url pattern="/user/join" access="permitAll"/>
         <security:intercept-url pattern="/user/idCheck" access="permitAll"/>
         <security:intercept-url pattern="/user/joinProcess" access="permitAll"/>
-        <security:intercept-url pattern="/order/order-list" access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/order/order-list"
+                                access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/store/**" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
 
         <security:form-login login-page="/auth/login"
