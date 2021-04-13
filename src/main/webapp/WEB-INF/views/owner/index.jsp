@@ -30,7 +30,7 @@
             <div id="sideNav" class="col-12 col-sm-2">
                 <a href="owner/manage">관리자 관리</a>
                 <a href="#">방문자 관리</a>
-                <a href="#">매출 　관리</a>
+                <a href="owner/chat">매출 　관리</a>
                 <a href="#">제휴　 관리</a>
             </div>
             <div class="col-12 col-sm-10">

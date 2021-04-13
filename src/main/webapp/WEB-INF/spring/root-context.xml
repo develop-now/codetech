@@ -54,6 +54,8 @@
 
     <bean id="bcryptPasswordEncoder"
           class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+          
+          
 
     <!-- 프로퍼티 파일을 이용해서 값을 주입하는 방법 <util:properties>를 이용해서 properties 타입의 빈으로
         만듭니다. -->

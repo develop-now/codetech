@@ -90,6 +90,7 @@ public class UsersController {
         user.setUser_password(encPassword);
         logger.info("passenc" + encPassword);
 
+        
         if (!uploadfile.isEmpty()) {
             String fileName = uploadfile.getOriginalFilename();//원래 파일명
             info.setOriginal_file(fileName);//원래 파일명 저장

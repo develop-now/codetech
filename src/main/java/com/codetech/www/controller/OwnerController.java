@@ -4,20 +4,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.service.OwnerService;
+
 
 @Controller
 @RequestMapping(value = "/owner")
@@ -164,7 +170,7 @@ public class OwnerController {
 		return mv;
 
 	}
-	
+
 	// Management
 	@RequestMapping(value = "/managerDetail")
 	public ModelAndView managerView(ModelAndView mv, int user_id) {
@@ -173,6 +179,23 @@ public class OwnerController {
 		mv.setViewName("owner/managerDetail");
 		mv.addObject("userInfo", userInfo);
 		mv.addObject("user", user);
+		return mv;
+	}
+
+	// chatting
+	@RequestMapping(value = "/chat")
+	public ModelAndView chat(Store store, HttpServletRequest request, ModelAndView mv) throws Exception {
+
+		mv.addObject("store", store); // Store_id, Store_name, Store_saved_image
+
+		// ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
+		String requestURL = request.getRequestURL().toString();
+		// http://localhost:8088/mychat/logoiProecess
+		int start = requestURL.indexOf("//");
+		int end = requestURL.lastIndexOf("/");
+		String url = requestURL.substring(start, end);
+		mv.addObject("url", url);
+		mv.setViewName("owner/chatting");
 		return mv;
 
 	}
