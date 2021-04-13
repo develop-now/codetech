@@ -2,7 +2,6 @@ package com.codetech.www.controller;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Store;
-import com.codetech.www.service.MenuService;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -15,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -32,18 +30,17 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @Autowired
-    private MenuService menuService;
-
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "store/index";
     }
 
     @RequestMapping(value = "/store-list", method = RequestMethod.GET)
-    public String getStoreList(@RequestParam(value = "owner_id") int owner_id, Model model) {
+    public String getStoreList(Model model, HttpSession session) {
         model.addAttribute("storeNav", "storeList");
-        // TODO:: GET ID FROM SESSION OR SECURITY
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
 
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("list", list);
@@ -53,7 +50,11 @@ public class StoreController {
 
     @ResponseBody
     @RequestMapping(value = "/store-list-ajax", method = RequestMethod.GET)
-    public Map<String, Object> getStoreListAjax(@RequestParam(value = "owner_id") int owner_id) {
+    public Map<String, Object> getStoreListAjax(HttpSession session) {
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
         List<Store> list = storeService.getStoreListByOwner(owner_id);
 
         Map<String, Object> rtn = new HashMap<String, Object>();
@@ -127,7 +128,7 @@ public class StoreController {
 
     @ResponseBody
     @RequestMapping(value = "/storeNameCheck", method = RequestMethod.GET)
-    public Map<String, Object> storeNameCheck(@RequestParam("name") String name, HttpServletResponse res) {
+    public Map<String, Object> storeNameCheck(@RequestParam("name") String name) {
         int result = storeService.storeNameCheck(name);
 
         Map<String, Object> rtn = new HashMap<String, Object>();
@@ -235,16 +236,54 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/store-staff", method = RequestMethod.GET)
-    public String getStoreStaff(@RequestParam(value = "store_id") int store_id, Model model) {
+    public String getStoreStaff(HttpSession session, Model model) {
         model.addAttribute("storeNav", "storeStaff");
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
 
         return "store/store-staff";
     }
 
     @RequestMapping(value = "/store-customers", method = RequestMethod.GET)
-    public String getStoreCustomers(@RequestParam(value = "store_id") int store_id, Model model) {
+    public String getStoreCustomers(HttpSession session, Model model) {
         model.addAttribute("storeNav", "storeCustomer");
 
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
         return "store/store-customers";
+    }
+
+    @RequestMapping(value = "/order-list", method = RequestMethod.GET)
+    public String getOrderList(HttpSession session, Model model) {
+        model.addAttribute("storeNav", "orderList");
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
+        return "store/order-list";
+    }
+
+    @RequestMapping(value = "/menu-list", method = RequestMethod.GET)
+    public String getMenuList(HttpSession session, Model model) {
+        model.addAttribute("storeNav", "menuList");
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
+        return "store/menu-list";
     }
 }

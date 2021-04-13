@@ -10,6 +10,8 @@ public interface StoreService {
 
     public List<Store> getStoreListByOwner(int owner_id);
 
+    public List<Store> getStoreListByStaff(int staff_id);
+
     public int createStore(Store store, Menu menu);
 
     public Store readStore(int store_id);

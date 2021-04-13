@@ -36,8 +36,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Map<String, List<Menu>> getMenuListByOwner(int owner_id) {
-        // TODO:: GET ID FROM SESSION OR SECURITY
-
         List<Menu> list = menu_dao.getMenuListByOwner(owner_id);
         Map<String, List<Menu>> rtn = new HashMap<String, List<Menu>>();
 

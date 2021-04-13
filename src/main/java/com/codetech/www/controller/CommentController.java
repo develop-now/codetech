@@ -24,8 +24,6 @@ public class CommentController {
     @RequestMapping(value = "/comment-list", method = RequestMethod.GET)
     public String getStoreCommentList(@RequestParam(value = "store_id") int store_id, Model model) {
         model.addAttribute("storeNav", "commentList");
-        // TODO:: GET ID FROM SESSION OR SECURITY
-
         List<Comment> list = commentService.getCommentListByStore(store_id);
 
         return "store/comment-list";

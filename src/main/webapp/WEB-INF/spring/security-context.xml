@@ -18,20 +18,23 @@
         <security:intercept-url pattern="/user/join" access="permitAll"/>
         <security:intercept-url pattern="/user/idCheck" access="permitAll"/>
         <security:intercept-url pattern="/user/joinProcess" access="permitAll"/>
-        <security:intercept-url pattern="/order/order-list"
+        <security:intercept-url pattern="/order/order-list-ajax"
                                 access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/store/**" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/menu/menu-create" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/menu/menu-update" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
 
-        <security:form-login login-page="/auth/login"
-                             login-processing-url="/auth/loginAction"
-                             username-parameter="user_id"
-                             password-parameter="user_password"
-                             default-target-url="/"
-                             always-use-default-target="false"
-                             authentication-success-handler-ref="customLoginSuccessHandler"
-                             authentication-failure-handler-ref="customLoginFailHandler"
+        <security:form-login
+                login-page="/"
+                login-processing-url="/auth/loginAction"
+                username-parameter="user_id"
+                password-parameter="user_password"
+                default-target-url="/"
+                authentication-success-handler-ref="customLoginSuccessHandler"
+                authentication-failure-handler-ref="customLoginFailHandler"
         />
         <security:access-denied-handler ref="customAccessDeniedHandler"/>
 

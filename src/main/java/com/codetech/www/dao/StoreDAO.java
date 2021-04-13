@@ -43,6 +43,10 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.listByOwner", owner_id);
     }
 
+    public List<Store> getStoreListByStaff(int staff_id) {
+        return sqlSession.selectList("Stores.listByStaff", staff_id);
+    }
+
     public Store readStore(int store_id) {
         return sqlSession.selectOne("Stores.readStore", store_id);
     }

@@ -35,6 +35,11 @@ public class StoreServiceImpl implements StoreService {
         return store_dao.getStoreListByOwner(owner_id);
     }
 
+    @Override
+    public List<Store> getStoreListByStaff(int staff_id) {
+        return store_dao.getStoreListByStaff(staff_id);
+    }
+
     @Transactional
     @Override
     public int createStore(Store store, Menu menu) {

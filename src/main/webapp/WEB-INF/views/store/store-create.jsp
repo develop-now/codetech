@@ -23,7 +23,7 @@
         })
     </script>
 </head>
-<c:set var="idValue" value="${id}" scope="session"/>
+<c:set var="idValue" value="${user_id}" scope="session"/>
 <body>
 <div class="container-fluid" id="bodyWrapper">
     <%-- main nav --%>
@@ -56,9 +56,9 @@
                             <h4 class="mb-3">가게 기본 정보</h4>
                             <form action="<c:url value="/store/createAction"/>" method="post"
                                   enctype="multipart/form-data" id="createStoreForm">
-                                <%-- TODO:: FIX HARDCODING VALUE--%>
-                                <input type="hidden" name="owner_id" value="3">
-                                <%--<input type="hidden" name="owner_id" value="${idValue}">--%>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+
+                                <input type="hidden" name="owner_id" value="${idValue}">
                                 <div class="form-group row">
                                     <label for="store_name" class="col-sm-2 col-form-label">상호명*</label>
                                     <div class="col-sm-10">

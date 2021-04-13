@@ -10,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/order")
@@ -21,14 +24,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/order-list", method = RequestMethod.GET)
-    public String getOrderList(@RequestParam(value = "store_id") int store_id, Model model) {
-        model.addAttribute("storeNav", "orderList");
-        // TODO:: GET ID FROM SESSION OR SECURITY
+    @ResponseBody
+    @RequestMapping(value = "/order-list-ajax", method = RequestMethod.GET)
+    public Map<String, Object> deleteStore(@RequestParam(value = "store_id") int store_id, Model model) {
+        model.addAttribute("storeNav", "storeDelete");
+        Map<String, Object> rtn = new HashMap<String, Object>();
 
-        List<Order> list = orderService.getOrderList(store_id);
-
-        return "store/order-list";
+        return rtn;
     }
 
     @RequestMapping(value = "/order-read", method = RequestMethod.GET)

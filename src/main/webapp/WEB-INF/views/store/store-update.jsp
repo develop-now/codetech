@@ -33,6 +33,7 @@
         })
     </script>
 </head>
+<c:set var="idValue" value="${user_id}" scope="session"/>
 <body>
 <div class="container-fluid" id="bodyWrapper">
     <%-- main nav --%>
@@ -64,9 +65,8 @@
                         <div class="col-12">
                             <form action="<c:url value="/store/updateAction"/>" method="post"
                                   enctype="multipart/form-data" id="updateStoreForm">
-                                <%-- TODO:: FIX HARDCODING VALUE--%>
-                                <input type="hidden" name="owner_id" value="3">
-                                <%--<input type="hidden" name="owner_id" value="${idValue}">--%>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                <input type="hidden" name="owner_id" value="${idValue}">
                                 <input type="hidden" name="store_id" value="${store.store_id}">
                                 <div class="form-group row">
                                     <label for="store_name" class="col-sm-2 col-form-label">상호명*</label>
@@ -175,7 +175,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <img src="/resources/upload/${store.store_saved_image}" id="store_preview"
+                                            <img src="/resources/upload${store.store_saved_image}" id="store_preview"
                                                  alt="${store.store_original_image}" class="img-fluid float-right">
                                         </div>
                                     </div>
