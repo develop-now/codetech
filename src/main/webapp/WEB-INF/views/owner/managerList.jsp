@@ -38,13 +38,13 @@
 									</tr>
 								</thead>
 								<tbody>
-									<for:each var="userInfo" items="${userInfo}" varStatus="status">
+									<c:forEach var="userInfo" items="${userInfo}" varStatus="status">
 										<tr>
 											<th scope="row">${status.count}</th>
 											<td>${userInfo.user_name}</td>
 											<td><a href="managerDetail?user_id=${userInfo.user_id}">정보</a></td>
 										</tr>
-									</for:each>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
