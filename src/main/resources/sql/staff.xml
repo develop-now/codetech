@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Staffs">
+    <select id="staffListByStore" resultType="staff" parameterType="int">
+        select u.user_id, u.user_email, f.user_name, t.status_value as user_status_value, s.created_at
+        from staffs s
+                 join users u on s.user_id = u.user_id
+                 join user_info f on s.user_id = f.user_id
+                 join user_status t on t.USER_STATUS_ID = u.USER_STATUS
+        where store_id = #{store_id}
+          and t.STATUS_VALUE not like '%in%'
+    </select>
+</mapper>
