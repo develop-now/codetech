@@ -172,7 +172,6 @@ public class UsersController {
         int result = usersService.isUser(user_id, user_password);
         logger.info("isUser result : " + result);
         if (result == 1) {
-            /* id와 password를 session에 저장후 home으로 이동 */
 //            session.setAttribute("user_id", user_id);
             rattr.addFlashAttribute("info", "로그인 되었습니다 session ID:" + session.getId());
             return "redirect:/home";
@@ -203,20 +202,19 @@ public class UsersController {
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(
-    				 String user_newpassword_check
-    				,String user_password,RedirectAttributes rattr) {
-    	logger.info("modifyPassword도착");
+    			@RequestParam(value="user_newpassword_check")String user_newpassword
+    				,@RequestParam(value="user_originpassword")String user_password
+    				,RedirectAttributes rattr) {
     	int user_id = (int)session.getAttribute("user_id");
-    	String user_newpassword = passwordEncoder.encode(user_newpassword_check);
     	int result = usersService.passcheck(user_id, user_newpassword, user_password);
     	if(result == 1) { //비밀번호 변경 완료
-    		rattr.addAttribute("info", "비밀번호 변경을 완료하였습니다.");
+    		rattr.addFlashAttribute("info", "비밀번호 변경을 완료하였습니다.");
     	}else if(result == -1){ //비밀번호 update 실행 불가
-    	rattr.addAttribute("alert", "비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
+    	rattr.addFlashAttribute("alert", "비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
     	}else { //result = 0 기존 비밀번호 일치하지 않음
-    	rattr.addAttribute("alert", "기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+    	rattr.addFlashAttribute("alert", "기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     	}
-    	return "redirect/infoMain";
+    	return "redirect:/user/infoMain";
     }
 
     @RequestMapping(value = "/infoModify", method = RequestMethod.GET)
