@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
 
@@ -52,7 +53,7 @@ public class AdminController {
     	
 		List<UserPlusInfo> Userslist = null;
 		
-		int limit = 5;
+		int limit = 7;
 		int listcount = adminService.getSearchListCount(index, state, search_word);
 		
 		Userslist = adminService.getUsersSearchList(index, state, search_word, page, limit);
@@ -153,6 +154,101 @@ public class AdminController {
 			logger.info("회원 탈퇴 취소 실패!");
 			rattr.addFlashAttribute("result", "inacFail");
 			return "redirect:/admin/userList";
+		}
+    }
+    
+    @RequestMapping(value = "/partnerList")
+	public ModelAndView partnerList(
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv,
+			@RequestParam(value = "search_field", defaultValue = "-1") int index,
+			@RequestParam(value = "search_word", defaultValue = "") String search_word,
+			@RequestParam(value = "check_state", defaultValue = "-1") int state) {
+    	
+		List<StoreInfoList> Storelist = null;
+		
+		int limit = 7;
+		int listcount = adminService.getPartnerSearchListCount(index, state, search_word);
+		
+		Storelist = adminService.getPartnerSearchList(index, state, search_word, page, limit);
+		
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+		
+		// 현재 페이지에 보여줄 시작 페이지 수 (1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/partner-list");
+
+		mv.addObject("page", page); // 현재 페이지 수
+		mv.addObject("maxpage", maxpage); // 최대 페이지 수
+
+		// 현재 페이지에 표시할 첫 페이지 수
+		mv.addObject("startpage", startpage);
+
+		// 현재 페이지에 표시할 끝 페이지 수
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("listcount", listcount); // 총 글의 수
+
+		mv.addObject("Storelist", Storelist);
+
+		// 해당 페이지의 글 목록을 갖고 있는 리스트
+		mv.addObject("search_field", index);
+		mv.addObject("search_word", search_word);
+		mv.addObject("check_state", state);
+		
+		return mv;
+	}   
+    
+    @RequestMapping(value = "/PartnerTermi", method = RequestMethod.GET)
+    public String partnerTermi(@RequestParam("store_id") String store_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.store_termi(store_id);
+    	
+    	if (result == 1) {
+			logger.info("계약 해지!");
+			rattr.addFlashAttribute("result", "termiSuccess");
+			return "redirect:/admin/partnerList";
+		} else {
+			logger.info("계약 해지 실패!");
+			rattr.addFlashAttribute("result", "termiFail");
+			return "redirect:/admin/partnerList";
+		}
+    }
+    
+    @RequestMapping(value = "/PartnerAct", method = RequestMethod.GET)
+    public String partnerAct(@RequestParam("store_id") String store_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.store_act(store_id);
+    	
+    	if (result == 1) {
+			logger.info("가게 정지!");
+			rattr.addFlashAttribute("result", "storeSuspSuccess");
+			return "redirect:/admin/partnerList";
+		} else {
+			logger.info("가게 정지 실패!");
+			rattr.addFlashAttribute("result", "storeSuspFail");
+			return "redirect:/admin/partnerList";
+		}
+    }
+    
+    // 보류 부분 나중에 수정할 예정    
+    @RequestMapping(value = "/PartnerSusp", method = RequestMethod.GET)
+    public String partnerSusp(@RequestParam("store_id") String store_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.store_susp(store_id);
+    	
+    	if (result == 1) {
+			logger.info("가게 정지!");
+			rattr.addFlashAttribute("result", "storeSuspSuccess");
+			return "redirect:/admin/partnerList";
+		} else {
+			logger.info("가게 정지 실패!");
+			rattr.addFlashAttribute("result", "storeSuspFail");
+			return "redirect:/admin/partnerList";
 		}
     }
     

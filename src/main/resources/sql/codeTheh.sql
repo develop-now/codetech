@@ -162,6 +162,8 @@ insert into store_status
 values (3, 'pending'); -- 가게가 막 생성됐을때
 insert into store_status
 values (4, 'suspending'); -- 활동 정지 상태
+insert into store_status
+values (5, 'termination'); -- 파트너 종료 상태
 
 drop table stores cascade constraints;
 create table stores
@@ -297,7 +299,7 @@ values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '33000',
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 3);
+        'image.jpg', 'image.jpg', 1, 3); 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '33000',

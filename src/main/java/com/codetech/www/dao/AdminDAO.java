@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
 @Repository
@@ -19,7 +20,7 @@ public class AdminDAO {
 	}
 	
 	public int getSearchListCount(Map<String, Object> map) {
-		return sqlSession.selectOne("Admin.searchCount", map);
+		return sqlSession.selectOne("Admin.getSearchListCount", map);
 	}
 	
     public int getNoticeListCount() {
@@ -40,5 +41,25 @@ public class AdminDAO {
 	
 	public int user_inac(String user_id) {
 		return sqlSession.update("Admin.inac", user_id);
+	}
+
+	public List<StoreInfoList> getPartnerSearchList(Map<String, Object> map) {
+		return sqlSession.selectList("Admin.getPartnerSearchList", map);
+	}
+	
+	public int getPartnerSearchListCount(Map<String, Object> map) {
+		return sqlSession.selectOne("Admin.getPartnerSearchListCount", map);
+	}
+
+	public int store_termi(String store_id) {
+		return sqlSession.update("Admin.storeTermi", store_id);
+	}
+
+	public int store_susp(String store_id) {
+		return sqlSession.update("Admin.storeSusp", store_id);
+	}
+
+	public int store_act(String store_id) {
+		return sqlSession.update("Admin.storeAct", store_id);
 	}
 }
