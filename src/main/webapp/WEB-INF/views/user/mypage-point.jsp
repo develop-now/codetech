@@ -14,6 +14,7 @@
     <!-- 포인트 내역을 테이블로 보여주기 가게, 결제금액, 포인트 적립, total 
     가게 클릭할 경우 가게로 이동, 주문내역 보기 할경우 주문내역으로 이동-->
     <%@include file="../partial/head.jsp" %>
+   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -30,11 +31,37 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                
-            </div>
+            <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
-                <p>User Main Content</p>
+                <div class="container pointList">
+                	<div class="userContainer__header">
+	              		<h2 class="text-right">포인트</h2>
+	              	</div>
+              		<hr>
+              		<div>
+              			<span>내 포인트 :P</span>
+              		</div>
+              		<div class="pointList__body">
+              		<div class="pointList__table">
+	                	<table class="table">
+	                		<thead class="pointList__table-head">
+	                			<tr>
+	                				<td></td>
+	                				<td>결제 금액</td>
+	                				<td>적립 포인트</td>
+	                			</tr>
+	                		</thead>
+	                		<tbody>
+	                			<tr>
+	                				<td>a카페</td>
+	                				<td>47,300원</td>
+	                				<td>473p</td>
+	                			</tr>
+	                		</tbody>
+	                	</table>
+              		</div>
+              		</div>
+                </div>
             </div>
         </div>
     </div>

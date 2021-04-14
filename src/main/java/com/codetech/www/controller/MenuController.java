@@ -11,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -31,9 +33,11 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping(value = "/menu-list-by-owner", method = RequestMethod.GET)
-    public ModelAndView getMenuListByOwner(@RequestParam(value = "owner_id") int owner_id, ModelAndView modelAndView) {
+    public ModelAndView getMenuListByOwner(HttpSession session, ModelAndView modelAndView) {
         modelAndView.addObject("storeNav", "menuList");
-        // TODO:: GET ID FROM SESSION OR SECURITY
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
 
         Map<String, List<Menu>> list = menuService.getMenuListByOwner(owner_id);
         List<String> storeList = new ArrayList<String>();
@@ -51,11 +55,21 @@ public class MenuController {
         return modelAndView;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/menu-list-by-store-ajax", method = RequestMethod.GET)
+    public Map<String, Object> getMenuListByStoreAjax(@RequestParam(value = "store_id") int store_id) {
+        Map<String, Object> rtn = new HashMap<String, Object>();
+
+        List<Menu> list = menuService.getMenuListByStore(store_id);
+
+        rtn.put("list", list);
+        rtn.put("success", list.size() > 0);
+
+        return rtn;
+    }
+
     @RequestMapping(value = "/menu-list-by-store", method = RequestMethod.GET)
     public String getMenuListByStore(@RequestParam(value = "store_id") int store_id, Model model) {
-        model.addAttribute("storeNav", "menuList");
-        // TODO:: GET ID FROM SESSION OR SECURITY
-
         List<Menu> list = menuService.getMenuListByStore(store_id);
 
         return "store/menu-list";
@@ -73,14 +87,13 @@ public class MenuController {
 
     @RequestMapping(value = "/menu-create", method = RequestMethod.GET)
     public String createMenu(Model model) {
-        model.addAttribute("storeNav", "menuUpdate");
+        model.addAttribute("storeNav", "menuCreate");
 
         return "store/menu-create";
     }
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
     public String createMenuAction(Menu menu,
-                                   @RequestParam(value = "owner_id") int owner_id,
                                    RedirectAttributes redirectAttributes) throws IOException {
         MultipartFile menu_uploadFile = menu.getMenu_image();
 

@@ -1,4 +1,4 @@
-drop table role cascade constraints;
+drop table role cascade constraints ;
 create table role
 (
     role_id    number(1) primary key,
@@ -6,15 +6,15 @@ create table role
 );
 
 insert into role
-values (1, 'site_owner');
+values (1, 'ROLE_SITE_OWNER');
 insert into role
-values (2, 'site_admin');
+values (2, 'ROLE_ADMIN');
 insert into role
-values (3, 'store_owner');
+values (3, 'ROLE_STORE_OWNER');
 insert into role
-values (4, 'store_staff');
+values (4, 'ROLE_STORE_STAFF');
 insert into role
-values (5, 'user');
+values (5, 'ROLE_MEMBER');
 
 drop table user_status cascade constraints;
 
@@ -67,6 +67,18 @@ insert into users (user_id, user_email, user_password, role_id)
 values (8, 'user_3@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (9, 'user9@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (10, 'user10@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (11, 'user11@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (12, 'user12@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (13, 'user13@test.com', '1111', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (14, 'user14@test.com', '1111', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (15, 'user15@test.com', '1111', 5);
 
 
 drop table user_info cascade constraints;
@@ -92,23 +104,36 @@ values (3, 'store_owner', '111-222-3333', 'korea', 3);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (4, 'staff', '111-222-3333', 'korea', 4);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (5, 'user1', '111-222-3333', 'korea', 5);
+values (5, 'user5', '111-222-3333', 'korea', 5);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (6, 'user2', '111-222-3333', 'korea', 6);
+values (6, 'user6', '111-222-3333', 'korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (7, 'user3', '111-222-3333', 'korea', 7);
+values (7, 'user7', '111-222-3333', 'korea', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (8, '유저', '111-222-3333', 'korea', 8);
+values (8, 'user8', '111-222-3333', 'korea', 8);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (9, 'user9', '111-222-3333', 'korea', 9);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (10, 'user10', '111-222-3333', 'korea', 10);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (11, 'user11', '111-222-3333', 'korea', 11);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (12, 'user12', '111-222-3333', 'korea', 12);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (13, 'user13', '111-222-3333', 'korea', 13);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (14, 'user14', '111-222-3333', 'korea', 14);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (15, 'user15', '111-222-3333', 'korea', 15);
+
 
 drop table persistent_logins cascade constraints;
 create table persistent_logins
 (
     username  varchar2(64) not null,
     series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null, -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null -- 가장 최신 자동 로그인 시간
+    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
 );
 
 
@@ -117,8 +142,8 @@ create table persistent_logins
 (
     username  varchar2(64) not null,
     series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null, -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null -- 가장 최신 자동 로그인 시간
+    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
 );
 
 
@@ -162,8 +187,8 @@ create table stores
     holiday              varchar2(30)        not null, -- 휴일
     owner_id             number(6)           not null,
     store_status         number(1) default 1 not null,
-	store_like 			number(5) default 0,
-	store_comment		number(5) default 0,
+    store_like           number(5) default 0,
+    store_comment        number(5) default 0,
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
@@ -172,25 +197,25 @@ create table stores
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', 'a.png', 'image_url',
+values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', 'b.png', 'image_url',
+values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'c.png', 'image_url',
+values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 7);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id)
-values (4, 'Test Store4', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', 'd.png', 'image_url',
+values (4, 'Test Store4', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3);
 
 
@@ -372,6 +397,14 @@ create table staffs
     constraint fk_staff_store foreign key (store_id) references stores (store_id)
 );
 
+insert into staffs values(1, 4, 1);
+insert into staffs values(2, 4, 3);
+insert into staffs values(3, 4, 4);
+insert into staffs values(4, 12, 1);
+insert into staffs values(5, 12, 3);
+insert into staffs values(6, 13, 4);
+insert into staffs values(7, 12, 2);
+
 drop table likes cascade constraints;
 create table likes
 (
@@ -493,5 +526,24 @@ create table carts
     constraint fk_carts_user foreign key (user_id) references users (user_id),
     constraint fk_carts_menu foreign key (menu_id) references menus (menu_id)
 );
+
+drop table storemap cascade constraints;
+
+create table storemap
+(
+    storemap_id             number(6) primary key,
+    store_name           varchar2(50)        not null,
+    store_address_si     varchar2(50)        not null,
+    store_address_gu     varchar2(50),
+    store_address_dong   varchar2(50)        not null,
+   	lat		 				varchar2(50) not null, 			
+    lon    	 			 varchar2(50) not null	        
+
+    --constraint fk_store_id foreign key (store_id) references stores(store_id)
+);
+
+
+insert into storemap values(1,'이마트24 카페', '서울시', '종로구', '종로3가', 37.572799, 126.991945)
+
 
 commit;

@@ -19,7 +19,7 @@ values (1, 'site_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnx
 insert into users (user_id, user_email, user_password, role_id)
 values (2, 'admin@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 2);
 insert into users (user_id, user_email, user_password, role_id)
-values (3, 'sotre_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
+values (3, 'store_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
 insert into users (user_id, user_email, user_password, role_id)
 values (4, 'staff@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 4);
 insert into users (user_id, user_email, user_password, role_id)
@@ -32,6 +32,18 @@ insert into users (user_id, user_email, user_password, role_id)
 values (8, 'user_3@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (9, 'user9@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (10, 'user10@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (11, 'user11@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (12, 'user12@test.com', '1111', 5);
+insert into users (user_id, user_email, user_password, role_id)
+values (13, 'user13@test.com', '1111', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (14, 'user14@test.com', '1111', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (15, 'user15@test.com', '1111', 5);
 
 select *
 from users;

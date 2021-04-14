@@ -30,8 +30,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         User user = sqlSession.selectOne("users.authIdCheck", authentication.getName());
 
-        session.setAttribute("id", user.getUser_id());
+        session.setAttribute("user_id", user.getUser_id());
         session.setAttribute("role", user.getAuth());
+
+        logger.info("Login Success Handler USER ROLE : " + user.getAuth());
 
         session.setAttribute("greetingMsg", authentication.getName() + "님 환영합니다.");
         String url = req.getContextPath() + "/home";

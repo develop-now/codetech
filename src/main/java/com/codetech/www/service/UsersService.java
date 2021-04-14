@@ -14,7 +14,11 @@ public interface UsersService {
 
     int userinsert(User user, UserInfo info);
 
-    int isUser(String user_id, String user_password);
+	int isUser(String user_email, String user_password);
+
+	UserPlusInfo user_info(int user_id);
+
+	User getUserId(String user_email);
 
 
 }

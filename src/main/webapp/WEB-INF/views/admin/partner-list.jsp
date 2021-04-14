@@ -11,7 +11,7 @@
 <html>
 <style>
 	/* 왼쪽 상단 회원관리 글씨 css */
-	.user_h3 {
+	.parter_h3 {
 		margin: 20px 0px;
 	}
 	
@@ -25,7 +25,7 @@
 		padding: .3em .5em;
 	}
 	
-	.user_search {
+	.partner_search {
 		width: 100%;
 		margin-top: 10px;
 		margin-bottom: 30px;
@@ -33,17 +33,17 @@
 		border-collapse: collapse;
 	}
 	
-	.user_search th, .user_search td {
+	.partner_search th, .user_search td {
 		padding: 5px 20px;
     	border: 2px solid #e2e2d0;
 	}
 	
 	/* 짝수로 배경 색깔 지정 */
-	.user_search td:nth-child(odd) {
+	.partner_search td:nth-child(odd) {
     	background: #f5f5ef;
 	}
 	
-	.user_search label {
+	.partner_search label {
 		margin: 0px;
 	}
 	
@@ -148,85 +148,6 @@
     <title>User Index</title>
     <%@include file="../partial/head.jsp" %>
 <script>
-	/* 21-04-13 버그 수정 예정 */
-	// 선택한 옵션 값을 placeholder에 표시
-	$(".viewcount").change(function() {
-		selectedValue = $(this).val();
-			
-		$("input").val('');
-			
-		message=["이메일을", "이름을", "전화번호를"]
-		$("input").attr("placeholder", message[selectedValue] + " 입력하세요.");
-	})
-	
-	$(function() {
-		var selectedValue = '${search_field}'
-			
-		/* 선택된 필드 값이 있으면 select class="viewcount"를 가진 option value 값을 유지 */	
-		if (selectedValue != '-1')
-			$(".viewcount").val(selectedValue);
-		
-		$("input[value='${check_state}']").prop('checked', true);
-		
-		$(".UserSusp").click(function(event) {
-			var answer = confirm("회원 정지를 하시겠습니까?");
-			
-			if (!answer) {
-				event.preventDefault();
-			}
-		});
-		
-		$(".UserReAc").click(function(event) {
-			var answer = confirm("정지 해제를 하시겠습니까?");
-			
-			if (!answer) {
-				event.preventDefault();
-			}
-		});
-		
-		$(".UserBanned").click(function(event) {
-			var answer = confirm("회원을 추방 하시겠습니까?");
-			
-			if (!answer) {
-				event.preventDefault();
-			}
-		});
-		
-		$(".UserInac").click(function(event) {
-			var answer = confirm("회원 탈퇴를 취소 하시겠습니까?");
-			
-			if (!answer) {
-				event.preventDefault();
-			}
-		});
-		
-		/* 기능 사용시 나오는 알림창 */
-		var result = "${ result }";
-		
-		if (result == 'suspSuccess') {
-			alert("선택한 아이디 회원을 정지 성공.");	
-		} else if (result == 'suspFail') {
-			alert("선택한 아이디 회원 정지 실패.");
-		}
-		
-		if (result == 'reacSuccess') {
-			alert("선택한 아이디 정지 해제 완료");
-		} else if (result == 'reacFail') {
-			alert("선택한 아이디 정지 해제 실패");
-		}
-		
-		if (result == 'bannedSuccess') {
-			alert("선택한 아이디 강제 추방 완료");
-		} else if (result == 'bannedFail') {
-			alert("선택한 아이디 탈퇴 취소 완료");
-		}
-		
-		if (result == 'inacSuccess') {
-			alert ("선택한 아이디 탈퇴 취소 성공");
-		} else if (result == 'inacFail') {
-			alert ("선택한 아이디 탈퇴 취소 실패");
-		}
-	});
 </script>
 </head>
 <body>
@@ -242,33 +163,23 @@
     
     <!-- Page Content -->
     <div class="container-fluid">
-		<h3 class="user_h3">회원 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
+		<h3 class="partner_h3">파트너 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
  		<hr style="border: solid 1px #e2e2d0;">
-			<form action="userList">
+			<form action="partnerList">
 				<div class=search_div>
-					<b>회원 검색</b><br>
+					<b>파트너 검색</b><br>
 					<div>
-						<table class="user_search">
+						<table class="partner_search">
 							<tr>
 								<td>검색어</td>
 								<td>
 									<select class="viewcount" name="search_field">
-										<option value="0" selected>이메일</option>
-										<option value="1">이름</option>
+										<option value="0" selected>상호명</option>
+										<option value="1">이메일</option>
 										<option value="2">전화번호</option>
 									</select>
-									<input type="text" id="search_word" name="search_word" placeholder="이메일을 입력하세요." value="${search_word}">
-								</td>
-								
-								<td>회원 구분</td>
-								<td>
-								<ul class="checkbox_ul">
-									<li><label><input type="radio" name="check_state" value="0" /> 회원 활동</label>&nbsp;</li>
-									<li><label><input type="radio" name="check_state" value="1" /> 회원 탈퇴</label>&nbsp;</li>
-									<li><label><input type="radio" name="check_state" value="2" /> 활동 정지</label>&nbsp;</li>
-									<li><label><input type="radio" name="check_state" value="3" /> 회원 추방</label>&nbsp;</li>
-								</ul>
-								</td>
+									<input type="text" id="search_word" name="search_word" placeholder="상호명을 입력하세요." value="${search_word}">
+								</td>		
 							</tr>
 						</table>
 					</div>
@@ -280,7 +191,7 @@
 						
 					<%-- 회원이 있는 경우 --%>
       				<c:if test="${listcount > 0}">
-	      			<div class="Usersfunction_gird">
+	      			<div class="Partnerfunction_gird">
 	      				<div id="listcount_div">
 			      			<b><font size=4>회원 수 : ${listcount}</font></b>	      				
 	      				</div>
@@ -294,58 +205,14 @@
 			            <tbody>
 			               <tr>
 			                  <th>이메일</th>
-			                  <th>이름</th>
-			                  <th>전화번호</th>
-			                  <th>포인트</th>
+			                  <th>상호명</th>
+			                  <th>대표자 명</th>
+			                  <th>전화 번호</th>
+			                  <th>가게 번호</th>
 			                  <th>주소</th>
-			                  <th>가입일</th>
-			                  <th>수정일</th>
-			                  <th>회원 상태</th>
 			                  <th>관리</th>
-							</tr>
-							
-			            	<c:forEach var="users" items="${Userslist}">
-			            		<tr>
-			            			<td>${users.user_email}</td>
-			         				<td>${users.user_name}</td>
-			         				<td>${users.user_tel}</td>
-			         				<td>${users.point}</td>
-			         				<td>${users.user_address}</td>
-			         				<td>${users.created_at}</td>
-			         				<td>${users.updated_at}</td>
-			         				<td>
-			         					<c:choose>
-			         						<c:when test="${users.user_status == 1}">
-				         						<c:out value="활동"/>
-			         						</c:when>
-			         						
-			         						<c:when test="${users.user_status == 2}">
-				         						<c:out value="탈퇴"/>
-			         						</c:when>
-			         						
-			         						<c:when test="${users.user_status == 3}">
-				         						<c:out value="정지"/>
-			         						</c:when>
-			         						
-			         						<c:when test="${users.user_status == 4}">
-				         						<c:out value="추방"/>
-			         						</c:when>
-			         					</c:choose>
-			         				</td>
-			         				<td>
-			         					<a href="UserSusp?user_id=${users.user_id}" class="UserSusp">회원 정지</a>&nbsp;
-			         					<a href="UserReAc?user_id=${users.user_id}" class="UserReAc">정지 해제</a>&nbsp;
-			         					<a href="UserBanned?user_id=${users.user_id}" class="UserBanned">강제 탈퇴</a>&nbsp;
-			         					<a href="UserInac?user_id=${users.user_id}" class="UserInac">탈퇴 취소</a>&nbsp;
-			         					
-				         				<!-- <button type="button" id="suspending" onclick="">회원 정지</button>&nbsp;
-										<button type="button" id="re_active">정지 해제</button>&nbsp;
-										<button type="button" id="banned">강제 탈퇴</button>&nbsp;
-										<button type="button" id="inactive">탈퇴 취소</button>&nbsp; -->
-									</td>
-			            		</tr>	
-			            	</c:forEach>
-			            </tbody>
+			               </tr>
+						</tbody>
       				</table>
 		      	 <div style="margin: 50px;">
 		         <ul class="pagination justify-content-center">
