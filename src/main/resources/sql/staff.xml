@@ -12,4 +12,46 @@
         where store_id = #{store_id}
           and t.STATUS_VALUE not like '%in%'
     </select>
+
+    <select id="staffSearchList" resultType="staff" parameterType="Map">
+        select j.user_id, j.user_email, f.user_name, t.status_value as user_status_value, j.created_at
+        from (select *
+              from users u
+              where u.user_id not in (select user_id
+                                      from staffs
+                                      where store_id = #{store_id})) j
+                 join role r on r.role_id = j.role_id
+                 join user_status t on t.user_status_id = j.user_status
+                 join user_info f on f.user_id = j.user_id
+        where t.status_value not like '%in%'
+          and (r.role_value = 'ROLE_MEMBER'
+            or r.role_value = 'ROLE_STORE_STAFF')
+          and (j.user_email like #{search_val}
+            or f.user_name like #{search_val})
+    </select>
+
+    <select id="isWorker" resultType="int" parameterType="Map">
+        select count(*)
+        from staffs
+        where user_id = #{user_id}
+        <if test="store_id != null">
+            and store_id = #{store_id}
+        </if>
+    </select>
+
+    <insert id="createStaff" parameterType="map">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="staff_id">
+            select nvl(max(staff_id), 0) +1 from staffs
+        </selectKey>
+        insert into staffs (staff_id, user_id, store_id)
+        values(#{staff_id}, #{user_id}, #{store_id})
+    </insert>
+
+    <delete id="deleteStaff" parameterType="map">
+        delete
+        from staffs
+        where user_id = #{user_id}
+          and store_id = #{store_id}
+    </delete>
 </mapper>

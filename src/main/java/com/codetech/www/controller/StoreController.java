@@ -33,9 +33,6 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @Autowired
-    private StaffService staffService;
-
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "store/index";
@@ -240,23 +237,6 @@ public class StoreController {
         model.addAttribute("storeNav", "storeProfit");
 
         return "store/store-profit";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/staff-list-by-store-ajax", method = RequestMethod.GET)
-    public Map<String, Object> getStoreStaffListAjax(HttpSession session, @RequestParam(value = "store_id") int store_id) {
-
-        Integer owner_id = (Integer) session.getAttribute("user_id");
-        logger.info("store owner id : " + owner_id);
-
-        List<Staff> list = staffService.getStaffListByStore(store_id);
-
-        Map<String, Object> rtn = new HashMap<String, Object>();
-
-        rtn.put("list", list);
-        rtn.put("success", list.size() > 0);
-
-        return rtn;
     }
 
     @RequestMapping(value = "/store-staff", method = RequestMethod.GET)

@@ -28,7 +28,7 @@
             loadStoreStaff(first_store_id, first_store_name);
 
             $("#staffAddBtn").on("click", () => {
-                location.href = "/store/staff-create"
+                location.href = "/staff/staff-create"
             })
         })
     </script>
@@ -95,13 +95,15 @@
                                     <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">직원 이름</th>
+                                        <th scope="col">이름</th>
+                                        <th scope="col">이메일</th>
                                         <th scope="col">입사일</th>
-                                        <th scope="col">해고</th>
+                                        <th scope="col">삭제</th>
                                     </tr>
                                     <tr id="staff_template_tr" class="d-none">
                                         <th scope="row" class="staff_count"></th>
                                         <td class="staff_name"></td>
+                                        <td class="staff_email"></td>
                                         <td class="staff_date"></td>
                                         <td class="staff_expire"></td>
                                     </tr>

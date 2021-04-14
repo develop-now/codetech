@@ -1,11 +1,19 @@
+let store_id_val
+
+let alertModal;
+let infoModal;
+
 $(() => {
-    console.log("staff list loaded")
+    alertModal = $("#alertModal")
+    infoModal = $("#infoModal")
 })
 
 function loadStoreStaff(store_id, store_name) {
+    store_id_val = store_id
+
     $.ajax({
         method: "get",
-        url: "/store/staff-list-by-store-ajax",
+        url: "/staff/staff-list-by-store-ajax",
         data: {store_id},
         dataType: "json",
         cache: false,
@@ -31,7 +39,32 @@ function makeEmptyTable(store_name) {
 }
 
 function expireStaff(staff_id) {
-    console.log("staff_id : ", staff_id)
+    const header = $("meta[name='_csrf_header']").attr('content');
+    const token = $("meta[name='_csrf']").attr('content');
+
+    $.ajax({
+        url: "/staff/deleteAction",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        method: "post",
+        data: {store_id: store_id_val, user_id: staff_id},
+        dataType: "json",
+        success: (jsonData) => {
+            if (jsonData.success) {
+                $("#infoModal__msg").text("스태프 삭제 성공하였습니다")
+                infoModal.modal("show")
+
+                $(`tr#staff_${staff_id}`).remove();
+            } else {
+                $("#alertModal__msg").text("스태프 삭제 실패하였습니다")
+                alertModal.modal("show")
+            }
+        },
+        error: (req, status, err) => {
+            console.log("err : ", err)
+        }
+    })
 }
 
 function makeStaffTable(data, store_name) {
@@ -47,12 +80,11 @@ function makeStaffTable(data, store_name) {
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `staff_${staff.user_id}`).removeClass("d-none");
         clonedTr.find(".staff_count").text(count);
-        clonedTr.find(".staff_name").append(`<a href="/staff/staff-read?menu_id=${staff.user_id}">
-                                                ${staff.user_name}
-                                            </a>`)
-        clonedTr.find(".staff_date").text(staff.created_at);
-        clonedTr.find(".staff_expire").append(`<button class="btn btn-danger btn-danger btn-sm"
-onclick="expireStaff('${staff.user_id}')">해고</button>`)
+        clonedTr.find(".staff_name").append(staff.user_name);
+        clonedTr.find(".staff_email").text(staff.user_email);
+        clonedTr.find(".staff_date").text(staff.created_at.substr(0, 11));
+        clonedTr.find(".staff_expire").append(`<button class="btn btn-danger btn-sm"
+onclick="expireStaff('${staff.user_id}')">삭제</button>`)
 
         $("#target-tbody").append(clonedTr);
         count++;
