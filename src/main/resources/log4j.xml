@@ -18,6 +18,10 @@
 	<logger name="Menus">
 		<level value="trace"/>
 	</logger>
+
+	<logger name="Staffs">
+		<level value="trace"/>
+	</logger>
 	
 	<!-- Application Loggers -->
 	<logger name="com.codetech.www">

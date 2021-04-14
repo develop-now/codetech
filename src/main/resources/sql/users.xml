@@ -34,14 +34,14 @@
                 #{point}, #{user_id})
 
     </insert>
-    
+
     <select id="authIdCheck" resultType="user">
         select u.*, r.role_value as auth
         from users u
                  join role r on u.role_id = r.role_id
         where u.user_email = #{username}
     </select>
-    
+
     <select id="managerName" resultType="user-info">
         select user_name, a.user_id
         from user_info a
@@ -61,22 +61,31 @@
         where user_id = #{user_id}
     </select>
 
-	
-	 <select id="userTotalInfo" parameterType="int" resultType="upi">
-    	select * 
-		from (
-			select user_email, user_password, user_name
-			, user_tel, user_address, user_profile, point, original_file
-			from USERS
-			left join USER_INFO
-			on USERS.USER_ID = USER_INFO.USER_ID
-			where USERS.user_id = #{id}
-		    )
+
+    <select id="userTotalInfo" parameterType="int" resultType="upi">
+        select *
+        from (
+                 select user_email
+                      , user_password
+                      , user_name
+                      , user_tel
+                      , user_address
+                      , user_profile
+                      , point
+                      , original_file
+                 from USERS
+                          left join USER_INFO
+                                    on USERS.USER_ID = USER_INFO.USER_ID
+                 where USERS.user_id = #{id}
+             )
     </select>
-    
+
     <select id="selectUsers" parameterType="String" resultType="user">
-    	select * from users where user_email=#{user_email}
+        select *
+        from users
+        where user_email = #{user_email}
     </select>
+
     
     <select id="userInfo" parameterType="String" resultType="user">
     	select * from users where user_id = #{user_id}
@@ -86,5 +95,13 @@
     	update users
     	set user_password = #{user_password}
     	where user_id = {user_id}
+
+
+    <!-- for store store staff -->
+    <update id="updateStaffUserStatus" parameterType="Map">
+        update users
+        set role_id    = (select role_id from role where role_value = #{role_value}),
+            updated_at = sysdate
+        where user_id = #{user_id}
     </update>
 </mapper>

@@ -1,7 +1,10 @@
 package com.codetech.www.controller;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Staff;
 import com.codetech.www.domain.Store;
+import com.codetech.www.domain.User;
+import com.codetech.www.service.StaffService;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -60,6 +63,7 @@ public class StoreController {
         Map<String, Object> rtn = new HashMap<String, Object>();
 
         rtn.put("list", list);
+        rtn.put("success", list.size() > 0);
 
         return rtn;
     }
