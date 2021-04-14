@@ -27,7 +27,7 @@
                 <div class="modal-footer loginModal-footer">
                     <div class="loginModal-footer-control custom-checkbox">
                         <input type="checkbox" class="loginModal-footer-control-input"
-                               id="id-remember" name="id-remember" value="store"
+                               id="id-remember" name="id-remember"
                         <c:if test="${!empty saveid }">
                                checked
                         </c:if>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="loginModal-footer-control custom-checkbox">
                         <input type="checkbox" class="loginModal-footer-control-input"
-                               id="remember-me" name="remember-me" value="store">
+                               id="remember-me" name="remember-me">
 
                         <label class="loginModal-footer-control-label" for="remember-me">
                             로그인 유지하기
