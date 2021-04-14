@@ -20,5 +20,7 @@ public interface UsersService {
 
 	User getUserId(String user_email);
 
+	int passcheck(int user_id, String user_password, String user_newpassword);
+
 
 }

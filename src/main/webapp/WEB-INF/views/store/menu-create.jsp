@@ -21,6 +21,7 @@
         })
     </script>
 </head>
+<c:set var="idValue" value="${user_id}" scope="session"/>
 <body>
 <div class="container-fluid px-0">
     <%-- main nav --%>
@@ -54,6 +55,9 @@
                         <div class="col-12">
                             <form action="<c:url value="/menu/createAction"/>" method="post"
                                   enctype="multipart/form-data" id="createMenuForm">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                <input type="hidden" name="owner_id" value="${idValue}">
+
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">내 가게*</label>
                                     <div class="col-sm-10">

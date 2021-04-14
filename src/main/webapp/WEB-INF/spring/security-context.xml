@@ -11,7 +11,7 @@
        https://www.springframework.org/schema/context/spring-context.xsd
 ">
 
-    <security:http auto-config="true">
+    <security:http>
         <security:intercept-url pattern="/resources/**/**" access="permitAll"/>
         <security:intercept-url pattern="/auth/login" access="permitAll"/>
         <security:intercept-url pattern="/auth/loginAction" access="permitAll"/>
@@ -22,8 +22,11 @@
                                 access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/store/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/menu/menu-create" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/menu/createAction" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/menu/menu-update" access="hasRole('ROLE_STORE_OWNER')"/>
-        <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/menu/updateAction" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/staff/order-list" access="hasRole('ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
 

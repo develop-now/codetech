@@ -74,6 +74,27 @@ public class UsersServiceImpl implements UsersService {
 	public User getUserId(String user_email) {
 		return dao.getUserId(user_email);
 	}
+
+	@Override
+	public int passcheck(int user_id, String user_password, String user_newpassword) {
+		User userInfo = dao.userInfo(user_id);
+		int result = 0;
+		if(userInfo != null) {
+			if(passwordEncoder.matches(user_password,userInfo.getUser_password())){
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("user_id", user_id);
+				map.put("user_password", user_newpassword);
+				result = dao.updatePassword(map);
+				if(result == 0) {
+					logger.info("dao updatepassword fail");
+					result = -1; 
+				}
+				return result;
+			}
+			result = 0;
+		}
+		return result;
+	}
 	 
 	
 	
