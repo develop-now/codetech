@@ -25,18 +25,18 @@
 
                 </div>
                 <div class="modal-footer loginModal-footer">
-                    <div class="loginModal-footer-control custom-checkbox">
-                        <input type="checkbox" class="loginModal-footer-control-input"
-                               id="id-remember" name="id-remember" value="store"
-                        <c:if test="${!empty saveid }">
-                               checked
-                        </c:if>
-                        >
+<%--                    <div class="loginModal-footer-control custom-checkbox">--%>
+<%--                        <input type="checkbox" class="loginModal-footer-control-input"--%>
+<%--                               id="id-remember" name="id-remember" value="store"--%>
+<%--                        <c:if test="${!empty saveid }">--%>
+<%--                               checked--%>
+<%--                        </c:if>--%>
+<%--                        >--%>
 
-                        <label class="loginModal-footer-control-label" for="id-remember">
-                            아이디 기억하기
-                        </label>
-                    </div>
+<%--                        <label class="loginModal-footer-control-label" for="id-remember">--%>
+<%--                            아이디 기억하기--%>
+<%--                        </label>--%>
+<%--                    </div>--%>
                     <div class="loginModal-footer-control custom-checkbox">
                         <input type="checkbox" class="loginModal-footer-control-input"
                                id="remember-me" name="remember-me" value="store">
