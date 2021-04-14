@@ -114,11 +114,6 @@
                                         <th scope="col">대표이미지</th>
                                         <th scope="col">상태</th>
                                     </tr>
-                                    </thead>
-
-                                    <tbody id="target-tbody">
-                                    </tbody>
-
                                     <tr id="menu_template_tr" class="d-none">
                                         <th scope="row" class="menu_count"></th>
                                         <td class="menu_link"></td>
@@ -126,6 +121,12 @@
                                         <td class="menu_image"></td>
                                         <td class="menu_status"></td>
                                     </tr>
+                                    </thead>
+
+                                    <tbody id="target-tbody">
+                                    </tbody>
+
+
                                 </table>
                             </div>
                         </div>

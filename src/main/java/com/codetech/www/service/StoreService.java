@@ -2,6 +2,7 @@ package com.codetech.www.service;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Store;
+import com.codetech.www.domain.User;
 
 import java.util.List;
 
