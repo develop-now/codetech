@@ -5,13 +5,18 @@
 }
 .infomain__img > img{
 	width:150px;
+	height:150px;
+	border-radius: 50%;
 }
 .infomain__count{
 	width: 100%;
 	padding: 30px;
 	display: flex;
-	justify-content: space-between;
+	justify-content:center;
 	font-size: 22px;
+}
+.infomain__count span{
+	margin: 0 30px;
 }
 .infomain__list{
 	display: flex;
@@ -46,7 +51,44 @@
 	background-color: #BE9F7B;
 	color:#B63629;
 }
+.infomain__link span button:focus{
+	outline:none;
+}
 /*mypage-maininfo end*/
+
+/*mypage-maininfo pwdModal start*/
+.pwdModal-title{
+	color:#6b9068ba;
+}
+.pwdModal-body > input{ 
+	width: 100%;
+	padding: 9px 18px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #B63629;
+}
+.pwdModal-body > label{
+	margin:7px 0 0 0;
+	opacity: 0.7;
+}
+.pwdModal-footer > button{
+	width:100%;
+	padding:10px;
+	border-radius:5px;
+	border-line: none;
+	border-color:#6b9068ba;
+	background-color: #6b9068ba;
+	color:white;
+	opacity:0.9;
+}
+.pwdModal-footer > button:focus,.pwdModal-body > input:focus{
+	outline:none;
+}
+.pwdModal-footer > button:hover{
+	background-color: #6b9068ba;
+	color:#B63629;
+}
+/*mypage-maininfo pwdModal end*/
 
 /*mypage-pointlist start*/
 
@@ -80,6 +122,10 @@
 }
 .mypageReport__body--radio{
 	display:flex;
+	padding: 10px;
+}
+.mypageReport__body--radio div{
+	margin:10px;
 }
 .mypageReport__table-head{
 	background-color:#fbf9f7; 

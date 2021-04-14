@@ -18,28 +18,30 @@
                 </div>
                 <div class="modal-body loginModal-body">
                     <label for="user_id"><strong>아이디</strong></label>
-                    <input type="text" placeholder="이메일형식의 아이디를 입력하세요" name="user_id" required>
+                    <input type="text" placeholder="이메일형식의 아이디를 입력하세요" id="user_id" name="user_id" required>
 
                     <label for="user_password"><strong>비밀번호</strong></label>
-                    <input type="password" placeholder="비밀번호를 입력하세요" name="user_password" required>
+                    <input type="password" placeholder="비밀번호를 입력하세요" id="user_password" name="user_password" required>
 
                 </div>
                 <div class="modal-footer loginModal-footer">
-<%--                    <div class="loginModal-footer-control custom-checkbox">--%>
-<%--                        <input type="checkbox" class="loginModal-footer-control-input"--%>
-<%--                               id="id-remember" name="id-remember" value="store"--%>
-<%--                        <c:if test="${!empty saveid }">--%>
-<%--                               checked--%>
-<%--                        </c:if>--%>
-<%--                        >--%>
 
-<%--                        <label class="loginModal-footer-control-label" for="id-remember">--%>
-<%--                            아이디 기억하기--%>
-<%--                        </label>--%>
-<%--                    </div>--%>
                     <div class="loginModal-footer-control custom-checkbox">
                         <input type="checkbox" class="loginModal-footer-control-input"
-                               id="remember-me" name="remember-me" value="store">
+                               id="id-remember" name="id-remember"
+                        <c:if test="${!empty saveid }">
+                               checked
+                        </c:if>
+                        >
+
+                        <label class="loginModal-footer-control-label" for="id-remember">
+                            아이디 기억하기
+                        </label>
+                    </div>
+
+                    <div class="loginModal-footer-control custom-checkbox">
+                        <input type="checkbox" class="loginModal-footer-control-input"
+                               id="remember-me" name="remember-me">
 
                         <label class="loginModal-footer-control-label" for="remember-me">
                             로그인 유지하기

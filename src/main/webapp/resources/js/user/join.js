@@ -34,7 +34,6 @@ function DaumPostcode() {
 }
 /*joinModal*/
 $(function(){
-	console.log("Users Js loaded");
 	var idpattern = false;
 	var nickpattern = false;
 	var passpattern = false;
