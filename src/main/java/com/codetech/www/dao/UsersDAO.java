@@ -64,8 +64,26 @@ public class UsersDAO {
     }
 
 
+
+	public UserPlusInfo user_total_info(int user_id) {
+		return sqlSession.selectOne("users.userTotalInfo", user_id); 
+	}
+	
+	public User getUserId(String user_email) {
+		return sqlSession.selectOne("users.selectUsers", user_email);
+	}
+
+	public int updatePassword(Map<String, Object> map) {
+		return sqlSession.insert("users.updatePassword", map);
+	}
+
+	public User userInfo(int user_id) {
+		return sqlSession.selectOne("users.userInfo", user_id);
+	}
+
     //	for store store staff
     public int updateStaffUserStatus(Map<String, Object> param) {
         return sqlSession.update("users.updateStaffUserStatus", param);
     }
+
 }

@@ -40,9 +40,15 @@
 							  </label>
 							</div>
 							<div class="form-check">
-							  <input class="form-check-input" type="radio" name="searchPro" id="SearchPro" value="option2">
+							  <input class="form-check-input" type="radio" name="searchDone" id="SearchDone" value="option2">
 							  <label class="form-check-label" for="exampleRadios2">
 							   처리완료
+							  </label>
+							</div>
+							<div class="form-check">
+							  <input class="form-check-input" type="radio" name="searchPro" id="SearchPro" value="option3">
+							  <label class="form-check-label" for="exampleRadios2">
+							   처리중
 							  </label>
 							</div>
 	              		</div>

@@ -36,6 +36,7 @@ import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.UsersService;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -53,6 +54,10 @@ public class UsersController {
 
     @Value("${saveFolderName}")
     private String user_profile;
+    
+    private int likesCount;
+    
+    private int reviewCount;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
@@ -183,31 +188,36 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/infoMain", method = RequestMethod.GET)
-    public String infomain(String user_id, HttpServletRequest request, RedirectAttributes rattr) {
-        //session id확인해서  그아이디에 해당하는 정보를 가지고 돌아간다.
-        //TODO 회원 정보, 토탈포인트, 작성된 리뷰수review, 즐겨찾기 한 가게 수 값  전달하기likes
-		/*
-		 * Integer sessionId = (Integer) session.getAttribute("user_id"); String url="";
-		 * if(sessionId == null||!request.isRequestedSessionIdValid()) {
-		 * rattr.addFlashAttribute("alert", "로그인이 필요한 서비스 입니다."); return
-		 * "redirect:/home";
-		 * 
-		 * }else {
-		  int user_id= (int)sessionId;
-		 */
-        //클릭하고들어오면 user_id 값을 구한다.
-        Integer id = (Integer) session.getAttribute("id");
-        logger.info("=============세션에서 가져온  id=================" + id);
-        //구한 user_id값을 가지고 해당 info와 users테이블을 조회한다.
-        //조회한 값을 userplusinfo에 답아서 반환한다.
-        //좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
+    public ModelAndView infomain(ModelAndView mv) {
+        int user_id = (int) session.getAttribute("user_id");
+        logger.info("=============세션에서 가져온  id=================" + user_id);
+        UserPlusInfo upi = usersService.user_info(user_id);
         //UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)
-
+        //좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
+        
+        mv.setViewName("user/mypage-infomain");
+        mv.addObject("userPlusInfo", upi);
         // mv.addAttribute("userinfo", upi);
-        return "user/mypage-infomain";
+        return mv;
         // }
     }
-
+    @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
+    public String modifyPassword(
+    				 String user_newpassword_check
+    				,String user_password,RedirectAttributes rattr) {
+    	logger.info("modifyPassword도착");
+    	int user_id = (int)session.getAttribute("user_id");
+    	String user_newpassword = passwordEncoder.encode(user_newpassword_check);
+    	int result = usersService.passcheck(user_id, user_newpassword, user_password);
+    	if(result == 1) { //비밀번호 변경 완료
+    		rattr.addAttribute("info", "비밀번호 변경을 완료하였습니다.");
+    	}else if(result == -1){ //비밀번호 update 실행 불가
+    	rattr.addAttribute("alert", "비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
+    	}else { //result = 0 기존 비밀번호 일치하지 않음
+    	rattr.addAttribute("alert", "기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+    	}
+    	return "redirect/infoMain";
+    }
 
     @RequestMapping(value = "/infoModify", method = RequestMethod.GET)
     public String infomodify(int user_id, RedirectAttributes rattr) {
@@ -220,7 +230,7 @@ public class UsersController {
 
         return url;
     }
-
+    
     @RequestMapping(value = "/infoModifyAction", method = RequestMethod.GET)
     public void infomodify(UserInfo info) {
         //이미지파일 변경 추가
