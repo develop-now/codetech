@@ -1,6 +1,7 @@
 package com.codetech.www.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -60,5 +61,13 @@ public class UsersDAO {
 	
 	public User getUserId(String user_email) {
 		return sqlSession.selectOne("users.selectUsers", user_email);
+	}
+
+	public int updatePassword(Map<String, Object> map) {
+		return sqlSession.insert("users.updatePassword", map);
+	}
+
+	public User userInfo(int user_id) {
+		return sqlSession.selectOne("users.userInfo", user_id);
 	}
 }

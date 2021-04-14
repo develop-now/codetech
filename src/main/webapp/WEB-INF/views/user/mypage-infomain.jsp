@@ -7,6 +7,7 @@
     <!--toggle으 마이페이지 클릭시 nav의 정보관리와 연결, 현재 정보, 토탈포인트, 작성된 리뷰수, 즐겨찾기 한 가게 수, 회원 탈퇴하기 테이블로 보여주기
     	정보수정클릭할경우 수정페이지로 이동 -->
     <%@include file="../partial/head.jsp" %>
+<script src="${pageContext.request.contextPath}/resources/js/user/modifyPassword.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
 </head>
 <body>
@@ -34,35 +35,35 @@
 	              	</div>
 	              		<hr>
 	              	<div class="infomain__img">
-	              		<img src="${pageContext.request.contextPath}/resources/image/common/default.png" alt="profile">
+	              		<img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.original_file}" alt="profile">
 	              	</div>
 	              	<div class="infomain__count">
-	              		<span>포인트&nbsp;:&nbsp;4,000P</span>
-	              		<span>즐겨찾는카페수&nbsp;:&nbsp;12지점</span>
-	              		<span>리뷰개수&nbsp;:&nbsp;4개</span>
+	              		<span>포인트&nbsp;:&nbsp;${userPlusInfo.point}P</span>
+	              		<span>즐겨찾는카페수&nbsp;:&nbsp;지점</span>
+	              		<span>리뷰개수&nbsp;:&nbsp;개</span>
 	              	</div>
 	              	<div class="infomain__list">
 	              	<table class="infomain__list-table">
 	              		<tr>
 	              			<td><span>아이디</span></td>
-	              			<td>test@test.com</td>
+	              			<td>${userPlusInfo.user_email}</td>
 	              		</tr>
 	              		<tr>
 	              			<td><span>닉네임</span></td>
-	              			<td>테스트</td>
+	              			<td>${userPlusInfo.user_name}</td>
 	              		</tr>
 	              		<tr>
 	              			<td><span>연락처</span></td>
-	              			<td>0100000000</td>
+	              			<td>${userPlusInfo.user_tel}</td>
 	              		</tr>
 	              		<tr>
 	              			<td><span>주소</span></td>
-	              			<td>서울시 종로구 종로가 종로1길</td>
+	              			<td>${userPlusInfo.user_address}</td>
 	              		</tr>
 	              	</table>
               		</div>
 	                <div class="infomain__link">
-	                <span><button type="button" onclick="locaton.href='../user/infoModify'">비밀번호수정</button></span>
+	                <span><button type="button" data-toggle="modal" data-target="#pwdModal">비밀번호수정</button></span>
 		            <span><button type="button" onclick="locaton.href='../user/infoModify'">정보수정</button></span>
 	                </div>
                 </div>
@@ -74,5 +75,6 @@
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
 </div>
+<jsp:include page="modify-password.jsp"/>
 </body>
 </html>
