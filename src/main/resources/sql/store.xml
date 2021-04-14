@@ -108,7 +108,6 @@
     </update>
 
     <!--    after this line for main    -->
-
     <select id="forMain" resultType="store">
         select bb.*, rownum from (
         <include refid="storeCall"/>
@@ -197,6 +196,13 @@
     <!--        <include refid="forSearch"/>-->
     <!--        and rownum &lt;= 1-->
     <!--    </select>-->
+    
+    <select id="storeInfo" resultType="store" parameterType="int">
+            select *
+        from stores
+        where store_id = #{store_id}
+    
+    </select>
 
 
 </mapper>

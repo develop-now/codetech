@@ -118,4 +118,8 @@ public class StoreDAO {
         return sqlSession.selectOne("Stores.getMap", searchWordLike);
     }
 
+	public Store getStore(int store_id) {
+		return sqlSession.selectOne("Stores.storeInfo", store_id);
+	}
+
 }

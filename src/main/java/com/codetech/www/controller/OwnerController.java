@@ -22,6 +22,7 @@ import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.OwnerService;
 
 
@@ -182,22 +183,47 @@ public class OwnerController {
         return mv;
     }
 
-    // chatting
-    @RequestMapping(value = "/chat")
-    public ModelAndView chat(Store store, HttpServletRequest request, ModelAndView mv) throws Exception {
+    // chat for store
+    @RequestMapping(value = "/chatS")
+    public ModelAndView chat1(Store store, HttpServletRequest request, HttpSession session, ModelAndView mv) throws Exception {
 
-        mv.addObject("store", store); // Store_id, Store_name, Store_saved_image
+    	//int store_id = (Integer)session.getAttribute("store_id");
+    	Store storeInfo = ownerService.getStore(1);
+        mv.addObject("store", storeInfo); // Store_id, Store_name, Store_saved_image
+
+        // ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
+        String requestURL = request.getRequestURL().toString();
+        // http://localhost:8088/mychat/logoiProecess
+        // url = //localhost:8088/www/owner
+        int start = requestURL.indexOf("//");
+        int end = requestURL.lastIndexOf("/o");
+        String url = requestURL.substring(start, end);
+        mv.addObject("url", url);
+        logger.info("url = " + url);
+        mv.setViewName("owner/chattingS");
+        return mv;
+
+    }
+    
+    //chat for owner
+    @RequestMapping(value = "/chatM")
+    public ModelAndView chat(HttpServletRequest request, HttpSession session, ModelAndView mv) throws Exception {
+    	int user_id = (Integer)session.getAttribute("user_id");
+    	UserPlusInfo adminInfo = ownerService.getOwnerInfo(user_id);
+        mv.addObject("admin", adminInfo); // user_name, user_profile
 
         // ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
         String requestURL = request.getRequestURL().toString();
         // http://localhost:8088/mychat/logoiProecess
         int start = requestURL.indexOf("//");
-        int end = requestURL.lastIndexOf("/");
+        int end = requestURL.lastIndexOf("/o");
         String url = requestURL.substring(start, end);
         mv.addObject("url", url);
-        mv.setViewName("owner/chatting");
+        mv.setViewName("owner/chattingM");
         return mv;
 
     }
+    
+    
 
 }
