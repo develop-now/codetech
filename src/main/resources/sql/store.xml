@@ -203,6 +203,13 @@
         where store_id = #{store_id}
     
     </select>
+    
+        <select id="storeLikeCount" resultType="int" parameterType="int">
+        select like_count from (
+<include refid="storeCall"/>
+) where store_id = #{store_id}
+    
+    </select>
 
 
 </mapper>

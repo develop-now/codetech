@@ -2,6 +2,7 @@ package com.codetech.www.service;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.codetech.www.dao.MenuDAO;
+import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
+import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
@@ -23,7 +28,13 @@ public class UsersServiceImpl implements UsersService {
 
     @Autowired
     private UsersDAO dao;
+    
+    @Autowired
+    private StoreDAO sdao;
 
+    @Autowired
+    private MenuDAO mdao;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -94,6 +105,29 @@ public class UsersServiceImpl implements UsersService {
 			result = 0;
 		}
 		return result;
+	}
+
+	@Override
+	public Store getStore(int store_id) {
+		 return sdao.getStore(store_id);
+	}
+
+	@Override
+	public int getStoreLike(int store_id) {
+		 return sdao.getStoreLike(store_id);
+
+	}
+
+	@Override
+	public List<Menu> getTopMenu(int store_id) {
+		 return mdao.getTopMenu(store_id);
+
+	}
+
+	@Override
+	public List<Menu> getAllMenu(int store_id) {
+		 return mdao.getAllMenu(store_id);
+
 	}
 	 
 	
