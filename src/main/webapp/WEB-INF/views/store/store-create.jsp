@@ -57,8 +57,8 @@
                             <form action="<c:url value="/store/createAction"/>" method="post"
                                   enctype="multipart/form-data" id="createStoreForm">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-
                                 <input type="hidden" name="owner_id" value="${idValue}">
+
                                 <div class="form-group row">
                                     <label for="store_name" class="col-sm-2 col-form-label">상호명*</label>
                                     <div class="col-sm-10">

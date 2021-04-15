@@ -22,8 +22,11 @@
                                 access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/store/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/menu/menu-create" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/menu/createAction" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/menu/menu-update" access="hasRole('ROLE_STORE_OWNER')"/>
-        <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/menu/updateAction" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/staff/order-list" access="hasRole('ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
         <security:intercept-url pattern="/user/**" access="permitAll"/>

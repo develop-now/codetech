@@ -37,8 +37,8 @@ function makeMenuTable(data, store_name) {
 
     const templateTr = $("#menu_template_tr");
     let count = 1;
+
     for (let menu of data) {
-        console.log(count)
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `menu_${menu.menu_id}`).removeClass("d-none");
         clonedTr.find(".menu_count").text(count);
