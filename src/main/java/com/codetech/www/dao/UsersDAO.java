@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
@@ -76,5 +77,6 @@ public class UsersDAO {
     public int updateStaffUserStatus(Map<String, Object> param) {
         return sqlSession.update("users.updateStaffUserStatus", param);
     }
+
 
 }

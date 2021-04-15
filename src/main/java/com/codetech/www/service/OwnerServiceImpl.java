@@ -14,6 +14,7 @@ import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 @Service
 public class OwnerServiceImpl implements OwnerService {
@@ -102,6 +103,16 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public List<UserInfo> getAdminInfo(int user_id) {
 		return udao.getAdminInfo(user_id);
+	}
+
+	@Override
+	public Store getStore(int store_id) {
+		return dao.getStore(store_id);
+	}
+
+	@Override
+	public UserPlusInfo getOwnerInfo(int user_id) {
+		return udao.user_total_info(user_id);
 	}
 
 
