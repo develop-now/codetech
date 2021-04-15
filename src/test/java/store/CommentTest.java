@@ -14,21 +14,26 @@ import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
-public class StaffTest {
-    private static final Logger logger = LoggerFactory.getLogger(StaffTest.class);
+public class CommentTest {
+    private static final Logger logger = LoggerFactory.getLogger(CommentTest.class);
 
     @Autowired
     private SqlSessionTemplate sqlSession;
 
     @Test
-    public void staffExistTest() {
-        Map<String, Object> staff_param = new HashMap<String, Object>();
+    public void commentListTest() {
+        int store_id = 1;
+        String search_val = "r2";
 
-        staff_param.put("store_id", 1);
-        staff_param.put("user_id", 4);
+        Map<String, Object> param = new HashMap<>();
 
-        int count = sqlSession.selectOne("Staffs.isWorker", staff_param);
+        param.put("store_id", store_id);
+        if (!search_val.equals("")) {
+            param.put("search_val", "%" + search_val + "%");
+        }
 
-        logger.info("Store count : " + count);
+        int count = sqlSession.selectOne("Comments.commentCountByStore", param);
+
+        logger.info("COMMENT COUNT : " + count);
     }
 }

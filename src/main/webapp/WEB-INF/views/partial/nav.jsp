@@ -62,7 +62,7 @@
 
                 <li class="nav-item">
                     <form action="<c:url value="/auth/logout"/>" method="post" id="logoutForm">
-                        <a class="nav-link" href="#" id="logoutBtn"> 로그아웃</a>
+                        <a class="nav-link text-right" href="#" id="logoutBtn"> 로그아웃</a>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     </form>
                 </li>

@@ -1,7 +1,6 @@
 package com.codetech.www.controller;
 
 import com.codetech.www.domain.*;
-import com.codetech.www.service.StaffService;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -45,7 +44,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("list", list);
 
-        return "store/store-list";
+        return "store/CRUD/store-list";
     }
 
     @ResponseBody
@@ -71,7 +70,7 @@ public class StoreController {
 
         Store store = storeService.readStore(store_id);
         model.addAttribute("store", store);
-        return "store/store-read";
+        return "store/CRUD/store-read";
     }
 
     @RequestMapping(value = "/store-update", method = RequestMethod.GET)
@@ -80,7 +79,7 @@ public class StoreController {
 
         Store store = storeService.readStore(store_id);
         model.addAttribute("store", store);
-        return "store/store-update";
+        return "store/CRUD/store-update";
     }
 
     @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
@@ -142,7 +141,7 @@ public class StoreController {
     public String createStore(Model model) {
         model.addAttribute("storeNav", "storeCreate");
 
-        return "store/store-create";
+        return "store/CRUD/store-create";
     }
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
@@ -252,7 +251,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/comment-list";
+        return "store/comment/store-comment";
     }
 
     @RequestMapping(value = "/store-staff", method = RequestMethod.GET)
@@ -265,7 +264,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/store-staff";
+        return "store/staff/store-staff";
     }
 
     @RequestMapping(value = "/store-customers", method = RequestMethod.GET)
@@ -291,7 +290,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/order-list";
+        return "store/order/order-list";
     }
 
     @RequestMapping(value = "/menu-list", method = RequestMethod.GET)
@@ -304,6 +303,6 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/menu-list";
+        return "store/menu/menu-list";
     }
 }
