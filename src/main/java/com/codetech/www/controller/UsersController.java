@@ -188,7 +188,7 @@ public class UsersController {
 
     @RequestMapping(value = "/infoMain", method = RequestMethod.GET)
     public ModelAndView infomain(ModelAndView mv) {
-        int user_id = (int) session.getAttribute("user_id");
+        Integer user_id = (Integer) session.getAttribute("user_id");
         logger.info("=============세션에서 가져온  id=================" + user_id);
         UserPlusInfo upi = usersService.user_info(user_id);
         //UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)

@@ -96,7 +96,7 @@
     	set user_password = #{user_password}
     	where user_id = #{user_id}
 	</update>
-	
+
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">
         update users
