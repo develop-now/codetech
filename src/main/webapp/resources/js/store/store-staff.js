@@ -25,7 +25,7 @@ function loadStoreStaff(store_id, store_name) {
             }
         },
         error: (req, status, err) => {
-            console.log("get menu list err : ", err)
+            console.log("get staff list err : ", err)
         }
     })
 }
@@ -76,7 +76,6 @@ function makeStaffTable(data, store_name) {
     let count = 1;
 
     for (let staff of data) {
-        console.log({staff})
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `staff_${staff.user_id}`).removeClass("d-none");
         clonedTr.find(".staff_count").text(count);
