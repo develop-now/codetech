@@ -137,16 +137,6 @@ create table persistent_logins
 );
 
 
-drop table persistent_logins cascade constraints;
-create table persistent_logins
-(
-    username  varchar2(64) not null,
-    series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
-);
-
-
 drop table store_status cascade constraints;
 create table store_status
 (
@@ -346,9 +336,11 @@ drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date default sysdate,
-    updated_at        date default sysdate,
+    created_at        date    default sysdate,
+    updated_at        date    default sysdate,
     order_total_price varchar2(10),
+    comment_writable  char(5) default 'false' check (comment_writable in ('true', 'false')),
+    comment_wrote     char(5) default 'false' check (comment_wrote in ('true', 'false')),
     order_user        number(6) not null,
     order_status      number(6) not null,
     store_id          number(6) not null,

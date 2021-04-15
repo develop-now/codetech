@@ -10,8 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/comment")
@@ -21,12 +25,20 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @RequestMapping(value = "/comment-list", method = RequestMethod.GET)
-    public String getStoreCommentList(@RequestParam(value = "store_id") int store_id, Model model) {
-        model.addAttribute("storeNav", "commentList");
+    @ResponseBody
+    @RequestMapping(value = "/comment-list-by-store-ajax", method = RequestMethod.GET)
+    public Map<String, Object> getStoreCommentListAjax(HttpSession session, @RequestParam(value = "store_id") int store_id) {
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
         List<Comment> list = commentService.getCommentListByStore(store_id);
 
-        return "store/comment-list";
+        Map<String, Object> rtn = new HashMap<String, Object>();
+
+        rtn.put("list", list);
+        rtn.put("success", list.size() > 0);
+
+        return rtn;
     }
 
     @RequestMapping(value = "/comment-read", method = RequestMethod.GET)

@@ -1,9 +1,6 @@
 package com.codetech.www.controller;
 
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Staff;
-import com.codetech.www.domain.Store;
-import com.codetech.www.domain.User;
+import com.codetech.www.domain.*;
 import com.codetech.www.service.StaffService;
 import com.codetech.www.service.StoreService;
 
@@ -233,10 +230,29 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/store-profit", method = RequestMethod.GET)
-    public String getStoreProfit(@RequestParam(value = "store_id") int store_id, Model model) {
+    public String getStoreProfit(HttpSession session, Model model) {
         model.addAttribute("storeNav", "storeProfit");
 
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
         return "store/store-profit";
+    }
+
+    @RequestMapping(value = "/store-comment", method = RequestMethod.GET)
+    public String getStoreCommentList(HttpSession session, Model model) {
+        model.addAttribute("storeNav", "storeComment");
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
+        return "store/comment-list";
     }
 
     @RequestMapping(value = "/store-staff", method = RequestMethod.GET)
