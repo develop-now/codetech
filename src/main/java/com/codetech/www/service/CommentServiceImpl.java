@@ -14,11 +14,11 @@ public class CommentServiceImpl implements CommentService {
     private static final Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     @Autowired
-    private CommentDAO dao;
+    private CommentDAO comment_dao;
 
     @Override
     public List<Comment> getCommentListByStore(int store_id) {
-        return null;
+        return comment_dao.getCommentByStore(store_id);
     }
 
     @Override

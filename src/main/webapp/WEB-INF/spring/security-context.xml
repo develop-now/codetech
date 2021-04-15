@@ -27,6 +27,7 @@
         <security:intercept-url pattern="/menu/updateAction" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/staff/order-list" access="hasRole('ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_OWNER')"/>
+        <security:intercept-url pattern="/comment/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
 
@@ -47,6 +48,7 @@
                 remember-me-parameter="remember-me"
                 remember-me-cookie="remember-me"
                 token-validity-seconds="2419200"
+                authentication-success-handler-ref="customLoginSuccessHandler"
         />
         <security:logout
                 logout-success-url="/"
