@@ -26,6 +26,10 @@
 			<a href="${pageContext.request.contextPath}/user/reviewList"
 				class="nav-link">리뷰관리</a>
 		</li>
+				<li class="nav-item">
+			<a href="${pageContext.request.contextPath}/user/orderList"
+				class="nav-link">주문하기</a>
+		</li>
 		
 	</ul>
 </div>

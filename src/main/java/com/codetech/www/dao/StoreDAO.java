@@ -122,4 +122,9 @@ public class StoreDAO {
 		return sqlSession.selectOne("Stores.storeInfo", store_id);
 	}
 
+	public int getStoreLike(int store_id) {
+		return sqlSession.selectOne("Stores.storeLikeCount", store_id);
+
+	}
+
 }
