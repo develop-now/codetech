@@ -7,6 +7,8 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +19,9 @@
     가게 좋아요를 할 수 있으며 좋아요 아이콘이 추가되면 즐겨찾기리스트에 가게 id가 추가됨. 
     -->
 <%@include file="../partial/head.jsp"%>
+<script
+	src="${pageContext.request.contextPath}/resources/js/user/order-main.js"></script>
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
@@ -53,12 +58,27 @@
 										<img class="card-img-heart"
 											src="${pageContext.request.contextPath}/resources/upload/${topMenu.menu_saved_image}"
 											width="20" height="20" alt=""> ${topMenu.menu_name }
-										<button class="w3-button w3-circle w3-black"
-											id="minusButtonT${status.count}">-</button>
-										<input type="text" name="orderAmount" placeholder="0"
-											id="orderAmountT${status.count}">
-										<button class="w3-button w3-circle w3-black"
-											id="plusButtonT${status.count}">+</button>
+										<div class="basketprice">
+											<input type="hidden" name="p_price"
+												id="p_price${status.count}" class="p_price"
+												value="${topMenu.menu_price }">
+											<fmt:formatNumber value="${topMenu.menu_price }"
+												pattern="###,###,###" />
+											원
+										</div>
+										<div class="num">
+											<div class="updown">
+												<input type="text" name="p_num${status.count}"
+													id="p_num${status.count}" size="2" maxlength="4"
+													class="p_num" value="0"
+													onkeyup="javascript:basket.changePNum(${status.count});">
+												<span
+													onclick="javascript:basket.changePNum(${status.count});"><i
+													class="fas fa-arrow-alt-circle-up up"></i></span> <span
+													onclick="javascript:basket.changePNum(${status.count});"><i
+													class="fas fa-arrow-alt-circle-down down"></i></span>
+											</div>
+										</div>
 										<br>
 									</div>
 								</c:forEach>
@@ -97,12 +117,29 @@
 									<img class="card-img-heart"
 										src="${pageContext.request.contextPath}/resources/upload/${allMenu.menu_saved_image}"
 										width="20" height="20" alt=""> ${allMenu.menu_name }
-											<button class="w3-button w3-circle w3-black"
-										id="minusButtonM${status.count}">-</button>
-									<input type="text" name="orderAmount" placeholder="0"
-										id="orderAmountM${status.count}">
-									<button class="w3-button w3-circle w3-black"
-										id="plusButtonM${status.count}">+</button>
+											
+												<div class="basketprice">
+											<input type="hidden" name="p_price"
+												id="p_price${status.count}" class="p_price"
+												value="${allMenu.menu_price }">
+											<fmt:formatNumber value="${allMenu.menu_price }"
+												pattern="###,###,###" />
+											원
+										</div>
+										<div class="num">
+											<div class="updown">
+												<input type="text" name="p_numA${status.count}"
+													id="p_num${status.count}" size="2" maxlength="4"
+													class="p_num" value="0"
+													onkeyup="javascript:basket.changePANum(${status.count});">
+												<span
+													onclick="javascript:basket.changePANum(${status.count});"><i
+													class="fas fa-arrow-alt-circle-up up"></i></span> <span
+													onclick="javascript:basket.changePANum(${status.count});"><i
+													class="fas fa-arrow-alt-circle-down down"></i></span>
+											</div>
+										</div>
+											
 									<br>
 							</div>
 							</c:forEach>
@@ -113,8 +150,10 @@
 					</div>
 					<div class="payMentView">
 
-						총 : <input type="text" name="orderAmount" placeholder="0">
-						개
+						<div class="bigtext right-align sumcount" id="sum_p_num">상품갯수:
+							개</div>
+						<div class="bigtext right-align box blue summoney"
+							id="sum_p_price">합계금액: 원</div>
 						<button class="w3-button w3-khaki">장바구니 담기</button>
 						<button class="w3-button w3-khaki">결제하기</button>
 					</div>
@@ -123,28 +162,12 @@
 		</div>
 	</div>
 	<!-- /.container -->
-
+	i
 	<%-- footer --%>
 	<%@include file="../partial/footer.jsp"%>
 	</div>
 
-	<script>
-		$(document).ready(function() {
-			var amount = 0;
-			
-			$('.topMenus button:nth-child(4)').click(function(index) {
-				$(this).on("click", function() {
-					amount += 1;
-					$(this).prev().val(amount);
-				})
-				
-			})
-				
 
-			})
-			
-	
-	</script>
 
 </body>
 </html>
