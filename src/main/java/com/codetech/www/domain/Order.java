@@ -7,6 +7,9 @@ public class Order {
     private String order_total_price;
     private int order_user;
     private int order_status;
+    private int store_id;
+    private boolean comment_writable;
+    private boolean comment_wrote;
 
     public int getOrder_id() {
         return order_id;
@@ -54,5 +57,29 @@ public class Order {
 
     public void setOrder_status(int order_status) {
         this.order_status = order_status;
+    }
+
+    public int getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(int store_id) {
+        this.store_id = store_id;
+    }
+
+    public boolean isComment_writable() {
+        return comment_writable;
+    }
+
+    public void setComment_writable(boolean comment_writable) {
+        this.comment_writable = comment_writable;
+    }
+
+    public boolean isComment_wrote() {
+        return comment_wrote;
+    }
+
+    public void setComment_wrote(boolean comment_wrote) {
+        this.comment_wrote = comment_wrote;
     }
 }

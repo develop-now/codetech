@@ -2,9 +2,11 @@ drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date default sysdate,
-    updated_at        date default sysdate,
+    created_at        date    default sysdate,
+    updated_at        date    default sysdate,
     order_total_price varchar2(10),
+    comment_writable  char(5) default 'false' check (comment_writable in ('true', 'false')),
+    comment_wrote     char(5) default 'false' check (comment_wrote in ('true', 'false')),
     order_user        number(6) not null,
     order_status      number(6) not null,
     store_id          number(6) not null,
