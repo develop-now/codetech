@@ -1,6 +1,5 @@
 package com.codetech.www.controller;
 
-import com.codetech.www.domain.Order;
 import com.codetech.www.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,7 +35,7 @@ public class OrderController {
     public String readOrder(@RequestParam(value = "order_id") int order_id, Model model) {
         model.addAttribute("storeNav", "orderRead");
 
-        return "store/order-read";
+        return "store/order/order-read";
     }
 
     @RequestMapping(value = "/order-update", method = RequestMethod.GET)

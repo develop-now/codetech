@@ -5,11 +5,22 @@ public class Comment {
     private String comment_content;
     private int comment_lev;
     private int comment_seq;
+    private int comment_ref;
     private String created_at;
     private String updated_at;
     private int comment_writer;
-    private int comment_ref;
+    private int comment_store;
     private int comment_status;
+
+    private String comment_writer_value;
+
+    public String getComment_writer_value() {
+        return comment_writer_value;
+    }
+
+    public void setComment_writer_value(String comment_writer_value) {
+        this.comment_writer_value = comment_writer_value;
+    }
 
     public int getComment_id() {
         return comment_id;
@@ -43,6 +54,14 @@ public class Comment {
         this.comment_seq = comment_seq;
     }
 
+    public int getComment_ref() {
+        return comment_ref;
+    }
+
+    public void setComment_ref(int comment_ref) {
+        this.comment_ref = comment_ref;
+    }
+
     public String getCreated_at() {
         return created_at;
     }
@@ -67,12 +86,12 @@ public class Comment {
         this.comment_writer = comment_writer;
     }
 
-    public int getComment_ref() {
-        return comment_ref;
+    public int getComment_store() {
+        return comment_store;
     }
 
-    public void setComment_ref(int comment_ref) {
-        this.comment_ref = comment_ref;
+    public void setComment_store(int comment_store) {
+        this.comment_store = comment_store;
     }
 
     public int getComment_status() {

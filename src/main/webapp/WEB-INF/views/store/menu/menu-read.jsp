@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>Menu Read Page</title>
-    <%@include file="../partial/head.jsp" %>
+    <%@include file="../../partial/head.jsp" %>
     <script src="${pageContext.request.contextPath}/resources/js/store/menu-create.js"></script>
     <script>
         $(() => {
@@ -21,7 +21,7 @@
 
             // TODO:: FIX HARDCODING OWNER ID VALUE
             $("#listBtn").on("click", () => {
-                location.href = "/menu/menu-list-by-owner?owner_id=3"
+                location.href = "/store/menu-list"
             })
 
             $("#updateBtn").on("click", () => {
@@ -33,19 +33,18 @@
 <body>
 <div class="container-fluid px-0">
     <%-- main nav --%>
-    <%@include file="../partial/nav.jsp" %>
+    <%@include file="../../partial/nav.jsp" %>
 
     <%-- info Modal --%>
-    <%@include file="../partial/infoModal.jsp" %>
+    <%@include file="../../partial/infoModal.jsp" %>
 
     <%-- alert Modal --%>
-    <%@include file="../partial/alertModal.jsp" %>
-
+    <%@include file="../../partial/alertModal.jsp" %>
 
     <!-- Page Content -->
     <div class="container-fluid" id="bodyWrapper">
         <div class="row">
-            <%@include file="store-nav.jsp" %>
+            <%@include file="../store-nav.jsp" %>
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
@@ -62,10 +61,6 @@
 
                         <div class="col-12">
                             <form>
-                                <%-- TODO:: FIX HARDCODING VALUE--%>
-                                <input type="hidden" name="owner_id" value="3" id="owner_id">
-                                <%--<input type="hidden" name="owner_id" value="${idValue}">--%>
-
                                 <input type="hidden" name="menu_id" value="${menu.menu_id}">
 
                                 <div class="form-group row">
@@ -133,7 +128,7 @@
     <!-- /.container -->
 
     <%-- footer --%>
-    <%@include file="../partial/footer.jsp" %>
+    <%@include file="../../partial/footer.jsp" %>
 </div>
 </body>
 </html>

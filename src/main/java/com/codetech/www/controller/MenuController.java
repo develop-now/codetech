@@ -32,6 +32,7 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    //   Ajax 방식으로 바뀜
     @RequestMapping(value = "/menu-list-by-owner", method = RequestMethod.GET)
     public ModelAndView getMenuListByOwner(HttpSession session, ModelAndView modelAndView) {
         modelAndView.addObject("storeNav", "menuList");
@@ -50,7 +51,7 @@ public class MenuController {
         modelAndView.addObject("menuList", list);
         modelAndView.addObject("storeList", storeList);
 
-        modelAndView.setViewName("store/menu-list");
+        modelAndView.setViewName("store/menu/menu-list");
 
         return modelAndView;
     }
@@ -68,13 +69,6 @@ public class MenuController {
         return rtn;
     }
 
-    @RequestMapping(value = "/menu-list-by-store", method = RequestMethod.GET)
-    public String getMenuListByStore(@RequestParam(value = "store_id") int store_id, Model model) {
-        List<Menu> list = menuService.getMenuListByStore(store_id);
-
-        return "store/menu-list";
-    }
-
     @RequestMapping(value = "/menu-read", method = RequestMethod.GET)
     public String readMenu(@RequestParam(value = "menu_id") int menu_id, Model model) {
         model.addAttribute("storeNav", "menuRead");
@@ -82,14 +76,14 @@ public class MenuController {
         Menu menu = menuService.readMenu(menu_id);
         model.addAttribute("menu", menu);
 
-        return "store/menu-read";
+        return "store/menu/menu-read";
     }
 
     @RequestMapping(value = "/menu-create", method = RequestMethod.GET)
     public String createMenu(Model model) {
         model.addAttribute("storeNav", "menuCreate");
 
-        return "store/menu-create";
+        return "store/menu/menu-create";
     }
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
@@ -167,7 +161,7 @@ public class MenuController {
         Menu menu = menuService.readMenu(menu_id);
         model.addAttribute("menu", menu);
 
-        return "store/menu-update";
+        return "store/menu/menu-update";
     }
 
     @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
@@ -205,6 +199,6 @@ public class MenuController {
     public String deleteMenu(@RequestParam(value = "menu_id") int menu_id, Model model) {
         model.addAttribute("storeNav", "menuDelete");
 
-        return "store/menu-delete";
+        return "store/menu/menu-delete";
     }
 }
