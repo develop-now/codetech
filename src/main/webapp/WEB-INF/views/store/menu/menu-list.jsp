@@ -91,6 +91,10 @@
                             </div>
                         </c:if>
 
+                        <div class="w-100">
+                            <hr>
+                        </div>
+
                         <div class="container store-menu__wrapper">
                             <div class="col-12">
                                 <h3 class="text-primary">

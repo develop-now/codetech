@@ -20,6 +20,13 @@ $(() => {
     loadChart()
 })
 
+function loadStoreProfit(store_id, store_name) {
+    store_id_val = store_id;
+    console.log({store_id})
+
+    $("#store_name").text(store_name);
+}
+
 function loadChart() {
     google.charts.load('current', {'packages': ['corechart']});
 
