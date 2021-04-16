@@ -77,5 +77,10 @@ public class UsersDAO {
         return sqlSession.update("users.updateStaffUserStatus", param);
     }
 
+	public int userModify(UserInfo ui) {
+		logger.info("dao ui.original확인"+ ui.getOriginal_file());
+		return sqlSession.update("users.updateUserInfo",ui);
+	}
+
 
 }

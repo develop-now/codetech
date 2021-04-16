@@ -16,4 +16,6 @@ public interface CommentService {
     public int updateComment();
 
     public int deleteComment();
+
+	public Comment getComment(int user_id);
 }

@@ -81,4 +81,9 @@ public class CommentServiceImpl implements CommentService {
     public int deleteComment() {
         return 0;
     }
+
+	@Override
+	public Comment getComment(int user_id) {
+		return comment_dao.getComment(user_id);
+	}
 }

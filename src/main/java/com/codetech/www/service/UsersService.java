@@ -31,6 +31,8 @@ public interface UsersService {
 	List<Menu> getTopMenu(int store_id);
 
 	List<Menu> getAllMenu(int store_id);
+	
+	int modifyInfo(UserInfo ui);
 
 
 }
