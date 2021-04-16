@@ -33,11 +33,12 @@ public class CommentDAO {
         return sqlSession.insert("Comments.create", comment);
     }
 
-    public int deleteComment(Comment comment) {
-        return sqlSession.update("Comment.update", comment);
+    public int updateComment(Map<String, Object> param){
+        return sqlSession.update("Comments.update", param);
     }
 
 	public Comment getComment(int user_id) {
 		return sqlSession.selectOne("Comments.getComment", user_id);
 	}
+
 }

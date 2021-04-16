@@ -12,7 +12,6 @@ $(() => {
 
     $("#SearchBtn").on("click", () => searchAction());
     $("#resetBtn").on("click", () => resetAction());
-
 })
 
 function ajaxCall(url, data, isSearch) {
@@ -74,6 +73,10 @@ function limitChange(change_limit_value) {
 // 처음 로딩되거나 가게 리스트를 바꿀때 실행하는  메소드
 function loadStoreComment(store_id, store_name) {
     store_id_val = store_id;
+
+    isSearch_val = false;
+    search_word_val = "";
+    $("#search_value").val("");
 
     let data = {
         store_id, page: 1, limit: limit_val

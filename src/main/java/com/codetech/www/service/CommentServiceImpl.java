@@ -38,10 +38,6 @@ public class CommentServiceImpl implements CommentService {
         int startRow = (page - 1) * limit + 1;
         int endRow = startRow + limit - 1;
 
-        logger.info("store_id : " + store_id);
-        logger.info("startRow : " + startRow);
-        logger.info("endRow : " + endRow);
-
         param.put("store_id", store_id);
         param.put("startRow", startRow);
         param.put("endRow", endRow);
@@ -65,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
         result = comment_dao.createComment(comment);
 
         return result;
-}
+    }
 
     @Override
     public List<Comment> readComment(int comment_id) {
@@ -73,12 +69,27 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int updateComment() {
-        return 0;
+    public int updateComment(int comment_id, String comment_content) {
+        Map<String, Object> param = new HashMap<>();
+
+        param.put("comment_id", comment_id);
+        param.put("comment_content", comment_content);
+
+        return comment_dao.updateComment(param);
     }
 
     @Override
-    public int deleteComment() {
+    public int deleteComment(int comment_id) {
+        Map<String, Object> param = new HashMap<>();
+
+        param.put("comment_id", comment_id);
+        param.put("comment_status", "inactive");
+
+        return comment_dao.updateComment(param);
+    }
+
+    @Override
+    public int reportComment(int comment_id, String report_content) {
         return 0;
     }
 

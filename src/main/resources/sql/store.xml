@@ -196,19 +196,19 @@
     <!--        <include refid="forSearch"/>-->
     <!--        and rownum &lt;= 1-->
     <!--    </select>-->
-    
+
     <select id="storeInfo" resultType="store" parameterType="int">
-            select *
+        select *
         from stores
         where store_id = #{store_id}
-    
+
     </select>
-    
-        <select id="storeLikeCount" resultType="int" parameterType="int">
+
+    <select id="storeLikeCount" resultType="int" parameterType="int">
         select like_count from (
-<include refid="storeCall"/>
-) where store_id = #{store_id}
-    
+        <include refid="storeCall"/>
+        ) where store_id = #{store_id}
+
     </select>
 
 
