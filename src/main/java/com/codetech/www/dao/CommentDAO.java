@@ -37,5 +37,8 @@ public class CommentDAO {
         return sqlSession.update("Comments.update", param);
     }
 
+	public Comment getComment(int user_id) {
+		return sqlSession.selectOne("Comments.getComment", user_id);
+	}
 
 }

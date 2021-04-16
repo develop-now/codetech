@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Comments">
+
     <select id="commentCountByStore" resultType="int" parameterType="map">
         select count(*)
         from comments c
@@ -79,6 +80,7 @@
         #{comment_ref},#{comment_seq},#{comment_writer},#{comment_store})
     </insert>
 
+
     <update id="update" parameterType="comment">
         update comments
         set updated_at = sysdate,
@@ -90,4 +92,19 @@
         </if>
         where comment_id = #{comment_id}
     </update>
-</mapper>
+
+    
+    <select id="commentListByStore" resultType="comment" parameterType="int">
+        select *
+        from comments
+        where comment_ref = #{store_id}
+    </select>
+    
+    <select id="getComment" resultType="comment" parameterType="int">
+    	select * 
+    	from comments
+    	where comment_writer=${user_id}
+    </select>
+    
+</mapper> 
+

@@ -30,6 +30,7 @@
         <security:intercept-url pattern="/comment/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
+        <security:intercept-url pattern="/user/**" access="permitAll"/>
 
         <security:form-login
                 login-page="/"

@@ -92,4 +92,9 @@ public class CommentServiceImpl implements CommentService {
     public int reportComment(int comment_id, String report_content) {
         return 0;
     }
+
+	@Override
+	public Comment getComment(int user_id) {
+		return comment_dao.getComment(user_id);
+	}
 }

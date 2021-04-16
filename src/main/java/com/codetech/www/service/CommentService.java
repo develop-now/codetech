@@ -15,7 +15,12 @@ public interface CommentService {
 
     public int updateComment(int comment_id, String comment_content);
 
+
     public int deleteComment(int comment_id);
 
     public int reportComment(int comment_id, String report_content);
+
+
+	 public Comment getComment(int user_id);
+
 }

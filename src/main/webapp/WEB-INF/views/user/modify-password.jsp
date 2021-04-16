@@ -18,9 +18,9 @@
                     </button>
                 </div>
                 <div class="modal-body pwdModal-body">
-                    <label for="user_password"><strong>현재 비밀번호</strong></label>
-                    <span id="message-pass"></span>
-                    <input type="password" placeholder="기존 비밀번호를 입력하세요" name="user_password" id="user_password" required>
+                    <label for="user_originpassword"><strong>현재 비밀번호</strong></label>
+                    <span id="message-originpass"></span>
+                    <input type="password" placeholder="기존 비밀번호를 입력하세요" name="user_originpassword" id="user_originpassword" required>
 
 					<label for="user_newpassword"><strong>새로운 비밀번호</strong></label>
                     <span id="message-newpass"></span>
