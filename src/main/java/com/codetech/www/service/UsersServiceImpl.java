@@ -129,7 +129,11 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public List<Menu> getAllMenu(int store_id) {
 		 return mdao.getAllMenu(store_id);
-
+	}
+	
+	@Override
+	public int modifyInfo(UserInfo ui) {
+		return dao.userModify(ui);
 	}
 	 
 	
