@@ -93,18 +93,11 @@
         where comment_id = #{comment_id}
     </update>
 
-    
-    <select id="commentListByStore" resultType="comment" parameterType="int">
+    <select id="getComment" resultType="comment" parameterType="int">
         select *
         from comments
-        where comment_ref = #{store_id}
+        where comment_writer = ${user_id}
     </select>
-    
-    <select id="getComment" resultType="comment" parameterType="int">
-    	select * 
-    	from comments
-    	where comment_writer=${user_id}
-    </select>
-    
+
 </mapper> 
 
