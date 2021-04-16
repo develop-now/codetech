@@ -2,6 +2,17 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%
+    Cookie[] cookies = request.getCookies();
+
+    if (cookies != null) {
+        for (Cookie c : cookies) {
+            String cName = c.getName();
+            System.out.println("cookie name : " + cName);
+        }
+    }
+%>
+
 
 <div class="modal fade loginModal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle"
      aria-hidden="true">
@@ -18,13 +29,14 @@
                 </div>
                 <div class="modal-body loginModal-body">
                     <label for="user_id"><strong>아이디</strong></label>
-                    <input type="text" placeholder="이메일형식의 아이디를 입력하세요" name="user_id" required>
+                    <input type="text" placeholder="이메일형식의 아이디를 입력하세요" id="user_id" name="user_id" required>
 
                     <label for="user_password"><strong>비밀번호</strong></label>
-                    <input type="password" placeholder="비밀번호를 입력하세요" name="user_password" required>
+                    <input type="password" placeholder="비밀번호를 입력하세요" id="user_password" name="user_password" required>
 
                 </div>
                 <div class="modal-footer loginModal-footer">
+
                     <div class="loginModal-footer-control custom-checkbox">
                         <input type="checkbox" class="loginModal-footer-control-input"
                                id="id-remember" name="id-remember"
@@ -37,6 +49,7 @@
                             아이디 기억하기
                         </label>
                     </div>
+
                     <div class="loginModal-footer-control custom-checkbox">
                         <input type="checkbox" class="loginModal-footer-control-input"
                                id="remember-me" name="remember-me">

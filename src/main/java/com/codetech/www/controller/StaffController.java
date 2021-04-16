@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class StaffController {
         List<Store> list = storeService.getStoreListByStaff(staff_id);
         model.addAttribute("store_list", list);
 
-        return "store/order-list";
+        return "store/order/order-list";
     }
 
     @ResponseBody
@@ -64,7 +63,7 @@ public class StaffController {
     public String createStaff(Model model) {
         model.addAttribute("storeNav", "staffCreate");
 
-        return "store/staff-create";
+        return "store/staff/staff-create";
     }
 
     @ResponseBody
@@ -73,9 +72,6 @@ public class StaffController {
                                                  @RequestParam(value = "search_val") String search_val,
                                                  HttpSession session) {
         Integer owner_id = (Integer) session.getAttribute("user_id");
-        logger.info("store owner id : " + owner_id);
-        logger.info("store store id : " + store_id);
-        logger.info("store search_val : " + search_val);
 
         List<Staff> list = staffService.getStaffSearchList(store_id, search_val);
 
