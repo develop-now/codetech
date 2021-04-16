@@ -1,3 +1,5 @@
+let store_id_val;
+
 $(() => {
     let dateEl = $("#orderCurrentDate")
     dateEl.attr("placeholder", moment().format("YYYY/MM/DD"));
@@ -16,3 +18,10 @@ $(() => {
         dateEl.val(val.format("YYYY/MM/DD"))
     })
 })
+
+function loadStoreOrder(store_id, store_name) {
+    store_id_val = store_id;
+    console.log({store_id})
+
+    $("#store_name").text(store_name);
+}

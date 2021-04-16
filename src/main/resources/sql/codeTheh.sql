@@ -329,21 +329,21 @@ values (3, 'processing'); -- 주문을 수락하고 조리에 들어갔을때
 insert into order_status
 values (4, 'completed'); -- 조리가 끝났을때
 insert into order_status
-values (5, 'completed'); -- 손님이 픽업을 했을때
+values (5, 'done'); -- 손님이 픽업을 했을때
 
 
 drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date    default sysdate,
-    updated_at        date    default sysdate,
+    created_at        date      default sysdate,
+    updated_at        date      default sysdate,
     order_total_price varchar2(10),
-    comment_writable  char(5) default 'false' check (comment_writable in ('true', 'false')),
-    comment_wrote     char(5) default 'false' check (comment_wrote in ('true', 'false')),
-    order_user        number(6) not null,
-    order_status      number(6) not null,
-    store_id          number(6) not null,
+    comment_writable  char(5)   default 'false' check (comment_writable in ('true', 'false')),
+    comment_wrote     char(5)   default 'false' check (comment_wrote in ('true', 'false')),
+    order_user        number(6)           not null,
+    order_status      number(6) default 1 not null,
+    store_id          number(6)           not null,
     constraint fk_order_user foreign key (order_user) references users (user_id),
     constraint fk_order_status foreign key (order_status) references order_status (order_status_id),
     constraint fk_order_store foreign key (store_id) references stores (store_id)

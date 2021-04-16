@@ -82,8 +82,13 @@
                                 </div>
                             </div>
                         </c:if>
+
+                        <div class="w-100">
+                            <hr>
+                        </div>
+
                         <div class="container store-staff__wrapper">
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <h3 class="text-primary">
                                     <i class="fas fa-store"></i> <span id="store_name"></span>
                                 </h3>
