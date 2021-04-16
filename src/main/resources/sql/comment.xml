@@ -54,9 +54,10 @@
                                      join user_info f on u.user_id = f.user_id) uf
                            on c.comment_writer = uf.comment_writer
                  left join comment_status t on t.comment_status_id = c.comment_status
-        where c.comment_id = #{comment_id}
-           or c.comment_ref = #{comment_id}
-            and t.status_value = 'active'
+        where (c.comment_id = #{comment_id}
+            or c.comment_ref = #{comment_id})
+          and (t.status_value = 'active'
+            or t.status_value = 'inactive')
         order by c.comment_lev, c.comment_seq
     </select>
 
@@ -77,4 +78,16 @@
         values(#{comment_id},#{comment_content},#{comment_lev},
         #{comment_ref},#{comment_seq},#{comment_writer},#{comment_store})
     </insert>
+
+    <update id="update" parameterType="comment">
+        update comments
+        set updated_at = sysdate,
+        <if test="comment_content != null">
+            comment_content = #{comment_content}
+        </if>
+        <if test="comment_status != null">
+            comment_status = (select comment_status_id from comment_status where status_value = #{comment_status})
+        </if>
+        where comment_id = #{comment_id}
+    </update>
 </mapper>

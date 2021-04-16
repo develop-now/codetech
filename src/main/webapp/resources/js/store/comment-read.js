@@ -1,5 +1,5 @@
 $(() => {
-    if ($(".card").length > 1)
+    if ($(".comment__action__wrapper").length >= 1)
         $("#replyModalOpenBtn").attr("disabled", true).addClass("disabled")
 
     $("#replyModalOpenBtn").on("click", () => {
@@ -18,14 +18,34 @@ $(() => {
 
             $("#replyForm").submit()
         }
-
     })
 })
 
 function updateComment(comment_id) {
-    console.log("update comment : " + comment_id)
+    $(`#updateModal_${comment_id}`).modal("show");
 }
 
 function deleteComment(comment_id) {
-    console.log("delete comment : " + comment_id)
+    $(`#deleteModal_${comment_id}`).modal("show");
+}
+
+function submitUpdate(comment_id) {
+    let updateEl = $(`#update_comment_content_${comment_id}`)
+
+    if (!updateEl.val()) {
+        updateEl.addClass("is-invalid")
+    } else {
+        updateEl.removeClass("is-invalid")
+
+        $(`#updateForm_${comment_id}`).submit()
+    }
+
+}
+
+function submitDelete(comment_id) {
+    const confirmResult = confirm("정말로 삭제 하시겠습니까?")
+
+    if (confirmResult) {
+        $(`#deleteForm_${comment_id}`).submit()
+    }
 }

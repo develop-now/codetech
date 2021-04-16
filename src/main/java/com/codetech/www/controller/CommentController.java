@@ -78,7 +78,7 @@ public class CommentController {
 
         int result = commentService.createComment(comment);
 
-        if(result > 0){
+        if (result > 0) {
             redirectAttributes.addFlashAttribute("info", "답글 생성에 성공하였습니다");
         } else {
             redirectAttributes.addFlashAttribute("alert", "답글 생성에 실패하였습니다");
@@ -87,5 +87,38 @@ public class CommentController {
         int comment_id = comment.getComment_ref();
         String redirectURI = "/comment/comment-read?comment_id=" + comment_id;
         return "redirect:" + redirectURI;
+    }
+
+    @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
+    public String updateAction(@RequestParam(value = "comment_id") int comment_id,
+                               @RequestParam(value = "comment_content", required = false, defaultValue = "") String comment_content,
+                               @RequestParam(value = "comment_ref") int comment_ref,
+                               @RequestParam(value = "update_flag") String flag,
+                               RedirectAttributes redirectAttributes) {
+
+        int result = 0;
+        String flag_msg = "";
+
+        switch (flag) {
+            case "update":
+                result = commentService.updateComment(comment_id, comment_content);
+                flag_msg = "수정";
+                break;
+            case "delete":
+                result = commentService.deleteComment(comment_id);
+                flag_msg = "삭제";
+                break;
+        }
+
+
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("info", "답글" + flag_msg + "에 성공하였습니다");
+        } else {
+            redirectAttributes.addFlashAttribute("alert", "답글" + flag_msg + "에 실패하였습니다");
+        }
+
+        String redirectURI = "/comment/comment-read?comment_id=" + comment_ref;
+        return "redirect:" + redirectURI;
+
     }
 }
