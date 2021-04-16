@@ -87,11 +87,13 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public int passcheck(int user_id, String user_password, String user_newpassword) {
+	public int passcheck(int user_id, String user_newpassword,String user_password) {
 		User userInfo = dao.userInfo(user_id);
 		int result = 0;
 		if(userInfo != null) {
-			if(passwordEncoder.matches(user_password,userInfo.getUser_password())){
+			if(passwordEncoder.matches(user_password, userInfo.getUser_password())){
+				
+				user_newpassword = passwordEncoder.encode(user_newpassword);
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("user_id", user_id);
 				map.put("user_password", user_newpassword);

@@ -22,7 +22,7 @@ public interface UsersService {
 
 	User getUserId(String user_email);
 
-	int passcheck(int user_id, String user_password, String user_newpassword);
+	int passcheck(int user_id, String user_newpassword,String user_password);
 
 	Store getStore(int store_id);
 

@@ -87,16 +87,15 @@
     </select>
 
     
-    <select id="userInfo" parameterType="String" resultType="user">
+    <select id="userInfo" parameterType="int" resultType="user">
     	select * from users where user_id = #{user_id}
     </select>
     
     <update id="updatePassword" parameterType="map">
     	update users
     	set user_password = #{user_password}
-    	where user_id = {user_id}
-    </update>
-
+    	where user_id = #{user_id}
+	</update>
 
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">

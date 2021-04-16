@@ -83,7 +83,9 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/joinProcess", method = RequestMethod.POST)
-	public String joinprocess(User user, UserInfo info, RedirectAttributes rattr) throws Exception {
+	 public String joinprocess(
+	            User user, UserInfo info, RedirectAttributes rattr) throws Exception {
+
 
 		logger.info("여기는 joinProcess");
 
@@ -157,14 +159,14 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-	public String login(String user_id, String user_password, RedirectAttributes rattr, HttpSession session) {
+	  public String login(String user_id, String user_password
+	            , RedirectAttributes rattr, HttpSession session) {
 		// 아이디 세션에 저장 후 주문하기 페이지로 이동 (가능하면 모달만 닫히고 같은 페이지에서 nav만 변경)
 
 		/* 아이디 유무 확인 */
 		int result = usersService.isUser(user_id, user_password);
 		logger.info("isUser result : " + result);
 		if (result == 1) {
-			/* id와 password를 session에 저장후 home으로 이동 */
 //            session.setAttribute("user_id", user_id);
 			rattr.addFlashAttribute("info", "로그인 되었습니다 session ID:" + session.getId());
 			return "redirect:/home";
@@ -185,7 +187,6 @@ public class UsersController {
 		logger.info("=============세션에서 가져온  id=================" + user_id);
 		UserPlusInfo upi = usersService.user_info(user_id);
 		// UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로
-		// 가져오기(조인사용)
 		// 좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
 
 		mv.setViewName("user/mypage-infomain");
@@ -196,19 +197,20 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
-	public String modifyPassword(String user_newpassword_check, String user_password, RedirectAttributes rattr) {
-		logger.info("modifyPassword도착");
-		Integer user_id = (Integer) session.getAttribute("user_id");
-		String user_newpassword = passwordEncoder.encode(user_newpassword_check);
-		int result = usersService.passcheck(user_id, user_newpassword, user_password);
-		if (result == 1) { // 비밀번호 변경 완료
-			rattr.addAttribute("info", "비밀번호 변경을 완료하였습니다.");
-		} else if (result == -1) { // 비밀번호 update 실행 불가
-			rattr.addAttribute("alert", "비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
-		} else { // result = 0 기존 비밀번호 일치하지 않음
-			rattr.addAttribute("alert", "기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-		}
-		return "redirect/infoMain";
+	  public String modifyPassword(
+              @RequestParam(value="user_newpassword_check")String user_newpassword
+                  ,@RequestParam(value="user_originpassword")String user_password
+                  ,RedirectAttributes rattr) {
+      int user_id = (int)session.getAttribute("user_id");
+      int result = usersService.passcheck(user_id, user_newpassword, user_password);
+      if(result == 1) { //비밀번호 변경 완료
+          rattr.addFlashAttribute("info", "비밀번호 변경을 완료하였습니다.");
+      }else if(result == -1){ //비밀번호 update 실행 불가
+      rattr.addFlashAttribute("alert", "비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
+      }else { //result = 0 기존 비밀번호 일치하지 않음
+      rattr.addFlashAttribute("alert", "기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+      }
+      return "redirect:/user/infoMain";
 	}
 
 	@RequestMapping(value = "/infoModify", method = RequestMethod.GET)
