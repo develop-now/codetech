@@ -16,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
@@ -164,8 +166,8 @@ public class AdminController {
 			@RequestParam(value = "search_word", defaultValue = "") String search_word,
 			@RequestParam(value = "check_state", defaultValue = "-1") int state) {
     	
-		List<StoreInfoList> Storelist = null;
-		
+		List <StoreInfoList> Storelist = null;
+    	
 		int limit = 7;
 		int listcount = adminService.getPartnerSearchListCount(index, state, search_word);
 		
@@ -197,7 +199,7 @@ public class AdminController {
 		mv.addObject("listcount", listcount); // 총 글의 수
 
 		mv.addObject("Storelist", Storelist);
-
+		
 		// 해당 페이지의 글 목록을 갖고 있는 리스트
 		mv.addObject("search_field", index);
 		mv.addObject("search_word", search_word);
@@ -206,51 +208,66 @@ public class AdminController {
 		return mv;
 	}   
     
+    // 가게 활성화
+    @RequestMapping(value = "/PartnerAct", method = RequestMethod.GET)
+    public String partnerAct(@RequestParam("store_id") String store_id, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.store_act(store_id);
+    	
+    	if (result == 1) {
+    		logger.info("가게 정지 해지!");
+    		rattr.addFlashAttribute("result", "storeActSuccess");
+    		return "redirect:/admin/partnerList";
+    	} else {
+    		logger.info("가게 정지 해지 실패!");
+    		rattr.addFlashAttribute("result", "storeActFail");
+    		return "redirect:/admin/partnerList";
+    	}
+    }
+    
+    // 가게 정지
+    @RequestMapping(value = "/PartnerSusp", method = RequestMethod.GET)
+    public String partnerSusp(@RequestParam("store_id") String store_id, RedirectAttributes rattr, HttpServletRequest request) {
+    	int result = adminService.store_susp(store_id);
+    	
+    	if (result == 1) {
+    		logger.info("가게 정지!");
+    		rattr.addFlashAttribute("result", "storeSuspSuccess");
+    		return "redirect:/admin/partnerList";
+    	} else {
+    		logger.info("가게 정지 실패!");
+    		rattr.addFlashAttribute("result", "storeSuspFail");
+    		return "redirect:/admin/partnerList";
+    	}
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/PartnerPend", method = RequestMethod.GET)
+    public List<Menu> partnerPend(@RequestParam("store_id") String store_id) {
+    	logger.info("받은 아이디: " + store_id);
+    	List <Menu> Menulist = null;
+    	
+    	Menulist = adminService.getStoreMenuList(store_id);
+    	
+		return Menulist;
+    }
+    
+    // 계약 종료
     @RequestMapping(value = "/PartnerTermi", method = RequestMethod.GET)
-    public String partnerTermi(@RequestParam("store_id") String store_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    public String partnerTermi(@RequestParam("store_id") String store_id, RedirectAttributes rattr, HttpServletRequest request) {
     	int result = adminService.store_termi(store_id);
     	
     	if (result == 1) {
 			logger.info("계약 해지!");
 			rattr.addFlashAttribute("result", "termiSuccess");
+			
 			return "redirect:/admin/partnerList";
 		} else {
 			logger.info("계약 해지 실패!");
 			rattr.addFlashAttribute("result", "termiFail");
+			
 			return "redirect:/admin/partnerList";
 		}
-    }
-    
-    @RequestMapping(value = "/PartnerAct", method = RequestMethod.GET)
-    public String partnerAct(@RequestParam("store_id") String store_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
-    	int result = adminService.store_act(store_id);
-    	
-    	if (result == 1) {
-			logger.info("가게 정지!");
-			rattr.addFlashAttribute("result", "storeSuspSuccess");
-			return "redirect:/admin/partnerList";
-		} else {
-			logger.info("가게 정지 실패!");
-			rattr.addFlashAttribute("result", "storeSuspFail");
-			return "redirect:/admin/partnerList";
-		}
-    }
-    
-    // 보류 부분 나중에 수정할 예정    
-    @RequestMapping(value = "/PartnerSusp", method = RequestMethod.GET)
-    public String partnerSusp(@RequestParam("store_id") String store_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
-    	int result = adminService.store_susp(store_id);
-    	
-    	if (result == 1) {
-			logger.info("가게 정지!");
-			rattr.addFlashAttribute("result", "storeSuspSuccess");
-			return "redirect:/admin/partnerList";
-		} else {
-			logger.info("가게 정지 실패!");
-			rattr.addFlashAttribute("result", "storeSuspFail");
-			return "redirect:/admin/partnerList";
-		}
-    }
+    }      
     
     @RequestMapping(value = "/noticeList", method = RequestMethod.GET)
     public ModelAndView noticeList

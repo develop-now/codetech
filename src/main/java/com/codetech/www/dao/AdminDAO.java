@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -61,5 +62,9 @@ public class AdminDAO {
 
 	public int store_act(String store_id) {
 		return sqlSession.update("Admin.storeAct", store_id);
+	}
+
+	public List<Menu> getStoreMenuList(String store_id) {
+		return sqlSession.selectList("Admin.getStoreMenuList", store_id);
 	}
 }

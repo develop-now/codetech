@@ -108,13 +108,14 @@
 	<select id="getPartnerSearchList" parameterType="map" resultType="sil">-->
 		SELECT *
 		FROM (SELECT ROWNUM RNUM, UIS.*
-   		  FROM (SELECT
+   		  	  FROM (SELECT
          			U.USER_ID, U.USER_EMAIL, U.ROLE_ID,
                     
          			UI.USER_NAME, UI.USER_TEL,
                     
-         			S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL,
-         			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC, S.STORE_STATUS
+         			S.STORE_STATUS, S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE,
+         			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC,
+         			S.OPENING_H_W_OPEN, S.OPENING_H_W_CLOSE, S.OPENING_H_H_OPEN, S.OPENING_H_H_CLOSE, S.HOLIDAY
                     
          			FROM
                     
@@ -130,8 +131,9 @@
 						AND S.STORE_STATUS = 
 							<choose>
 								<when test="check_state == 0">1</when> <!-- 파트너 가게 -->
-								<when test="check_state == 1">5</when> <!-- 파트너 종료 -->
-								<when test="check_state == 2">4</when> <!-- 파트너 정지 -->
+								<when test="check_state == 1">3</when> <!-- 파트너 승인 대기 -->
+								<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
+								<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
 							</choose>
 						AND 		
 							<choose>
@@ -147,7 +149,7 @@
 		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
 	</select>
 	
-	<select id="getPartnerSearchListCount" parameterType="map" resultType="int">-->
+	<select id="getPartnerSearchListCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM (SELECT ROWNUM RNUM, UIS.*
    		  	  FROM (SELECT
@@ -155,8 +157,9 @@
                     
          			UI.USER_NAME, UI.USER_TEL,
                     
-         			S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL,
-         			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC, S.STORE_STATUS
+         			S.STORE_STATUS, S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE,
+         			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC,
+         			S.OPENING_H_W_OPEN, S.OPENING_H_W_CLOSE, S.OPENING_H_H_OPEN, S.OPENING_H_H_CLOSE, S.HOLIDAY
                     
          			FROM
                     
@@ -172,8 +175,9 @@
 						AND S.STORE_STATUS = 
 							<choose>
 								<when test="check_state == 0">1</when> <!-- 파트너 가게 -->
-								<when test="check_state == 1">5</when> <!-- 파트너 종료 -->
-								<when test="check_state == 2">4</when> <!-- 파트너 정지 -->
+								<when test="check_state == 1">3</when> <!-- 파트너 승인 대기 -->
+								<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
+								<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
 							</choose>
 						AND 		
 							<choose>
@@ -188,7 +192,7 @@
 		)
 	</select>	
 	
-	<update id="store_act" parameterType="String">
+	<update id="storeAct" parameterType="String">
 		UPDATE STORES
 		SET STORE_STATUS = 1
 		WHERE STORE_ID = #{store_id}
@@ -205,4 +209,10 @@
 		SET STORE_STATUS = 5
 		WHERE STORE_ID = #{store_id}
 	</update>
+	
+	<select id="getStoreMenuList" parameterType="map" resultType="menu">
+		SELECT MENU_NAME, MENU_PRICE, MENU_DESC, STORE_ID
+		FROM MENUS
+		WHERE STORE_ID = #{store_id}
+	</select>
 </mapper>

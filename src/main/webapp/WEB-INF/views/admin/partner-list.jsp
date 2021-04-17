@@ -70,7 +70,7 @@
 	
 	.checkbox_ul li {
 		float: left;
-		width: 33%;
+		width: 25%;
 		line-height: 50px;
 		text-align: center;
 	} /* 체크 박스 Css End */
@@ -114,6 +114,21 @@
 		margin: 20px 0px;
 	}
 	
+	.PartnerStoreIf_gird {
+		text-align: center;
+		display: grid;
+		grid-template-columns: 1fr 4fr; 
+		margin: 20px 0px;
+	}
+	
+	.PartnerStoreIf_gird li {
+		text-align: left;
+	}
+	
+	
+	.ajax_menu li {
+		text-align: left;
+	}
 	a:link { color: black; text-decoration-line: none;}
  	a:visited { color: black; text-decoration-line: none;}
  	a:hover { color: black; text-decoration-line: none;}
@@ -147,9 +162,15 @@ $(function() {
 			event.preventDefault();
 		}
 	});
-	
+
 	/* 기능 사용시 나오는 알림창 */
 	var result = "${ result }";
+	
+	if (result == 'storeActSuccess') {
+		alert("해당 가게 정지 해제 또는 계약에 성공 했습니다.");	
+	} else if (result == 'storeActFail') {
+		alert("해당 가게 정지 해제 또는 계약에 실패 했습니다.");
+	}
 	
 	if (result == 'termiSuccess') {
 		alert("해당 가게와의 계약을 해지 했습니다.");	
@@ -162,6 +183,40 @@ $(function() {
 	} else if (result == 'storeSuspFail') {
 		alert("해당 가게 정지를 실패 했습니다.");
 	}
+	
+	$('#storeIf_btn').click(function() {
+		$.ajax({
+			method : "get",
+			url : "${pageContext.request.contextPath}/admin/PartnerPend",
+			data : { "store_id" : $('#store_id').val() },
+			dataType : "json",
+			cache : false,
+			success : function(data) {
+				console.log(data);
+				$('.ajax_menu').empty();
+				$('.modal-footer').empty();
+				
+				var output = "";
+				output += '<ul>';
+				$(data).each(function(index, item) {
+					output += '	  <li>' + item.menu_name + '</li>';
+					output += '	  <li>' + item.menu_price + '</li>';
+					output += '	  <li>' + item.menu_desc + '</li>';
+				})
+				
+				output += '</ul>';
+				$('.ajax_menu').append(output);	
+				
+				output = '<button type="button" class="btn btn-submit" onClick="storeApprove()">승인</button>'
+				output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>'
+				
+				$('.modal-footer').append(output);
+			},
+			error : function() {
+	            console.log("admin modal err");
+	        }
+		})
+	});
 });
 </script>
 </head>
@@ -200,8 +255,9 @@ $(function() {
 								<td>
 								<ul class="checkbox_ul">
 									<li><label><input type="radio" name="check_state" value="0" checked/> 파트너 가게</label></li>
-									<li><label><input type="radio" name="check_state" value="1" /> 계약 해지된 가게</label></li>
-									<li><label><input type="radio" name="check_state" value="2" /> 정지된 가게</label></li>
+									<li><label><input type="radio" name="check_state" value="1" /> 파트너 승인 대기</label></li>
+									<li><label><input type="radio" name="check_state" value="2" /> 계약 해지된 가게</label></li>
+									<li><label><input type="radio" name="check_state" value="3" /> 정지된 가게</label></li>
 								</ul>
 								</td>
 							</tr>
@@ -211,8 +267,7 @@ $(function() {
 						<button type="submit" id="search_btn">검색</button>
 					</div>
 					<hr style="border: solid 1px #e2e2d0;">
-					
-						
+
 					<%-- 파트너가 있는 경우 --%>
       				<c:if test="${listcount > 0}">
 	      			<div class="Partnerfunction_gird">
@@ -236,10 +291,13 @@ $(function() {
 			                  <th>주소</th>
 			                  <th>관리</th>
 			               </tr>
-			               
+			               	               
 			               <c:forEach var="sil" items="${Storelist}">
-			               <c:choose>
 			               		<!-- 정상 영업중인 가게 리스트 -->
+			               		<!-- 파트너 승인 대기 리스트 -->
+			               		<!-- 활동 정지를 당한 가게 리스트 -->
+			               		<!-- 계약 관계 종료로 인한 가게 리스트 -->
+			               <c:choose>
 			               		<c:when test="${sil.store_status == 1}">
 			               		<tr>
 			            			<td>${sil.user_email}</td>
@@ -249,13 +307,11 @@ $(function() {
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
 			         				<td>
-			         					<%-- <a href="PartnerTermi?store_id=${sil.store_id}" class="PartnerTermi">계약 해지</a>&nbsp; --%>
 			         					<a href="PartnerSusp?store_id=${sil.store_id}" class="PartnerSusp">가게 정지</a>&nbsp;
 			         				</td>
 			            		</tr>
 			               		</c:when>
 			               		
-			               		<!-- 파트너 승인 대기 리스트 -->
 			               		<c:when test="${sil.store_status == 3}">
 			               		<tr>
 			            			<td>${sil.user_email}</td>
@@ -265,12 +321,55 @@ $(function() {
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
 			         				<td>
-			         					<a href="#">가게 정보</a>&nbsp;
+			         					<input type="hidden" value="${sil.store_id}" id="store_id">
+		
+										<!-- Large modal -->
+										<button type="button" id="storeIf_btn" class="btn btn-primary" data-toggle="modal"
+												data-target=".bd-example-modal-lg">가게 정보</button>
+										
+										<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+										  <div class="modal-dialog modal-lg">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h4 class="modal-title">${sil.store_name}</h4>
+										      </div>
+										      <div class="modal-body">
+										        <div class="PartnerStoreIf_gird">
+										        	<div>${sil.store_saved_image}</div>
+										        	<div>
+										        		<ul>
+										        			<li>상호명: ${sil.store_name}</li>
+										        			<li>대표명: ${sil.user_name}</li>
+										        			
+										        			<li>가게 주소: ${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</li>
+										        			<li>가게 전화번호: ${sil.store_tel}</li>
+										        			
+										        			<li>평일 영업 시간: ${sil.opening_h_w_open} ~ ${sil.opening_h_w_close}</li>
+										        			<li>휴일 영업 시간: ${sil.opening_h_h_open} ~ ${sil.opening_h_h_close}</li>
+										        			<li>휴일: ${sil.holiday}</li>
+										        		</ul>
+										        	</div>
+										        </div>
+											     	<!-- ajax 처리 -->
+											        <div class="ajax_menu">
+											        	
+											        </div>
+										        </div>
+										      <div class="modal-footer">
+	      											<!-- ajax 처리 -->
+	      											<script>
+		      											function storeApprove() {
+		      												location.href="${pageContext.request.contextPath}/admin/PartnerAct?store_id=${sil.store_id}";
+		      											}
+	      											</script>
+										      </div>
+										    </div>
+										  </div>
+										</div>
 			         				</td>
 			            		</tr>
 			               		</c:when>
 			               		
-			               		<!-- 활동 정지를 당한 가게 리스트 -->
 			               		<c:when test="${sil.store_status == 4}">
 			               		<tr>
 			            			<td>${sil.user_email}</td>
@@ -280,12 +379,11 @@ $(function() {
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
 			         				<td>
-			         					<a href="PartnerSusp?store_id=${sil.store_id}" class="PartnerActive">가게 정지 해제</a>&nbsp;
+			         					<a href="PartnerAct?store_id=${sil.store_id}" class="PartnerActive">가게 정지 해제</a>&nbsp;
 			         				</td>
 			            		</tr>
 			               		</c:when>	
-			               		
-			               		<!-- 계약 관계 종료로 인한 가게 리스트 -->
+
 			               		<c:when test="${sil.store_status == 5}">
 			               		<tr>
 			            			<td>${sil.user_email}</td>

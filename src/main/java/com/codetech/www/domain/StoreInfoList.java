@@ -16,6 +16,13 @@ public class StoreInfoList {
     private String store_address_gu;
     private String store_address_dong;
     private String store_address_etc;
+    private String opening_h_w_open;
+    private String opening_h_w_close;
+    private String opening_h_h_open;
+    private String opening_h_h_close;
+    private String holiday;
+    private String store_saved_image;
+    
     private int owner_id;
     private int store_status;
     
@@ -108,5 +115,41 @@ public class StoreInfoList {
 	}
 	public void setStore_status(int store_status) {
 		this.store_status = store_status;
+	}
+	public String getOpening_h_w_open() {
+		return opening_h_w_open;
+	}
+	public void setOpening_h_w_open(String opening_h_w_open) {
+		this.opening_h_w_open = opening_h_w_open;
+	}
+	public String getOpening_h_w_close() {
+		return opening_h_w_close;
+	}
+	public void setOpening_h_w_close(String opening_h_w_close) {
+		this.opening_h_w_close = opening_h_w_close;
+	}
+	public String getOpening_h_h_open() {
+		return opening_h_h_open;
+	}
+	public void setOpening_h_h_open(String opening_h_h_open) {
+		this.opening_h_h_open = opening_h_h_open;
+	}
+	public String getOpening_h_h_close() {
+		return opening_h_h_close;
+	}
+	public void setOpening_h_h_close(String opening_h_h_close) {
+		this.opening_h_h_close = opening_h_h_close;
+	}
+	public String getHoliday() {
+		return holiday;
+	}
+	public void setHoliday(String holiday) {
+		this.holiday = holiday;
+	}
+	public String getStore_saved_image() {
+		return store_saved_image;
+	}
+	public void setStore_saved_image(String store_saved_image) {
+		this.store_saved_image = store_saved_image;
 	}
 }

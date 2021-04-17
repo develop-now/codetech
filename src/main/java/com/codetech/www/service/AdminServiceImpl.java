@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.AdminDAO;
+import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -91,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
     	
     	if (index != -1 && state != -1) {
 			String[] search_field = new String[] { "store_name", "user_name", "store_tel" };
-			String[] check_state = new String[] { "0", "1", "2" };
+			String[] check_state = new String[] { "0", "1", "2", "3" };
 			
 			map.put("search_field", search_field[index]);
 			map.put("check_state", check_state[state]);
@@ -108,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		if (index != -1 && state != -1) {
 			String[] search_field = new String[] { "store_name", "user_name", "store_tel" };
-			String[] check_state = new String[] { "0", "1", "2" };
+			String[] check_state = new String[] { "0", "1", "2", "3" };
 			
 			map.put("search_field", search_field[index]);
 			map.put("check_state", check_state[state]);
@@ -123,8 +125,12 @@ public class AdminServiceImpl implements AdminService {
 		
 		return dao.getPartnerSearchList(map);
 	}
-
-
+	
+	@Override
+	public List<Menu> getStoreMenuList(String store_id) {
+		return dao.getStoreMenuList(store_id);
+	}
+	
 	@Override
 	public int store_termi(String store_id) {
 		return dao.store_termi(store_id);
@@ -141,4 +147,6 @@ public class AdminServiceImpl implements AdminService {
 	public int store_act(String store_id) {
 		return dao.store_act(store_id);
 	}
+
+
 }
