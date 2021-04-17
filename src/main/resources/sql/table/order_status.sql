@@ -14,6 +14,6 @@ values (3, 'processing');   -- 주문을 수락하고 조리에 들어갔을때
 insert into order_status
 values (4, 'completed');    -- 조리가 끝났을때
 insert into order_status
-values (5, 'completed');    -- 손님이 픽업을 했을때
+values (5, 'done');         -- 손님이 픽업을 했을때
 
 commit;

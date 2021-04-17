@@ -62,7 +62,7 @@ public class UserPlusInfo {
 	public String getOriginal_file() {
 		return original_file;
 	}
-	public void setOriginalfile(String original_file) {
+	public void setOriginal_file(String original_file) {
 		this.original_file = original_file;
 	}
 	public MultipartFile getUploadfile() {

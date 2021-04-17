@@ -8,6 +8,7 @@
     	정보수정클릭할경우 수정페이지로 이동 -->
     <%@include file="../partial/head.jsp" %>
 <script src="${pageContext.request.contextPath}/resources/js/user/modifyPassword.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/user/modify.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
 </head>
 <body>
@@ -35,7 +36,7 @@
 	              	</div>
 	              		<hr>
 	              	<div class="infomain__img">
-	              		<img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.original_file}" alt="profile">
+	              		<img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.user_profile}" alt="profile">
 	              	</div>
 	              	<div class="infomain__count">
 	              		<span>포인트&nbsp;:&nbsp;${userPlusInfo.point}P</span>
@@ -64,7 +65,7 @@
               		</div>
 	                <div class="infomain__link">
 	                <span><button type="button" data-toggle="modal" data-target="#pwdModal">비밀번호수정</button></span>
-		            <span><button type="button" onclick="locaton.href='../user/infoModify'">정보수정</button></span>
+		            <span><button type="button" data-toggle="modal" data-target="#modifyModal">정보수정</button></span>
 	                </div>
                 </div>
             </div>
@@ -76,5 +77,6 @@
     <%@include file="../partial/footer.jsp" %>
 </div>
 <jsp:include page="modify-password.jsp"/>
+<jsp:include page="modify-info.jsp"></jsp:include>
 </body>
 </html>

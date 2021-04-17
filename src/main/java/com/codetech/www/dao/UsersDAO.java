@@ -64,19 +64,23 @@ public class UsersDAO {
         return sqlSession.selectOne("users.selectUsers", user_email);
     }
 
+	public int updatePassword(Map<String, Object> map) {
+		return sqlSession.insert("users.updatePassword", map);
+	}
 
-    public int updatePassword(Map<String, Object> map) {
-        return sqlSession.insert("users.updatePassword", map);
-    }
-
-    public User userInfo(int user_id) {
-        return sqlSession.selectOne("users.userInfo", user_id);
-    }
+	public User userInfo(int user_id) {
+		return sqlSession.selectOne("users.userInfo", user_id);
+	}
 
     //	for store store staff
     public int updateStaffUserStatus(Map<String, Object> param) {
         return sqlSession.update("users.updateStaffUserStatus", param);
     }
+
+	public int userModify(UserInfo ui) {
+		logger.info("dao ui.original확인"+ ui.getOriginal_file());
+		return sqlSession.update("users.updateUserInfo",ui);
+	}
 
 
 }
