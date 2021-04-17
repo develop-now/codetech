@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>Menu List Page</title>
-    <%@include file="../partial/head.jsp" %>
+    <%@include file="../../partial/head.jsp" %>
     <script src="${pageContext.request.contextPath}/resources/js/store/menu-list.js"></script>
     <style>
         td img {
@@ -42,19 +42,19 @@
 <body>
 <div class="container-fluid" id="bodyWrapper">
     <%-- main nav --%>
-    <%@include file="../partial/nav.jsp" %>
+    <%@include file="../../partial/nav.jsp" %>
 
     <%-- info Modal --%>
-    <%@include file="../partial/infoModal.jsp" %>
+    <%@include file="../../partial/infoModal.jsp" %>
 
     <%-- alert Modal --%>
-    <%@include file="../partial/alertModal.jsp" %>
+    <%@include file="../../partial/alertModal.jsp" %>
 
 
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <%@include file="store-nav.jsp" %>
+            <%@include file="../store-nav.jsp" %>
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
@@ -91,6 +91,10 @@
                             </div>
                         </c:if>
 
+                        <div class="w-100">
+                            <hr>
+                        </div>
+
                         <div class="container store-menu__wrapper">
                             <div class="col-12">
                                 <h3 class="text-primary">
@@ -114,11 +118,6 @@
                                         <th scope="col">대표이미지</th>
                                         <th scope="col">상태</th>
                                     </tr>
-                                    </thead>
-
-                                    <tbody id="target-tbody">
-                                    </tbody>
-
                                     <tr id="menu_template_tr" class="d-none">
                                         <th scope="row" class="menu_count"></th>
                                         <td class="menu_link"></td>
@@ -126,6 +125,12 @@
                                         <td class="menu_image"></td>
                                         <td class="menu_status"></td>
                                     </tr>
+                                    </thead>
+
+                                    <tbody id="target-tbody">
+                                    </tbody>
+
+
                                 </table>
                             </div>
                         </div>
@@ -137,7 +142,7 @@
     <!-- /.container -->
 
     <%-- footer --%>
-    <%@include file="../partial/footer.jsp" %>
+    <%@include file="../../partial/footer.jsp" %>
 </div>
 </body>
 </html>

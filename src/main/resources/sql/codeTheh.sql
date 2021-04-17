@@ -1,4 +1,4 @@
-drop table role cascade constraints ;
+drop table role cascade constraints;
 create table role
 (
     role_id    number(1) primary key,
@@ -137,16 +137,6 @@ create table persistent_logins
 );
 
 
-drop table persistent_logins cascade constraints;
-create table persistent_logins
-(
-    username  varchar2(64) not null,
-    series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
-);
-
-
 drop table store_status cascade constraints;
 create table store_status
 (
@@ -169,28 +159,27 @@ drop table stores cascade constraints;
 create table stores
 (
     store_id             number(6) primary key,
-    store_name           varchar2(50)        not null,
-    store_tel            varchar2(50)        not null,
-    store_address_si     varchar2(50)        not null,
+    store_name           varchar2(50)  not null,
+    store_tel            varchar2(50)  not null,
+    store_address_si     varchar2(50)  not null,
     store_address_gu     varchar2(50),
-    store_address_dong   varchar2(50)        not null,
+    store_address_dong   varchar2(50)  not null,
     store_address_etc    varchar2(50),
-    store_desc           varchar2(200)       not null,
-    store_rnum           varchar2(20)        not null,
-    store_saved_image    varchar2(50)        not null,
-    store_original_image varchar2(200)       not null,
+    store_desc           varchar2(200) not null,
+    store_rnum           varchar2(20)  not null,
+    store_saved_image    varchar2(200) not null,
+    store_original_image varchar2(200) not null,
     report_count         number(5) default 0,
     created_at           date      default sysdate,
     updated_at           date      default sysdate,
-    opening_h_w_open     varchar2(20)        not null, -- 평일 영업 시작 시간
-    opening_h_w_close    varchar2(20)        not null, -- 평일 영업 종료 시간
-    opening_h_h_open     varchar2(20)        not null, -- 휴일 영업 시작 시간
-    opening_h_h_close    varchar2(20)        not null, -- 휴일 영업 종료 시간
-    holiday              varchar2(30)        not null, -- 휴일
-    owner_id             number(6)           not null,
-    store_status         number(1) default 1 not null,
-    store_like           number(5) default 0,
-    store_comment        number(5) default 0,
+    opening_h_w_open     varchar2(20)  not null, -- 평일 영업 시작 시간
+    opening_h_w_close    varchar2(20)  not null, -- 평일 영업 종료 시간
+    opening_h_h_open     varchar2(20)  not null, -- 휴일 영업 시작 시간
+    opening_h_h_close    varchar2(20)  not null, -- 휴일 영업 종료 시간
+    holiday              varchar2(30)  not null, -- 휴일
+    owner_id             number(6)     not null,
+    store_status         number(6)     not null,
+
     constraint fk_store_owner foreign key (owner_id) references users (user_id),
     constraint fk_store_status foreign key (store_status) references store_status (store_status_id)
 );
@@ -198,21 +187,21 @@ create table stores
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 3);
+        '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 3);
+        '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id)
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 7);
+        '09:00', '20:00', '10:00', '20:00', 'friday', 7, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
@@ -359,19 +348,21 @@ values (3, 'processing'); -- 주문을 수락하고 조리에 들어갔을때
 insert into order_status
 values (4, 'completed'); -- 조리가 끝났을때
 insert into order_status
-values (5, 'completed'); -- 손님이 픽업을 했을때
+values (5, 'done'); -- 손님이 픽업을 했을때
 
 
 drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date default sysdate,
-    updated_at        date default sysdate,
+    created_at        date      default sysdate,
+    updated_at        date      default sysdate,
     order_total_price varchar2(10),
-    order_user        number(6) not null,
-    order_status      number(6) not null,
-    store_id          number(6) not null,
+    comment_writable  char(5)   default 'false' check (comment_writable in ('true', 'false')),
+    comment_wrote     char(5)   default 'false' check (comment_wrote in ('true', 'false')),
+    order_user        number(6)           not null,
+    order_status      number(6) default 1 not null,
+    store_id          number(6)           not null,
     constraint fk_order_user foreign key (order_user) references users (user_id),
     constraint fk_order_status foreign key (order_status) references order_status (order_status_id),
     constraint fk_order_store foreign key (store_id) references stores (store_id)
@@ -410,20 +401,28 @@ create table points
 drop table staffs cascade constraints;
 create table staffs
 (
-    staff_id number(6) primary key,
-    user_id  number(6) not null,
-    store_id number(6) not null,
+    staff_id   number(6) primary key,
+    user_id    number(6) not null,
+    store_id   number(6) not null,
+    created_at date default sysdate,
     constraint fk_staff_user foreign key (user_id) references users (user_id),
     constraint fk_staff_store foreign key (store_id) references stores (store_id)
 );
 
-insert into staffs values(1, 4, 1);
-insert into staffs values(2, 4, 3);
-insert into staffs values(3, 4, 4);
-insert into staffs values(4, 12, 1);
-insert into staffs values(5, 12, 3);
-insert into staffs values(6, 13, 4);
-insert into staffs values(7, 12, 2);
+insert into staffs (staff_id, user_id, store_id)
+values (1, 4, 1);
+insert into staffs (staff_id, user_id, store_id)
+values (2, 4, 3);
+insert into staffs (staff_id, user_id, store_id)
+values (3, 4, 4);
+insert into staffs (staff_id, user_id, store_id)
+values (4, 12, 1);
+insert into staffs (staff_id, user_id, store_id)
+values (5, 12, 3);
+insert into staffs (staff_id, user_id, store_id)
+values (6, 13, 4);
+insert into staffs (staff_id, user_id, store_id)
+values (7, 12, 2);
 
 drop table likes cascade constraints;
 create table likes
@@ -460,15 +459,217 @@ create table comments
     comment_content varchar2(200)       not null,
     comment_lev     number(1) default 0,
     comment_seq     number(1) default 0,
+    comment_ref     number(5)           not null,
     created_at      date      default sysdate,
     updated_at      date      default sysdate,
     comment_writer  number(5)           not null,
-    comment_ref     number(5)           not null,
+    comment_store   number(5)           not null,
     comment_status  number(1) default 1 not null,
     constraint fk_comment_writer foreign key (comment_writer) references users (user_id),
-    constraint fk_comment_store foreign key (comment_ref) references stores (store_id),
+    constraint fk_comment_store foreign key (comment_store) references stores (store_id),
     constraint fk_comment_status foreign key (comment_status) references comment_status (comment_status_id)
 );
+
+insert into comments
+values (1,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
+        0, 0, 1, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (2,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
+        0, 0, 2, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (3,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
+        0, 0, 3, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (4,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
+        0, 0, 4, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (5,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
+        0, 0, 5, sysdate, sysdate, 5, 3, 1);
+insert into comments
+values (6,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
+        0, 0, 6, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (7,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
+        0, 0, 7, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (8,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
+        0, 0, 8, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (9,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
+        0, 0, 9, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (10,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
+        0, 0, 10, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (11,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
+        0, 0, 11, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (12,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
+        0, 0, 12, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (13,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
+        0, 0, 13, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (14,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
+        0, 0, 14, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (15,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
+        0, 0, 15, sysdate, sysdate, 5, 3, 1);
+insert into comments
+values (16,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
+        0, 0, 16, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (17,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
+        0, 0, 17, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (18,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
+        0, 0, 18, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (19,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
+        0, 0, 19, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (20,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
+        0, 0, 20, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (21,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
+        0, 0, 21, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (22,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
+        0, 0, 22, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (23,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
+        0, 0, 23, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (24,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
+        0, 0, 24, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (25,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
+        0, 0, 25, sysdate, sysdate, 5, 3, 1);
+insert into comments
+values (26,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
+        0, 0, 26, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (27,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
+        0, 0, 27, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (28,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
+        0, 0, 28, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (29,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
+        0, 0, 29, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (30,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
+        0, 0, 30, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (31,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
+        0, 0, 31, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (32,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
+        0, 0, 32, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (33,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
+        0, 0, 33, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (34,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
+        0, 0, 34, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (35,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
+        0, 0, 35, sysdate, sysdate, 5, 3, 1);
+insert into comments
+values (36,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
+        0, 0, 36, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (37,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
+        0, 0, 37, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (38,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
+        0, 0, 38, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (39,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
+        0, 0, 39, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (40,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
+        0, 0, 40, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (41,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
+        0, 0, 41, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (42,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
+        0, 0, 42, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (43,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
+        0, 0, 43, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (44,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
+        0, 0, 44, sysdate, sysdate, 5, 2, 1);
+insert into comments
+values (45,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
+        0, 0, 45, sysdate, sysdate, 5, 3, 1);
+insert into comments
+values (46,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
+        0, 0, 46, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (47,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
+        0, 0, 47, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values (48,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
+        0, 0, 48, sysdate, sysdate, 5, 1, 1);
+insert into comments
+values (49,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
+        0, 0, 49, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values (50,
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
+        0, 0, 50, sysdate, sysdate, 5, 2, 1);
 
 drop table report_status cascade constraints;
 create table report_status
@@ -551,19 +752,20 @@ drop table storemap cascade constraints;
 
 create table storemap
 (
-    storemap_id             number(6) primary key,
-    store_name           varchar2(50)        not null,
-    store_address_si     varchar2(50)        not null,
-    store_address_gu     varchar2(50),
-    store_address_dong   varchar2(50)        not null,
-   	lat		 				varchar2(50) not null, 			
-    lon    	 			 varchar2(50) not null	        
+    storemap_id        number(6) primary key,
+    store_name         varchar2(50) not null,
+    store_address_si   varchar2(50) not null,
+    store_address_gu   varchar2(50),
+    store_address_dong varchar2(50) not null,
+    lat                varchar2(50) not null,
+    lon                varchar2(50) not null
 
     --constraint fk_store_id foreign key (store_id) references stores(store_id)
 );
 
 
-insert into storemap values(1,'이마트24 카페', '서울시', '종로구', '종로3가', 37.572799, 126.991945)
+insert into storemap
+values (1, '이마트24 카페', '서울시', '종로구', '종로3가', 37.572799, 126.991945);
 
 
 commit;

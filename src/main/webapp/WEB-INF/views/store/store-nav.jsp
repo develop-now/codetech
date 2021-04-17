@@ -52,8 +52,8 @@
                    class="nav-link <c:out value="${storeNavVal eq 'storeCustomer' ? 'active' : ''}"/>">가게 단골</a>
             </li>
             <li class="nav-item">
-                <a href="<c:url value="/comment/comment-list"/>"
-                   class="nav-link <c:out value="${storeNavVal eq 'commentList' ? 'active' : ''}"/>">가게 리뷰</a>
+                <a href="<c:url value="/store/store-comment"/>"
+                   class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">가게 리뷰</a>
             </li>
         </sec:authorize>
     </ul>

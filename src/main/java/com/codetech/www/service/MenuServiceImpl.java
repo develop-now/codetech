@@ -54,6 +54,7 @@ public class MenuServiceImpl implements MenuService {
         return rtn;
     }
 
+    // TODO :: 사장 ID 받아와서 그 가게의 사장인지 확인
     @Override
     public int createMenu(Menu menu) {
         return menu_dao.createMenu(menu);
@@ -64,11 +65,13 @@ public class MenuServiceImpl implements MenuService {
         return menu_dao.readMenu(menu_id);
     }
 
+    // TODO :: 사장 ID 받아와서 그 가게의 사장인지 확인
     @Override
     public int updateMenu(Menu menu) {
         return menu_dao.updateMenu(menu);
     }
 
+    // TODO :: 사장 ID 받아와서 그 가게의 사장인지 확인
     @Override
     public int deleteMenu() {
         return 0;

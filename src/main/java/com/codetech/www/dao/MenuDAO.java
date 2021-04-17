@@ -31,4 +31,14 @@ public class MenuDAO {
     public List<Menu> getMenuListByOwner(int owner_id) {
         return sqlSession.selectList("Menus.listByOwner", owner_id);
     }
+
+	public List<Menu> getTopMenu(int store_id) {
+        return sqlSession.selectList("Menus.topMenu", store_id);
+
+	}
+
+	public List<Menu> getAllMenu(int store_id) {
+        return sqlSession.selectList("Menus.allMenu", store_id);
+
+	}
 }

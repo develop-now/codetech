@@ -3,18 +3,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Menus">
     <insert id="createMenu" parameterType="menu">
-        <selectKey resultType="int" order="BEFORE" keyProperty="menu_id">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="menu_id">
             select nvl(max(menu_id), 0) +1 from menus
         </selectKey>
 
-        insert into menus (menu_id, menu_name, menu_desc, menu_price, menu_saved_image,
+        insert into menus (menu_id, menu_name, menu_desc, menu_price,
+        menu_saved_image,
         menu_original_image, store_id, category_id)
-        values (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
+        values
+        (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
         #{menu_original_image},#{store_id}, #{category_id})
     </insert>
 
     <select id="read" resultType="menu" parameterType="int">
-        select s.store_name, m.*, c.category_name, mt.status_value as menu_status_value
+        select s.store_name,
+               m.*,
+               c.category_name,
+               mt.status_value as
+                   menu_status_value
         from menus m
                  join stores s on m.store_id = s.store_id
                  join categories c on m.category_id = c.category_id
@@ -33,13 +40,18 @@
             menu_original_image=#{menu_original_image},
         </if>
         category_id=#{category_id},
-        menu_status=(select menu_status_id from menu_status where status_value=#{menu_status_value}),
+        menu_status=(select menu_status_id from menu_status where
+        status_value=#{menu_status_value}),
         updated_at=sysdate
         where menu_id = #{menu_id}
     </update>
 
     <select id="listByOwner" resultType="menu" parameterType="int">
-        select s.store_name, m.*, c.category_name, mt.status_value as menu_status_value
+        select s.store_name,
+               m.*,
+               c.category_name,
+               mt.status_value as
+                   menu_status_value
         from menus m
                  join stores s on m.store_id = s.store_id
                  join categories c on m.category_id = c.category_id
@@ -51,7 +63,11 @@
                , m.menu_name
     </select>
     <select id="listByStore" resultType="menu" parameterType="int">
-        select s.store_name, m.*, c.category_name, mt.status_value as menu_status_value
+        select s.store_name,
+               m.*,
+               c.category_name,
+               mt.status_value as
+                   menu_status_value
         from menus m
                  join stores s on m.store_id = s.store_id
                  join categories c on m.category_id = c.category_id
@@ -62,4 +78,20 @@
         order by s.store_name
                , m.menu_name
     </select>
+
+    <select id="topMenu" resultType="menu" parameterType="int">
+        select *
+        from menus
+        where store_id = #{store_id}
+          and rownum &lt;= 3
+        order by menu_order_count desc
+    </select>
+
+    <select id="allMenu" resultType="menu" parameterType="int">
+        select *
+        from menus
+        where store_id = #{store_id}
+    </select>
+
+
 </mapper>

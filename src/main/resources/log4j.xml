@@ -18,6 +18,10 @@
 	<logger name="Menus">
 		<level value="trace"/>
 	</logger>
+
+	<logger name="Staffs">
+		<level value="trace"/>
+	</logger>
 	
 	<!-- Application Loggers -->
 	<logger name="com.codetech.www">
@@ -38,6 +42,10 @@
 	</logger>
 
 	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.security">
 		<level value="info" />
 	</logger>
 

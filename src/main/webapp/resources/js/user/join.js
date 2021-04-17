@@ -34,7 +34,6 @@ function DaumPostcode() {
 }
 /*joinModal*/
 $(function(){
-	console.log("Users Js loaded");
 	var idpattern = false;
 	var nickpattern = false;
 	var passpattern = false;
@@ -47,7 +46,7 @@ $(function(){
 		var pattern = /^[a-zA-Z0-9_-]{3,}@\w{2,}[.]\w{2,}$/;
 		var id = $("#user_email").val();
 		var space = checkSpace(id);
-		idpattern = true; //질문 왜 true로 해줘야 하지?
+		idpattern = true; 
 		if(space){
 			$("#message-id").css("color",'#B63629').html("*공백을 제거해 주세요");
 		}else if(!pattern.test(id)){

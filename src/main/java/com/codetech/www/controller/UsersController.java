@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,44 +31,59 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.codetech.www.domain.Comment;
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
+import com.codetech.www.service.CommentService;
+import com.codetech.www.service.StoreService;
 import com.codetech.www.service.UsersService;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 @Controller
 @RequestMapping(value = "/user")
 public class UsersController {
-    private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
+
+	@Autowired
+	private UsersService usersService;
 
     @Autowired
-    private UsersService usersService;
-
+    private StoreService storeService;
+    
+    @Autowired
+    private CommentService commentService;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private HttpSession session;
+	@Autowired
+	private HttpSession session;
 
     @Value("${saveFolderName}")
-    private String user_profile;
+    private String saveFolder;
+    
+    private int likesCount;
+    
+    private int reviewCount;
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "user/index";
-    }
 
-    @RequestMapping(value = "/emailcheck", method = RequestMethod.GET)
-    public void emailcheck(String user_email, HttpServletResponse response) throws IOException {
-        int result = usersService.isEmail(user_email);
-        response.setContentType("text/html;charset=utf-8");
-        logger.info("emailcheck 도착" + result);
-        PrintWriter out = response.getWriter();
-        out.println(result);
-    }
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index() {
+		return "user/index";
+	}
 
+	@RequestMapping(value = "/emailcheck", method = RequestMethod.GET)
+	public void emailcheck(String user_email, HttpServletResponse response) throws IOException {
+		int result = usersService.isEmail(user_email);
+		response.setContentType("text/html;charset=utf-8");
+		logger.info("emailcheck 도착" + result);
+		PrintWriter out = response.getWriter();
+		out.println(result);
+	}
 
     @RequestMapping(value = "/nickcheck", method = RequestMethod.GET)
     public void nickcheck(String user_name, HttpServletResponse response) throws IOException {
@@ -109,7 +125,7 @@ public class UsersController {
             int month = c.get(Calendar.MONTH) + 1;
             int date = c.get(Calendar.DATE);
 
-            String homedir = user_profile + "/" + year + "-" + month + "-" + date;
+            String homedir = saveFolder + "/" + year + "-" + month + "-" + date;
             logger.info(homedir);
             File path1 = new File(homedir);
             if (!(path1.exists())) {
@@ -139,7 +155,7 @@ public class UsersController {
             logger.info("fileDBName = " + fileDBName);
             logger.info("*************오라클 디비에 저장될 파일명**********fileDBName*********" + fileDBName);
 
-            uploadfile.transferTo(new File(user_profile + fileDBName));
+            uploadfile.transferTo(new File(saveFolder + fileDBName));
 
             /* 바뀐 파일명으로 저장 */
             info.setUser_profile(fileDBName);
@@ -167,7 +183,6 @@ public class UsersController {
         int result = usersService.isUser(user_id, user_password);
         logger.info("isUser result : " + result);
         if (result == 1) {
-            /* id와 password를 session에 저장후 home으로 이동 */
 //            session.setAttribute("user_id", user_id);
             rattr.addFlashAttribute("info", "로그인 되었습니다 session ID:" + session.getId());
             return "redirect:/home";
@@ -183,48 +198,125 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/infoMain", method = RequestMethod.GET)
-    public String infomain(String user_id, HttpServletRequest request, RedirectAttributes rattr) {
-        //session id확인해서  그아이디에 해당하는 정보를 가지고 돌아간다.
-        //TODO 회원 정보, 토탈포인트, 작성된 리뷰수review, 즐겨찾기 한 가게 수 값  전달하기likes
-		/*
-		 * Integer sessionId = (Integer) session.getAttribute("user_id"); String url="";
-		 * if(sessionId == null||!request.isRequestedSessionIdValid()) {
-		 * rattr.addFlashAttribute("alert", "로그인이 필요한 서비스 입니다."); return
-		 * "redirect:/home";
-		 * 
-		 * }else {
-		  int user_id= (int)sessionId;
-		 */
-        //클릭하고들어오면 user_id 값을 구한다.
-        Integer id = (Integer) session.getAttribute("id");
-        logger.info("=============세션에서 가져온  id=================" + id);
-        //구한 user_id값을 가지고 해당 info와 users테이블을 조회한다.
-        //조회한 값을 userplusinfo에 답아서 반환한다.
-        //좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
+    public ModelAndView infomain(ModelAndView mv) {
+        Integer user_id = (Integer) session.getAttribute("user_id");
+        logger.info("=============세션에서 가져온  id=================" + user_id);
+        UserPlusInfo upi = usersService.user_info(user_id);
         //UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로 가져오기(조인사용)
-
+        //좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
+        
+        mv.setViewName("user/mypage-infomain");
+        mv.addObject("userPlusInfo", upi);
         // mv.addAttribute("userinfo", upi);
-        return "user/mypage-infomain";
+        return mv;
         // }
     }
-
-
-    @RequestMapping(value = "/infoModify", method = RequestMethod.GET)
-    public String infomodify(int user_id, RedirectAttributes rattr) {
-        //mapage-info_modify.jsp로 이동
-        String url = "";
-
-        url = "user/mypage-infomain_modify";
-
-        //세션이 만료되었으니 로그인을 다시하라는 안내를 해준다.
-
-        return url;
+    @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
+    public String modifyPassword(
+    			@RequestParam(value="user_newpassword_check")String user_newpassword
+    				,@RequestParam(value="user_originpassword")String user_password
+    				,RedirectAttributes rattr) {
+    	int user_id = (int)session.getAttribute("user_id");
+    	int result = usersService.passcheck(user_id, user_newpassword, user_password);
+    	if(result == 1) { //비밀번호 변경 완료
+    		rattr.addFlashAttribute("info", "비밀번호 변경을 완료하였습니다.");
+    	}else if(result == -1){ //비밀번호 update 실행 불가
+    	rattr.addFlashAttribute("alert", "비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
+    	}else { //result = 0 기존 비밀번호 일치하지 않음
+    	rattr.addFlashAttribute("alert", "기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+    	}
+    	return "redirect:/user/infoMain";
     }
+  
+    @RequestMapping(value = "/infoModifyAction", method = RequestMethod.POST)
+    public String infomodify(String check
+    					,String user_profile
+    					,MultipartFile uploadfile_m
+					    ,String user_name_m
+					    ,String user_tel_m					    
+					    ,String user_postcode_m
+					    ,String user_address_m
+					    ,RedirectAttributes rattr) throws IllegalStateException, IOException {
+    	logger.info("infomodify도착 check value" + check);
+    	UserInfo ui = new UserInfo();
+    	ui.setUser_id((int)session.getAttribute("user_id"));
+    	ui.setUser_profile(user_profile);
+    	ui.setUser_name(user_name_m);
+    	ui.setUser_tel(user_tel_m);
+    	String user_address = user_postcode_m + user_address_m;
+    	ui.setUser_address(user_address);
+    	
+    	//String before_file = ui.getUser_profile();
+    	logger.info(saveFolder);
+    	
+    	if(check != null && !check.equals("")) {
+    		logger.info("기존파일 변경없이 사용");
+    		ui.setOriginal_file(check);
+    		logger.info(ui.getOriginal_file());
+    		
+    	}else {
+    		if(uploadfile_m!=null && !uploadfile_m.isEmpty()) {
+    			logger.info("파일 변경되었습니다");
+    			String fileName = uploadfile_m.getOriginalFilename();
+    			ui.setOriginal_file(fileName);
+        		logger.info("프로필 변경됐을 경우"+ fileName);
 
-    @RequestMapping(value = "/infoModifyAction", method = RequestMethod.GET)
-    public void infomodify(UserInfo info) {
-        //이미지파일 변경 추가
-        //userinfo에 담아서 변경된 값 mapage-infomain으로 보내주기
+    			 /* 업로드 될 폴더명 생성 */
+                Calendar c = Calendar.getInstance();
+                String yearO = c.get(Calendar.YEAR) + "";
+                int year = Integer.parseInt(yearO.substring(2, 4));
+                int month = c.get(Calendar.MONTH) + 1;
+                int date = c.get(Calendar.DATE);
+
+                String homedir = saveFolder + "/" + year + "-" + month + "-" + date;
+                logger.info(homedir);
+                File path1 = new File(homedir);
+                if (!(path1.exists())) {
+                    path1.mkdir();
+                }
+
+                /* 중복된 파일이 생기는것을 방지하기위한 난수 생성 */
+                Random r = new Random();
+                int random = r.nextInt(1000000000);
+
+                /* 확장자구하기 */
+                int index = fileName.lastIndexOf(".");
+                logger.info("index = " + index);
+
+                String fileExtension = fileName.substring(index + 1);
+                logger.info("fileExetension = " + fileExtension);
+
+
+                /* 새로운 파일명 */
+                String refileName = "p" + year + month + date + random + "." + fileExtension;
+                logger.info("refileName =" + refileName);
+                logger.info("****************새로운 파일명***********refileName*********" + refileName);
+
+
+                /* 오라클 디비에 저장될 파일명 */
+                String fileDBName = "/" + year + "-" + month + "-" + date + "/" + refileName;
+                logger.info("fileDBName = " + fileDBName);
+                logger.info("*************오라클 디비에 저장될 파일명**********fileDBName*********" + fileDBName);
+
+                uploadfile_m.transferTo(new File(saveFolder + fileDBName));
+
+                /* 바뀐 파일명으로 저장 */
+                ui.setUser_profile(fileDBName);
+    			}
+    	}//파일이 변경됐을경우 end
+    	int result = usersService.modifyInfo(ui);
+    	
+    	if (result == 1) {
+    		rattr.addFlashAttribute("info", "정보수정이 완료되었습니다.");
+			/* 파일 변경될경우 삭제를 위한 부분
+			 * if(!before_file.equals("") && !before_file.equals(ui.getUser_profile())) {
+			 * usersService.insert_deleteFile(before_file); }
+			 */
+    	} else {
+    		rattr.addFlashAttribute("alert", "정보수정에 실패하였습니다. 관리자에게 문의해 주세요.");
+    		
+    	}
+		return "redirect:/user/infoMain";
     }
 
     @RequestMapping(value = "/pointList", method = RequestMethod.GET)
@@ -239,6 +331,48 @@ public class UsersController {
         return url;
     }
 
+    @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
+    public String reportWrite(String user_id/*,리포트 테이블 빈*/) {
+        //신고 내역을 가지고 mypage-report.jsp로 이동
+        //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
+        String url = "";
+
+        url = "user/mypage-report_write";
+
+
+        return url;
+    }
+    
+    @RequestMapping(value = "/reportWriteAction", method = RequestMethod.GET)
+    public ModelAndView reportWriteAction(
+    								@RequestParam(value="reported_store", defaultValue = "",required=false)String reported_store
+    								,@RequestParam(value="reported_user", defaultValue = "",required=false)String reported_user
+    								,ModelAndView mv) {
+        //신고 내역을 가지고 mypage-report.jsp로 이동
+        //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
+    	int store_id=Integer.parseInt(reported_store);
+    	int user_id=Integer.parseInt(reported_user);
+    	Report report = new Report();
+    	if(reported_store != "") {
+    		report.setReported_store(store_id);
+    		Store store = storeService.readStore(store_id);
+    		String user = "";
+    		mv.setViewName("user/mypage-report_write");
+    		mv.addObject("reported_store", store);
+    		mv.addObject("reported_user",user);
+    	}else if(reported_user !="") {
+    		report.setReported_user(user_id);
+    		Comment comment = commentService.getComment(user_id);
+    				
+    		String store = "";
+    		mv.setViewName("user/mypage-report_write");
+    		mv.addObject("reported_user",comment);
+    		mv.addObject("reported_store",store);
+    	}
+       return mv;
+
+    }
+    
     @RequestMapping(value = "/reportList", method = RequestMethod.GET)
     public String reportList(String user_id/*,리포트 테이블 빈*/) {
         //신고 내역을 가지고 mypage-report.jsp로 이동
@@ -274,17 +408,29 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/orderMain", method = RequestMethod.GET)
-    public void order(int store_id) {
-        //, Store store, Menu menu /*,cart빈 생성, likes 테이블 빈*/사용
-        //가게 주문하기 클릭하면 이동되어옴, 각테이블에서 정보 가져와서
-        //jsp에서 삭제를 선택한 경우 어디로 들어가서 어떻게 처리하고 넘겨주는지 생각해보기
-        //옵션에서 선택한 값들이 있으면 rightnav에 값넘겨줘야함 map으로 정리해서 보내?
-        //옵션에 대한 총 가격들 계산은 js에서하는지 어디서 할지 생각
-        //cart에 값 담아놓기
-        //order-main.jsp로 이동
+	public ModelAndView order(int store_id, ModelAndView mv) {
 
+		Store store = usersService.getStore(store_id);
+		int storeLike = usersService.getStoreLike(store_id);
+		List<Menu> topMenu = usersService.getTopMenu(store_id);
+		List<Menu> allMenu = usersService.getAllMenu(store_id);
+		mv.setViewName("user/order-main");
+		mv.addObject("store", store);
+		mv.addObject("storeLike", storeLike);
+		mv.addObject("topMenu", topMenu);
+		mv.addObject("allMenu", allMenu);
+		return mv;
 
-    }
+		// , Store store, Menu menu /*,cart빈 생성, likes 테이블 빈*/사용
+		// 가게 주문하기 클릭하면 이동되어옴, 각테이블에서 정보 가져와서
+		// jsp에서 삭제를 선택한 경우 어디로 들어가서 어떻게 처리하고 넘겨주는지 생각해보기
+		// 옵션에서 선택한 값들이 있으면 rightnav에 값넘겨줘야함 map으로 정리해서 보내?
+		// 옵션에 대한 총 가격들 계산은 js에서하는지 어디서 할지 생각
+		// cart에 값 담아놓기
+		// order-main.jsp로 이동
+
+	}
+
 
     @RequestMapping(value = "/option", method = RequestMethod.GET)
     public void option(int menu_id) {
@@ -325,4 +471,3 @@ public class UsersController {
         //더보기로 내용 추가조회 가능하도록 페이지 처리
     }
 }
-

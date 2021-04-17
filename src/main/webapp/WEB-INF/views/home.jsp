@@ -56,7 +56,7 @@
 								</div>
 
 								<div class="card-footer">
-									<a href="#" class="btn btn-primary">주문하러 가기!</a>
+									<a href="${pageContext.request.contextPath}/user/orderMain?store_id=${store.store_id}" class="btn btn-primary">주문하러 가기!</a>
 								</div>
 							</div>
 						</div>

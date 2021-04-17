@@ -2,6 +2,8 @@ package com.codetech.www.service;
 
 import java.util.List;
 
+import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
@@ -19,6 +21,18 @@ public interface UsersService {
 	UserPlusInfo user_info(int user_id);
 
 	User getUserId(String user_email);
+
+	int passcheck(int user_id, String user_newpassword,String user_password);
+
+	Store getStore(int store_id);
+
+	int getStoreLike(int store_id);
+
+	List<Menu> getTopMenu(int store_id);
+
+	List<Menu> getAllMenu(int store_id);
+	
+	int modifyInfo(UserInfo ui);
 
 
 }
