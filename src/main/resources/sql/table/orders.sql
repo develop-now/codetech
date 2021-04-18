@@ -14,7 +14,11 @@ create table orders
     constraint fk_order_status foreign key (order_status) references order_status (order_status_id),
     constraint fk_order_store foreign key (store_id) references stores (store_id)
 );
+select * from orders;
 
+
+		
+		
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
 values (1, '30000', 10, 5, 1);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
@@ -175,5 +179,16 @@ insert into orders (order_id, order_total_price, order_user, order_status, store
 values (79, '830000', 7, 5, 2);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
 values (80, '530000', 7, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (81, '530000', 17, 1, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (82, '530000', 17, 2, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (83, '530000', 17, 3, 3);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (84, '530000', 17, 4, 4);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (85, '530000', 17, 5, 5);
+
 
 commit;

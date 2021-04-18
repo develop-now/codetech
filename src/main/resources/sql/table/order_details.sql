@@ -12,4 +12,6 @@ create table order_details
     constraint fk_detail_menu foreign key (menu_id) references menus (menu_id)
 );
 
+select * from order_details;
+
 commit;

@@ -29,6 +29,10 @@
 				<li class="nav-item">
 			<a href="${pageContext.request.contextPath}/user/orderList"
 				class="nav-link">주문하기</a>
+				
+					<li class="nav-item">
+			<a href="${pageContext.request.contextPath}/user/orderView?user_id=${user_id}"
+				class="nav-link">주문내역</a>
 		</li>
 		
 	</ul>

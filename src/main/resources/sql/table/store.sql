@@ -61,38 +61,6 @@ select *
 from stores;
 
 commit;
---
--- --trigger likes for store
--- create or replace trigger store_like_trigger
---     after insert
---     on likes
---     for each row
--- declare
---     istore_id likes.store_id%type;
--- begin
---     istore_id := :new.store_id;
---     update
---         stores
---     set store_like = store_like + 1
---     where store_id = istore_id;
--- end;
--- /
---
--- --trigger comment for store
--- create or replace trigger store_comment_trigger
---     after insert
---     on comments
---     for each row
--- declare
---     icomment_ref comments.comment_ref%type;
--- begin
---     icomment_ref := :new.comment_ref;
---     update
---         stores
---     set store_comment = store_comment + 1
---     where store_id = icomment_ref;
--- end;
--- /
 
 
 
