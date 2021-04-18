@@ -83,7 +83,7 @@
                                                     <div class="dropdown-menu">
                                                         <c:forEach var="store" items="${store_list}" varStatus="status">
                                                             <a class="dropdown-item" href="#"
-                                                               onclick="loadStoreOrder('${store.store_id}', '${store.store_name}')">
+                                                               onclick="loadStoreProfit('${store.store_id}', '${store.store_name}')">
                                                                     ${store.store_name}
                                                             </a>
                                                         </c:forEach>
@@ -120,14 +120,14 @@
                             <hr>
                         </div>
 
-                        <div class="container" id="profit__graph__wrapper">
+                        <div class="container store-profit__wrapper">
                             <div class="col-12 mb-5">
                                 <h3 class="text-primary">
                                     <i class="fas fa-store"></i> <span id="store_name"></span>
                                 </h3>
                             </div>
 
-                            <div class="row">
+                            <div class="row" id="profit__graph__wrapper">
                                 <div class="col-12">
                                     <h5>일주일 매출액</h5>
 
