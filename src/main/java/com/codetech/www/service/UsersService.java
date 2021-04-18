@@ -48,5 +48,9 @@ public interface UsersService {
 
 	int getListCount(int user_id);
 
+	List<Store> getStoreFavorite(int user_id);
+
+	int favoriteCancel(int user_id, int store_id);
+
 
 }

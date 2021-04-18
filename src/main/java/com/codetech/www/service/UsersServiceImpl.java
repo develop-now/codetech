@@ -201,6 +201,20 @@ public class UsersServiceImpl implements UsersService {
 		return odao.getListCount(user_id);
 
 	}
+
+	@Override
+	public List<Store> getStoreFavorite(int user_id) {
+		return sdao.getStoreFavorite(user_id);
+	}
+
+	@Override
+	public int favoriteCancel(int user_id, int store_id) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("store_id", store_id);
+		map.put("user_id", user_id);
+		return sdao.favoriteCancel(map);
+
+	}
 	 
 	
 	
