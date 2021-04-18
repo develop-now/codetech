@@ -258,6 +258,8 @@
         ) where store_id = #{store_id}
 
     </select>
-
+	<select id="readStoreReport" parameterType="int" resultType="report">
+		select * from store_report where store_report_id = #{store_report_id}
+	</select>
 
 </mapper>

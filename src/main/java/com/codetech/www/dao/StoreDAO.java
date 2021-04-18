@@ -128,4 +128,8 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.storeProfit", param);
     }
 
+	public Report readStoreReport(int store_report_id) {
+		return sqlSession.selectOne("Stores.readStoreReport", store_report_id);
+	}
+
 }

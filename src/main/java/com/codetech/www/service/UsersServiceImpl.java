@@ -16,13 +16,7 @@ import com.codetech.www.dao.MenuDAO;
 import com.codetech.www.dao.OrderDAO;
 import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Order;
-import com.codetech.www.domain.OrderDetail;
-import com.codetech.www.domain.Store;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
-import com.codetech.www.domain.UserPlusInfo;
+import com.codetech.www.domain.*;
 
 
 @Service
@@ -143,6 +137,14 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
+	public List<Report> reportStoreAndComment(int user_id) {
+		return dao.reportStoreAndComment(user_id);
+	}
+
+	@Override
+	public int addReport(Report report) {
+		return dao.addReport(report);
+
 	public int getMenuCount(int user_id) {
 		return mdao.getMenuCount(user_id);
 
@@ -202,6 +204,4 @@ public class UsersServiceImpl implements UsersService {
 
 	}
 	 
-	
-	
 }

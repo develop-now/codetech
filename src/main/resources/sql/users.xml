@@ -106,6 +106,34 @@
 			,original_file = #{original_file}
 		where user_id = #{user_id}
 	</update>
+	
+	 <select id="reportStoreAndComment" parameterType="int" resultType="report">
+    select rownum , rsc.* 
+	from (	select * 
+			from (
+					select to_number(null) store_report_id, cmt_report_id, report_subject, report_content
+					, created_at, updated_at, report_status, reporter, reported_cmt, to_number(null)reported_store           
+					from COMMENT_REPORT where reporter = #{user_id}
+					union all
+					select store_report_id, to_number(null) cmt_report_id, report_subject, report_content
+					, created_at, updated_at, report_status, reporter, to_number(null)reported_cmt, reported_store 
+					from STORE_REPORT where reporter = #{user_id}
+					)sc
+			order by sc.created_at desc
+	)rsc
+    </select>
+    
+    <insert id="addStoreReport" parameterType="report">
+    	insert into store_report
+    	values((select nvl(max(store_report_id),0)+1 from store_report)
+    			,#{report_subject},#{report_content},sysdate, sysdate,'1',#{reporter})
+    </insert>
+    
+    <insert id="addCmtReport" parameterType="report">
+    	insert into comment_report
+    	values(select nvl(max(cmt_report_id),0)+1 from COMMENT_REPORT)
+    	,#{report_subject},#{report_content},sysdate, sysdate,'1',#{reporter})
+    </insert>
 
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">

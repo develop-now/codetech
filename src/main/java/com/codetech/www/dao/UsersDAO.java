@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
@@ -80,6 +81,19 @@ public class UsersDAO {
 	public int userModify(UserInfo ui) {
 		logger.info("dao ui.original확인"+ ui.getOriginal_file());
 		return sqlSession.update("users.updateUserInfo",ui);
+	}
+
+	public List<Report> reportStoreAndComment(int user_id) {
+		return sqlSession.selectList("users.reportStoreAndComment",user_id);
+	}
+
+	public int addReport(Report report) {
+		if(report.getReported_store()!= 0) {
+			sqlSession.insert("users.addStoreReport",report);
+		}else {
+			sqlSession.insert("users.addCmtReport",report);
+		}
+		return 0;
 	}
 
 

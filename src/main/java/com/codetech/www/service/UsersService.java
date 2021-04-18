@@ -2,14 +2,7 @@ package com.codetech.www.service;
 
 import java.util.List;
 
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Order;
-import com.codetech.www.domain.OrderDetail;
-import com.codetech.www.domain.Store;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
-import com.codetech.www.domain.UserPlusInfo;
-
+import com.codetech.www.domain.*;
 
 public interface UsersService {
     int isEmail(String user_email);
@@ -35,6 +28,11 @@ public interface UsersService {
 	List<Menu> getAllMenu(int store_id);
 	
 	int modifyInfo(UserInfo ui);
+
+
+	List<Report> reportStoreAndComment(int user_id);
+
+	int addReport(Report report);
 
 	int getMenuCount(int store_id);
 

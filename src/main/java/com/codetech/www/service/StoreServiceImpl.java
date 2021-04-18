@@ -2,7 +2,9 @@ package com.codetech.www.service;
 
 import com.codetech.www.dao.MenuDAO;
 import com.codetech.www.dao.StoreDAO;
+
 import com.codetech.www.domain.*;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,6 +102,12 @@ public class StoreServiceImpl implements StoreService {
 
         return false;
     }
+
+
+	@Override
+	public Report readStoreReport(int store_report_id) {
+		return store_dao.readStoreReport(store_report_id);
+	}
 
     @Override
     public int getStoreCustomerCount(int store_id) {
