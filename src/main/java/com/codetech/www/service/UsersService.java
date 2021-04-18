@@ -3,6 +3,7 @@ package com.codetech.www.service;
 import java.util.List;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
@@ -33,6 +34,10 @@ public interface UsersService {
 	List<Menu> getAllMenu(int store_id);
 	
 	int modifyInfo(UserInfo ui);
+
+	List<Report> reportStoreAndComment(int user_id);
+
+	int addReport(Report report);
 
 
 }

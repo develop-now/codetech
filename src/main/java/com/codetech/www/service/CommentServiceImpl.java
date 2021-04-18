@@ -2,6 +2,8 @@ package com.codetech.www.service;
 
 import com.codetech.www.dao.CommentDAO;
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.Report;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +85,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
 	@Override
-	public Comment getComment(int user_id) {
-		return comment_dao.getComment(user_id);
+	public Comment selectComment(int comment_id) {
+		return comment_dao.selectComment(comment_id);
 	}
+
+	@Override
+	public Report readCommentReport(int cmt_report_id) {
+		return comment_dao.readCommentReport(cmt_report_id);
+	}
+
 }

@@ -16,6 +16,7 @@ import com.codetech.www.dao.MenuDAO;
 import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
@@ -134,6 +135,16 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public int modifyInfo(UserInfo ui) {
 		return dao.userModify(ui);
+	}
+
+	@Override
+	public List<Report> reportStoreAndComment(int user_id) {
+		return dao.reportStoreAndComment(user_id);
+	}
+
+	@Override
+	public int addReport(Report report) {
+		return dao.addReport(report);
 	}
 	 
 	

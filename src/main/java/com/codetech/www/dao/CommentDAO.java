@@ -1,6 +1,8 @@
 package com.codetech.www.dao;
 
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.Report;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,7 +39,12 @@ public class CommentDAO {
         return sqlSession.update("Comment.update", comment);
     }
 
-	public Comment getComment(int user_id) {
-		return sqlSession.selectOne("Comments.getComment", user_id);
+	public Comment selectComment(int comment_id) {
+		return sqlSession.selectOne("Comments.selectComment", comment_id);
 	}
+
+	public Report readCommentReport(int cmt_report_id) {
+		return sqlSession.selectOne("Comments.readCommentReport", cmt_report_id);
+	}
+
 }

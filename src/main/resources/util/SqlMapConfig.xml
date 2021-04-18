@@ -20,6 +20,7 @@
         <typeAlias alias="menu-category" type="com.codetech.www.domain.MenuCategory"/>
         <typeAlias alias="user-info" type="com.codetech.www.domain.UserInfo"/>
         <typeAlias alias="upi" type="com.codetech.www.domain.UserPlusInfo"/>
+        <typeAlias alias="report" type="com.codetech.www.domain.Report"/>
     </typeAliases>
 
     <mappers>

@@ -3,6 +3,7 @@ package com.codetech.www.service;
 import com.codetech.www.dao.MenuDAO;
 import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 
 import com.codetech.www.domain.User;
@@ -101,4 +102,9 @@ public class StoreServiceImpl implements StoreService {
 
         return false;
     }
+
+	@Override
+	public Report readStoreReport(int store_report_id) {
+		return store_dao.readStoreReport(store_report_id);
+	}
 }

@@ -1,6 +1,7 @@
 package com.codetech.www.service;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 
@@ -26,4 +27,6 @@ public interface StoreService {
     public int storeNameCheck(String name);
 
     public boolean isStoreOwner(int owner_id, int store_id);
+
+	public Report readStoreReport(int store_report_id);
 }

@@ -2,6 +2,7 @@ package com.codetech.www.domain;
 
 public class Report {
 	/*common report table*/
+	private int rownum;
 	private String report_subject;
 	private String report_content;
 	private String created_at;
@@ -22,6 +23,12 @@ public class Report {
 	private int reported_user;
 	
 	
+	public int getRownum() {
+		return rownum;
+	}
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
 	public String getReport_subject() {
 		return report_subject;
 	}
@@ -38,7 +45,7 @@ public class Report {
 		return created_at;
 	}
 	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+		this.created_at = created_at.substring(0, 10);
 	}
 	public String getUpdated_at() {
 		return updated_at;

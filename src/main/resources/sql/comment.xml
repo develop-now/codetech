@@ -79,16 +79,14 @@
         #{comment_ref},#{comment_seq},#{comment_writer},#{comment_store})
     </insert>
     
-    <select id="commentListByStore" resultType="comment" parameterType="int">
-        select *
-        from comments
-        where comment_ref = #{store_id}
-    </select>
-    
-    <select id="getComment" resultType="comment" parameterType="int">
-    	select * 
+    <select id="selectComment" parameterType="int" resultType= "comment">
+    	select comment_content
     	from comments
-    	where comment_writer=${user_id}
+    	where comment_id = #{comment_id}
     </select>
     
+    <select id="readCommentReport" parameterType="int" resultType="report">
+		select * from comment_report where cmt_report_id = #{cmt_report_id}   
+    </select>
+
 </mapper> 

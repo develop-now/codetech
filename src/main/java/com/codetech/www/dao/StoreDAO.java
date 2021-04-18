@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
@@ -125,6 +126,10 @@ public class StoreDAO {
 	public int getStoreLike(int store_id) {
 		return sqlSession.selectOne("Stores.storeLikeCount", store_id);
 
+	}
+
+	public Report readStoreReport(int store_report_id) {
+		return sqlSession.selectOne("Stores.readStoreReport", store_report_id);
 	}
 
 }

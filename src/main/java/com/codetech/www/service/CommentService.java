@@ -1,6 +1,7 @@
 package com.codetech.www.service;
 
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.Report;
 
 import java.util.List;
 
@@ -17,5 +18,8 @@ public interface CommentService {
 
     public int deleteComment();
 
-	public Comment getComment(int user_id);
+	public Comment selectComment(int comment_id);
+
+	public Report readCommentReport(int cmt_report_id);
+
 }

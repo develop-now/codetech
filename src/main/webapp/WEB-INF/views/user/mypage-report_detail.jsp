@@ -1,17 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: im-inseop
-  Date: 2021/03/31
-  Time: 2:15 오후
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>mypage-report</title>
-    <!-- 선택한 신고 번호를 들고와 신고날짜, 이유, 상태 디테일을 보여준다. 신고의 내용이 작성가능하지 안한지에 따라 디테일 생성 여부를 결정 -->
+    <title>mypage-report_detail</title>
     <%@include file="../partial/head.jsp" %>
 </head>
 <body>
@@ -31,7 +24,59 @@
         <div class="row">
             <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
-                <p>User Main Content</p>
+                 <div class="container mypageReport">
+                	<div class="userContainer__header">
+	              		<h2 class="text-right">신고작성내용</h2>
+	              	</div>
+	              		<hr>
+ 							<div class="reportWrite-body">
+							 <sec:authentication property="principal" var="pinfo"/>
+							  <div class="form-group row">
+								<label for="reporter" class="col-sm-2 col-form-label">
+								<span>작성자</span>
+								</label> 
+								<input type="text" class="form-control" id="reporter" name="" 
+								      		value="${pinfo.username}"readOnly>
+							  </div>
+							<c:choose>
+							 <c:when test="${store_name ne null}">
+							  <div class="form-group row">
+								<label for="reported_store" class="col-sm-2 col-form-label">
+								<span>가게이름</span>
+								</label>  
+								<input type="text" class="form-control" id="reported_store" 
+								value="${store_name}" readOnly>
+							  </div>
+							 </c:when>
+							 <c:otherwise>
+							  <div class="form-group row">
+								<label for="reported_cmt" class="col-sm-2 col-form-label">
+								<span>신고하는댓글</span>
+								</label>  
+								<textarea  class="form-control" id="reported_cmt"
+								 readOnly>${comment_content}</textarea>
+							  </div>
+							 </c:otherwise>
+							</c:choose>  
+								
+							  <div class="form-group row">
+								<label for="report_subject" class="col-sm-2 col-form-label">
+								<span>신고제목</span>
+								</label>  
+								<input type="text" class="form-control" id="report_subject" 
+								value="${detail.report_subject} " readOnly>
+							  </div>								 
+							  
+							  <div class="form-group row">
+								<label for="report_content" class="col-sm-2 col-form-label">
+								<span>신고내용</span>
+								</label> 
+								<textarea  class="form-control" id="report_content" readOnly
+								 >${detail.report_content}</textarea>
+							  </div>								
+
+							</div>
+					</div>
             </div>
         </div>
     </div>
@@ -39,6 +84,9 @@
 
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
+   
 </div>
 </body>
 </html>
+
+
