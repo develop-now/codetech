@@ -152,6 +152,8 @@ insert into store_status
 values (3, 'pending'); -- 가게가 막 생성됐을때
 insert into store_status
 values (4, 'suspending'); -- 활동 정지 상태
+insert into store_status
+values (5, 'termination'); -- 파트너 종료 상태
 
 drop table stores cascade constraints;
 create table stores
@@ -206,7 +208,12 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
-
+        
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+values (5, 'Test Store5', '111-222-3333', '목포시', '용해동', '가게 5 설명입니다', '123-56-12325', '/e.png', 'image_url',
+        '09:00', '20:00', '10:00', '20:00', 'friday', 7, 3);
 
 
 drop table categories cascade constraints;
@@ -268,42 +275,52 @@ insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (1, '테스트 메뉴1', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 1, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (2, '테스트 메뉴2', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 1, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (3, '테스트 메뉴3', '이건 테스트 메뉴입니다', '33000',
+values (3, '테스트 메뉴3', '이건 테스트 메뉴입니다', '47000',
         'image.jpg', 'image.jpg', 1, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (4, '테스트 메뉴4', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 1, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '33000',
+values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '38000',
         'image.jpg', 'image.jpg', 1, 2);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 1, 3);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '33000',
+values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '48000',
         'image.jpg', 'image.jpg', 2, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (8, '테스트 메뉴8', '이건 테스트 메뉴입니다', '33000',
+values (8, '테스트 메뉴8', '이건 테스트 메뉴입니다', '41000',
         'image.jpg', 'image.jpg', 2, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (9, '테스트 메뉴9', '이건 테스트 메뉴입니다', '33000',
+values (9, '테스트 메뉴9', '이건 테스트 메뉴입니다', '13000',
         'image.jpg', 'image.jpg', 2, 1);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (10, '테스트 메뉴10', '이건 테스트 메뉴입니다', '33000',
+values (10, '테스트 메뉴10', '이건 테스트 메뉴입니다', '48000',
         'image.jpg', 'image.jpg', 2, 2);
+
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (11, '테스트 메뉴11', '이건 테스트 메뉴입니다', '33000',
@@ -312,6 +329,19 @@ insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 4, 3);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 5, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 5, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 5, 3);
+
 
 drop table order_status cascade constraints;
 create table order_status
@@ -329,25 +359,207 @@ values (3, 'processing'); -- 주문을 수락하고 조리에 들어갔을때
 insert into order_status
 values (4, 'completed'); -- 조리가 끝났을때
 insert into order_status
-values (5, 'completed'); -- 손님이 픽업을 했을때
+values (5, 'done'); -- 손님이 픽업을 했을때
 
 
 drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date    default sysdate,
-    updated_at        date    default sysdate,
+    created_at        date      default sysdate,
+    updated_at        date      default sysdate,
     order_total_price varchar2(10),
-    comment_writable  char(5) default 'false' check (comment_writable in ('true', 'false')),
-    comment_wrote     char(5) default 'false' check (comment_wrote in ('true', 'false')),
-    order_user        number(6) not null,
-    order_status      number(6) not null,
-    store_id          number(6) not null,
+    comment_writable  char(5)   default 'false' check (comment_writable in ('true', 'false')),
+    comment_wrote     char(5)   default 'false' check (comment_wrote in ('true', 'false')),
+    order_user        number(6)           not null,
+    order_status      number(6) default 1 not null,
+    store_id          number(6)           not null,
     constraint fk_order_user foreign key (order_user) references users (user_id),
     constraint fk_order_status foreign key (order_status) references order_status (order_status_id),
     constraint fk_order_store foreign key (store_id) references stores (store_id)
 );
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (1, '30000', 10, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (2, '80000', 10, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (3, '99000', 10, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (4, '132000', 10, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (5, '96000', 10, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (6, '71000', 10, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (7, '165000', 10, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (8, '76000', 10, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (9, '162000', 10, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (10, '96000', 10, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (11, '30000', 11, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (12, '80000', 11, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (13, '110000', 11, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (14, '430000', 11, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (15, '320000', 11, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (16, '830000', 11, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (17, '930000', 11, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (18, '1530000', 11, 5, 1);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (19, '830000', 11, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (20, '530000', 11, 5, 2);
+
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (21, '30000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (22, '80000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (23, '110000', 12, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (24, '430000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (25, '320000', 12, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (26, '830000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (27, '930000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (28, '1530000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (29, '830000', 12, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (30, '530000', 12, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (31, '30000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (32, '80000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (33, '110000', 13, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (34, '430000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (35, '320000', 13, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (36, '830000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (37, '930000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (38, '1530000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (39, '830000', 13, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (40, '530000', 13, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (41, '30000', 14, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (42, '80000', 15, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (43, '110000', 16, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (44, '430000', 17, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (45, '320000', 1, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (46, '830000', 2, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (47, '930000', 3, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (48, '1530000', 4, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (49, '830000', 5, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (50, '530000', 6, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (51, '30000', 7, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (52, '80000', 8, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (53, '110000', 9, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (54, '430000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (55, '320000', 11, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (56, '830000', 12, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (57, '930000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (58, '1530000', 14, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (59, '830000', 15, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (60, '530000', 16, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (61, '30000', 17, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (62, '80000', 1, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (63, '110000', 2, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (64, '430000', 3, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (65, '320000', 4, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (66, '830000', 5, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (67, '930000', 6, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (68, '1530000', 7, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (69, '830000', 8, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (70, '530000', 9, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (71, '30000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (72, '80000', 11, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (73, '110000', 12, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (74, '430000', 13, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (75, '320000', 14, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (76, '830000', 15, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (77, '930000', 16, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (78, '1530000', 7, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (79, '830000', 7, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (80, '530000', 7, 5, 2);
+
 
 drop table order_details cascade constraints;
 create table order_details
@@ -362,6 +574,45 @@ create table order_details
     constraint fk_detail_order foreign key (order_id) references orders (order_id),
     constraint fk_detail_menu foreign key (menu_id) references menus (menu_id)
 );
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (1, '33000', 1, 1);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (2, '33000', 2, 2);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (3, '47000', 2, 3);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (4, '99000', 3, 8);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (5, '132000', 4, 6);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (6, '96000', 5, 10);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (7, '33000', 6, 4);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (8, '38000', 6, 5);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (9, '165000', 7, 6);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (10, '76000', 8, 5);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (11, '123000', 9, 8);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (12, '39000', 9, 9);
+
+insert into order_details (detail_id, detail_total_price, order_id, menu_id)
+values (13, '96000', 10, 7);
 
 drop table points cascade constraints;
 create table points

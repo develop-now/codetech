@@ -8,8 +8,8 @@ public class Order {
     private int order_user;
     private int order_status;
     private int store_id;
-    private boolean comment_writable;
-    private boolean comment_wrote;
+    private String comment_writable;
+    private String comment_wrote;
 
     public int getOrder_id() {
         return order_id;
@@ -67,19 +67,23 @@ public class Order {
         this.store_id = store_id;
     }
 
-    public boolean isComment_writable() {
-        return comment_writable;
-    }
+	public String getComment_writable() {
+		return comment_writable;
+	}
 
-    public void setComment_writable(boolean comment_writable) {
-        this.comment_writable = comment_writable;
-    }
+	public void setComment_writable(String comment_writable) {
+		this.comment_writable = comment_writable;
+	}
 
-    public boolean isComment_wrote() {
-        return comment_wrote;
-    }
+	public String getComment_wrote() {
+		return comment_wrote;
+	}
 
-    public void setComment_wrote(boolean comment_wrote) {
-        this.comment_wrote = comment_wrote;
-    }
+	public void setComment_wrote(String comment_wrote) {
+		this.comment_wrote = comment_wrote;
+	}
+
+
+
+  
 }

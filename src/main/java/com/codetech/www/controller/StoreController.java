@@ -241,6 +241,21 @@ public class StoreController {
         return "store/store-profit";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/profit-list-ajax", method = RequestMethod.GET)
+    public Map<String, Object> profitListAjax(@RequestParam(value = "store_id") int store_id,
+                                              @RequestParam(value = "selected_date") String selected_date) {
+
+        Map<String, Object> rtn = new HashMap<>();
+
+        List<Profit> list = storeService.getStoreProfit(store_id, selected_date);
+
+        rtn.put("success", list.size() > 0);
+        rtn.put("list", list);
+
+        return rtn;
+    }
+
     @RequestMapping(value = "/store-comment", method = RequestMethod.GET)
     public String getStoreCommentList(HttpSession session, Model model) {
         model.addAttribute("storeNav", "storeComment");
@@ -278,6 +293,24 @@ public class StoreController {
         model.addAttribute("store_list", list);
 
         return "store/store-customers";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/customer-list-ajax", method = RequestMethod.GET)
+    public Map<String, Object> customerListAjax(@RequestParam(value = "store_id") int store_id,
+                                                @RequestParam(value = "page") int page,
+                                                @RequestParam(value = "order_key") String order_key) {
+
+        Map<String, Object> rtn = new HashMap<>();
+
+        int listCount = storeService.getStoreCustomerCount(store_id);
+        List<Customer> list = storeService.getStoreCustomer(store_id, page, order_key);
+
+        rtn.put("success", list.size() > 0);
+        rtn.put("list", list);
+        rtn.put("listCount", listCount);
+
+        return rtn;
     }
 
     @RequestMapping(value = "/order-list", method = RequestMethod.GET)

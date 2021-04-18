@@ -97,9 +97,12 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-success" type="button" id="SearchBtn">Search</button>
                                     <button class="btn btn-outline-info" type="button" id="resetBtn">Reset</button>
-
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="w-100">
+                            <hr>
                         </div>
 
                         <div class="container store-staff__wrapper">

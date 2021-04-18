@@ -16,7 +16,7 @@
     <script>
         $(() => {
             $("#backBtn").on("click", () => {
-                history.back();
+                location.href = "/store/store-comment"
             })
         })
     </script>
@@ -60,7 +60,9 @@
                                     <c:if test="${!empty list}">
                                         <c:forEach var="comment" items="${list}">
                                             <c:if test="${comment.comment_lev == 0}">
+
                                                 <c:set var="original_comment" value="${comment}"/>
+
                                                 <div class="col-12">
                                                     <div class="card border-primary mb-3" style="max-width:90%">
                                                         <div class="card-header">
@@ -70,7 +72,7 @@
                                                             <p class="card-text">${comment.comment_content}</p>
                                                         </div>
                                                         <div class="card-footer text-right">
-                                                            <small class="text-muted ">${comment.created_at}</small>
+                                                            <small class="text-muted ">${comment.updated_at.substring(0,10)}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -82,16 +84,167 @@
                                                          id="comment_${comment.comment_id}">
                                                         <div class="card-header">
                                                             <h5>작성자 : ${comment.comment_writer_value}</h5>
+                                                            <h6 class="text-right"> 상태
+                                                                : ${comment.comment_status == 1 ? "<span class='text-success'>활성화</span>" : "<span class='text-danger'>비활성화</span>"}</h6>
                                                         </div>
                                                         <div class="card-body bg-success text-white">
                                                             <p class="card-text">${comment.comment_content}</p>
-                                                            <div class="btn-group-sm float-right">
-                                                                <button class="btn btn-sm btn-outline-light" onclick="updateComment('${comment.comment_id}')">수정</button>
-                                                                <button class="btn btn-sm btn-outline-light" onclick="deleteComment('${comment.comment_id}')">삭제</button>
-                                                            </div>
+
+                                                            <c:if test="${comment.comment_status eq 1}">
+                                                                <div class="comment__action__wrapper">
+                                                                    <div class="btn-group-sm float-right">
+                                                                        <button class="btn btn-sm btn-outline-light"
+                                                                                onclick="updateComment('${comment.comment_id}')">
+                                                                            수정
+                                                                        </button>
+                                                                        <button class="btn btn-sm btn-outline-light"
+                                                                                onclick="deleteComment('${comment.comment_id}')">
+                                                                            삭제
+                                                                        </button>
+                                                                    </div>
+
+                                                                        <%-- UPDATE MODAL START --%>
+                                                                    <div id="update__modal__wrapper">
+                                                                        <div class="modal fade"
+                                                                             id="updateModal_${comment.comment_id}"
+                                                                             data-backdrop="static"
+                                                                             data-keyboard="false"
+                                                                             tabindex="-1"
+                                                                             aria-labelledby="update_staticBackdropLabel_${comment.comment_id}"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title text-info"
+                                                                                            id="update_staticBackdropLabel_${comment.comment_id}">
+                                                                                            답변수정
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form method="post"
+                                                                                              action="<c:url value="/comment/updateAction"/>"
+                                                                                              id="updateForm_${comment.comment_id}">
+                                                                                            <input type="hidden"
+                                                                                                   name="${_csrf.parameterName}"
+                                                                                                   value="${_csrf.token}">
+                                                                                            <input type="hidden"
+                                                                                                   name="comment_id"
+                                                                                                   value="${comment.comment_id}">
+                                                                                            <input type="hidden"
+                                                                                                   name="comment_ref"
+                                                                                                   value="${comment.comment_ref}">
+                                                                                            <input type="hidden"
+                                                                                                   name="update_flag"
+                                                                                                   value="update">
+                                                                                            <div class="form-group row">
+                                                                                                <label for="update_comment_content_${comment.comment_id}"
+                                                                                                       class="col-sm-2 col-form-label text-info">
+                                                                                                    답변*</label>
+                                                                                                <div class="col-sm-10">
+                                                <textarea name="comment_content"
+                                                          id="update_comment_content_${comment.comment_id}"
+                                                          class="form-control"
+                                                          placeholder="답변을 입력하세요"
+                                                          data-valid="required">${comment.comment_content}</textarea>
+                                                                                                    <div class="invalid-feedback">
+                                                                                                        답변을 입력하세요
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-secondary"
+                                                                                                data-dismiss="modal">
+                                                                                            닫기
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-info"
+                                                                                                onclick="submitUpdate('${comment.comment_id}')"
+                                                                                                id="updateSubmit">
+                                                                                            수정
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                        <%-- UPDATE MODAL END --%>
+
+                                                                        <%-- DELETE MODAL START --%>
+                                                                    <div id="update__modal__wrapper">
+                                                                        <div class="modal fade"
+                                                                             id="deleteModal_${comment.comment_id}"
+                                                                             data-backdrop="static"
+                                                                             data-keyboard="false"
+                                                                             tabindex="-1"
+                                                                             aria-labelledby="delete_staticBackdropLabel_${comment.comment_id}"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title text-danger">
+                                                                                            답변삭제
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form method="post"
+                                                                                              action="<c:url value="/comment/updateAction"/>"
+                                                                                              id="deleteForm_${comment.comment_id}">
+                                                                                            <input type="hidden"
+                                                                                                   name="${_csrf.parameterName}"
+                                                                                                   value="${_csrf.token}">
+                                                                                            <input type="hidden"
+                                                                                                   name="comment_id"
+                                                                                                   value="${comment.comment_id}">
+                                                                                            <input type="hidden"
+                                                                                                   name="comment_ref"
+                                                                                                   value="${comment.comment_ref}">
+                                                                                            <input type="hidden"
+                                                                                                   name="update_flag"
+                                                                                                   value="delete">
+                                                                                            <h6 class="text-warning">
+                                                                                                삭제를 원하시면 확인을 눌러주세요
+                                                                                            </h6>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-secondary"
+                                                                                                data-dismiss="modal">
+                                                                                            닫기
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-danger"
+                                                                                                onclick="submitDelete('${comment.comment_id}')"
+                                                                                                id="deleteSubmit">
+                                                                                            삭제
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                        <%-- DELETE MODAL END --%>
+                                                                </div>
+                                                            </c:if>
+
                                                         </div>
                                                         <div class="card-footer text-right">
-                                                            <small class="text-muted ">${comment.created_at}</small>
+                                                            <small class="text-muted ">${comment.updated_at.substring(0,10)}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -102,18 +255,18 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-12" id="reply__modal__wrapper">
                             <button type="button" class="btn btn-success" data-toggle="modal"
                                     data-target="#staticBackdrop" id="replyModalOpenBtn">
                                 답변달기
                             </button>
-
+                            <%-- CREATE MODAL START --%>
                             <div class="modal fade" id="replyModal" data-backdrop="static" data-keyboard="false"
-                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                 tabindex="-1" aria-labelledby="reply_staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">답변달기</h5>
+                                            <h5 class="modal-title" id="reply_staticBackdropLabel">답변달기</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -135,7 +288,8 @@
 
                                                 <div class="form-group row">
                                                     <label for="comment_content" class="col-sm-2 col-form-label">
-                                                        답변*</label>
+                                                        답변*
+                                                    </label>
                                                     <div class="col-sm-10">
                                                 <textarea name="comment_content" id="comment_content"
                                                           class="form-control"
@@ -157,6 +311,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <%-- CREATE MODAL END --%>
                         </div>
                     </div>
                 </div>

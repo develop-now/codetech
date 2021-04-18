@@ -35,9 +35,14 @@ public class CommentDAO {
         return sqlSession.insert("Comments.create", comment);
     }
 
-    public int deleteComment(Comment comment) {
-        return sqlSession.update("Comment.update", comment);
+    public int updateComment(Map<String, Object> param) {
+        return sqlSession.update("Comments.update", param);
     }
+
+    public Comment getComment(int user_id) {
+        return sqlSession.selectOne("Comments.getComment", user_id);
+    }
+
 
 	public Comment selectComment(int comment_id) {
 		return sqlSession.selectOne("Comments.selectComment", comment_id);
@@ -46,5 +51,6 @@ public class CommentDAO {
 	public Report readCommentReport(int cmt_report_id) {
 		return sqlSession.selectOne("Comments.readCommentReport", cmt_report_id);
 	}
+
 
 }

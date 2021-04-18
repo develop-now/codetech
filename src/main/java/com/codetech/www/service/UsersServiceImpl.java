@@ -13,14 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.MenuDAO;
+import com.codetech.www.dao.OrderDAO;
 import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Report;
-import com.codetech.www.domain.Store;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
-import com.codetech.www.domain.UserPlusInfo;
+import com.codetech.www.domain.*;
 
 
 @Service
@@ -35,6 +31,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Autowired
     private MenuDAO mdao;
+    
+    @Autowired
+    private OrderDAO odao;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -145,8 +144,64 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public int addReport(Report report) {
 		return dao.addReport(report);
+
+	public int getMenuCount(int user_id) {
+		return mdao.getMenuCount(user_id);
+
+	}
+
+	@Override
+	public List<Order> getOrder(int user_id, int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		map.put("user_id", user_id);
+		return odao.getOrder(map);
+
+	}
+
+	@Override
+	public List<Store> getStoreForOrder(int user_id, int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		map.put("user_id", user_id);
+		return odao.getStoreForOrder(map);
+
+	}
+
+	@Override
+	public List<OrderDetail> getOrderDetail(int user_id, int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		map.put("user_id", user_id);
+		return odao.getOrderDetail(map);
+
+	}
+
+	@Override
+	public List<Menu> getMenuForOrder(int user_id, int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		map.put("user_id", user_id);
+		return odao.getMenuForOrder(map);
+
+	}
+
+	@Override
+	public int getListCount(int user_id) {
+		return odao.getListCount(user_id);
+
 	}
 	 
-	
-	
 }

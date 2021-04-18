@@ -17,7 +17,10 @@
 	</insert>
 
 	<select id="read" resultType="menu" parameterType="int">
-		select s.store_name, m.*, c.category_name, mt.status_value as
+		select s.store_name,
+		m.*,
+		c.category_name,
+		mt.status_value as
 		menu_status_value
 		from menus m
 		join stores s on m.store_id = s.store_id
@@ -44,7 +47,10 @@
 	</update>
 
 	<select id="listByOwner" resultType="menu" parameterType="int">
-		select s.store_name, m.*, c.category_name, mt.status_value as
+		select s.store_name,
+		m.*,
+		c.category_name,
+		mt.status_value as
 		menu_status_value
 		from menus m
 		join stores s on m.store_id = s.store_id
@@ -57,7 +63,10 @@
 		, m.menu_name
 	</select>
 	<select id="listByStore" resultType="menu" parameterType="int">
-		select s.store_name, m.*, c.category_name, mt.status_value as
+		select s.store_name,
+		m.*,
+		c.category_name,
+		mt.status_value as
 		menu_status_value
 		from menus m
 		join stores s on m.store_id = s.store_id
@@ -71,13 +80,23 @@
 	</select>
 
 	<select id="topMenu" resultType="menu" parameterType="int">
-		select * from menus where store_id = #{store_id} and rownum &lt;= 3
+		select *
+		from menus
+		where store_id = #{store_id}
+		and rownum &lt;= 3
 		order by menu_order_count desc
 	</select>
 
 	<select id="allMenu" resultType="menu" parameterType="int">
-		select * from menus where store_id = #{store_id}
+		select *
+		from menus
+		where store_id = #{store_id}
 	</select>
+
+	<select id="menuCount" resultType="int" parameterType="int">
+		select count(*) from menus where store_id = #{store_id}
+	</select>
+
 
 
 </mapper>

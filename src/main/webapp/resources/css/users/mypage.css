@@ -270,4 +270,12 @@ img.modifyModal__img-profile{
 	background-color: #6b9068ba;
 	color:white;
 	opacity:0.9;}
+	
+	.more{
+	text-align:center;
+}
+
+.pageInc{
+	background-color:#6b9068ba !important;
+}
 /*mypage-review end*/

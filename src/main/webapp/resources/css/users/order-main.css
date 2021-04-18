@@ -1,0 +1,19 @@
+h2, h5, .basketprice, .num, .updown, .menuName {
+	display: inline;
+}
+
+h4, #sum_p_num, #sum_p_price, sum_p_name {
+	text-align: center;
+	font-size: large;
+}
+
+#pmbtn {
+	color: #be9f7b;
+	font-size: 2em;
+	letter-spacing: -5px;
+}
+
+.menuName, .buttonGroup {
+	text-align: center;
+	font-size: large;
+}
