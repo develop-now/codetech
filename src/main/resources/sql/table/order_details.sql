@@ -12,6 +12,7 @@ create table order_details
     constraint fk_detail_menu foreign key (menu_id) references menus (menu_id)
 );
 
+
 insert into order_details (detail_id, detail_total_price, order_id, menu_id)
 values (1, '33000', 1, 1);
 
@@ -50,5 +51,8 @@ values (12, '39000', 9, 9);
 
 insert into order_details (detail_id, detail_total_price, order_id, menu_id)
 values (13, '96000', 10, 7);
+
+select * from order_details;
+
 
 commit;

@@ -3,6 +3,8 @@ package com.codetech.www.service;
 import java.util.List;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
@@ -33,6 +35,18 @@ public interface UsersService {
 	List<Menu> getAllMenu(int store_id);
 	
 	int modifyInfo(UserInfo ui);
+
+	int getMenuCount(int store_id);
+
+	List<Order> getOrder(int user_id, int page, int limit);
+
+	List<Store> getStoreForOrder(int user_id, int page, int limit);
+
+	List<OrderDetail> getOrderDetail(int user_id, int page, int limit);
+
+	List<Menu> getMenuForOrder(int user_id, int page, int limit);
+
+	int getListCount(int user_id);
 
 
 }

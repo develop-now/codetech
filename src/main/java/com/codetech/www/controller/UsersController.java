@@ -33,6 +33,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Comment;
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
@@ -414,21 +416,62 @@ public class UsersController {
 		int storeLike = usersService.getStoreLike(store_id);
 		List<Menu> topMenu = usersService.getTopMenu(store_id);
 		List<Menu> allMenu = usersService.getAllMenu(store_id);
+		int menuCount = usersService.getMenuCount(store_id);
+		
 		mv.setViewName("user/order-main");
 		mv.addObject("store", store);
 		mv.addObject("storeLike", storeLike);
 		mv.addObject("topMenu", topMenu);
 		mv.addObject("allMenu", allMenu);
+		mv.addObject("menuCount", menuCount);
 		return mv;
 
-		// , Store store, Menu menu /*,cart빈 생성, likes 테이블 빈*/사용
-		// 가게 주문하기 클릭하면 이동되어옴, 각테이블에서 정보 가져와서
-		// jsp에서 삭제를 선택한 경우 어디로 들어가서 어떻게 처리하고 넘겨주는지 생각해보기
-		// 옵션에서 선택한 값들이 있으면 rightnav에 값넘겨줘야함 map으로 정리해서 보내?
-		// 옵션에 대한 총 가격들 계산은 js에서하는지 어디서 할지 생각
-		// cart에 값 담아놓기
-		// order-main.jsp로 이동
 
+	}
+    
+    
+    @RequestMapping(value = "/orderView", method = RequestMethod.GET)
+	public ModelAndView orderView(int user_id, ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+    	int limit = 4;
+		int listCount = usersService.getListCount(user_id);
+
+    	List<Order> orders = usersService.getOrder(user_id, page, limit);
+    	List<Store> store = usersService.getStoreForOrder(user_id, page, limit);
+    	List<OrderDetail> orderDetail = usersService.getOrderDetail(user_id, page, limit);
+    	List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
+    	if (listCount > orders.size()) {
+			mv.addObject("more", 1);
+		}
+    	
+		mv.setViewName("user/order-list");
+		mv.addObject("store", store);
+		mv.addObject("orders", orders);
+		mv.addObject("orderDetail", orderDetail);
+		mv.addObject("menu", menu);
+		return mv;
+	}
+    
+    @RequestMapping(value = "/orderViewAjax", method = RequestMethod.GET)
+	public ModelAndView orderViewAjax(int user_id, ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+    	int limit = 4;
+		int listCount = usersService.getListCount(user_id) - limit;
+
+    	List<Order> orders = usersService.getOrder(user_id, page, limit);
+    	List<Store> store = usersService.getStoreForOrder(user_id, page, limit);
+    	List<OrderDetail> orderDetail = usersService.getOrderDetail(user_id, page, limit);
+    	List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
+    	if (listCount > orders.size()) {
+			mv.addObject("more", 1);
+		}
+    	
+		mv.setViewName("user/order-listAjax");
+		mv.addObject("store", store);
+		mv.addObject("orders", orders);
+		mv.addObject("orderDetail", orderDetail);
+		mv.addObject("menu", menu);
+		return mv;
 	}
 
 
@@ -449,10 +492,7 @@ public class UsersController {
 
     }
 
-    @RequestMapping(value = "/payment", method = RequestMethod.GET)
-    public void payment(/*cart 빈*/) {
 
-    }
 
     @RequestMapping(value = "/orderList", method = RequestMethod.GET)
     public void orderList(String user_id) {

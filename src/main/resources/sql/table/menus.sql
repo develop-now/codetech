@@ -79,8 +79,9 @@ values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 4, 3);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
+
 values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 1);
+        'image.jpg', 'image.jpg', 5, 3);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
@@ -92,5 +93,6 @@ values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
 
 select *
 from menus;
+
 
 commit;
