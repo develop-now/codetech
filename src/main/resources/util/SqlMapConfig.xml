@@ -12,6 +12,7 @@
         <typeAlias alias="storemap" type="com.codetech.www.domain.StoreMap"/>
         <typeAlias alias="menu" type="com.codetech.www.domain.Menu"/>
         <typeAlias alias="order" type="com.codetech.www.domain.Order"/>
+        <typeAlias alias="order-detail" type="com.codetech.www.domain.OrderDetail"/>
         <typeAlias alias="user" type="com.codetech.www.domain.User"/>
         <typeAlias alias="staff" type="com.codetech.www.domain.Staff"/>
         <typeAlias alias="comment" type="com.codetech.www.domain.Comment"/>

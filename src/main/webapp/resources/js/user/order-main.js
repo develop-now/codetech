@@ -24,14 +24,19 @@ let basket = {
 
 	// 화면 업데이트
 	updateUI : function() {
-		document.querySelector('#sum_p_num').textContent = '총 : '
-				+ this.totalCount.formatNumber() + '개';
-		document.querySelector('#sum_p_price').placeholder = 
+		document.querySelector('#sum_p_num').textContent = '총 : ' 
+			+ this.totalCount.formatNumber() + '개';
+	document.querySelector('#sum_p_price').textContent	 = 
+			this.totalPrice.formatNumber(); + '원';
+		document.querySelector('#sum_p_numA').value = 
+				+ this.totalCount.formatNumber();
+		document.querySelector('#sum_p_priceA').value	 = 
 				this.totalPrice.formatNumber();
 	},
 	// 개별 수량 변경 인기메뉴
 	changePNum : function(pos) {
-
+		var itemM = document.querySelector('input[name=p_name' + pos + ']');
+		var p_name = itemM	.getAttribute('value');
 		var item = document.querySelector('input[name=p_num' + pos + ']');
 		var p_num = parseInt(item.getAttribute('value'));
 		var newval = event.target.classList.contains('up') ? p_num + 1
@@ -41,7 +46,7 @@ let basket = {
 		if (parseInt(newval) < 0 || parseInt(newval) > 99) {
 			return false;
 		}
-
+		
 		item.setAttribute('value', newval);
 		item.value = newval;
 
@@ -56,6 +61,7 @@ let basket = {
 	},
 	// 개별 수량 변경 전체메뉴
 	changePANum : function(pos) {
+		
 		var itemA = document.querySelector('input[name=p_numA' + pos + ']');
 		var p_numA = parseInt(itemA.getAttribute('value'));
 		var newvalA = event.target.classList.contains('up') ? p_numA + 1
@@ -65,7 +71,12 @@ let basket = {
 		if (parseInt(newvalA) < 0 || parseInt(newvalA) > 99) {
 			return false;
 		}
-
+		
+		if(parseInt(newvalA) > 0) {
+			document.querySelector('.order_menu').value = p_numA +1;
+		}
+		
+	
 		itemA.setAttribute('value', newvalA);
 		itemA.value = newvalA;
 
@@ -81,6 +92,7 @@ let basket = {
 		this.reCalc();
 		this.updateUI();
 	},
+	
 	delItem : function() {
 		event.target.parentElement.parentElement.parentElement.remove();
 	}
@@ -97,6 +109,9 @@ Number.prototype.formatNumber = function() {
 	return nstr;
 };
 
+	
+
+  
 
 
 

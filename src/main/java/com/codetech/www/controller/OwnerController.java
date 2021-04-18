@@ -241,9 +241,16 @@ public class OwnerController {
 
 	}
 
-	@RequestMapping(value = "/payment")
-	public String payment() {
-		return "payment";
+	@RequestMapping(value = "/pay")
+	public ModelAndView pay(@RequestParam(value = "user_id", defaultValue = "1", required = false) int user_id,
+int amount, String totalPrice, ModelAndView mv) {
+		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
+		String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
+		mv.addObject("amount", amount);
+		mv.addObject("newtotalPrice", newtotalPrice);
+		mv.addObject("user", user);
+		mv.setViewName("owner/payment");
+		return mv;
 	}
 	
 	@ResponseBody

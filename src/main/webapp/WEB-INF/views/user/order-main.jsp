@@ -25,8 +25,10 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
+
 </head>
 <body>
+
 	<div class="container-fluid px-0">
 		<%-- main nav --%>
 		<%@include file="../partial/nav.jsp"%>
@@ -39,7 +41,7 @@
 
 
 		<!-- Page Content -->
-	
+
 		<div class="container-fluid">
 			<div class="row">
 				<%@include file="user-nav-mypage.jsp"%>
@@ -58,6 +60,7 @@
 						</div>
 						<div class="menuView">
 							<div class="topMenu">
+								<input type="hidden" id="menuCount" value="${menuCount }">
 								<br>
 								<h4>인기메뉴</h4>
 								<hr>
@@ -67,7 +70,12 @@
 											src="${pageContext.request.contextPath}/resources/upload/${topMenu.menu_saved_image}"
 											width="100" height="100" alt="">&nbsp;&nbsp;
 										<div class="menuName">
-										<span id="menuNameA${status.count}">${topMenu.menu_name }</span></div>
+											<input type="hidden" name="o_menu${status.count}"
+												id="o_menu${status.count}" class="o_menu"
+												value="${topMenu.menu_name }"> <span
+												id="menuNameA${status.count}">${topMenu.menu_name }</span>
+
+										</div>
 										&nbsp;&nbsp;
 
 										<div class="basketprice">
@@ -89,7 +97,9 @@
 													onclick="javascript:basket.changePNum(${status.count});"><i
 													class="fas fa-arrow-alt-circle-up up"></i></span> <span id="pmbtn"
 													onclick="javascript:basket.changePNum(${status.count});"><i
-													class="fas fa-arrow-alt-circle-down down"></i></span>
+													class="fas fa-arrow-alt-circle-down down"></i></span> <input
+													type="hidden" name="p_name${status.count}" class="h_menu"
+													value="${topMenu.menu_name }">
 											</div>
 										</div>
 
@@ -132,8 +142,11 @@
 									<img class="card-img-heart"
 										src="${pageContext.request.contextPath}/resources/upload/${allMenu.menu_saved_image}"
 										width="100" height="100" alt=""> &nbsp;&nbsp;<h5>${allMenu.menu_name }</h5>&nbsp;&nbsp;
-											
-												<div class="basketprice">
+																						<input type="hidden" name="o_menu${status.count}"
+										id="o_menu${status.count}" class="o_menu"
+										value="${allMenu.menu_name }">
+
+									<div class="basketprice">
 										<input type="hidden" name="p_price"
 											id="p_price${status.count}" class="p_price"
 											value="${allMenu.menu_price }">
@@ -160,45 +173,47 @@
 							</c:forEach>
 
 
-							<br>
-							<br>
-							<br>
+							<br> <br> <br>
 						</div>
 					</div>
-					<div class="payMentView">
+					<div class="payMentView"></div>
+					<form action="${pageContext.request.contextPath}/owner/pay"
+						method="get">
+						<div  class="bigtext right-align sumcount" id="sum_p_num"
+							> </div><div 
+							class="bigtext right-align box blue summoney" id="sum_p_price"
+							 ></div>
+						<input type="hidden" class="bigtext right-align sumcount" id="sum_p_numA"
+							name="amount"> <input type="hidden"
+							class="bigtext right-align box blue summoney" id="sum_p_priceA"
+							name="totalPrice" > <br> <br> <input
+							class="order_menu">
+							<div class="testmenu"></div>
 
-						<div class="bigtext right-align sumcount" id="sum_p_name">총:
-							개</div>
-						<div class="bigtext right-align sumcount" id="sum_p_num">총:
-							개</div>
-							<form action="${pageContext.request.contextPath}/owner/pay"
-					method="get">
-						<input class="bigtext right-align box blue summoney"
-							id="sum_p_price" name="amount">합계금액: 원
-							<br>
-							<br>
 
 
-<div class="buttonGroup">
-						<button class="w3-button w3-khaki">장바구니 담기</button>
-						<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
-						<input type="hidden" name="user_id" value="${user_id}">
-					
-						
+						<div class="buttonGroup">
+							<button class="w3-button w3-khaki">장바구니 담기</button>
+							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
+							<input type="hidden" name="user_id" value="${user_id}">
+
+
 						</div>
-						</form>	
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
 	<!-- /.container -->
-	i
+
 	<%-- footer --%>
 	<%@include file="../partial/footer.jsp"%>
 	</div>
 
-</form>
+
+
+
 
 </body>
 </html>
