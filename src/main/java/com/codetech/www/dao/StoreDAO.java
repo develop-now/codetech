@@ -124,5 +124,8 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.storeCustomer", param);
     }
 
+    public List<Profit> getStoreProfit(Map<String, Object> param) {
+        return sqlSession.selectList("Stores.storeProfit", param);
+    }
 
 }
