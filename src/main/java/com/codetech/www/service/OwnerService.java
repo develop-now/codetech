@@ -6,6 +6,7 @@ import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.UserPlusInfo;
 
 
 public interface OwnerService {
@@ -32,6 +33,10 @@ public interface OwnerService {
 	public List<User> getAdmin(int user_id);
 
 	public List<UserInfo> getAdminInfo(int user_id);
+
+	public Store getStore(int store_id);
+
+	public UserPlusInfo getOwnerInfo(int user_id);
 
 
 

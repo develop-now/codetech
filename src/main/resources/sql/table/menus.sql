@@ -68,4 +68,5 @@ insert into menus (menu_id, menu_name, menu_desc, menu_price,
 values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 4, 3);
 
+        select * from menus;
 commit;

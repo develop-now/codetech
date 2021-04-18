@@ -107,8 +107,41 @@
         where store_id = #{store_id}
     </update>
 
-    <!--    after this line for main    -->
+    <select id="storeCustomerCount" parameterType="int" resultType="int">
+        select count(*)
+        from (select o.order_user as customer_id, count(*) as order_count
+              from orders o
+              where store_id = #{store_id}
+              group by order_user
+             ) j
+                 left join user_info f on f.user_id = j.customer_id
+    </select>
 
+    <select id="storeCustomer" parameterType="map" resultType="customer">
+        select *
+        from (select rownum as rnum, r.*
+        from (
+        select nvl(f.user_name, 'DEFAULT_USER_') as customer_name, j.*
+        from (select o.order_user as customer_id, count(*) as order_count
+        from orders o
+        where store_id = #{store_id}
+        group by order_user
+        ) j
+        left join user_info f on f.user_id = j.customer_id
+        order by
+        <choose>
+            <when test="order_key == 'order_count'">
+                order_count
+            </when>
+            <when test="order_key == 'customer_name'">
+                customer_name
+            </when>
+        </choose>
+        desc, customer_id desc) r)
+        where rnum between #{startRow} and #{endRow}
+    </select>
+
+    <!--    after this line for main    -->
     <select id="forMain" resultType="store">
         select bb.*, rownum from (
         <include refid="storeCall"/>
@@ -197,6 +230,20 @@
     <!--        <include refid="forSearch"/>-->
     <!--        and rownum &lt;= 1-->
     <!--    </select>-->
+
+    <select id="storeInfo" resultType="store" parameterType="int">
+        select *
+        from stores
+        where store_id = #{store_id}
+
+    </select>
+
+    <select id="storeLikeCount" resultType="int" parameterType="int">
+        select like_count from (
+        <include refid="storeCall"/>
+        ) where store_id = #{store_id}
+
+    </select>
 
 
 </mapper>

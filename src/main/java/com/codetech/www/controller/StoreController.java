@@ -1,7 +1,6 @@
 package com.codetech.www.controller;
 
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Store;
+import com.codetech.www.domain.*;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -45,7 +44,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("list", list);
 
-        return "store/store-list";
+        return "store/CRUD/store-list";
     }
 
     @ResponseBody
@@ -60,6 +59,7 @@ public class StoreController {
         Map<String, Object> rtn = new HashMap<String, Object>();
 
         rtn.put("list", list);
+        rtn.put("success", list.size() > 0);
 
         return rtn;
     }
@@ -70,7 +70,7 @@ public class StoreController {
 
         Store store = storeService.readStore(store_id);
         model.addAttribute("store", store);
-        return "store/store-read";
+        return "store/CRUD/store-read";
     }
 
     @RequestMapping(value = "/store-update", method = RequestMethod.GET)
@@ -79,7 +79,7 @@ public class StoreController {
 
         Store store = storeService.readStore(store_id);
         model.addAttribute("store", store);
-        return "store/store-update";
+        return "store/CRUD/store-update";
     }
 
     @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
@@ -141,7 +141,7 @@ public class StoreController {
     public String createStore(Model model) {
         model.addAttribute("storeNav", "storeCreate");
 
-        return "store/store-create";
+        return "store/CRUD/store-create";
     }
 
     @RequestMapping(value = "/createAction", method = RequestMethod.POST)
@@ -229,10 +229,29 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/store-profit", method = RequestMethod.GET)
-    public String getStoreProfit(@RequestParam(value = "store_id") int store_id, Model model) {
+    public String getStoreProfit(HttpSession session, Model model) {
         model.addAttribute("storeNav", "storeProfit");
 
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
         return "store/store-profit";
+    }
+
+    @RequestMapping(value = "/store-comment", method = RequestMethod.GET)
+    public String getStoreCommentList(HttpSession session, Model model) {
+        model.addAttribute("storeNav", "storeComment");
+
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> list = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_list", list);
+
+        return "store/comment/store-comment";
     }
 
     @RequestMapping(value = "/store-staff", method = RequestMethod.GET)
@@ -245,7 +264,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/store-staff";
+        return "store/staff/store-staff";
     }
 
     @RequestMapping(value = "/store-customers", method = RequestMethod.GET)
@@ -261,6 +280,24 @@ public class StoreController {
         return "store/store-customers";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/customer-list-ajax", method = RequestMethod.GET)
+    public Map<String, Object> customerListAjax(@RequestParam(value = "store_id") int store_id,
+                                                @RequestParam(value = "page") int page,
+                                                @RequestParam(value = "order_key") String order_key) {
+
+        Map<String, Object> rtn = new HashMap<>();
+
+        int listCount = storeService.getStoreCustomerCount(store_id);
+        List<Customer> list = storeService.getStoreCustomer(store_id, page, order_key);
+
+        rtn.put("success", list.size() > 0);
+        rtn.put("list", list);
+        rtn.put("listCount", listCount);
+
+        return rtn;
+    }
+
     @RequestMapping(value = "/order-list", method = RequestMethod.GET)
     public String getOrderList(HttpSession session, Model model) {
         model.addAttribute("storeNav", "orderList");
@@ -271,7 +308,7 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/order-list";
+        return "store/order/order-list";
     }
 
     @RequestMapping(value = "/menu-list", method = RequestMethod.GET)
@@ -284,6 +321,6 @@ public class StoreController {
         List<Store> list = storeService.getStoreListByOwner(owner_id);
         model.addAttribute("store_list", list);
 
-        return "store/menu-list";
+        return "store/menu/menu-list";
     }
 }

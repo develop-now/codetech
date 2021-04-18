@@ -9,7 +9,7 @@ public class UserPlusInfo {
 	private String user_address;
 	private String user_profile;
 	private int point;
-	private String originalfile;
+	private String original_file;
 	private MultipartFile uploadfile;
 	
 	// User Bean 내용
@@ -59,11 +59,11 @@ public class UserPlusInfo {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public String getOriginalfile() {
-		return originalfile;
+	public String getOriginal_file() {
+		return original_file;
 	}
-	public void setOriginalfile(String originalfile) {
-		this.originalfile = originalfile;
+	public void setOriginal_file(String original_file) {
+		this.original_file = original_file;
 	}
 	public MultipartFile getUploadfile() {
 		return uploadfile;

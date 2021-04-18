@@ -2,9 +2,11 @@ package com.codetech.www.service;
 
 import com.codetech.www.dao.MenuDAO;
 import com.codetech.www.dao.StoreDAO;
+import com.codetech.www.domain.Customer;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Store;
 
+import com.codetech.www.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,9 +82,9 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public int storeNameCheck(String name) {
-        Store s = store_dao.storeNameCheck(name);
-
         int result = -1;
+
+        Store s = store_dao.storeNameCheck(name);
 
         if (s != null) {
             result = 1;
@@ -100,4 +102,22 @@ public class StoreServiceImpl implements StoreService {
 
         return false;
     }
+
+    @Override
+    public int getStoreCustomerCount(int store_id) {
+        return store_dao.getStoreCustomerCount(store_id);
+    }
+
+    @Override
+    public List<Customer> getStoreCustomer(int store_id, int page, String order_key) {
+        Map<String, Object> param = new HashMap<>();
+
+        param.put("store_id", store_id);
+        param.put("order_key", order_key);
+        param.put("startRow", 1);
+        param.put("endRow", page * 5);
+
+        return store_dao.getStoreCustomer(param);
+    }
+
 }

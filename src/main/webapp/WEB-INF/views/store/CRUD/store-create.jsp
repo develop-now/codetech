@@ -11,8 +11,8 @@
 <html>
 <head>
     <title>Store Create Page</title>
-    <%@include file="../partial/head.jsp" %>
-    <%@include file="../partial/dateTimePicker.jsp" %>
+    <%@include file="../../partial/head.jsp" %>
+    <%@include file="../../partial/dateTimePicker.jsp" %>
     <script src="${pageContext.request.contextPath}/resources/js/store/store-create.js"></script>
 
     <script>
@@ -27,19 +27,19 @@
 <body>
 <div class="container-fluid" id="bodyWrapper">
     <%-- main nav --%>
-    <%@include file="../partial/nav.jsp" %>
+    <%@include file="../../partial/nav.jsp" %>
 
     <%-- info Modal --%>
-    <%@include file="../partial/infoModal.jsp" %>
+    <%@include file="../../partial/infoModal.jsp" %>
 
     <%-- alert Modal --%>
-    <%@include file="../partial/alertModal.jsp" %>
+    <%@include file="../../partial/alertModal.jsp" %>
 
 
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <%@include file="store-nav.jsp" %>
+            <%@include file="../store-nav.jsp" %>
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
@@ -57,8 +57,8 @@
                             <form action="<c:url value="/store/createAction"/>" method="post"
                                   enctype="multipart/form-data" id="createStoreForm">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-
                                 <input type="hidden" name="owner_id" value="${idValue}">
+
                                 <div class="form-group row">
                                     <label for="store_name" class="col-sm-2 col-form-label">상호명*</label>
                                     <div class="col-sm-10">
@@ -338,7 +338,7 @@
     <!-- /.container -->
 
     <%-- footer --%>
-    <%@include file="../partial/footer.jsp" %>
+    <%@include file="../../partial/footer.jsp" %>
 </div>
 </body>
 </html>

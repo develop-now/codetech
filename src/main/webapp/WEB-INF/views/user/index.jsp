@@ -31,6 +31,8 @@
             <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
                 <p>User Main Content</p>
+                <button type="button" name="reported_cmt" id="reported_cmt" value="cmt">댓글신고</button>
+                <button type="button" name="reported_store" id="reported_store" value="store">가게신고</button>
             </div>
         </div>
     </div>
@@ -38,6 +40,16 @@
 
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
+    
+    <script type="text/javascript">
+    	$('#reported_store').click(function(){
+    		/* var store_id = 선택폼의 input에 store_num이 들어있어야함.값을 가지고 컨트롤러로 이동한다. comment.js참고
+    		*/
+    	})
+    	$('#reported_cmt').click(function(){
+    		/* var commrent_id = 선택폼의 input에 comment_num이 들어있어야함.값을 가지고 컨트롤러로 이동한다. */
+    	})
+    </script>
 </div>
 </body>
 </html>
