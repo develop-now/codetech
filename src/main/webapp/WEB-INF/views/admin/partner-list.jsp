@@ -10,8 +10,8 @@
 <!DOCTYPE html>
 <html>
 <style>
-	/* 왼쪽 상단 회원관리 글씨 css */
-	.parter_h3 {
+	/* 왼쪽 상단 파트너 관리 글씨 css */
+	.partner_h3 {
 		margin: 20px 0px;
 	}
 	
@@ -33,7 +33,7 @@
 		border-collapse: collapse;
 	}
 	
-	.partner_search th, .user_search td {
+	.partner_search th, .partner_search td {
 		padding: 5px 20px;
     	border: 2px solid #e2e2d0;
 	}
@@ -75,17 +75,17 @@
 		text-align: center;
 	} /* 체크 박스 Css End */
 	
-	.Users_tb {
+	.Partner_tb {
 		border-collapse: collapse;
 		width: 100%;
 	}
 
-	.Users_tb tbody {
+	.Partner_tb tbody {
 		text-align: center;
 	}
 	
 	/* 표의 헤더 부분 */
-	.Users_tb tbody > tr:nth-child(1) > th {
+	.Partner_tb tbody > tr:nth-child(1) > th {
 		background: #f5f5ef;
 		font-size: 20px;
 		border-top: 2px solid #e2e2d0;
@@ -93,61 +93,131 @@
 	}
 	
 	/* 표의 td 부분 */
-	.Users_tb td {
+	.Partner_tb td {
 		padding: 10px 20px;
 		border-top: 2px solid #e2e2d0;
 		border-bottom: 2px solid #e2e2d0;
 	}
 	
 	/* row에 마우스 가져다 놓으면 색깔 변경 */
-	.Users_tb tr:hover {
+	.Partner_tb tr:hover {
 		background: #f2f2f2;
 		padding: 10px 20px;
 		border-top: 2px solid #e2e2d0;
 		border-bottom: 2px solid #e2e2d0;
 	}
 	
-	.Usersfunction_gird {
+	.Partnerfunction_gird {
 		text-align: center;
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+		grid-template-columns: 1fr 1fr 1fr 1fr; 
 		margin: 20px 0px;
 	}
 	
+	.PartnerStoreIf_gird {
+		text-align: center;
+		display: grid;
+		grid-template-columns: 1fr 4fr; 
+		margin: 20px 0px;
+	}
+	
+	.PartnerStoreIf_gird li {
+		text-align: left;
+	}
+	
+	
+	.ajax_menu li {
+		text-align: left;
+	}
 	a:link { color: black; text-decoration-line: none;}
  	a:visited { color: black; text-decoration-line: none;}
  	a:hover { color: black; text-decoration-line: none;}
-	
-	.UserSusp {
-		background: #ff9900;
-		text-color: black;
-		padding: 5px;
-	}
-	
-	.UserReAc {
-		background: #e6ccb3;
-		text-color: white;
-		padding: 5px;
-	}
-	
-	.UserBanned {
-		background: red;
-		text-color: black;
-		padding: 5px;
-	}
-	
-	.UserInac {
-		background: #d9b18c;
-		text-color: black;
-		padding: 5px;
-	}
-	
 </style>
 
 <head>
-    <title>User Index</title>
+    <title>Partner Index</title>
     <%@include file="../partial/head.jsp" %>
 <script>
+$(function() {
+	var selectedValue = '${search_field}'
+		
+	/* 선택된 필드 값이 있으면 select class="viewcount"를 가진 option value 값을 유지 */	
+	if (selectedValue != '-1')
+		$(".viewcount").val(selectedValue);
+	
+	$("input[value='${check_state}']").prop('checked', true);
+	
+	$(".PartnerTermi").click(function(event) {
+		var answer = confirm("해당 가게를 계약 해지 하시겠습니까?");
+		
+		if (!answer) {
+			event.preventDefault();
+		}
+	});
+	
+	$(".PartnerSusp").click(function(event) {
+		var answer = confirm("해당 가게를 정지를 하시겠습니까?");
+		
+		if (!answer) {
+			event.preventDefault();
+		}
+	});
+
+	/* 기능 사용시 나오는 알림창 */
+	var result = "${ result }";
+	
+	if (result == 'storeActSuccess') {
+		alert("해당 가게 정지 해제 또는 계약에 성공 했습니다.");	
+	} else if (result == 'storeActFail') {
+		alert("해당 가게 정지 해제 또는 계약에 실패 했습니다.");
+	}
+	
+	if (result == 'termiSuccess') {
+		alert("해당 가게와의 계약을 해지 했습니다.");	
+	} else if (result == 'termiFail') {
+		alert("해당 가게와의 계약 해지를 실패 했습니다.");
+	}
+	
+	if (result == 'storeSuspSuccess') {
+		alert("해당 가게를 정지 했습니다.");
+	} else if (result == 'storeSuspFail') {
+		alert("해당 가게 정지를 실패 했습니다.");
+	}
+	
+	$('#storeIf_btn').click(function() {
+		$.ajax({
+			method : "get",
+			url : "${pageContext.request.contextPath}/admin/PartnerPend",
+			data : { "store_id" : $('#store_id').val() },
+			dataType : "json",
+			cache : false,
+			success : function(data) {
+				console.log(data);
+				$('.ajax_menu').empty();
+				$('.modal-footer').empty();
+				
+				var output = "";
+				output += '<ul>';
+				$(data).each(function(index, item) {
+					output += '	  <li>' + item.menu_name + '</li>';
+					output += '	  <li>' + item.menu_price + '</li>';
+					output += '	  <li>' + item.menu_desc + '</li>';
+				})
+				
+				output += '</ul>';
+				$('.ajax_menu').append(output);	
+				
+				output = '<button type="button" class="btn btn-submit" onClick="storeApprove()">승인</button>'
+				output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>'
+				
+				$('.modal-footer').append(output);
+			},
+			error : function() {
+	            console.log("admin modal err");
+	        }
+		})
+	});
+});
 </script>
 </head>
 <body>
@@ -175,11 +245,21 @@
 								<td>
 									<select class="viewcount" name="search_field">
 										<option value="0" selected>상호명</option>
-										<option value="1">이메일</option>
+										<option value="1">대표명</option>
 										<option value="2">전화번호</option>
 									</select>
-									<input type="text" id="search_word" name="search_word" placeholder="상호명을 입력하세요." value="${search_word}">
-								</td>		
+									<input type="text" id="search_word" name="search_word" value="${search_word}">
+								</td>
+								
+								<td>가게 상태 구분</td>
+								<td>
+								<ul class="checkbox_ul">
+									<li><label><input type="radio" name="check_state" value="0" checked/> 파트너 가게</label></li>
+									<li><label><input type="radio" name="check_state" value="1" /> 파트너 승인 대기</label></li>
+									<li><label><input type="radio" name="check_state" value="2" /> 계약 해지된 가게</label></li>
+									<li><label><input type="radio" name="check_state" value="3" /> 정지된 가게</label></li>
+								</ul>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -187,13 +267,12 @@
 						<button type="submit" id="search_btn">검색</button>
 					</div>
 					<hr style="border: solid 1px #e2e2d0;">
-					
-						
-					<%-- 회원이 있는 경우 --%>
+
+					<%-- 파트너가 있는 경우 --%>
       				<c:if test="${listcount > 0}">
 	      			<div class="Partnerfunction_gird">
 	      				<div id="listcount_div">
-			      			<b><font size=4>회원 수 : ${listcount}</font></b>	      				
+			      			<b><font size=4>파트너 수 : ${listcount}</font></b>	      				
 	      				</div>
 	      				<div></div>
 	      				<div></div>
@@ -201,7 +280,7 @@
 	      				<div></div>
       				</div>    				
       				
-      				<table class="Users_tb">
+      				<table class="Partner_tb">
 			            <tbody>
 			               <tr>
 			                  <th>이메일</th>
@@ -212,6 +291,114 @@
 			                  <th>주소</th>
 			                  <th>관리</th>
 			               </tr>
+			               	               
+			               <c:forEach var="sil" items="${Storelist}">
+			               		<!-- 정상 영업중인 가게 리스트 -->
+			               		<!-- 파트너 승인 대기 리스트 -->
+			               		<!-- 활동 정지를 당한 가게 리스트 -->
+			               		<!-- 계약 관계 종료로 인한 가게 리스트 -->
+			               <c:choose>
+			               		<c:when test="${sil.store_status == 1}">
+			               		<tr>
+			            			<td>${sil.user_email}</td>
+			         				<td>${sil.store_name}</td>
+			         				<td>${sil.user_name}</td>
+			         				<td>${sil.user_tel}</td>
+			         				<td>${sil.store_tel}</td>
+			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
+			         				<td>
+			         					<a href="PartnerSusp?store_id=${sil.store_id}" class="PartnerSusp">가게 정지</a>&nbsp;
+			         				</td>
+			            		</tr>
+			               		</c:when>
+			               		
+			               		<c:when test="${sil.store_status == 3}">
+			               		<tr>
+			            			<td>${sil.user_email}</td>
+			         				<td>${sil.store_name}</td>
+			         				<td>${sil.user_name}</td>
+			         				<td>${sil.user_tel}</td>
+			         				<td>${sil.store_tel}</td>
+			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
+			         				<td>
+			         					<input type="hidden" value="${sil.store_id}" id="store_id">
+		
+										<!-- Large modal -->
+										<button type="button" id="storeIf_btn" class="btn btn-primary" data-toggle="modal"
+												data-target=".bd-example-modal-lg">가게 정보</button>
+										
+										<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+										  <div class="modal-dialog modal-lg">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h4 class="modal-title">${sil.store_name}</h4>
+										      </div>
+										      <div class="modal-body">
+										        <div class="PartnerStoreIf_gird">
+										        	<div>${sil.store_saved_image}</div>
+										        	<div>
+										        		<ul>
+										        			<li>상호명: ${sil.store_name}</li>
+										        			<li>대표명: ${sil.user_name}</li>
+										        			
+										        			<li>가게 주소: ${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</li>
+										        			<li>가게 전화번호: ${sil.store_tel}</li>
+										        			
+										        			<li>평일 영업 시간: ${sil.opening_h_w_open} ~ ${sil.opening_h_w_close}</li>
+										        			<li>휴일 영업 시간: ${sil.opening_h_h_open} ~ ${sil.opening_h_h_close}</li>
+										        			<li>휴일: ${sil.holiday}</li>
+										        		</ul>
+										        	</div>
+										        </div>
+											     	<!-- ajax 처리 -->
+											        <div class="ajax_menu">
+											        	
+											        </div>
+										        </div>
+										      <div class="modal-footer">
+	      											<!-- ajax 처리 -->
+	      											<script>
+		      											function storeApprove() {
+		      												location.href="${pageContext.request.contextPath}/admin/PartnerAct?store_id=${sil.store_id}";
+		      											}
+	      											</script>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+			         				</td>
+			            		</tr>
+			               		</c:when>
+			               		
+			               		<c:when test="${sil.store_status == 4}">
+			               		<tr>
+			            			<td>${sil.user_email}</td>
+			         				<td>${sil.store_name}</td>
+			         				<td>${sil.user_name}</td>
+			         				<td>${sil.user_tel}</td>
+			         				<td>${sil.store_tel}</td>
+			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
+			         				<td>
+			         					<a href="PartnerAct?store_id=${sil.store_id}" class="PartnerActive">가게 정지 해제</a>&nbsp;
+			         				</td>
+			            		</tr>
+			               		</c:when>	
+
+			               		<c:when test="${sil.store_status == 5}">
+			               		<tr>
+			            			<td>${sil.user_email}</td>
+			         				<td>${sil.store_name}</td>
+			         				<td>${sil.user_name}</td>
+			         				<td>${sil.user_tel}</td>
+			         				<td>${sil.store_tel}</td>
+			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
+			         				<td>
+			         					<a href="#" class="PartnerTermi">재계약</a>&nbsp;
+			         				</td>
+			            		</tr>
+			               		</c:when>
+			                </c:choose>
+			            	</c:forEach>
 						</tbody>
       				</table>
 		      	 <div style="margin: 50px;">
@@ -223,12 +410,12 @@
 		
 		               <c:if test="${page > 1}">
 		                  <li class="page-item"><a
-		                     href="userList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     href="PartnerList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">이전</a> &nbsp;</li>
 		               </c:if>
 		
 		
-		               <c:forEach var="a" begin="${startpage}" end="${endpage }">
+		               <c:forEach var="a" begin="${startpage}" end="${endpage}">
 		                  <c:if test="${a == page }">
 		                     <li class="page-item"><a class="page-link current" href="#">${a}</a>
 		                     </li>
@@ -236,7 +423,7 @@
 		
 		                  <c:if test="${a != page }">
 		                     <li class="page-item"><a
-		                        href="userList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                        href="PartnerList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                        class="page-link">${a}</a></li>
 		                  </c:if>
 		               </c:forEach>
@@ -249,7 +436,7 @@
 		
 		               <c:if test="${page < maxpage }">
 		                  <li class="page-item"><a
-		                     href="userList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     href="PartnerList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">&nbsp;다음</a></li>
 		               </c:if>
 		         </ul>
@@ -258,9 +445,9 @@
 			<%-- <c:if test="${listcount > 0}"> end --%>
 			</div>
 			
-			<%-- 회원이 없는 경우 --%>
+			<%-- 파트너가 없는 경우 --%>
 			<c:if test="${listcount == 0 && empty search_word}">
-				<h1>회원이 없습니다.</h1>
+				<h1>파트너가 없습니다.</h1>
 			</c:if>
 			   
 			<c:if test="${listcount == 0 && !empty search_word}">

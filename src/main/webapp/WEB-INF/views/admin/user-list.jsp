@@ -263,7 +263,7 @@
 								<td>회원 구분</td>
 								<td>
 								<ul class="checkbox_ul">
-									<li><label><input type="radio" name="check_state" value="0" /> 회원 활동</label>&nbsp;</li>
+									<li><label><input type="radio" name="check_state" value="0" checked/> 회원 활동</label>&nbsp;</li>
 									<li><label><input type="radio" name="check_state" value="1" /> 회원 탈퇴</label>&nbsp;</li>
 									<li><label><input type="radio" name="check_state" value="2" /> 활동 정지</label>&nbsp;</li>
 									<li><label><input type="radio" name="check_state" value="3" /> 회원 추방</label>&nbsp;</li>

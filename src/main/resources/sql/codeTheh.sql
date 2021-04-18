@@ -152,6 +152,8 @@ insert into store_status
 values (3, 'pending'); -- 가게가 막 생성됐을때
 insert into store_status
 values (4, 'suspending'); -- 활동 정지 상태
+insert into store_status
+values (5, 'termination'); -- 파트너 종료 상태
 
 drop table stores cascade constraints;
 create table stores
@@ -206,7 +208,12 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
-
+        
+insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+values (5, 'Test Store5', '111-222-3333', '목포시', '용해동', '가게 5 설명입니다', '123-56-12325', '/e.png', 'image_url',
+        '09:00', '20:00', '10:00', '20:00', 'friday', 7, 3);
 
 
 drop table categories cascade constraints;
@@ -243,7 +250,7 @@ insert into menu_status
 values (3, 'soldout'); -- 품절
 
 
-drop table menus cascade constraints;
+drop table menus cascade constraints; 
 create table menus
 (
     menu_id             number(6) primary key,
@@ -287,7 +294,7 @@ values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '33000',
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 3);
+        'image.jpg', 'image.jpg', 1, 3); 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '33000',
@@ -312,6 +319,18 @@ insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 4, 3);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 5, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 5, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 5, 3);
 
 drop table order_status cascade constraints;
 create table order_status
