@@ -333,40 +333,28 @@ public class UsersController {
 
         return url;
     }
-
-    @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
-    public String reportWrite(String user_id/*,리포트 테이블 빈*/) {
-        //신고 내역을 가지고 mypage-report.jsp로 이동
-        //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
-        String url = "";
-
-        url = "user/mypage-report_write";
-
-
-        return url;
-    }
     
-    @RequestMapping(value = "/reportWriteAction", method = RequestMethod.GET)
-    public ModelAndView reportWriteAction(
-    								@RequestParam(value="reported_store", defaultValue = "",required=false)String reported_store
-    								,@RequestParam(value="reported_user", defaultValue = "",required=false)String reported_user
+    @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
+    public ModelAndView reportWrite(
+    								@RequestParam(value="reported_store", defaultValue = "0",required=false)String reported_store
+    								,@RequestParam(value="reported_cmt", defaultValue = "0",required=false)String reported_cmt
     								,ModelAndView mv) {
+    	logger.info("reportWrite 도착" +reported_store+reported_cmt );
         //신고 내역을 가지고 mypage-report.jsp로 이동
         //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
     	int store_id=Integer.parseInt(reported_store);
-    	int user_id=Integer.parseInt(reported_user);
+    	int comment_id=Integer.parseInt(reported_cmt);
     	Report report = new Report();
-    	if(reported_store != "") {
+    	if(store_id != 0) {
     		report.setReported_store(store_id);
     		Store store = storeService.readStore(store_id);
     		String user = "";
     		mv.setViewName("user/mypage-report_write");
     		mv.addObject("reported_store", store);
     		mv.addObject("reported_user",user);
-    	}else if(reported_user !="") {
-    		report.setReported_user(user_id);
-    		Comment comment = commentService.getComment(user_id);
-    				
+    	}else if(comment_id != 0) {
+    		report.setReported_user(comment_id);
+    		Comment comment = commentService.selectComment(comment_id);
     		String store = "";
     		mv.setViewName("user/mypage-report_write");
     		mv.addObject("reported_user",comment);
@@ -376,21 +364,78 @@ public class UsersController {
 
     }
     
+    @RequestMapping(value = "/addReport", method = RequestMethod.POST)
+    public String reportWriteAction(Report report
+    				,String reporter_email
+    				,@RequestParam(value="store_id",defaultValue="0", required=false)int reported_store
+    				,@RequestParam(value ="comment_id",defaultValue="0",required=false)int reported_cmt
+    				,RedirectAttributes rattr) {
+    	logger.info("addReport 도착");
+    	logger.info("cmt"+report.getReported_cmt());;
+    	logger.info("store" + report.getReported_store());
+    	String user_email = reporter_email;
+    	User user = usersService.getUserId(user_email);
+    	int user_id = user.getUser_id();
+    	report.setReporter(user_id);
+    	report.setReported_store(reported_store);
+    	report.setReported_cmt(reported_cmt);
+    	
+    	int result = usersService.addReport(report);
+    	if(result == 1) {
+    		rattr.addFlashAttribute("info", "신고내용이 접수 완료되었습니다.");
+    		return "redirect:/user/reportList";
+    	}else {
+    		logger.info("addReport error");
+    	}
+		return null;
+    }
+    
     @RequestMapping(value = "/reportList", method = RequestMethod.GET)
-    public String reportList(String user_id/*,리포트 테이블 빈*/) {
+    public ModelAndView reportList(ModelAndView mv) {
+    	logger.info("reportList도착");
         //신고 내역을 가지고 mypage-report.jsp로 이동
         //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
-        String url = "";
+    	//세션의 아이디를 가지고 comment와 store테이블을 조인한다.
+    	int user_id = (int)session.getAttribute("user_id");
+    	logger.info("접속한유저" + user_id);
 
-        url = "user/mypage-report";
+    	List<Report> report = usersService.reportStoreAndComment(user_id);
+    	//가져온 값을 화면으로 보내준다.
+    	mv.setViewName("user/mypage-report");
+        mv.addObject("list", report);
 
 
-        return url;
+        return mv;
     }
 
     @RequestMapping(value = "/reportDetail", method = RequestMethod.GET)
-    public void reportDetail(String report_id, String user_id /*, 리포트테이블 빈*/) {
-        //신고내용을 작성하지 않을경우 삭제
+    public ModelAndView reportDetail(
+    		@RequestParam(value="store_report_id", defaultValue = "0",required=false)String store_reported
+			,@RequestParam(value="cmt_report_id", defaultValue = "0",required=false)String cmt_reported
+			,ModelAndView mv) {
+      logger.info("여기는 reportDetail");
+      int store_report_id = Integer.parseInt(store_reported);
+      int cmt_report_id = Integer.parseInt(cmt_reported);
+      if(store_report_id != 0 ) {
+    	  Report store_detail = storeService.readStoreReport(store_report_id);
+    	  int store_id = store_detail.getReported_store();
+    	  Store store = storeService.readStore(store_id);
+    	  String store_name = store.getStore_name();
+    	  logger.info(store_name);
+    	  mv.setViewName("user/mypage-report_detail");
+    	  mv.addObject("detail", store_detail);
+    	  mv.addObject("store_name", store_name);
+      }else if(cmt_report_id != 0) {
+    	  Report cmt_detail =  commentService.readCommentReport(cmt_report_id);
+    	  int comment_id = cmt_detail.getReported_cmt();
+    	  Comment comment = commentService.selectComment(comment_id);
+    	  String comment_content = comment.getComment_content(); 
+    	  mv.setViewName("user/mypage-report_detail");
+    	  mv.addObject("detail", cmt_detail);
+    	  mv.addObject("comment_content", comment_content);
+    	  
+      }return mv;
+      
     }
 
     @RequestMapping(value = "/reviewList", method = RequestMethod.GET)

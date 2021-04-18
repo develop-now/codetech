@@ -7,7 +7,9 @@
     <!-- 해당 아이디의 신고내역을 보여준다. 포인트와 비슷한 레이아웃, 신고분류, 처리과정보여주기 -->
     <%@include file="../partial/head.jsp" %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
-    
+ <script>
+ 
+ </script>   
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -56,18 +58,46 @@
 	              			<thead class="mypageReport__table-head">
 	              				<tr>
 	              					<td>No.</td>
-	              					<td>신고내용</td>
+	              					<td>신고제목</td>
+	              					<td>등록일</td>
 	              					<td>처리상태</td>
 	              				</tr>
 	              			</thead>
 	              			<tbody>
+	              			<c:forEach var="list" items="${list}" varStatus="status">
+	              				<input type="hidden" value="${list.report_content}">
 	              				<tr>
-	              					<td>1</td>
-	              					<td>신고내용신고내용</td>
-	              					<td>처리완료</td>
+	              					<td>
+	              						${list.rownum}
+	              					</td>
+	              					<td>
+		              					<c:if test="${list.store_report_id ne 0 }">
+		              					   <a href="../user/reportDetail?store_report_id=${list.store_report_id}">
+		              						${list.report_subject}
+		              					   </a>
+		              					</c:if>
+		              					<c:if test="${list.cmt_report_id ne 0 }">
+		              					   <a  href="../user/reportDetail?cmt_report_id=${list.cmt_report_id}">
+		              						${list.report_subject}
+		              					   </a>
+		              					</c:if>
+	              					<td>
+	              						${list.created_at}
+	              					</td>
+	              					<td>
+		              					<c:if test="${list.report_status eq 1}">
+		              						<span>등록완료</span>
+		              					</c:if>
+		              					<c:if test="${list.report_status eq 2}">
+		              						<span>처리중</span>
+		              					</c:if>
+		              					<c:if test="${list.report_status eq 3}">
+		              						<span>처리완료</span>
+		              					</c:if>
+	              					</td>
 	              				</tr>
+	              			</c:forEach>
 	              			</tbody>
-	              			
 	              		</table>
 	              	</div>
                 </div>
@@ -75,7 +105,6 @@
         </div>
     </div>
     <!-- /.container -->
-
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
 </div>
