@@ -49,5 +49,7 @@ public interface UsersService {
 
 	int favoriteCancel(int user_id, int store_id);
 
+	int cartRegister(int user_id, int amount, int[] m_numA, int[] m_num);
+
 
 }

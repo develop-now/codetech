@@ -67,7 +67,7 @@
 								<div class="topMenu">
 									<input type="hidden" id="menuCount" value="${menuCount }">
 									<br>
-									<h4>인기메뉴</h4>
+									<h4>장바구니</h4>
 									<hr>
 									<c:forEach var="topMenu" items="${topMenu}" varStatus="status">
 										<div class="topMenus">
@@ -77,8 +77,9 @@
 											<div class="menuName">
 												<input type="hidden" name="o_menu"
 													id="o_menu${status.count}" class="o_menu"
-													value="${topMenu.menu_name }"> <input type="hidden"
-													name="m_num" id="m_num${status.count}" class="m_num"
+													value="${topMenu.menu_name }">
+													<input type="hidden" name="m_num"
+													id="m_num${status.count}" class="m_num"
 													value="${topMenu.menu_id }"> <span
 													id="menuNameA${status.count}">${topMenu.menu_name }</span>
 
@@ -96,8 +97,9 @@
 											</div>
 											<div class="num">
 												<div class="updown">
-													<input type="text" name="p_num" id="p_num${status.count}"
-														size="2" maxlength="4" class="p_num" value="0"
+													<input type="text" name="p_num"
+														id="p_num${status.count}" size="2" maxlength="4"
+														class="p_num" value="0"
 														onkeyup="javascript:basket.changePNum(${status.count});">
 													<span id="pmbtn"
 														onclick="javascript:basket.changePNum(${status.count});"><i
@@ -149,8 +151,9 @@
 																						<input type="hidden" name="o_menuA"
 											id="o_menu${status.count}" class="o_menu"
 											value="${allMenu.menu_name }">
-										<input type="hidden" name="m_numA" id="m_numA${status.count}"
-											class="m_numA" value="${allMenu.menu_id }">
+											<input type="hidden" name="m_numA"
+													id="m_numA${status.count}" class="m_numA"
+													value="${allMenu.menu_id }">
 
 										<div class="basketprice">
 											<input type="hidden" name="p_priceA"
@@ -162,8 +165,9 @@
 										</div>
 										<div class="num">
 											<div class="updown">
-												<input type="text" name="p_numA" id="p_numA${status.count}"
-													size="2" maxlength="4" class="p_num" value="0"
+												<input type="text" name="p_numA"
+													id="p_numA${status.count}" size="2" maxlength="4"
+													class="p_num" value="0"
 													onkeyup="javascript:basket.changePANum(${status.count});">
 												<span id="pmbtn"
 													onclick="javascript:basket.changePANum(${status.count});"><i
@@ -188,13 +192,13 @@
 						<input type="hidden" class="bigtext right-align sumcount"
 							id="sum_p_numA" name="amount"> <input type="hidden"
 							class="bigtext right-align box blue summoney" id="sum_p_priceA"
-							name="totalPrice"> <br> <br> <input
-							type="hidden" name="user_id" value="${user_id}"> <input
-							type="hidden" name="store_id" value="${store_id}">
-						<div class="buttonGroup">
-							<button class="w3-button w3-khaki" id="forCart">장바구니 담기</button>
-							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
+							name="totalPrice"> <br> <br>
 
+						<div class="buttonGroup">
+							<button class="w3-button w3-khaki" onclick="${pageContext.request.contextPath}/owner/cart">장바구니 담기</button>
+							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
+							<input type="hidden" name="user_id" value="${user_id}">
+							<input type="hidden" name="store_id" value="${store_id}">
 
 						</div>
 
@@ -210,22 +214,9 @@
 	<%@include file="../partial/footer.jsp"%>
 	</div>
 
-	<script>
-$(function() {
-			$('form').submit(function() {
-				if (($("#sum_p_numA").val() < 1)) {
-					alert("메뉴를 선택하세요");
-					return false;
-				}
-				
-			})
-			
-	$('#forCart').click(function() {
-		$("form").attr("action", "${pageContext.request.contextPath}/user/cartRegister");
-	})		
-})
-			
 
-				</script>
+
+
+
 </body>
 </html>
