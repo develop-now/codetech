@@ -26,5 +26,9 @@ public interface CommentService {
 
 	public Report readCommentReport(int cmt_report_id);
 
+	public List<Comment> getUserCommentList(int user_id, int page);
+
+	public int getCommentCountByUser(int user_id);
+
 
 }
