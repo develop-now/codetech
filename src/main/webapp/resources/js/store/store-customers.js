@@ -75,8 +75,8 @@ function makeCustomerTable(data) {
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `customer_${customer.customer_id}`).removeClass("d-none");
         clonedTr.find(".customer_count").text(`${count--}`);
-        clonedTr.find(".customer_name").append(customer.customer_name);
-        clonedTr.find(".customer_order_count").append(customer.order_count);
+        clonedTr.find(".customer_name").text(customer.customer_name);
+        clonedTr.find(".customer_order_count").text(customer.order_count);
 
         $("#target-tbody").append(clonedTr);
     }

@@ -26,6 +26,7 @@
             const first_store_name = '${first_store_name}';
 
             loadStoreOrder(first_store_id, first_store_name);
+            loadOrderStatus()
         })
     </script>
 
@@ -103,41 +104,32 @@
                             </div>
                         </div>
 
+                        <div class="col-12 mb-3 d-flex justify-content-end">
+                            <div class="mr-auto d-none" id="loadMore--wrapper">
+                                <button class="btn btn-sm btn-success" id="loadMoreBtn">더보기</button>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="order_user" name="customer_order_key"
+                                       class="custom-control-input" value="order_user">
+                                <label class="custom-control-label" for="order_user">이름순</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="order_date" name="customer_order_key"
+                                       class="custom-control-input" value="order_date" checked>
+                                <label class="custom-control-label" for="order_date">최신순</label>
+                            </div>
+                        </div>
+
                         <div class="w-100">
                             <hr>
                         </div>
 
                         <%-- Radio Start --%>
-                        <div class="col-12 mb-3">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="order-all" name="order-status"
-                                       class="custom-control-input" checked>
-                                <label class="custom-control-label" for="order-all">전체보기</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="order-completed" name="order-status"
-                                       class="custom-control-input">
-                                <label class="custom-control-label" for="order-completed">주문 완료만 보기</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="order-cooked" name="order-status"
-                                       class="custom-control-input">
-                                <label class="custom-control-label" for="order-cooked">조리 완료만 보기</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="order-cooking" name="order-status"
-                                       class="custom-control-input">
-                                <label class="custom-control-label" for="order-cooking">조리중만 보기</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="order-received" name="order-status"
-                                       class="custom-control-input">
-                                <label class="custom-control-label" for="order-received">예약 완료만 보기</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="order-cancel" name="order-status"
-                                       class="custom-control-input">
-                                <label class="custom-control-label" for="order-cancel">취소만 보기</label>
+                        <div class="col-12 mb-3" id="status_target">
+                            <div class="custom-control custom-radio custom-control-inline status_template">
+                                <input type="radio" id="order_all" name="order-status"
+                                       class="custom-control-input" value="0" checked>
+                                <label class="custom-control-label" for="order_all">전체보기</label>
                             </div>
                         </div>
                         <%-- Radio End --%>
@@ -163,32 +155,17 @@
                                         <th scope="col">상태변경</th>
                                         <th scope="col">상세메뉴</th>
                                     </tr>
+                                    <tr id="order_template_tr" class="d-none">
+                                        <th scope="row" class="order_count"></th>
+                                        <td class="order_user"></td>
+                                        <td class="order_date"></td>
+                                        <td class="order_status"></td>
+                                        <td class="order_action"></td>
+                                        <td class="order_read"></td>
+                                    </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>2021.04.06 17:00:04</td>
-                                        <td>조리중</td>
-                                        <td>링크</td>
-                                        <td>링크</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>2021.04.06 17:30:04</td>
-                                        <td>주문접수대기</td>
-                                        <td>링크</td>
-                                        <td>링크</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Adrian</td>
-                                        <td>2021.04.06 17:40:04</td>
-                                        <td>주문완료</td>
-                                        <td>링크</td>
-                                        <td>링크</td>
-                                    </tr>
+                                    <tbody id="target-tbody">
+
                                     </tbody>
                                 </table>
                             </div>

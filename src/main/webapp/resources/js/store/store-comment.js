@@ -126,7 +126,7 @@ function makeCommentTable(data) {
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `comment_${comment.comment_id}`).removeClass("d-none");
         clonedTr.find(".comment_count").text(`${count--}`);
-        clonedTr.find(".comment_writer").append(comment.comment_writer_value);
+        clonedTr.find(".comment_writer").text(comment.comment_writer_value);
         clonedTr.find(".comment_content").text(comment.comment_content.length > 30 ?
             comment.comment_content.substr(0, 30) + "..." : comment.comment_content);
         clonedTr.find(".comment_date").text(comment.created_at.substr(0, 11));
