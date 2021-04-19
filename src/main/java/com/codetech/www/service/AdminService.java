@@ -3,6 +3,7 @@ package com.codetech.www.service;
 import java.util.List;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Notice;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -25,5 +26,6 @@ public interface AdminService {
 	
 	public List<Menu> getStoreMenuList(String store_id);
 	
-	public int getNoticeListCount();
+	public List<Notice> getNoticeList(String search_text, int index, int page, int limit);
+	public int getNoticeListCount(String search_text, int index);
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.codetech.www.dao.AdminDAO;
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Notice;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
@@ -18,8 +19,8 @@ import com.codetech.www.domain.UserPlusInfo;
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminDAO dao;
-	private Object[] check_state;
 	
+	/* 사용자 검색 파트 */
 	@Override
 	public List<UserPlusInfo> getUsersSearchList(int index, int state, String search_word, int page, int limit) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -42,7 +43,6 @@ public class AdminServiceImpl implements AdminService {
 		return dao.getUsersSearchList(map);
 	}
 	
-
     @Override
     public int getSearchListCount(int index, int state, String search_word) {
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -79,14 +79,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int user_inac(String user_id) {
 		return dao.user_inac(user_id);
-	}
+	} // 사용자 파트 End 사용자 파트 End 사용자 파트 End 사용자 파트 End 사용자 파트 End 사용자 파트 End 사용자 파트 End
 	
-	@Override
-	public int getNoticeListCount() {
-		return dao.getNoticeListCount();
-	}
-
-
+	
+	/* 가게 리스트 파트 */
 	@Override
 	public int getPartnerSearchListCount(int index, int state, String search_word) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -126,6 +122,7 @@ public class AdminServiceImpl implements AdminService {
 		return dao.getPartnerSearchList(map);
 	}
 	
+	// 계약 대기중 가게 메뉴 리스트
 	@Override
 	public List<Menu> getStoreMenuList(String store_id) {
 		return dao.getStoreMenuList(store_id);
@@ -147,6 +144,42 @@ public class AdminServiceImpl implements AdminService {
 	public int store_act(String store_id) {
 		return dao.store_act(store_id);
 	}
-
-
+	
+	
+	@Override
+	public int getNoticeListCount(String search_text, int index) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (index != -1) {
+			System.out.println("ServiceImpl에서 index 값: " + index);
+			String[] notice_status = new String[] { "1", "2", "3" };
+			
+			System.out.println("대입 된 스테이터스" + notice_status[index]);
+			// 0 넘어오면 공지사항, 1 넘어오면 이벤트, 2 넘어오면 점검사항
+			map.put("notice_status", notice_status[index]);
+			map.put("search_text", "%" + search_text + "%");
+		}
+		
+		return dao.getNoticeListCount(map);
+	}
+	
+	@Override
+	public List<Notice> getNoticeList(String search_text, int index, int page, int limit) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] notice_status = new String[] { "1", "2", "3" };
+			
+			// 0 넘어오면 공지사항, 1 넘어오면 이벤트, 2 넘어오면 점검사항
+			map.put("notice_status", notice_status[index]);
+			map.put("search_text", "%" + search_text + "%");
+		}
+		
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		
+		map.put("start", startrow);
+		map.put("end", endrow);
+		
+		return dao.getNoticeList(map);
+	}
 }
