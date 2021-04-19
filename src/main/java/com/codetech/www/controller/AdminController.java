@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Notice;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
@@ -97,7 +97,8 @@ public class AdminController {
     
     // 회원 정지
     @RequestMapping(value ="/UserSusp", method = RequestMethod.GET)
-    public String userSusp(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    public String userSusp(@RequestParam("user_id") String user_id, RedirectAttributes rattr) {
+    	logger.info("넘어온 아이디 값: " + user_id);
     	int result = adminService.user_susp(user_id);
     	
     	if (result == 1) {
@@ -113,7 +114,7 @@ public class AdminController {
     
     // 정지 해제
     @RequestMapping(value ="/UserReAc", method = RequestMethod.GET)
-    public String userReAc(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    public String userReAc(@RequestParam("user_id") String user_id, RedirectAttributes rattr) {
     	int result = adminService.user_reac(user_id);
     	
     	if (result == 1) {
@@ -129,7 +130,7 @@ public class AdminController {
     
     // 강제 탈퇴
     @RequestMapping(value ="/UserBanned", method = RequestMethod.GET)
-    public String userBanned(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    public String userBanned(@RequestParam("user_id") String user_id, RedirectAttributes rattr) {
     	int result = adminService.user_banned(user_id);
     	
     	if (result == 1) {
@@ -145,7 +146,7 @@ public class AdminController {
     
     // 탈퇴 취소
     @RequestMapping(value ="/UserInac", method = RequestMethod.GET)
-    public String userInac(@RequestParam("user_id") String user_id, Model model, RedirectAttributes rattr, HttpServletRequest request) {
+    public String userInac(@RequestParam("user_id") String user_id, RedirectAttributes rattr) {
     	int result = adminService.user_inac(user_id);
     	
     	if (result == 1) {
@@ -243,7 +244,6 @@ public class AdminController {
     @ResponseBody
     @RequestMapping(value = "/PartnerPend", method = RequestMethod.GET)
     public List<Menu> partnerPend(@RequestParam("store_id") String store_id) {
-    	logger.info("받은 아이디: " + store_id);
     	List <Menu> Menulist = null;
     	
     	Menulist = adminService.getStoreMenuList(store_id);
@@ -271,9 +271,14 @@ public class AdminController {
     
     @RequestMapping(value = "/noticeList", method = RequestMethod.GET)
     public ModelAndView noticeList
-            (@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv) {
+            (@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv,
+             @RequestParam(value = "notice_status", defaultValue = "-1") int index,		
+             @RequestParam(value = "search_text", defaultValue = "") String search_text) {
+    	logger.info("div 영역 눌러서 넘어온 값: " + index);
         int limit = 10; // 한 화면에 출력할 레코드 갯수
-        int listcount = adminService.getNoticeListCount(); // 샐랙트 구문을 통해 리스트 값을 가져옴
+        
+        int listcount = adminService.getNoticeListCount(search_text, index); // 샐랙트 구문을 통해 리스트 값을 가져옴
+        List<Notice> noticelist = adminService.getNoticeList(search_text, index, page, limit); // 리스트를 받아온다.
 
         // 총 페이지 수
         int maxpage = (listcount + limit - 1) / limit;
@@ -287,25 +292,36 @@ public class AdminController {
         if (endpage > maxpage)
             endpage = maxpage;
 
-        // List<Notice> noticelist = userService.getNoticeList(page, limit); // 리스트를 받아온다.
-
-        mv.setViewName("notice/noticeList");
+        mv.setViewName("admin/notice-list");
+        
+        mv.addObject("limit", limit);
         mv.addObject("page", page);
+        
         mv.addObject("maxpage", maxpage);
         mv.addObject("startpage", startpage);
         mv.addObject("endpage", endpage);
+        
+        mv.addObject("noticelist", noticelist);
         mv.addObject("listcount", listcount);
-        // mv.addObject("noticelist", noticelist);
-        mv.addObject("limit", limit);
 
         return mv;
     }
 
     @RequestMapping(value = "/noticeWrite", method = RequestMethod.GET)
     public String noticeWrite() {
-        return "admin/noticeWrite";
+        return "admin/notice-write";
     }
 
+    @RequestMapping(value = "/noticeView", method = RequestMethod.GET)
+    public String noticeView() {
+        return "admin/notice-view";
+    }
+    
+    @RequestMapping(value = "/noticeModify", method = RequestMethod.GET)
+    public String noticeModify() {
+        return "admin/notice-modify";
+    }
+    
     // 원래 파일명, 파일 저장 위치
     private String fileDBName(String fileName, String saveFolder) {
         // 새로운 폴더 이름: 오늘 년 + 월 + 일

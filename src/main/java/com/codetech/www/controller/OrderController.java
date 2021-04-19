@@ -1,5 +1,7 @@
 package com.codetech.www.controller;
 
+import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderStatus;
 import com.codetech.www.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,10 +26,33 @@ public class OrderController {
     private OrderService orderService;
 
     @ResponseBody
+    @RequestMapping(value = "/order-status-ajax", method = RequestMethod.GET)
+    public Map<String, Object> orderStatusListAjax() {
+        Map<String, Object> rtn = new HashMap<>();
+
+        List<OrderStatus> list = orderService.getOrderStatusList();
+
+        rtn.put("list", list);
+        rtn.put("success", list.size() > 0);
+
+        return rtn;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/order-list-ajax", method = RequestMethod.GET)
-    public Map<String, Object> deleteStore(@RequestParam(value = "store_id") int store_id, Model model) {
-        model.addAttribute("storeNav", "storeDelete");
+    public Map<String, Object> orderListAjax(@RequestParam(value = "store_id") int store_id,
+                                             @RequestParam(value = "selected_date") String selected_date,
+                                             @RequestParam(value = "status_id") int status_id,
+                                             @RequestParam(value = "order_key") String order_key,
+                                             @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         Map<String, Object> rtn = new HashMap<String, Object>();
+
+        List<Order> list = orderService.getOrderListAjax(store_id, selected_date, status_id, order_key, page);
+        int listCount = orderService.getOrderListCountAjax(store_id, selected_date, status_id);
+
+        rtn.put("success", list.size() > 0);
+        rtn.put("list", list);
+        rtn.put("listCount", listCount);
 
         return rtn;
     }
