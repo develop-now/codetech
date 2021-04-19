@@ -12,7 +12,25 @@
 <head>
 <style>
 	.notice_h3 {
-		margin: 20px 0px;
+		margin-top: 20px;
+		margin-bottom: 40px
+	}
+	
+	.Not_subject {
+		border-top: solid 1px #4e3418;
+		display: grid;
+		grid-template-columns: 1fr 5fr;
+	}
+	
+	.Not_categories {
+		display: grid;
+		grid-template-columns: 1fr 1.7fr 3.3fr; 
+	}
+	
+	.Not_content {
+		display: grid;
+		grid-template-columns: 1fr 5fr 1fr;
+		padding-top: 30px;
 	}
 	
 	#Notice_subject {
@@ -78,7 +96,7 @@
 	<!-- ckeditor5 -->
 	<script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
 	
-    <title>Admin Notice</title>
+    <title>Notice Write</title>
     <%@include file="../partial/head.jsp" %>  
 </head>
 <body>
@@ -96,22 +114,49 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-sm-10">
-                <h3 class="notice_h3">공지 사항 작성</h3>
-	    		<hr style="border: solid 1px #e2e2d0;">
+                <h3 class="notice_h3">공지 사항 작성</h3> <!-- style="border: solid 1px #e2e2d0; -->
 	    		<div>
-		    		<b><span style="font-size:1.2em">제목</span></b>
-		    		<input type="text" name="Notice_subject" id="Notice_subject" placeholder="공지사항 제목을 입력하세요." required>
+		    		<div class="Not_subject">
+		    			<div style="margin:auto 0px; padding: 30px 0px">
+		    				<b><span style="font-size:1.2em">제목</span></b>
+		    			</div>
+			    		<div style="padding: 30px 0px">
+			    			<input type="text" name="Notice_subject" id="Notice_subject" placeholder="공지사항 제목을 입력하세요." required>
+			    		</div>  		
+		    		</div>
 		    		
-		    		<b><span style="font-size:1.2em">내용</span></b>
-		    		<textarea name="Notice_content" id="Notice_content" placeholder="내용을 입력하세요."></textarea>
-		    		<script>
-			            ClassicEditor /* 에디터 사용을 위해 textarea 밑에 스크립트 추가 */
-			                .create( document.querySelector( '#Notice_content' ))
-			                .catch( error => {
-			                    console.error( error );
-			                });
-			        </script>
-    			</div>
+		    		<div class="Not_categories">
+		    			<div style="margin:auto 0px">
+		    				<b><span style="font-size:1.2em">카테고리</span></b>
+		    			</div>
+		    			<div style="margin:auto 0px; height: 28px">
+				    		<input type="radio" name="noticeCatgories" id="noticeNews" value="0"/><label for="noticeNews">&nbsp;공지사항 &nbsp;</label>
+				    		<input type="radio" name="noticeCatgories" id="noticeEvent" value="1"/><label for="noticeEvent">&nbsp;이벤트 &nbsp;</label>
+				    		<input type="radio" name="noticeCatgories" id="noticeInspect" value="2"/><label for="noticeInspect">&nbsp;점검사항 &nbsp;</label>
+		    			</div>
+		    			<div></div>
+		    		</div>    			    		
+		    		
+		    		<div class="Not_content">
+			    		<div>
+			    			<b><span style="font-size:1.2em">내용</span></b>
+			    		</div>
+			    		<div></div>
+			    		<div style="text-align: right">
+			    			<input type="checkbox" name="noticeTop" id="noticeTop" value="0"/><label for="noticeTop">&nbsp;최상단에 등록</label>
+			    		</div>
+    				</div>
+			    	<div>
+				    	<textarea name="Notice_content" id="Notice_content" placeholder="내용을 입력하세요."></textarea>
+				    	<script>
+					           ClassicEditor /* 에디터 사용을 위해 textarea 밑에 스크립트 추가 */
+					               .create( document.querySelector( '#Notice_content' ))
+					               .catch( error => {
+					                   console.error( error );
+					           });
+					    </script>
+			    	</div>
+		    	</div>    		
     			
 			    <div class="btn_group">
 					<button type=submit class="btn_submit">등록</button>

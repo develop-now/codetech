@@ -74,6 +74,12 @@
 		line-height: 50px;
 		text-align: center;
 	} /* 체크 박스 Css End */
+		
+	.user_status_btn {
+		text-align: center;
+		display: grid;
+		grid-template-columns: 1fr 1fr; 
+	}
 	
 	.Users_tb {
 		border-collapse: collapse;
@@ -114,38 +120,70 @@
 		margin: 20px 0px;
 	}
 	
-	a:link { color: black; text-decoration-line: none;}
- 	a:visited { color: black; text-decoration-line: none;}
- 	a:hover { color: black; text-decoration-line: none;}
-	
 	.UserSusp {
 		background: #ff9900;
 		text-color: black;
 		padding: 5px;
+		margin: 3px;
+	}
+	
+	.UserSusp:hover {
+		background: #ff9900;
+		text-color: black;
+		padding: 5px;
+		margin: 3px;
+		cursor: pointer
 	}
 	
 	.UserReAc {
 		background: #e6ccb3;
 		text-color: white;
 		padding: 5px;
+		margin: 3px;
+	}
+	
+	.UserReAc:hover {
+		background: #e6ccb3;
+		text-color: white;
+		padding: 5px;
+		margin: 3px;
+		cursor: pointer
 	}
 	
 	.UserBanned {
 		background: red;
 		text-color: black;
 		padding: 5px;
+		margin: 3px;
+	}
+	
+	.UserBanned:hover {
+		background: red;
+		text-color: black;
+		padding: 5px;
+		margin: 3px;
+		cursor: pointer
 	}
 	
 	.UserInac {
 		background: #d9b18c;
 		text-color: black;
 		padding: 5px;
+		margin: 3px;
+	}
+	
+	.UserInac:hover {
+		background: #d9b18c;
+		text-color: black;
+		padding: 5px;
+		margin: 3px;
+		cursor: pointer
 	}
 	
 </style>
 
 <head>
-    <title>User Index</title>
+    <title>User List</title>
     <%@include file="../partial/head.jsp" %>
 <script>
 	/* 21-04-13 버그 수정 예정 */
@@ -168,7 +206,9 @@
 		
 		$("input[value='${check_state}']").prop('checked', true);
 		
+		/* 취소 눌러도 실행되는 문제점 해결 해야한 */
 		$(".UserSusp").click(function(event) {
+			console.log("정지 클릭시: " + $('#user_id').val());
 			var answer = confirm("회원 정지를 하시겠습니까?");
 			
 			if (!answer) {
@@ -243,7 +283,7 @@
     <!-- Page Content -->
     <div class="container-fluid">
 		<h3 class="user_h3">회원 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
- 		<hr style="border: solid 1px #e2e2d0;">
+ 		<hr style="border: solid 1px #4e3418;">
 			<form action="userList">
 				<div class=search_div>
 					<b>회원 검색</b><br>
@@ -257,7 +297,7 @@
 										<option value="1">이름</option>
 										<option value="2">전화번호</option>
 									</select>
-									<input type="text" id="search_word" name="search_word" placeholder="이메일을 입력하세요." value="${search_word}">
+									<input type="text" id="search_word" name="search_word" value="${search_word}">
 								</td>
 								
 								<td>회원 구분</td>
@@ -275,7 +315,7 @@
 					<div class="submit_btn">
 						<button type="submit" id="search_btn">검색</button>
 					</div>
-					<hr style="border: solid 1px #e2e2d0;">
+					<hr style="border: solid 1px #4e3418;">
 					
 						
 					<%-- 회원이 있는 경우 --%>
@@ -333,15 +373,22 @@
 			         					</c:choose>
 			         				</td>
 			         				<td>
-			         					<a href="UserSusp?user_id=${users.user_id}" class="UserSusp">회원 정지</a>&nbsp;
-			         					<a href="UserReAc?user_id=${users.user_id}" class="UserReAc">정지 해제</a>&nbsp;
-			         					<a href="UserBanned?user_id=${users.user_id}" class="UserBanned">강제 탈퇴</a>&nbsp;
-			         					<a href="UserInac?user_id=${users.user_id}" class="UserInac">탈퇴 취소</a>&nbsp;
-			         					
-				         				<!-- <button type="button" id="suspending" onclick="">회원 정지</button>&nbsp;
-										<button type="button" id="re_active">정지 해제</button>&nbsp;
-										<button type="button" id="banned">강제 탈퇴</button>&nbsp;
-										<button type="button" id="inactive">탈퇴 취소</button>&nbsp; -->
+				         				<c:choose>
+				         					<c:when test="${users.user_status == 1}">
+				         					<div class="user_status_btn">
+					         					<div class="UserSusp" onclick="location.href='UserSusp?user_id=${users.user_id}';">회원 정지</div>
+					         					<div class="UserBanned" onclick="location.href='UserBanned?user_id=${users.user_id}';">강제 추방</div>
+				         					</div>
+				         					</c:when>
+				         					
+				         					<c:when test="${users.user_status == 2}">
+					         					<div class="UserInac" onclick="location.href='UserInac?user_id=${users.user_id}';">탈퇴 취소</div>
+				         					</c:when>
+				         					
+				         					<c:when test="${users.user_status == 3}">
+					         					<div class="UserReAc" onclick="location.href='UserReAc?user_id=${users.user_id}';">정지 해제</div>
+				         					</c:when>
+			         					</c:choose>
 									</td>
 			            		</tr>	
 			            	</c:forEach>

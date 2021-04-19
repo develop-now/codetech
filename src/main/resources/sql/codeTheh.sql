@@ -203,12 +203,12 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 7, 1);
 
+        
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
-                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+                   store_saved_image, store_original_image, opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
-        
+
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
@@ -998,6 +998,47 @@ create table storemap
 
 insert into storemap
 values (1, '이마트24 카페', '서울시', '종로구', '종로3가', 37.572799, 126.991945);
+
+
+drop table notice_status cascade constraints;
+create table notice_status (
+	notice_status_id number(1) primary key,
+	status_value	 varchar2(20) not null
+);
+
+insert into notice_status
+values (1, 'notice'); -- 공지사항
+insert into notice_status
+values (2, 'event'); -- 이벤트
+insert into notice_status
+values (3, 'inspect'); -- 점검
+
+drop table notice cascade constraints;
+create table notice (
+	notice_id				number(6) 		primary key,
+	notice_status			number(1) 		not null,	-- 공지/이벤트/점검
+	notice_subject			varchar2(100) 	not null,	
+	notice_content  		varchar2(400)	not null,
+	notice_readcount 		number(6) 		default 0,
+	notice_date 			date 			default sysdate,
+	notice_saved_image    	varchar2(200) 	not null,
+    notice_original_image 	varchar2(200) 	not null,
+    
+	-- notice_top				number(1)		default 0,	-- 공지 최상단 고정
+    constraint fk_notice_status foreign key (notice_status) references notice_status (notice_status_id)
+);	
+
+insert into notice
+(notice_id, notice_status, notice_subject, notice_content, notice_readcount, notice_saved_image, notice_original_image)
+values (1, 1, '21/04/19 사이트 안내사항 입니다.', '테스트 입니다.', 1828, 'saved_image', 'original_image');
+
+insert into notice
+(notice_id, notice_status, notice_subject, notice_content, notice_readcount, notice_saved_image, notice_original_image)
+values (2, 2, 'CODETECH를 이용 하시는 모든 분들께 드리는 선물 입니다.', '테스트 입니다.', 1828, 'saved_image', 'original_image');
+
+insert into notice
+(notice_id, notice_status, notice_subject, notice_content, notice_readcount, notice_saved_image, notice_original_image)
+values (3, 3, '21/04/19 사이트 점검사항 입니다.', '테스트 입니다.', 1828, 'saved_image', 'original_image');
 
 
 commit;
