@@ -47,7 +47,13 @@ public class OrderDAO {
         return sqlSession.selectList("Orders.ordered_menu", map);
     }
 
-    public int getListCount(int user_id) {
-        return sqlSession.selectOne("Orders.orderCount", user_id);
-    }
+
+	public int getListCount(int user_id) {
+		return sqlSession.selectOne("Orders.orderCount", user_id);
+	}
+
+	public int cartRegister(HashMap<String, Object> map) {
+		return sqlSession.insert("Orders.cart", map);
+	}
+
 }

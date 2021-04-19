@@ -35,13 +35,12 @@ let basket = {
 	},
 	// 개별 수량 변경 인기메뉴
 	changePNum : function(pos) {
-		var itemM = document.querySelector('input[name=p_name' + pos + ']');
-		var p_name = itemM	.getAttribute('value');
-		var item = document.querySelector('input[name=p_num' + pos + ']');
+		var item = document.querySelector('input[id=p_num' + pos + ']');
 		var p_num = parseInt(item.getAttribute('value'));
 		var newval = event.target.classList.contains('up') ? p_num + 1
 				: event.target.classList.contains('down') ? p_num - 1
 						: event.target.value;
+
 
 		if (parseInt(newval) < 0 || parseInt(newval) > 99) {
 			return false;
@@ -62,7 +61,7 @@ let basket = {
 	// 개별 수량 변경 전체메뉴
 	changePANum : function(pos) {
 		
-		var itemA = document.querySelector('input[name=p_numA' + pos + ']');
+		var itemA = document.querySelector('input[id=p_numA' + pos + ']');
 		var p_numA = parseInt(itemA.getAttribute('value'));
 		var newvalA = event.target.classList.contains('up') ? p_numA + 1
 				: event.target.classList.contains('down') ? p_numA - 1
@@ -72,9 +71,7 @@ let basket = {
 			return false;
 		}
 		
-		if(parseInt(newvalA) > 0) {
-			document.querySelector('.order_menu').value = p_numA +1;
-		}
+	
 		
 	
 		itemA.setAttribute('value', newvalA);

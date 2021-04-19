@@ -45,5 +45,11 @@ public interface UsersService {
 
     int getListCount(int user_id);
 
+	List<Store> getStoreFavorite(int user_id);
+
+	int favoriteCancel(int user_id, int store_id);
+
+	int cartRegister(int user_id, int amount, int[] m_numA, int[] m_num);
+
 
 }

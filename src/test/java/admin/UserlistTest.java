@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
+import com.codetech.www.domain.Notice;
 import com.codetech.www.domain.UserPlusInfo;
 
 
@@ -26,7 +25,7 @@ public class UserlistTest {
 	 @Autowired
 	 private SqlSessionTemplate sqlSession;
 	 
-	 @Test
+	 //@Test
 	 public void getSearchListCount() {
 		 Map<String, Object> map = new HashMap<String, Object>();
 		   
@@ -53,6 +52,36 @@ public class UserlistTest {
 			 logger.info("전화번호: " + result.getUser_tel());
 			 logger.info("주소: " + result.getUser_address());
 			 logger.info("주소: " + result.getUser_status());
+		 }
+	 }
+	 
+	 @Test
+	 public void getNoticeListCount() {
+		 Map<String, Object> map = new HashMap<String, Object>();
+		String[] notice_status = new String[] { "1", "2", "3" };
+				
+		// 0 넘어오면 공지사항, 1 넘어오면 이벤트, 2 넘어오면 점검사항
+		map.put("notice_status", notice_status[1]);
+		map.put("search_text", "%%");
+		 
+		 int count = sqlSession.selectOne("Admin.getNoticeListCount", map);
+		 
+		 logger.info("Notice Count: " + count + "개");
+		 
+		 map.put("start", 1);
+		 map.put("end", 3);
+		 
+		 List<Notice> Userlist = sqlSession.selectList("Admin.getNoticeList", map);
+		   
+		 for (Notice result : Userlist) {
+			 logger.info("번호: " + result.getNotice_id());
+			 logger.info("제목: " + result.getNotice_subject());
+			 logger.info("내용: " + result.getNotice_content());
+			 logger.info("글 상태: " + result.getNotice_status());
+			 logger.info("날짜: " + result.getNotice_date());
+			 logger.info("조회수: " + result.getNotice_readcount());
+			 logger.info("세이브: " + result.getNotice_saved_image());
+			 logger.info("오리지날: " + result.getNotice_original_image());
 		 }
 	 }
 }

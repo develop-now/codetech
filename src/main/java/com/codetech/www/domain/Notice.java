@@ -3,68 +3,59 @@ package com.codetech.www.domain;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Notice {
-	private int      NOTICE_BOARD_NUM;       //글번호
-	private int		 NOTICE_BOARD_FORM;
+	private int      notice_id;       		// 글번호
+	private int		 notice_status;			// 공지/이벤트/점검
 	
-	private String   NOTICE_BOARD_NAME;
-	private String   NOTICE_BOARD_SUBJECT;
-	private String   NOTICE_BOARD_CONTENT;
+	private String   notice_subject;
+	private String   notice_content;
 
-	private int      NOTICE_BOARD_READCOUNT; //글의 조회수
+	private int      notice_readcount;		//글의 조회수
 
 	private MultipartFile uploadfile;
 	
-	private String   NOTICE_BOARD_FILE;      //첨부될 파일의 이름
-	private String 	 NOTICE_BOARD_ORIGINAL;  // 첨부될 파일의 이름
+	private String notice_saved_image; 		// 첨부될 파일의 이름
+	private String notice_original_image;	// 첨부될 파일의 이름
 	
-	private String   NOTICE_BOARD_DATE;
+	private String   notice_date;
 
-	public int getNOTICE_BOARD_NUM() {
-		return NOTICE_BOARD_NUM;
+	public int getNotice_id() {
+		return notice_id;
 	}
 
-	public void setNOTICE_BOARD_NUM(int nOTICE_BOARD_NUM) {
-		NOTICE_BOARD_NUM = nOTICE_BOARD_NUM;
+	public void setNotice_id(int notice_id) {
+		this.notice_id = notice_id;
 	}
 
-	public int getNOTICE_BOARD_FORM() {
-		return NOTICE_BOARD_FORM;
+	public int getNotice_status() {
+		return notice_status;
 	}
 
-	public void setNOTICE_BOARD_FORM(int nOTICE_BOARD_FORM) {
-		NOTICE_BOARD_FORM = nOTICE_BOARD_FORM;
+	public void setNotice_status(int notice_status) {
+		this.notice_status = notice_status;
 	}
 
-	public String getNOTICE_BOARD_NAME() {
-		return NOTICE_BOARD_NAME;
+	public String getNotice_subject() {
+		return notice_subject;
 	}
 
-	public void setNOTICE_BOARD_NAME(String nOTICE_BOARD_NAME) {
-		NOTICE_BOARD_NAME = nOTICE_BOARD_NAME;
+	public void setNotice_subject(String notice_subject) {
+		this.notice_subject = notice_subject;
 	}
 
-	public String getNOTICE_BOARD_SUBJECT() {
-		return NOTICE_BOARD_SUBJECT;
+	public String getNotice_content() {
+		return notice_content;
 	}
 
-	public void setNOTICE_BOARD_SUBJECT(String nOTICE_BOARD_SUBJECT) {
-		NOTICE_BOARD_SUBJECT = nOTICE_BOARD_SUBJECT;
+	public void setNotice_content(String notice_content) {
+		this.notice_content = notice_content;
 	}
 
-	public String getNOTICE_BOARD_CONTENT() {
-		return NOTICE_BOARD_CONTENT;
+	public int getNotice_readcount() {
+		return notice_readcount;
 	}
 
-	public void setNOTICE_BOARD_CONTENT(String nOTICE_BOARD_CONTENT) {
-		NOTICE_BOARD_CONTENT = nOTICE_BOARD_CONTENT;
-	}
-
-	public int getNOTICE_BOARD_READCOUNT() {
-		return NOTICE_BOARD_READCOUNT;
-	}
-
-	public void setNOTICE_BOARD_READCOUNT(int nOTICE_BOARD_READCOUNT) {
-		NOTICE_BOARD_READCOUNT = nOTICE_BOARD_READCOUNT;
+	public void setNotice_readcount(int notice_readcount) {
+		this.notice_readcount = notice_readcount;
 	}
 
 	public MultipartFile getUploadfile() {
@@ -75,27 +66,27 @@ public class Notice {
 		this.uploadfile = uploadfile;
 	}
 
-	public String getNOTICE_BOARD_FILE() {
-		return NOTICE_BOARD_FILE;
+	public String getNotice_saved_image() {
+		return notice_saved_image;
 	}
 
-	public void setNOTICE_BOARD_FILE(String nOTICE_BOARD_FILE) {
-		NOTICE_BOARD_FILE = nOTICE_BOARD_FILE;
+	public void setNotice_saved_image(String notice_saved_image) {
+		this.notice_saved_image = notice_saved_image;
 	}
 
-	public String getNOTICE_BOARD_ORIGINAL() {
-		return NOTICE_BOARD_ORIGINAL;
+	public String getNotice_original_image() {
+		return notice_original_image;
 	}
 
-	public void setNOTICE_BOARD_ORIGINAL(String nOTICE_BOARD_ORIGINAL) {
-		NOTICE_BOARD_ORIGINAL = nOTICE_BOARD_ORIGINAL;
+	public void setNotice_original_image(String notice_original_image) {
+		this.notice_original_image = notice_original_image;
 	}
 
-	public String getNOTICE_BOARD_DATE() {
-		return NOTICE_BOARD_DATE;
+	public String getNotice_date() {
+		return notice_date;
 	}
 
-	public void setNOTICE_BOARD_DATE(String nOTICE_BOARD_DATE) {
-		NOTICE_BOARD_DATE = nOTICE_BOARD_DATE;
+	public void setNotice_date(String notice_date) {
+		this.notice_date = notice_date;
 	}
 }

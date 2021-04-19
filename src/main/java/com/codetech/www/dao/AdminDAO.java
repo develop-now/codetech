@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Notice;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -23,10 +24,6 @@ public class AdminDAO {
 	public int getSearchListCount(Map<String, Object> map) {
 		return sqlSession.selectOne("Admin.getSearchListCount", map);
 	}
-	
-    public int getNoticeListCount() {
-        return sqlSession.selectOne("Admin.count");
-    }
 
 	public int user_susp(String user_id) {
 		return sqlSession.update("Admin.susp", user_id);
@@ -67,4 +64,12 @@ public class AdminDAO {
 	public List<Menu> getStoreMenuList(String store_id) {
 		return sqlSession.selectList("Admin.getStoreMenuList", store_id);
 	}
+	
+	public List<Notice> getNoticeList(Map<String, Object> map) {
+		return sqlSession.selectList("Admin.getNoticeList", map);
+	}
+	
+    public int getNoticeListCount(Map<String, Object> map) {
+        return sqlSession.selectOne("Admin.getNoticeListCount", map);
+    } 
 }
