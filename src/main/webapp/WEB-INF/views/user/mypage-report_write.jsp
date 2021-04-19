@@ -31,7 +31,7 @@
 	              		<h2 class="text-right">신고작성</h2>
 	              	</div>
 	              		<hr>
-						<form action="<c:url value="/user/reportWriteAction"/>" method="post" 
+						<form action="<c:url value="/user/addReport"/>" method="post" 
 								name="reportWriteForm" id="reportWriteForm">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_crsf.token}">
  							<div class="reportWrite-body">
@@ -40,12 +40,12 @@
 								<label for="reporter" class="col-sm-2 col-form-label">
 								<span>작성자</span>
 								</label> 
-								<input type="text" class="form-control" id="reporter" name="" 
-								      		value="${prinfo.username}"readOnly>
+								<input type="text" class="form-control" id="reporter_email" name="reporter_email" 
+								      		value="${pinfo.username}"readOnly>
 							  </div>
 							<c:choose>
 							 <c:when test="${reported_user eq ''}">
-							 <input type="hidden" value="${reported_store.store_id}">
+							 <input type="hidden" name="store_id" value="${reported_store.store_id}">
 							  <div class="form-group row">
 								<label for="reported_store" class="col-sm-2 col-form-label">
 								<span>가게이름</span>
@@ -56,8 +56,7 @@
 							 </c:when>
 							 <c:otherwise>
 							  <div class="form-group row">
-							  	<input type="hidden" value="${reported_user.comment_writer}">
-							  	<input type="hidden" value="${reported_user.comment_id}">
+							  	<input type="hidden" name="comment_id"value="${reported_user.comment_id}">
 							  	
 								<label for="reported_cmt" class="col-sm-2 col-form-label">
 								<span>댓글내용</span>
@@ -72,7 +71,7 @@
 								<label for="report_subject" class="col-sm-2 col-form-label">
 								<span>신고제목</span>
 								</label>  
-								<input type="text" class="form-control" id="report_subject" name=""
+								<input type="text" class="form-control" id="report_subject" name="report_subject"
 											placeholder="신고제목을 입력하세요" required>
 							  </div>								 
 							  
@@ -80,7 +79,7 @@
 								<label for="report_content" class="col-sm-2 col-form-label">
 								<span>신고내용</span>
 								</label> 
-								<textarea  class="form-control" id="report_content"
+								<textarea  class="form-control" id="report_content" name="report_content"
 								placeholder="신고내용을 입력하세요" required></textarea>
 							  </div>								
 

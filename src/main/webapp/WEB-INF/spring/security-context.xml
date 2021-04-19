@@ -28,10 +28,11 @@
         <security:intercept-url pattern="/staff/order-list" access="hasRole('ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/comment/**" access="hasRole('ROLE_STORE_OWNER')"/>
+		<security:intercept-url pattern="/user/addReport" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/user/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
-        <security:intercept-url pattern="/user/**" access="permitAll"/>
-
+		
         <security:form-login
                 login-page="/"
                 login-processing-url="/auth/loginAction"

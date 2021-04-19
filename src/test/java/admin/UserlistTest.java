@@ -14,8 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.codetech.www.domain.Notice;
-import com.codetech.www.domain.User;
-import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
 
 

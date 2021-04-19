@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,6 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Comment;
 import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
@@ -330,40 +333,28 @@ public class UsersController {
 
         return url;
     }
-
-    @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
-    public String reportWrite(String user_id/*,리포트 테이블 빈*/) {
-        //신고 내역을 가지고 mypage-report.jsp로 이동
-        //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
-        String url = "";
-
-        url = "user/mypage-report_write";
-
-
-        return url;
-    }
     
-    @RequestMapping(value = "/reportWriteAction", method = RequestMethod.GET)
-    public ModelAndView reportWriteAction(
-    								@RequestParam(value="reported_store", defaultValue = "",required=false)String reported_store
-    								,@RequestParam(value="reported_user", defaultValue = "",required=false)String reported_user
+    @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
+    public ModelAndView reportWrite(
+    								@RequestParam(value="reported_store", defaultValue = "0",required=false)String reported_store
+    								,@RequestParam(value="reported_cmt", defaultValue = "0",required=false)String reported_cmt
     								,ModelAndView mv) {
+    	logger.info("reportWrite 도착" +reported_store+reported_cmt );
         //신고 내역을 가지고 mypage-report.jsp로 이동
         //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
     	int store_id=Integer.parseInt(reported_store);
-    	int user_id=Integer.parseInt(reported_user);
+    	int comment_id=Integer.parseInt(reported_cmt);
     	Report report = new Report();
-    	if(reported_store != "") {
+    	if(store_id != 0) {
     		report.setReported_store(store_id);
     		Store store = storeService.readStore(store_id);
     		String user = "";
     		mv.setViewName("user/mypage-report_write");
     		mv.addObject("reported_store", store);
     		mv.addObject("reported_user",user);
-    	}else if(reported_user !="") {
-    		report.setReported_user(user_id);
-    		Comment comment = commentService.getComment(user_id);
-    				
+    	}else if(comment_id != 0) {
+    		report.setReported_user(comment_id);
+    		Comment comment = commentService.selectComment(comment_id);
     		String store = "";
     		mv.setViewName("user/mypage-report_write");
     		mv.addObject("reported_user",comment);
@@ -373,21 +364,78 @@ public class UsersController {
 
     }
     
+    @RequestMapping(value = "/addReport", method = RequestMethod.POST)
+    public String reportWriteAction(Report report
+    				,String reporter_email
+    				,@RequestParam(value="store_id",defaultValue="0", required=false)int reported_store
+    				,@RequestParam(value ="comment_id",defaultValue="0",required=false)int reported_cmt
+    				,RedirectAttributes rattr) {
+    	logger.info("addReport 도착");
+    	logger.info("cmt"+report.getReported_cmt());;
+    	logger.info("store" + report.getReported_store());
+    	String user_email = reporter_email;
+    	User user = usersService.getUserId(user_email);
+    	int user_id = user.getUser_id();
+    	report.setReporter(user_id);
+    	report.setReported_store(reported_store);
+    	report.setReported_cmt(reported_cmt);
+    	
+    	int result = usersService.addReport(report);
+    	if(result == 1) {
+    		rattr.addFlashAttribute("info", "신고내용이 접수 완료되었습니다.");
+    		return "redirect:/user/reportList";
+    	}else {
+    		logger.info("addReport error");
+    	}
+		return null;
+    }
+    
     @RequestMapping(value = "/reportList", method = RequestMethod.GET)
-    public String reportList(String user_id/*,리포트 테이블 빈*/) {
+    public ModelAndView reportList(ModelAndView mv) {
+    	logger.info("reportList도착");
         //신고 내역을 가지고 mypage-report.jsp로 이동
         //신고를 당한 입장이면 어디서 확인을 하는지 체크하기
-        String url = "";
+    	//세션의 아이디를 가지고 comment와 store테이블을 조인한다.
+    	int user_id = (int)session.getAttribute("user_id");
+    	logger.info("접속한유저" + user_id);
 
-        url = "user/mypage-report";
+    	List<Report> report = usersService.reportStoreAndComment(user_id);
+    	//가져온 값을 화면으로 보내준다.
+    	mv.setViewName("user/mypage-report");
+        mv.addObject("list", report);
 
 
-        return url;
+        return mv;
     }
 
     @RequestMapping(value = "/reportDetail", method = RequestMethod.GET)
-    public void reportDetail(String report_id, String user_id /*, 리포트테이블 빈*/) {
-        //신고내용을 작성하지 않을경우 삭제
+    public ModelAndView reportDetail(
+    		@RequestParam(value="store_report_id", defaultValue = "0",required=false)String store_reported
+			,@RequestParam(value="cmt_report_id", defaultValue = "0",required=false)String cmt_reported
+			,ModelAndView mv) {
+      logger.info("여기는 reportDetail");
+      int store_report_id = Integer.parseInt(store_reported);
+      int cmt_report_id = Integer.parseInt(cmt_reported);
+      if(store_report_id != 0 ) {
+    	  Report store_detail = storeService.readStoreReport(store_report_id);
+    	  int store_id = store_detail.getReported_store();
+    	  Store store = storeService.readStore(store_id);
+    	  String store_name = store.getStore_name();
+    	  logger.info(store_name);
+    	  mv.setViewName("user/mypage-report_detail");
+    	  mv.addObject("detail", store_detail);
+    	  mv.addObject("store_name", store_name);
+      }else if(cmt_report_id != 0) {
+    	  Report cmt_detail =  commentService.readCommentReport(cmt_report_id);
+    	  int comment_id = cmt_detail.getReported_cmt();
+    	  Comment comment = commentService.selectComment(comment_id);
+    	  String comment_content = comment.getComment_content(); 
+    	  mv.setViewName("user/mypage-report_detail");
+    	  mv.addObject("detail", cmt_detail);
+    	  mv.addObject("comment_content", comment_content);
+    	  
+      }return mv;
+      
     }
 
     @RequestMapping(value = "/reviewList", method = RequestMethod.GET)
@@ -414,23 +462,84 @@ public class UsersController {
 		int storeLike = usersService.getStoreLike(store_id);
 		List<Menu> topMenu = usersService.getTopMenu(store_id);
 		List<Menu> allMenu = usersService.getAllMenu(store_id);
+		int menuCount = usersService.getMenuCount(store_id);
+		
 		mv.setViewName("user/order-main");
 		mv.addObject("store", store);
 		mv.addObject("storeLike", storeLike);
 		mv.addObject("topMenu", topMenu);
 		mv.addObject("allMenu", allMenu);
+		mv.addObject("menuCount", menuCount);
 		return mv;
 
-		// , Store store, Menu menu /*,cart빈 생성, likes 테이블 빈*/사용
-		// 가게 주문하기 클릭하면 이동되어옴, 각테이블에서 정보 가져와서
-		// jsp에서 삭제를 선택한 경우 어디로 들어가서 어떻게 처리하고 넘겨주는지 생각해보기
-		// 옵션에서 선택한 값들이 있으면 rightnav에 값넘겨줘야함 map으로 정리해서 보내?
-		// 옵션에 대한 총 가격들 계산은 js에서하는지 어디서 할지 생각
-		// cart에 값 담아놓기
-		// order-main.jsp로 이동
 
 	}
+    
+    
+    @RequestMapping(value = "/orderView", method = RequestMethod.GET)
+	public ModelAndView orderView(int user_id, ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+    	int limit = 4;
+		int listCount = usersService.getListCount(user_id);
 
+    	List<Order> orders = usersService.getOrder(user_id, page, limit);
+    	List<Store> store = usersService.getStoreForOrder(user_id, page, limit);
+    	List<OrderDetail> orderDetail = usersService.getOrderDetail(user_id, page, limit);
+    	List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
+    	if (listCount > orders.size()) {
+			mv.addObject("more", 1);
+		}
+    	
+		mv.setViewName("user/order-list");
+		mv.addObject("store", store);
+		mv.addObject("orders", orders);
+		mv.addObject("orderDetail", orderDetail);
+		mv.addObject("menu", menu);
+		return mv;
+	}
+    
+    @RequestMapping(value = "/orderViewAjax", method = RequestMethod.GET)
+	public ModelAndView orderViewAjax(int user_id, ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+    	int limit = 4;
+		int listCount = usersService.getListCount(user_id) - limit;
+
+    	List<Order> orders = usersService.getOrder(user_id, page, limit);
+    	List<Store> store = usersService.getStoreForOrder(user_id, page, limit);
+    	List<OrderDetail> orderDetail = usersService.getOrderDetail(user_id, page, limit);
+    	List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
+    	if (listCount > orders.size()) {
+			mv.addObject("more", 1);
+		}
+    	
+		mv.setViewName("user/order-listAjax");
+		mv.addObject("store", store);
+		mv.addObject("orders", orders);
+		mv.addObject("orderDetail", orderDetail);
+		mv.addObject("menu", menu);
+		return mv;
+	}
+    
+    @RequestMapping(value = "/favorite", method = RequestMethod.GET)
+   	public ModelAndView favorite(int user_id, ModelAndView mv) {
+
+       	List<Store> store = usersService.getStoreFavorite(user_id);
+
+   		mv.setViewName("user/order-likes_list");
+   		mv.addObject("store", store);
+   
+   		return mv;
+   	}
+    
+	@ResponseBody
+    @RequestMapping(value = "/favoriteCancel", method = RequestMethod.GET)
+    public int likesList(int user_id, int store_id) {
+		int result = usersService.favoriteCancel(user_id, store_id);
+		return result;
+		
+    }
+    
+    
 
     @RequestMapping(value = "/option", method = RequestMethod.GET)
     public void option(int menu_id) {
@@ -449,10 +558,7 @@ public class UsersController {
 
     }
 
-    @RequestMapping(value = "/payment", method = RequestMethod.GET)
-    public void payment(/*cart 빈*/) {
 
-    }
 
     @RequestMapping(value = "/orderList", method = RequestMethod.GET)
     public void orderList(String user_id) {
@@ -465,9 +571,5 @@ public class UsersController {
         //상세내역 조회 후 order-list.jsp modal로 이동
     }
 
-    @RequestMapping(value = "/likesList", method = RequestMethod.GET)
-    public void likesList(String user_id) {
-        //좋아요한 가게 리스트조회하여 order-likes.jsp로 이동
-        //더보기로 내용 추가조회 가능하도록 페이지 처리
-    }
+
 }

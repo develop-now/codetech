@@ -2,20 +2,20 @@ package com.codetech.www.service;
 
 import com.codetech.www.dao.MenuDAO;
 import com.codetech.www.dao.StoreDAO;
-import com.codetech.www.domain.Customer;
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Store;
 
-import com.codetech.www.domain.User;
+import com.codetech.www.domain.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -103,6 +103,12 @@ public class StoreServiceImpl implements StoreService {
         return false;
     }
 
+
+	@Override
+	public Report readStoreReport(int store_report_id) {
+		return store_dao.readStoreReport(store_report_id);
+	}
+
     @Override
     public int getStoreCustomerCount(int store_id) {
         return store_dao.getStoreCustomerCount(store_id);
@@ -118,6 +124,43 @@ public class StoreServiceImpl implements StoreService {
         param.put("endRow", page * 5);
 
         return store_dao.getStoreCustomer(param);
+    }
+
+    private String calculateDate(String key_date, int value) {
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Date date = null;
+
+        try {
+            date = df.parse(key_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+
+        if (date != null) {
+            cal.setTime(date);
+            cal.add(Calendar.DATE, value);
+        } else {
+            logger.error("[StoreServiceImpl] ERROR :  날짜 변환에 실패하였습니다.");
+            return "";
+        }
+
+        return df.format(cal.getTime());
+    }
+
+    @Override
+    public List<Profit> getStoreProfit(int store_id, String selected_date) {
+        Map<String, Object> param = new HashMap<>();
+
+        String start_date = calculateDate(selected_date, -3);
+        String end_date = calculateDate(selected_date, 3);
+
+        param.put("store_id", store_id);
+        param.put("startDate", start_date);
+        param.put("endDate", end_date);
+
+        return store_dao.getStoreProfit(param);
     }
 
 }

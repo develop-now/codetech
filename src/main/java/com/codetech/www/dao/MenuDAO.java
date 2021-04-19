@@ -41,4 +41,9 @@ public class MenuDAO {
         return sqlSession.selectList("Menus.allMenu", store_id);
 
 	}
+
+	public int getMenuCount(int store_id) {
+        return sqlSession.selectOne("Menus.menuCount", store_id);
+
+	}
 }

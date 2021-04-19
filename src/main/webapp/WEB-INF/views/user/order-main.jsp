@@ -7,6 +7,8 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +19,16 @@
     가게 좋아요를 할 수 있으며 좋아요 아이콘이 추가되면 즐겨찾기리스트에 가게 id가 추가됨. 
     -->
 <%@include file="../partial/head.jsp"%>
+<script
+	src="${pageContext.request.contextPath}/resources/js/user/order-main.js"></script>
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
+
 </head>
 <body>
+
 	<div class="container-fluid px-0">
 		<%-- main nav --%>
 		<%@include file="../partial/nav.jsp"%>
@@ -32,35 +41,71 @@
 
 
 		<!-- Page Content -->
+
 		<div class="container-fluid">
 			<div class="row">
 				<%@include file="user-nav-mypage.jsp"%>
 				<div class="col-12 col-sm-10">
 					<div class="order">
 						<div class="storeInfoView">
-							${store.store_name} <img class="card-img-heart"
-								src="${pageContext.request.contextPath}/resources/upload/love.png"
-								width="20" height="20" alt=""> ${storeLike }<br>
-							${store.store_address_si } ${store.store_address_gu }${store.store_address_dong }${store.store_address_etc }
+							<div class="storeName">
+								<h2>${store.store_name}</h2>
+								<img class="card-img-heart"
+									src="${pageContext.request.contextPath}/resources/upload/love.png"
+									width="50" height="50" alt=""> ${storeLike }
+							</div>
+							<div class="storeAddress">${store.store_address_si }
+								&nbsp;${store.store_address_gu }&nbsp;${store.store_address_dong }&nbsp;${store.store_address_etc }
+							</div>
 						</div>
 						<div class="menuView">
 							<div class="topMenu">
-								인기메뉴
+								<input type="hidden" id="menuCount" value="${menuCount }">
+								<br>
+								<h4>인기메뉴</h4>
 								<hr>
-
 								<c:forEach var="topMenu" items="${topMenu}" varStatus="status">
 									<div class="topMenus">
 										<img class="card-img-heart"
 											src="${pageContext.request.contextPath}/resources/upload/${topMenu.menu_saved_image}"
-											width="20" height="20" alt=""> ${topMenu.menu_name }
-										<button class="w3-button w3-circle w3-black"
-											id="minusButtonT${status.count}">-</button>
-										<input type="text" name="orderAmount" placeholder="0"
-											id="orderAmountT${status.count}">
-										<button class="w3-button w3-circle w3-black"
-											id="plusButtonT${status.count}">+</button>
-										<br>
+											width="100" height="100" alt="">&nbsp;&nbsp;
+										<div class="menuName">
+											<input type="hidden" name="o_menu${status.count}"
+												id="o_menu${status.count}" class="o_menu"
+												value="${topMenu.menu_name }"> <span
+												id="menuNameA${status.count}">${topMenu.menu_name }</span>
+
+										</div>
+										&nbsp;&nbsp;
+
+										<div class="basketprice">
+
+											<input type="hidden" name="p_price"
+												id="p_price${status.count}" class="p_price"
+												value="${topMenu.menu_price }">
+											<fmt:formatNumber value="${topMenu.menu_price }"
+												pattern="###,###,###" />
+											원&nbsp;&nbsp;
+										</div>
+										<div class="num">
+											<div class="updown">
+												<input type="text" name="p_num${status.count}"
+													id="p_num${status.count}" size="2" maxlength="4"
+													class="p_num" value="0"
+													onkeyup="javascript:basket.changePNum(${status.count});">
+												<span id="pmbtn"
+													onclick="javascript:basket.changePNum(${status.count});"><i
+													class="fas fa-arrow-alt-circle-up up"></i></span> <span id="pmbtn"
+													onclick="javascript:basket.changePNum(${status.count});"><i
+													class="fas fa-arrow-alt-circle-down down"></i></span> <input
+													type="hidden" name="p_name${status.count}" class="h_menu"
+													value="${topMenu.menu_name }">
+											</div>
+										</div>
+
 									</div>
+									<br>
+									<br>
 								</c:forEach>
 							</div>
 							<hr>
@@ -96,31 +141,69 @@
 
 									<img class="card-img-heart"
 										src="${pageContext.request.contextPath}/resources/upload/${allMenu.menu_saved_image}"
-										width="20" height="20" alt=""> ${allMenu.menu_name }
-											<button class="w3-button w3-circle w3-black"
-										id="minusButtonM${status.count}">-</button>
-									<input type="text" name="orderAmount" placeholder="0"
-										id="orderAmountM${status.count}">
-									<button class="w3-button w3-circle w3-black"
-										id="plusButtonM${status.count}">+</button>
+										width="100" height="100" alt=""> &nbsp;&nbsp;<h5>${allMenu.menu_name }</h5>&nbsp;&nbsp;
+																						<input type="hidden" name="o_menu${status.count}"
+										id="o_menu${status.count}" class="o_menu"
+										value="${allMenu.menu_name }">
+
+									<div class="basketprice">
+										<input type="hidden" name="p_price"
+											id="p_price${status.count}" class="p_price"
+											value="${allMenu.menu_price }">
+										<fmt:formatNumber value="${allMenu.menu_price }"
+											pattern="###,###,###" />
+										원&nbsp;&nbsp;
+									</div>
+									<div class="num">
+										<div class="updown">
+											<input type="text" name="p_numA${status.count}"
+												id="p_numA${status.count}" size="2" maxlength="4"
+												class="p_num" value="0"
+												onkeyup="javascript:basket.changePANum(${status.count});">
+											<span id="pmbtn"
+												onclick="javascript:basket.changePANum(${status.count});"><i
+												class="fas fa-arrow-alt-circle-up up"></i></span> <span id="pmbtn"
+												onclick="javascript:basket.changePANum(${status.count});"><i
+												class="fas fa-arrow-alt-circle-down down"></i></span>
+										</div>
+									</div>
+
 									<br>
 							</div>
 							</c:forEach>
 
 
-
+							<br> <br> <br>
 						</div>
 					</div>
-					<div class="payMentView">
+					<div class="payMentView"></div>
+					<form action="${pageContext.request.contextPath}/owner/pay"
+						method="get">
+						<div  class="bigtext right-align sumcount" id="sum_p_num"
+							> </div><div 
+							class="bigtext right-align box blue summoney" id="sum_p_price"
+							 ></div>
+						<input type="hidden" class="bigtext right-align sumcount" id="sum_p_numA"
+							name="amount"> <input type="hidden"
+							class="bigtext right-align box blue summoney" id="sum_p_priceA"
+							name="totalPrice" > <br> <br> <input
+							class="order_menu">
+							<div class="testmenu"></div>
 
-						총 : <input type="text" name="orderAmount" placeholder="0">
-						개
-						<button class="w3-button w3-khaki">장바구니 담기</button>
-						<button class="w3-button w3-khaki">결제하기</button>
-					</div>
+
+
+						<div class="buttonGroup">
+							<button class="w3-button w3-khaki">장바구니 담기</button>
+							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
+							<input type="hidden" name="user_id" value="${user_id}">
+
+
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<!-- /.container -->
 
@@ -128,23 +211,9 @@
 	<%@include file="../partial/footer.jsp"%>
 	</div>
 
-	<script>
-		$(document).ready(function() {
-			var amount = 0;
-			
-			$('.topMenus button:nth-child(4)').click(function(index) {
-				$(this).on("click", function() {
-					amount += 1;
-					$(this).prev().val(amount);
-				})
-				
-			})
-				
 
-			})
-			
-	
-	</script>
+
+
 
 </body>
 </html>
