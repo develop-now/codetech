@@ -215,4 +215,16 @@ public class UsersServiceImpl implements UsersService {
 
 	}
 
+	@Override
+	public int cartRegister(int user_id, int amount, int[] m_numA, int[] m_num) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		map.put("user_id", user_id);
+		map.put("amount", amount);
+		map.put("menus_hot", m_numA);
+		map.put("menus_all", m_num);
+		return odao.cartRegister(map);
+
+	}
+
 }

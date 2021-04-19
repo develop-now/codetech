@@ -78,5 +78,8 @@ select row_number() over(order by updated_at desc) row_num, bb.* from (
 	<select id="orderCount" resultType="int">
 		select count(*) from orders where order_user = #{user_id}
 	</select>
-
+	
+	
+    
+    
 </mapper>
