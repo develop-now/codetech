@@ -11,75 +11,133 @@
 
 	<select id="ordered" resultType="order" parameterType="map">
 		select * from (
-select row_number() over(order by updated_at desc) row_num, bb.* from (
+		select row_number() over(order by updated_at desc)
+		row_num, bb.* from (
 		<include refid="forOrdered" />
-				) bb ) where row_num &gt;= #{start}
-        and row_num &lt;= #{end}
+		) bb ) where row_num &gt;= #{start}
+		and row_num &lt;= #{end}
 	</select>
-	
-		
+
+
 
 	<select id="ordered_stores" resultType="store"
 		parameterType="map">
-				select * from (
-select row_number() over(order by updated_at desc) row_num, bb.* from (
+		select * from (
+		select row_number() over(order by updated_at desc)
+		row_num, bb.* from (
 
-		select store_name, s.store_id, s.updated_at from stores s join
+		select store_name, s.store_id, s.updated_at from
+		stores s join
 		(
 		<include refid="forOrdered" />
 		) b
 		on s.store_id = b.store_id
-		
+
 		) bb ) where row_num &gt;= #{start}
-        and row_num &lt;= #{end}
+		and
+		row_num &lt;= #{end}
 	</select>
 
 
-	
-		<sql id="forOrdered">
+
+	<sql id="forOrdered">
 		select *
 		from orders
-		where order_user = #{user_id} 
+		where order_user = #{user_id}
 	</sql>
-	
-	
+
+
 
 	<select id="ordered_details" resultType="order-detail"
 		parameterType="map">
-				select * from (
-select row_number() over(order by updated_at desc) row_num, bb.* from (
-		select b.updated_at, detail_id, menu_quantity, detail_total_price, menu_id
+		select * from (
+		select row_number() over(order by updated_at desc)
+		row_num, bb.* from (
+		select b.updated_at, detail_id, menu_quantity,
+		detail_total_price,
+		menu_id
 		from
 		order_details a
 		join (
 		<include refid="forOrdered" />
 		) b
 		on a.order_id = b.order_id
-						) bb ) where row_num &gt;= #{start}
-        and row_num &lt;= #{end}
+		) bb ) where row_num &gt;= #{start}
+		and
+		row_num &lt;= #{end}
 	</select>
 
 	<select id="ordered_menu" resultType="menu" parameterType="map">
-	select * from (
-select row_number() over(order by updated_at desc) row_num, bb.* from (
-		select p.updated_at, m.menu_id, m.menu_name from menus m join (
-		select  b.updated_at, detail_id,
-		menu_quantity, detail_total_price, menu_id
+		select * from (
+		select row_number() over(order by updated_at desc)
+		row_num, bb.* from (
+		select p.updated_at, m.menu_id, m.menu_name from
+		menus m join (
+		select
+		b.updated_at, detail_id,
+		menu_quantity,
+		detail_total_price, menu_id
 		from
 		order_details a
 		join (
 		<include refid="forOrdered" />
 		) b
 		on a.order_id = b.order_id ) p on m.menu_id = p.menu_id
-		) bb ) where row_num &gt;= #{start}
-        and row_num &lt;= #{end}
+		) bb ) where
+		row_num &gt;= #{start}
+		and row_num &lt;= #{end}
 	</select>
 
 	<select id="orderCount" resultType="int">
-		select count(*) from orders where order_user = #{user_id}
+		select count(*) from orders
+		where order_user = #{user_id}
 	</select>
-	
-	
-    
-    
+
+	<insert id="cart" parameterType="map">
+		insert into carts values(
+		(select nvl(max(cart_id), 0) + 1 from carts), #{amount}, sysdate,
+		sysdate,
+		#{user_id}, #{menu_id}, 0
+		)
+	</insert>
+
+	<select id="cartList" parameterType="int" resultType="cart">
+		<include refid="forCart" />
+	</select>
+
+	<select id="menuList" parameterType="int" resultType="menu">
+		select m.* from menus m join (
+		<include refid="forCart" />
+		) b on m.menu_id = b.menu_id
+	</select>
+
+	<select id="storeList" parameterType="int" resultType="store">
+		select s.* from stores s join (
+		select m.* from menus m join (
+		<include refid="forCart" />
+		) b on m.menu_id = b.menu_id) c
+		on s.store_id = c.store_id
+	</select>
+
+
+	<sql id="forCart">
+		select * from carts where user_id = #{user_id} and
+		cart_status = 0 order by
+		created_at desc
+	</sql>
+
+	<select id="getAmount" parameterType="int" resultType="int">
+		select
+		sum(menu_quantity) from (
+		<include refid="forCart" />
+		)
+	</select>
+
+	<select id="getTotalPrice" parameterType="int" resultType="int">
+		select sum(q) from (
+		select m.menu_price * b.menu_quantity as q from
+		menus m join (
+		<include refid="forCart" />
+		) b on m.menu_id = b.menu_id)
+	</select>
 </mapper>

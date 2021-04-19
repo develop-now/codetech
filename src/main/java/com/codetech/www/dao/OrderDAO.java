@@ -1,5 +1,6 @@
 package com.codetech.www.dao;
 
+import com.codetech.www.domain.Cart;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Order;
 import com.codetech.www.domain.OrderDetail;
@@ -46,5 +47,29 @@ public class OrderDAO {
 
 	public int cartRegister(HashMap<String, Object> map) {
 		return sqlSession.insert("Orders.cart", map);
+	}
+
+	public List<Cart> getCart(int user_id) {
+        return sqlSession.selectList("Orders.cartList", user_id);
+
+	}
+
+	public List<Menu> getMenuForCart(int user_id) {
+        return sqlSession.selectList("Orders.menuList", user_id);
+
+	}
+
+	public List<Store> getStoreForCart(int user_id) {
+        return sqlSession.selectList("Orders.storeList", user_id);
+
+	}
+
+	public int getAmount(int user_id) {
+		return sqlSession.selectOne("Orders.getAmount", user_id);
+	}
+
+	public int getTotalPrice(int user_id) {
+		return sqlSession.selectOne("Orders.getTotalPrice", user_id);
+
 	}
 }

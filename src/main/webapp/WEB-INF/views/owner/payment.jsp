@@ -23,6 +23,8 @@
 			value="${list.menuName }">
 		<input type="hidden" class="p_num${status.index}"
 			value="${list.orderAmount }">
+			<input type="hidden" class="m_num${status.index}"
+			value="${list.menu_id }">
 
 	</c:forEach>
 

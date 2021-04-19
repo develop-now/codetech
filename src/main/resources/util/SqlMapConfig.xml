@@ -16,6 +16,7 @@
         <typeAlias alias="user" type="com.codetech.www.domain.User"/>
         <typeAlias alias="staff" type="com.codetech.www.domain.Staff"/>
         <typeAlias alias="comment" type="com.codetech.www.domain.Comment"/>
+        <typeAlias alias="cart" type="com.codetech.www.domain.Cart"/>
 
         <typeAlias alias="notice" type="com.codetech.www.domain.Notice"/>
         <typeAlias alias="menu-category" type="com.codetech.www.domain.MenuCategory"/>
