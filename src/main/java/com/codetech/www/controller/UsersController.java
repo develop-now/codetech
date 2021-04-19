@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.codetech.www.domain.Cart;
 import com.codetech.www.domain.Comment;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
@@ -528,63 +529,57 @@ public class UsersController {
 		
 		//for cart register
 			@RequestMapping(value = "/cartRegister")
-			public ModelAndView cartRegister(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
+			public String cartRegister(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
 					@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
 					@RequestParam(value = "p_numA") int[] p_numA,
 					@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
 					@RequestParam(value = "m_numA") int[] m_numA,
-					int user_id, int store_id, String totalPrice, int amount, 
-					ModelAndView mv) {
+					int user_id, int store_id, String totalPrice, int amount
+					) {
 
-				int result = usersService.cartRegister(user_id, amount, m_numA, m_num);
-				
-				
-				Store store = usersService.getStore(store_id);
-				int storeLike = usersService.getStoreLike(store_id);
-				int menuCount = usersService.getMenuCount(store_id);
-				
-				List<MiniCart> list = new ArrayList<MiniCart>();
-				
-				if (totalPrice.equals("")) {
-					mv.setViewName("user/orderMain?store_id=" + store_id);
-				}
-
-				for (int i = 0; i < p_num.length; i++) {
+				for(int i = 0; i < p_num.length; i++) { 
 					if (p_num[i] > 0) {
-						 MiniCart cart = new MiniCart();
-						cart.setMenuName(o_menu[i]);
-						cart.setOrderAmount(p_num[i]);
-						cart.setMenu_id(m_num[i]);
-						list.add(cart);
+						int result = usersService.cartRegister(user_id, p_num[i], m_num[i]);
+						
+						if(result == 1) {
+							logger.info("장바구니 담기 성공");
+						} else {
+							logger.info("장바구니 담기 실패");
+						}
 					}
-
 				}
-
-				for (int i = 0; i < p_numA.length; i++) {
+				
+				for(int i = 0; i < p_numA.length; i++) { 
 					if (p_numA[i] > 0) {
-						 MiniCart cart = new MiniCart();
-						cart.setMenuName(o_menuA[i]);
-						cart.setOrderAmount(p_numA[i]);
-						cart.setMenu_id(m_numA[i]);
-						list.add(cart);
+						int result = usersService.cartRegister(user_id, p_numA[i], m_numA[i]);
+						if(result == 1) {
+							logger.info("장바구니 담기 성공");
+						} else {
+							logger.info("장바구니 담기 실패");
+						}
 					}
 				}
+				return "redirect:/user/cartList?user_id="+user_id;
+			}
+			
+			@RequestMapping(value = "/cartList", method = RequestMethod.GET)
+			public ModelAndView cartList(int user_id, ModelAndView mv) {
+
+				List<Cart> cart = usersService.getCart(user_id);
+				List<Menu> menu = usersService.getMenuForCart(user_id);
+				List<Store> store = usersService.getStoreForCart(user_id);
+				int amount = usersService.getAmount(user_id);
+				int totalPrice = usersService.getTotalPrice(user_id);
 				
-				//UserPlusInfo user = usersService.getOwnerInfo(user_id);
-				String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
-				
+				mv.setViewName("user/order-cart");
 				mv.addObject("store", store);
-				mv.addObject("storeLike", storeLike);
-				mv.addObject("menuCount", menuCount);
+				mv.addObject("menu", menu);
+				mv.addObject("cart", cart);
 				mv.addObject("amount", amount);
-				mv.addObject("list", list);
-				mv.addObject("newtotalPrice", newtotalPrice);
-				//mv.addObject("user", user);
-				mv.addObject("cartCount", list.size());
-				mv.addObject("store_id", store_id);
-				mv.setViewName("user/cart");
+				mv.addObject("totalPrice", totalPrice);
 				return mv;
 			}
+			
 
 	@RequestMapping(value = "/option", method = RequestMethod.GET)
 	public void option(int menu_id) {

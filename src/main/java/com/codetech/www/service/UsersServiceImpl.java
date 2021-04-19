@@ -216,14 +216,41 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public int cartRegister(int user_id, int amount, int[] m_numA, int[] m_num) {
+	public int cartRegister(int user_id,  int p_num, int m_num) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		map.put("user_id", user_id);
-		map.put("amount", amount);
-		map.put("menus_hot", m_numA);
-		map.put("menus_all", m_num);
+		map.put("amount", p_num);
+		map.put("menu_id", m_num);
 		return odao.cartRegister(map);
+
+	}
+
+	@Override
+	public List<Cart> getCart(int user_id) {
+		return odao.getCart(user_id);
+	}
+
+	@Override
+	public List<Menu> getMenuForCart(int user_id) {
+		return odao.getMenuForCart(user_id);
+
+	}
+
+	@Override
+	public List<Store> getStoreForCart(int user_id) {
+		return odao.getStoreForCart(user_id);
+
+	}
+
+	@Override
+	public int getAmount(int user_id) {
+		return odao.getAmount(user_id);
+	}
+
+	@Override
+	public int getTotalPrice(int user_id) {
+		return odao.getTotalPrice(user_id);
 
 	}
 
