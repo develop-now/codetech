@@ -25,6 +25,7 @@
         <typeAlias alias="sil" type="com.codetech.www.domain.StoreInfoList"/>
         <typeAlias alias="customer" type="com.codetech.www.domain.Customer"/>
         <typeAlias alias="profit" type="com.codetech.www.domain.Profit"/>
+        <typeAlias alias="order-status" type="com.codetech.www.domain.OrderStatus"/>
     </typeAliases>
 
     <mappers>
