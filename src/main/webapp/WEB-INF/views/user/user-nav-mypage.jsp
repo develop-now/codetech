@@ -33,6 +33,10 @@
 					<li class="nav-item">
 			<a href="${pageContext.request.contextPath}/user/orderView?user_id=${user_id}"
 				class="nav-link">주문내역</a>
+				
+									<li class="nav-item">
+			<a href="${pageContext.request.contextPath}/user/favorite?user_id=${user_id}"
+				class="nav-link">즐겨찾는 카페</a>
 		</li>
 		
 	</ul>

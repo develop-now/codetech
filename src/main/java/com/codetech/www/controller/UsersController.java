@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -518,7 +519,27 @@ public class UsersController {
 		mv.addObject("menu", menu);
 		return mv;
 	}
+    
+    @RequestMapping(value = "/favorite", method = RequestMethod.GET)
+   	public ModelAndView favorite(int user_id, ModelAndView mv) {
 
+       	List<Store> store = usersService.getStoreFavorite(user_id);
+
+   		mv.setViewName("user/order-likes_list");
+   		mv.addObject("store", store);
+   
+   		return mv;
+   	}
+    
+	@ResponseBody
+    @RequestMapping(value = "/favoriteCancel", method = RequestMethod.GET)
+    public int likesList(int user_id, int store_id) {
+		int result = usersService.favoriteCancel(user_id, store_id);
+		return result;
+		
+    }
+    
+    
 
     @RequestMapping(value = "/option", method = RequestMethod.GET)
     public void option(int menu_id) {
@@ -550,9 +571,5 @@ public class UsersController {
         //상세내역 조회 후 order-list.jsp modal로 이동
     }
 
-    @RequestMapping(value = "/likesList", method = RequestMethod.GET)
-    public void likesList(String user_id) {
-        //좋아요한 가게 리스트조회하여 order-likes.jsp로 이동
-        //더보기로 내용 추가조회 가능하도록 페이지 처리
-    }
+
 }

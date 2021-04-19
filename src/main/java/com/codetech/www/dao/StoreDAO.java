@@ -124,6 +124,18 @@ public class StoreDAO {
         return sqlSession.selectList("Stores.storeCustomer", param);
     }
 
+
+	public List<Store> getStoreFavorite(int user_id) {
+        return sqlSession.selectList("Stores.favorite", user_id);
+
+	}
+
+	public int favoriteCancel(HashMap<String, Integer> map) {
+        return sqlSession.delete("Stores.favoriteCancel", map);
+
+	}
+
+
     public List<Profit> getStoreProfit(Map<String, Object> param) {
         return sqlSession.selectList("Stores.storeProfit", param);
     }
