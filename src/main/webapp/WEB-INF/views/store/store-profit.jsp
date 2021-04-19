@@ -127,11 +127,16 @@
                                 </h3>
                             </div>
 
+                            <div class="row d-none" id="profit__empty">
+                                <h6 class='text-warning'>해당 매장에 매출이 존재하지 않습니다</h6>
+                            </div>
+
+
                             <div class="row" id="profit__graph__wrapper">
                                 <div class="col-12">
-                                    <h5>일주일 매출액</h5>
+                                    <h5>일주일 주문량</h5>
 
-                                    <div id="chart_1" class="profit__chart"></div>
+                                    <div id="chart_3" class="profit__chart"></div>
                                 </div>
                                 <div class="col-12">
                                     <h5>메뉴별 매출액</h5>
@@ -139,9 +144,9 @@
                                     <div id="chart_2" class="profit__chart"></div>
                                 </div>
                                 <div class="col-12">
-                                    <h5>일주일 주문량</h5>
+                                    <h5>일주일 매출액</h5>
 
-                                    <div id="chart_3" class="profit__chart"></div>
+                                    <div id="chart_1" class="profit__chart"></div>
                                 </div>
                             </div>
                         </div>

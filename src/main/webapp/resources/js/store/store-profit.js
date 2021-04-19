@@ -1,39 +1,15 @@
 let store_id_val
 let date_val;
 let total_profit_val = [
-    ['날짜', '매출액'],
-    ["4/2", 440000],
-    ["4/3", 310000],
-    ["4/4", 550000],
-    ["4/5", 980000],
-    ["4/6", 100000],
-    ["4/7", 100000],
-    ['4/8', 30000]
+    ['날짜', '매출액']
 ];
 
 let total_menu_val = [
-    ['메뉴명', '판매량'],
-    ['메뉴1', 11],
-    ['메뉴2', 22],
-    ['메뉴3', 12],
-    ['메뉴4', 22],
-    ['메뉴5', 75],
-    ['메뉴6', 11],
-    ['메뉴7', 32],
-    ['메뉴8', 2],
-    ['메뉴9', 2],
-    ['메뉴10', 7],
+    ['메뉴명', '판매량']
 ]
 
 let total_count_val = [
-    ['날짜', '오더수'],
-    ["4/2", 44],
-    ["4/3", 31],
-    ["4/4", 55],
-    ["4/5", 98],
-    ["4/6", 10],
-    ["4/7", 10],
-    ['4/8', 3]
+    ['날짜', '오더수']
 ]
 
 $(() => {
@@ -55,31 +31,76 @@ $(() => {
     }).on("change", (e, val) => {
         dateEl.val(val.format("YYYY/MM/DD"))
         date_val = val.format("YYYYMMDD")
+
+        ajaxCall();
     })
 })
 
 function makeGraphValue(data) {
+    $("#profit__empty").addClass("d-none");
+    $("#profit__graph__wrapper").removeClass("d-none")
+
+    let sorted_data_template = {order_total_price: 0, order_total_count: 0}
+    let sorted_menu_data = {}
+    let sorted_total_data = {}
+
     for (let profit of data) {
         console.log(profit)
+
+        let key_date = profit.updated_at.substr(5, 5).replace("-", "/")
+
+        if (!sorted_total_data.hasOwnProperty(key_date)) {
+            sorted_total_data[key_date] = {...sorted_data_template}
+        }
+
+        sorted_total_data[key_date].order_total_price += parseInt(profit.order_total_price)
+        sorted_total_data[key_date].order_total_count += 1
+
+        let menu_split_arr = profit.menu_list.split(",")
+
+        for (let menu of menu_split_arr) {
+            if (!sorted_menu_data.hasOwnProperty(menu.trim())) {
+                sorted_menu_data[menu.trim()] = 1
+            } else {
+                sorted_menu_data[menu.trim()] += 1
+            }
+        }
     }
 
+    console.log(sorted_menu_data)
+    console.log(sorted_total_data)
+
+    let new_total_menu_val = [['메뉴명', '판매량']]
+    for (let key in sorted_menu_data) {
+        new_total_menu_val.push([key, sorted_menu_data[key]])
+    }
+    total_menu_val = new_total_menu_val
+
+    let new_total_profit_val = [['날짜', '매출액']]
+    let new_total_count_val = [['날짜', '오더수']]
+
+    for (let key in sorted_total_data) {
+        new_total_profit_val.push([key, sorted_total_data[key].order_total_price])
+        new_total_count_val.push([key, sorted_total_data[key].order_total_count])
+    }
+
+    total_profit_val = new_total_profit_val
+    total_count_val = new_total_count_val
+
     loadChart()
+
 }
 
 function makeEmptyProfitChart() {
-    const targetEl = $("#profit__graph__wrapper")
-    targetEl.empty();
-    targetEl.append("<h6 class='text-warning'>해당 매장에 매출이 존재하지 않습니다</h6>")
+    $("#profit__empty").removeClass("d-none");
+    $("#profit__graph__wrapper").addClass("d-none")
 }
 
-function loadStoreProfit(store_id, store_name) {
-    $("#store_name").text(store_name);
-    store_id_val = store_id;
-
+function ajaxCall() {
     $.ajax({
         method: "get",
         url: "/store/profit-list-ajax",
-        data: {store_id, selected_date: date_val},
+        data: {store_id: store_id_val, selected_date: date_val},
         dataType: "json",
         cache: false,
         success: (jsonData) => {
@@ -95,23 +116,39 @@ function loadStoreProfit(store_id, store_name) {
     })
 }
 
+function loadStoreProfit(store_id, store_name) {
+    $("#store_name").text(store_name);
+    store_id_val = store_id;
+
+    ajaxCall()
+}
+
 function loadChart() {
     google.charts.load('current', {'packages': ['corechart']});
 
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
+
+        const animation_option = {
+            startup: true,
+            duration: 1000,
+            easing: "out"
+        };
+
         google.charts.load('current', {'packages': ['corechart']});
 
         google.charts.setOnLoadCallback(lineChart);
         google.charts.setOnLoadCallback(pieChart);
         google.charts.setOnLoadCallback(columnChart);
 
+
         function lineChart() {
             let data = google.visualization.arrayToDataTable(total_profit_val);
 
             let options = {
-                height: 500
+                height: 500,
+                animation: animation_option
             };
 
             let chart = new google.visualization.LineChart(document.getElementById('chart_1'));
@@ -122,7 +159,9 @@ function loadChart() {
         function pieChart() {
             let data = new google.visualization.arrayToDataTable(total_menu_val);
 
-            let options = {is3D: true, height: 500};
+            let options = {
+                is3D: true, height: 500, animation: animation_option
+            };
 
             let chart = new google.visualization.PieChart(document.getElementById('chart_2'));
             chart.draw(data, options);
@@ -140,7 +179,8 @@ function loadChart() {
                     }
                 },
                 bar: {groupWidth: "90%"},
-                height: 500
+                height: 500,
+                animation: animation_option
             };
 
             let chart = new google.visualization.ColumnChart(document.getElementById('chart_3'));
