@@ -21,7 +21,7 @@
 <%@include file="../partial/head.jsp"%>
 <script
 	src="${pageContext.request.contextPath}/resources/js/user/order-main.js"></script>
-
+<script src ="${pagecontext.request.contextPath}/resources/js/uer/order-storeReview.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
@@ -227,5 +227,6 @@ $(function() {
 			
 
 				</script>
+<%@include file="order-storeReview.jsp" %>
 </body>
 </html>
