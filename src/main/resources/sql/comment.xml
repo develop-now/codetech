@@ -111,7 +111,23 @@
         from comments
         where comment_writer = ${user_id}
     </select>
-
-
+	
+	<select id="commentCountByUser" resultType="int" parameterType="int">
+		select count(*)
+		from comments
+		where comment_writer = #{user_id}
+	</select>
+	
+	<select id="userCommentList" parameterType="int" resultType="comment">
+		select * 
+		from (select rownum rnum, c.* 
+				from (select * 
+						from comments 
+						where comment_writer = #{user_id}
+						order by created_at desc	
+						 )c
+				)
+		where rnum between #{start} and #{end}
+	</select>
 </mapper> 
 

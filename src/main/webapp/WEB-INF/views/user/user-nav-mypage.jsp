@@ -23,11 +23,11 @@
 				class="nav-link">신고관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="${pageContext.request.contextPath}/user/reviewList"
+			<a href="${pageContext.request.contextPath}/comment/comment-list-by-user-ajax"
 				class="nav-link">리뷰관리</a>
 		</li>
 				<li class="nav-item">
-			<a href="${pageContext.request.contextPath}/user/orderList"
+			<a href="${pageContext.request.contextPath}/owner/mainList"
 				class="nav-link">주문하기</a>
 				
 					<li class="nav-item">
@@ -37,6 +37,10 @@
 									<li class="nav-item">
 			<a href="${pageContext.request.contextPath}/user/favorite?user_id=${user_id}"
 				class="nav-link">즐겨찾는 카페</a>
+				
+													<li class="nav-item">
+			<a href="${pageContext.request.contextPath}/user/cartList?user_id=${user_id}"
+				class="nav-link">장바구니</a>
 		</li>
 		
 	</ul>

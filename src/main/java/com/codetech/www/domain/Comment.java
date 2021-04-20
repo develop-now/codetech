@@ -11,7 +11,6 @@ public class Comment {
     private int comment_writer;
     private int comment_store;
     private int comment_status;
-
     private String comment_writer_value;
 
     public String getComment_writer_value() {
