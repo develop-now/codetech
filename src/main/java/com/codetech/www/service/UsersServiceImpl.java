@@ -254,4 +254,9 @@ public class UsersServiceImpl implements UsersService {
 
 	}
 
+	@Override
+	public int cartDel(int cart_id) {
+		return odao.cartDel(cart_id);
+	}
+
 }

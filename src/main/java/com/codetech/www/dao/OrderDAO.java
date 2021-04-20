@@ -89,4 +89,8 @@ public class OrderDAO {
 
     }
 
+	public int cartDel(int cart_id) {
+		return sqlSession.delete("Orders.cartDel", cart_id);
+	}
+
 }

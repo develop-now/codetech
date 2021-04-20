@@ -524,62 +524,66 @@ public class UsersController {
 		return result;
 
 	}
-	
-	
-		
-		//for cart register
-			@RequestMapping(value = "/cartRegister")
-			public String cartRegister(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
-					@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
-					@RequestParam(value = "p_numA") int[] p_numA,
-					@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
-					@RequestParam(value = "m_numA") int[] m_numA,
-					int user_id, int store_id, String totalPrice, int amount
-					) {
 
-				for(int i = 0; i < p_num.length; i++) { 
-					if (p_num[i] > 0) {
-						int result = usersService.cartRegister(user_id, p_num[i], m_num[i]);
-						
-						if(result == 1) {
-							logger.info("장바구니 담기 성공");
-						} else {
-							logger.info("장바구니 담기 실패");
-						}
-					}
-				}
-				
-				for(int i = 0; i < p_numA.length; i++) { 
-					if (p_numA[i] > 0) {
-						int result = usersService.cartRegister(user_id, p_numA[i], m_numA[i]);
-						if(result == 1) {
-							logger.info("장바구니 담기 성공");
-						} else {
-							logger.info("장바구니 담기 실패");
-						}
-					}
-				}
-				return "redirect:/user/cartList?user_id="+user_id;
-			}
-			
-			@RequestMapping(value = "/cartList", method = RequestMethod.GET)
-			public ModelAndView cartList(int user_id, ModelAndView mv) {
+	// for cart register
+	@RequestMapping(value = "/cartRegister")
+	public String cartRegister(@RequestParam(value = "p_num") int[] p_num,
+			@RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
+			@RequestParam(value = "m_num") int[] m_num, @RequestParam(value = "p_numA") int[] p_numA,
+			@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
+			@RequestParam(value = "m_numA") int[] m_numA, int user_id, int store_id, String totalPrice, int amount) {
 
-				List<Cart> cart = usersService.getCart(user_id);
-				List<Menu> menu = usersService.getMenuForCart(user_id);
-				List<Store> store = usersService.getStoreForCart(user_id);
-				int amount = usersService.getAmount(user_id);
-				int totalPrice = usersService.getTotalPrice(user_id);
-				
-				mv.setViewName("user/order-cart");
-				mv.addObject("store", store);
-				mv.addObject("menu", menu);
-				mv.addObject("cart", cart);
-				mv.addObject("amount", amount);
-				mv.addObject("totalPrice", totalPrice);
-				return mv;
+		for (int i = 0; i < p_num.length; i++) {
+			if (p_num[i] > 0) {
+				int result = usersService.cartRegister(user_id, p_num[i], m_num[i]);
+
+				if (result == 1) {
+					logger.info("장바구니 담기 성공");
+				} else {
+					logger.info("장바구니 담기 실패");
+				}
 			}
-			
+		}
+
+		for (int i = 0; i < p_numA.length; i++) {
+			if (p_numA[i] > 0) {
+				int result = usersService.cartRegister(user_id, p_numA[i], m_numA[i]);
+				if (result == 1) {
+					logger.info("장바구니 담기 성공");
+				} else {
+					logger.info("장바구니 담기 실패");
+				}
+			}
+		}
+		return "redirect:/user/cartList?user_id=" + user_id;
+	}
+
+	@RequestMapping(value = "/cartList", method = RequestMethod.GET)
+	public ModelAndView cartList(int user_id, ModelAndView mv) {
+
+		List<Cart> cart = usersService.getCart(user_id);
+		List<Menu> menu = usersService.getMenuForCart(user_id);
+		List<Store> store = usersService.getStoreForCart(user_id);
+		int amount = usersService.getAmount(user_id);
+		int totalPrice = usersService.getTotalPrice(user_id);
+
+		mv.setViewName("user/order-cart");
+		mv.addObject("store", store);
+		mv.addObject("menu", menu);
+		mv.addObject("cart", cart);
+		mv.addObject("amount", amount);
+		mv.addObject("totalPrice", totalPrice);
+		return mv;
+	}
+
+	// for cart register
+	@ResponseBody
+	@RequestMapping(value = "/cartDel")
+	public int cartDel(int cart_id) {
+
+		int result = usersService.cartDel(cart_id);
+		return result;
+	}
 
 	@RequestMapping(value = "/option", method = RequestMethod.GET)
 	public void option(int menu_id) {
@@ -587,8 +591,6 @@ public class UsersController {
 		// 메뉴아이디에따른 옵션화면에 보여주기, 가게 정보도 보여줘야함
 		// ajax로 리턴값알려줄 거니까 httpResponse또는 map으로 싸서 oreder-main.jsp의 모달로 보내주기
 	}
-
-
 
 	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
 	public void orderList(String user_id) {

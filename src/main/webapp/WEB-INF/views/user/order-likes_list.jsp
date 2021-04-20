@@ -45,7 +45,8 @@
 								<div class="card-body">
 									<h4 class="card-title">${store.store_name}</h4>
 									<p class="card-text">${store.store_address_si}&nbsp;&nbsp;${store.store_address_gu}&nbsp;&nbsp;${store.store_address_dong}</p>
-									<button class="btn btn-secondary" id="cancel">즐겨찾기 취소</button> <a
+									<button class="btn btn-secondary" id="cancel">즐겨찾기 취소</button>
+									<a
 										href="${pageContext.request.contextPath}/user/orderMain?store_id=${store.store_id}"
 										class="btn btn-primary">주문하러가기</a>
 								</div>
@@ -65,25 +66,23 @@
 	</div>
 
 	<script>
-		$(document).ready(function() {
-			$("#cancel").click(function() {
+		$(document).on("click", "#cancel", function() {
 
-					$.ajax({
-						type : 'post',
-						url : "${pageContext.request.contextPath}/user/favoriteCancel", 
-						data : 	data = {
-								"user_id" : $("#user").val(),
-								"store_id" : $("#store_id").val()
-							},
-						dataType : "json",
-						success : function(rdata) {
-							if(rdata == 1) {
-							$("#check"+$("#store_id").val()).remove();
-							}
-							
-						} // success;
-					}) // ajax
-			});
+			$.ajax({
+				type : 'post',
+				url : "${pageContext.request.contextPath}/user/favoriteCancel",
+				data : data = {
+					"user_id" : $("#user").val(),
+					"store_id" : $("#store_id").val()
+				},
+				dataType : "json",
+				success : function(rdata) {
+					if (rdata == 1) {
+						$("#check" + $("#store_id").val()).remove();
+					}
+
+				} // success;
+			}) // ajax
 		});
 	</script>
 
