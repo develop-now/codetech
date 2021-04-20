@@ -47,6 +47,12 @@
         where rnum between #{startRow} and #{endRow}
     </select>
 
+    <select id="orderStatusID" parameterType="string" resultType="int">
+        select order_status_id
+        from order_status
+        where status_value = #{status_value}
+    </select>
+
     <update id="updateStatus" parameterType="map">
         update orders
         set order_status = #{status_id},

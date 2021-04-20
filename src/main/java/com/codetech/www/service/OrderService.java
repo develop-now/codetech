@@ -8,6 +8,8 @@ import com.codetech.www.domain.OrderStatus;
 import java.util.List;
 
 public interface OrderService {
+    public int getOrderStatusID(String status_value);
+
     public List<OrderStatus> getOrderStatusList();
 
     public int updateOrderStatus(int order_id, int status_id);

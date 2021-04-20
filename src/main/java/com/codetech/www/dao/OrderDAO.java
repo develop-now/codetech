@@ -20,6 +20,10 @@ public class OrderDAO {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
+    public int getOrderStatusID(String status_value){
+        return sqlSession.selectOne("Orders.orderStatusID", status_value);
+    }
+
     public Order readOrder(int order_id) {
         return sqlSession.selectOne("Orders.readOrder", order_id);
     }
