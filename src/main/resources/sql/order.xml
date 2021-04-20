@@ -4,7 +4,6 @@
 <mapper namespace="Orders">
 
     <!-- start for order controller -->
-
     <select id="statusList" resultType="order-status">
         select *
         from order_status
@@ -211,10 +210,11 @@
         and row_num &lt;= #{end}
     </select>
 
-	<delete id="cartDel" parameterType="int">
-		delete from carts where
-		cart_id = #{cart_id}
-	</delete>
+    <delete id="cartDel" parameterType="int">
+        delete
+        from carts
+        where cart_id = #{cart_id}
+    </delete>
 
 
 </mapper>
