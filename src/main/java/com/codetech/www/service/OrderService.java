@@ -8,6 +8,8 @@ import java.util.List;
 public interface OrderService {
     public List<OrderStatus> getOrderStatusList();
 
+    public int updateOrderStatus(int order_id, int status_id);
+
     public int getOrderListCountAjax(int store_id, String selected_date, int status_id);
 
     public List<Order> getOrderListAjax(int store_id, String selected_date, int status_id, String order_key, int page);

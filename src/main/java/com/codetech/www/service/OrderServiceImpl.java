@@ -27,6 +27,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public int updateOrderStatus(int order_id, int status_id) {
+        Map<String, Object> param = new HashMap<>();
+
+        param.put("order_id", order_id);
+        param.put("status_id", status_id);
+
+        return dao.updateOrderStatus(param);
+    }
+
+    @Override
     public int getOrderListCountAjax(int store_id, String selected_date, int status_id) {
         Map<String, Object> param = new HashMap<>();
 

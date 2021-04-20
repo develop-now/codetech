@@ -7,6 +7,7 @@ let order_total_count = 0;
 
 $(() => {
     $("#loadMoreBtn").on("click", () => loadMoreOrder())
+    $("#updateOrder").on("click", () => updateAction())
 
     let dateEl = $("#orderCurrentDate")
     dateEl.attr("placeholder", moment().format("YYYY/MM/DD"));
@@ -31,11 +32,14 @@ $(() => {
     })
 
     $("input:radio#order_all").on("change", function () {
+        console.log("debug 111")
         status_id_val = $(this).val();
         ajaxCall()
     })
 
     $("input:radio[name='customer_order_key']").on("change", function () {
+        console.log("debug 222")
+
         order_key_val = $(this).val();
         ajaxCall()
     })
@@ -69,6 +73,22 @@ function statusLabel(prevText, status, nextText) {
     return prevText + label_str + nextText
 }
 
+function makeStatusInModal(data) {
+    let targetElinModal = $("#status_target_in_modal");
+    let templateEl = $(".status_template_in_modal");
+
+    for (let status of data) {
+        let clonedEl = templateEl.clone();
+        clonedEl.removeClass("status_template_in_modal").removeClass("d-none");
+        clonedEl.find("input").attr("id", `status_in_modal_${status.order_status_id}`)
+            .attr("checked", false).val(status.order_status_id)
+        clonedEl.find("label").attr("for", `status_in_modal_${status.order_status_id}`).text(statusLabel("주문 ", status.status_value, ""));
+
+        targetElinModal.append(clonedEl)
+    }
+
+}
+
 function makeStatusInput(data) {
     let targetEl = $("#status_target");
     let templateEl = $(".status_template");
@@ -78,6 +98,7 @@ function makeStatusInput(data) {
         clonedEl.removeClass("status_template");
         clonedEl.find("input").attr("id", status.status_value)
             .attr("checked", false).val(status.order_status_id).on("change", function () {
+            console.log($(this))
             status_id_val = $(this).val();
             ajaxCall()
         })
@@ -96,6 +117,7 @@ function loadOrderStatus() {
         success: (jsonData) => {
             if (jsonData.success) {
                 makeStatusInput(jsonData.list)
+                makeStatusInModal(jsonData.list)
             }
         },
         error: (req, status, err) => {
@@ -163,10 +185,11 @@ function makeOrderTable(data) {
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `order_${order.order_id}`).removeClass("d-none");
         clonedTr.find(".order_count").text(`${count--}`);
+        clonedTr.find(".order_id").text(order.order_id);
         clonedTr.find(".order_user").text(order.order_user_name);
         clonedTr.find(".order_date").text(order.created_at.substr(0, 19));
         clonedTr.find(".order_status").text(statusLabel("", order.order_status_value, ""));
-        clonedTr.find(".order_action").append(`<button class="btn btn-sm btn-info" onclick="orderStatusChange('${order.order_id}')">변경</button>`);
+        clonedTr.find(".order_action").append(`<button class="btn btn-sm btn-info" onclick="orderStatusChange('${order.order_id}', '${order.order_status}')">변경</button>`);
         clonedTr.find(".order_read").append(`<button class="btn btn-sm btn-primary" onclick="orderRead('${order.order_id}')">보기</button>`);
 
         $("#target-tbody").append(clonedTr);
@@ -179,8 +202,67 @@ function orderRead(order_id) {
     console.log("read order" + order_id)
 }
 
-function orderStatusChange(order_id) {
-    console.log("update order" + order_id)
+function updateAction() {
+    const header = $("meta[name='_csrf_header']").attr('content');
+    const token = $("meta[name='_csrf']").attr('content');
+
+    const prev_val = $("#orderUpdateForm input#prev_status_id").val()
+    const selected_val = $("input:radio[name='order_change_status']:checked").val()
+    const order_id = $("input[name='order_id']").val()
+
+    if (prev_val === selected_val) {
+        $("#alertModal__msg").text("같은 상태값을 입력할 수 없습니다")
+
+        $("#statusChangeModal").modal("hide")
+        $("#alertModal").modal("show");
+    } else {
+        $.ajax({
+            url: "/order/updateAction",
+            method: "post",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            data: {order_id, status_id: selected_val},
+            dataType: "json",
+            success: (jsonData) => {
+                if (jsonData.success) {
+                    $("#infoModal__msg").text("상태 변경 업데이트 완료")
+
+                    $("#statusChangeModal").modal("hide")
+                    $("#infoModal").modal("show");
+                }
+            },
+            error: (req, status, err) => {
+                console.log("err : ", err)
+            },
+            complete: () => {
+                ajaxCall()
+            }
+        })
+    }
+}
+
+function orderStatusChange(order_id, status_id) {
+    console.log("status_id : ", status_id)
+    console.log("update order : " + order_id)
+
+    $("#orderUpdateForm input#order_id").val(order_id)
+    $("#orderUpdateForm input#prev_status_id").val(status_id)
+    $("#orderUpdateForm input[name='order_id']").val(order_id)
+
+    $("#orderUpdateForm input:radio[name='order_change_status']").each((idx, el) => {
+        if ($(el).val() < status_id) {
+            $(el).prop("disabled", true)
+        } else if ($(el).val() === status_id) {
+            $(el).prop("checked", true)
+            $(el).prop("disabled", true)
+        } else {
+            $(el).prop("checked", false)
+            $(el).prop("disabled", false)
+        }
+    })
+
+    $("#statusChangeModal").modal("show")
 }
 
 function ajaxCall() {

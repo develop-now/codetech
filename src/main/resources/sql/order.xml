@@ -18,8 +18,6 @@
 		and row_num &lt;= #{end}
 	</select>
 
-
-
 	<select id="ordered_stores" resultType="store"
 		parameterType="map">
 		select * from (
@@ -141,6 +139,8 @@
 		) b on m.menu_id = b.menu_id)
 	</select>
 
+	<!-- start for order controller -->
+
 	<select id="statusList" resultType="order-status">
 		select *
 		from order_status
@@ -187,6 +187,22 @@
 		desc, o.order_id) j)
 		where rnum between #{startRow} and #{endRow}
 	</select>
+
+
+
+
+
+	<update id="updateStatus" parameterType="map">
+		update orders
+		set
+		order_status = #{status_id},
+		updated_at = sysdate
+		where order_id =
+		#{order_id}
+	</update>
+
+	<!-- end for order controller -->
+
 
 	<delete id="cartDel" parameterType="int">
 		delete from carts where

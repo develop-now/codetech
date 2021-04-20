@@ -17,72 +17,77 @@ import java.util.Map;
 
 @Repository
 public class OrderDAO {
-	@Autowired
-	private SqlSessionTemplate sqlSession;
+    @Autowired
+    private SqlSessionTemplate sqlSession;
 
-	public List<OrderStatus> getOrderStatusList() {
-		return sqlSession.selectList("Orders.statusList");
-	}
 
-	public int getOrderListCountAjax(Map<String, Object> param) {
-		return sqlSession.selectOne("Orders.listCountAjax", param);
-	}
+    public List<OrderStatus> getOrderStatusList() {
+        return sqlSession.selectList("Orders.statusList");
+    }
 
-	public List<Order> getOrderListAjax(Map<String, Object> param) {
-		return sqlSession.selectList("Orders.listAjax", param);
-	}
+    public int updateOrderStatus(Map<String, Object> param) {
+        return sqlSession.update("Orders.updateStatus", param);
+    }
 
-	public List<Order> getOrderList(int store_id) {
-		return sqlSession.selectList("Orders.list", store_id);
-	}
+    public int getOrderListCountAjax(Map<String, Object> param) {
+        return sqlSession.selectOne("Orders.listCountAjax", param);
+    }
 
-	public List<Order> getOrder(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Orders.ordered", map);
-	}
+    public List<Order> getOrderListAjax(Map<String, Object> param) {
+        return sqlSession.selectList("Orders.listAjax", param);
+    }
 
-	public List<Store> getStoreForOrder(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Orders.ordered_stores", map);
-	}
+    public List<Order> getOrderList(int store_id) {
+        return sqlSession.selectList("Orders.list", store_id);
+    }
 
-	public List<OrderDetail> getOrderDetail(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Orders.ordered_details", map);
-	}
+    public List<Order> getOrder(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Orders.ordered", map);
+    }
 
-	public List<Menu> getMenuForOrder(HashMap<String, Integer> map) {
-		return sqlSession.selectList("Orders.ordered_menu", map);
-	}
+    public List<Store> getStoreForOrder(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Orders.ordered_stores", map);
+    }
 
-	public int getListCount(int user_id) {
-		return sqlSession.selectOne("Orders.orderCount", user_id);
-	}
+    public List<OrderDetail> getOrderDetail(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Orders.ordered_details", map);
+    }
 
-	public int cartRegister(HashMap<String, Object> map) {
-		return sqlSession.insert("Orders.cart", map);
-	}
+    public List<Menu> getMenuForOrder(HashMap<String, Integer> map) {
+        return sqlSession.selectList("Orders.ordered_menu", map);
+    }
 
-	public List<Cart> getCart(int user_id) {
-		return sqlSession.selectList("Orders.cartList", user_id);
+    public int getListCount(int user_id) {
+        return sqlSession.selectOne("Orders.orderCount", user_id);
+    }
 
-	}
+    public int cartRegister(HashMap<String, Object> map) {
+        return sqlSession.insert("Orders.cart", map);
+    }
 
-	public List<Menu> getMenuForCart(int user_id) {
-		return sqlSession.selectList("Orders.menuList", user_id);
+    public List<Cart> getCart(int user_id) {
+        return sqlSession.selectList("Orders.cartList", user_id);
 
-	}
+    }
 
-	public List<Store> getStoreForCart(int user_id) {
-		return sqlSession.selectList("Orders.storeList", user_id);
+    public List<Menu> getMenuForCart(int user_id) {
+        return sqlSession.selectList("Orders.menuList", user_id);
 
-	}
+    }
 
-	public int getAmount(int user_id) {
-		return sqlSession.selectOne("Orders.getAmount", user_id);
-	}
+    public List<Store> getStoreForCart(int user_id) {
+        return sqlSession.selectList("Orders.storeList", user_id);
 
-	public int getTotalPrice(int user_id) {
-		return sqlSession.selectOne("Orders.getTotalPrice", user_id);
+    }
 
-	}
+    public int getAmount(int user_id) {
+        return sqlSession.selectOne("Orders.getAmount", user_id);
+    }
+
+    public int getTotalPrice(int user_id) {
+        return sqlSession.selectOne("Orders.getTotalPrice", user_id);
+
+    }
 
 	public int cartDel(int cart_id) {
 		return sqlSession.delete("Orders.cartDel", cart_id);

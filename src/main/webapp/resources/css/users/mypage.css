@@ -242,38 +242,44 @@ img.modifyModal__img-profile{
     font-weight: 700;
     
 }
-.mypageReview__content-left--img{
-	margin: 10px 30px 30px 30px;
-	
-}
-.mypageReview__content-left--img > img{
-	width:150px;
-}
 .mypageReview__content-right{
 	display:grid;
-	grid-template-rows: 140px 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
 	padding-right:40px;
 	padding-bottom: 20px;
 }
 .mypageReview__content-right--rivew{
 	padding-top:30px;
 }
-.mypageReview__content-right > .order-summary{
-	color: #6b9068;
-    font-weight: bold;
-    opacity: 0.8;}
+.mypageReview__content-right > .ownerCmt{
+	padding-top:20px;
+	color: gray;
+    opacity: 0.8;
+}
+.mypageReview__content-right > .ownerCmt > img{
+	width:20px;
+	height:15px;
+	margin-bottom:10px;
+}
+.mypageReview__content-left > .text-center{
+	padding-top:20px;
+} 
     
-.mypageReview__content-right > .text-right > button{
+.mypageReview__content-left > .text-center > button{
 	border-radius:5px;
 	border-line: none;
 	border-color:#6b9068ba;
 	background-color: #6b9068ba;
 	color:white;
+	opacity:0.9;
+	margin: 5px 8px;
+	padding:0 10px;
+}
+
+.more{
+	text-align:center;
 	opacity:0.9;}
 	
-	.more {
-	
-}
 
 .pageInc{
 	background-color:#6b9068ba !important;
