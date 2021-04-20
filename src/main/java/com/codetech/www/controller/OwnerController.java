@@ -296,6 +296,37 @@ public class OwnerController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/payCart")
+	public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
+			@RequestParam(value = "o_menu") String[] o_menu,
+			@RequestParam(value = "cart_id") int[] cart_id,
+			int user_id, String totalPrice, int amount, 
+			ModelAndView mv) {
+
+		List<MiniCart> list = new ArrayList<MiniCart>();
+		
+		if (totalPrice.equals("")) {
+			mv.setViewName("owner/mainList");
+		}
+
+		for (int i = 0; i < p_num.length; i++) {
+				 MiniCart cart = new MiniCart();
+				cart.setMenuName(o_menu[i]);
+				cart.setOrderAmount(p_num[i]);
+				list.add(cart);
+		}
+
+		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
+		String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
+		mv.addObject("amount", amount);
+		mv.addObject("list", list);
+		mv.addObject("newtotalPrice", newtotalPrice);
+		mv.addObject("user", user);
+		mv.addObject("cartCount", list.size());
+		mv.setViewName("owner/payment");
+		return mv;
+	}
+	
 	
 	
 

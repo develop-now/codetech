@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Orders">
-	<<<<<<< HEAD
 	<select id="list" resultType="menu" parameterType="int">
 		select *
 		from
@@ -141,7 +140,6 @@
 		<include refid="forCart" />
 		) b on m.menu_id = b.menu_id)
 	</select>
-	=======
 
 	<select id="statusList" resultType="order-status">
 		select *
@@ -151,9 +149,11 @@
 	<select id="listCountAjax" parameterType="map" resultType="int">
 		select count(*)
 		from orders o
-		join order_status t on o.order_status = t.order_status_id
+		join order_status t on o.order_status =
+		t.order_status_id
 		where store_id = #{store_id}
-		and TO_CHAR(created_at, 'YYYYMMDD') = #{selected_date}
+		and TO_CHAR(created_at,
+		'YYYYMMDD') = #{selected_date}
 		<if test="status_id != null">
 			and t.order_status_id = #{status_id}
 		</if>
@@ -162,13 +162,16 @@
 	<select id="listAjax" parameterType="map" resultType="order">
 		select *
 		from (select rownum as rnum, j.*
-		from (select o.*, f.user_name as order_user_name, t.status_value as
+		from (select o.*, f.user_name
+		as order_user_name, t.status_value as
 		order_status_value
 		from orders o
 		join user_info f on o.order_user = f.user_id
-		join order_status t on o.order_status = t.order_status_id
+		join order_status t on
+		o.order_status = t.order_status_id
 		where store_id = #{store_id}
-		and TO_CHAR(created_at, 'YYYYMMDD') = #{selected_date}
+		and
+		TO_CHAR(created_at, 'YYYYMMDD') = #{selected_date}
 		<if test="status_id != null">
 			and t.order_status_id = #{status_id}
 		</if>
@@ -185,5 +188,9 @@
 		where rnum between #{startRow} and #{endRow}
 	</select>
 
+	<delete id="cartDel" parameterType="int">
+		delete from carts where
+		cart_id = #{cart_id}
+	</delete>
 
 </mapper>

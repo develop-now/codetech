@@ -15,8 +15,12 @@
 <title>cart-list</title>
 <!--주문내역의 리뷰작성을 클릭하면 이동되며 마이페이지에서 작성됨,가게, 총주문수, 작성칸 사진삽입, 좋아요 수정아이콘 -->
 <%@include file="../partial/head.jsp"%>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <script
 	src="${pageContext.request.contextPath}/resources/js/user/order-cart.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
 </head>
@@ -43,7 +47,10 @@
 						</div>
 						<hr>
 						<c:forEach var="store" items="${store}" varStatus="status">
-							<div class="mypageReview__body d-inline-flex">
+						<form action="${pageContext.request.contextPath}/owner/payCart"
+					method="get">
+							<div class="mypageReview__body d-inline-flex"
+								id="cart_num${status.count}">
 								<div class="mypageReview__content-left">
 									<div>
 										<span>${store.store_name }</span>
@@ -70,14 +77,19 @@
 									</div>
 									<div class="order-summary">
 										${menu[status.index].menu_name }
+										<input type="hidden" name="o_menu"
+											id="o_menu${status.count}" class="o_menu"
+											value="${menu[status.index].menu_name }">
 										<fmt:formatNumber value="${menu[status.index].menu_price }"
-													pattern="###,###,###" />
-										</div>
+											pattern="###,###,###" />
+									</div>
 									<div class="text-right">
-									<input type="hidden" name="p_price"
-													id="p_price${status.count}" class="p_price"
-													value="${menu[status.index].menu_price }">
-										<button type="button" onclick="location.href='home'">메뉴삭제</button>
+										<input type="hidden" name="p_price"
+											id="p_price${status.count}" class="p_price"
+											value="${menu[status.index].menu_price }"> <input
+											type="hidden" name="cart_id" id="cart_id${status.count}"
+											class="cart_id" value="${cart[status.index].cart_id }">
+										<button type="button" id="cartDel" onclick="javascript:basket.delItem();">메뉴삭제</button>
 									</div>
 									<div class="num">
 										<div class="updown">
@@ -92,32 +104,63 @@
 												class="fas fa-arrow-alt-circle-down down"></i></span>
 										</div>
 									</div>
+									<!-- num -->
 
 								</div>
+								<!-- mypageReview__content-right -->
 							</div>
+							<!-- mypageReview__body d-inline-flex -->
 						</c:forEach>
-						<br>
-						<br>
+						<br> <br>
 						<div class="payMentView"></div>
-						<div class="bigtext right-align sumcount" id="sum_p_num">총 : ${amount} 개 </div>
+						<div class="bigtext right-align sumcount" id="sum_p_num">총 :
+							${amount} 개</div>
 						<div class="bigtext right-align box blue summoney"
-							id="sum_p_price">총 <fmt:formatNumber value="${totalPrice}"
-													pattern="###,###,###" />원</div>
-							<input type="hidden" class="bigtext right-align sumcount"
-							id="sum_p_numA" name="amount"> <input type="hidden"
+							id="sum_p_price">
+							총
+							<fmt:formatNumber value="${totalPrice}" pattern="###,###,###" />
+							원
+						</div>
+						<input type="hidden" class="bigtext right-align sumcount"
+							id="sum_p_numA" name="amount" value="${amount}"> <input type="hidden"
 							class="bigtext right-align box blue summoney" id="sum_p_priceA"
-							name="totalPrice">
+							name="totalPrice" value="${totalPrice}"> <input type="hidden" name="user_id"
+							id="user_id" class="user_id" value="${user_id}">
+							<input type="hidden" name="ab"
+							id="ab" class="ab" value="${pageContext.request.contextPath}">
+														<div class="buttonGroup"><br>
+							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
+							 <br> <br> <input
+							type="hidden" name="user_id" value="${user_id}"> 
+							</form>
+							</div>
 					</div>
+					<!-- container mypageReview -->
 				</div>
+				<!-- col-12 col-sm-10 -->
 			</div>
-			<!-- /.container -->
+			<!--row -->
 			<br>
-			<div class="row" id="moreAjax"></div>
 
 			<%-- footer --%>
 			<%@include file="../partial/footer.jsp"%>
 		</div>
+		<!-- container-fluid -->
 	</div>
+	<!-- container-fluid px-0-->
+
+	<script>
+$(function() {
+			$('form').submit(function() {
+				if (($("#totalPrice").val() < 1)) {
+					alert("장바구니가 비었습니다.");
+				}
+				
+			})
+
+})
+
+</script>
 
 </body>
 </html>

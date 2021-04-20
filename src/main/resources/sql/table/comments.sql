@@ -219,7 +219,28 @@ values (50,
 
 commit;
 
+select * from comments;
 
 
 
+select * from comments where comment_store = 2 order by comment_ref desc, comment_lev, comment_seq;
+
+
+
+insert into comments
+values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+        '사장님이 댓글을 달면 이런식으로 입력이 된다.',
+        1, 1, 5, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+        '사장님이 댓글을 달면 이런식으로 입력이 된다.',
+        1, 1, 8, sysdate, sysdate, 4, 2, 1);
+ insert into comments
+values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+        '사장님이 댓글을 달면 이런식으로 입력이 된다1.',
+        1, 1, 11, sysdate, sysdate, 4, 2, 1);
+insert into comments
+values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+        '사장님이 댓글을 달면 이런식으로 입력이 된다2.',
+        1, 1, 10, sysdate, sysdate, 4, 2, 1);
 
