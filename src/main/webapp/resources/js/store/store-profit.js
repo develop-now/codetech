@@ -45,8 +45,6 @@ function makeGraphValue(data) {
     let sorted_total_data = {}
 
     for (let profit of data) {
-        console.log(profit)
-
         let key_date = profit.updated_at.substr(5, 5).replace("-", "/")
 
         if (!sorted_total_data.hasOwnProperty(key_date)) {
@@ -67,8 +65,6 @@ function makeGraphValue(data) {
         }
     }
 
-    console.log(sorted_menu_data)
-    console.log(sorted_total_data)
 
     let new_total_menu_val = [['메뉴명', '판매량']]
     for (let key in sorted_menu_data) {

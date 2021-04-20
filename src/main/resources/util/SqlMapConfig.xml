@@ -16,6 +16,7 @@
         <typeAlias alias="user" type="com.codetech.www.domain.User"/>
         <typeAlias alias="staff" type="com.codetech.www.domain.Staff"/>
         <typeAlias alias="comment" type="com.codetech.www.domain.Comment"/>
+        <typeAlias alias="cart" type="com.codetech.www.domain.Cart"/>
 
         <typeAlias alias="notice" type="com.codetech.www.domain.Notice"/>
         <typeAlias alias="menu-category" type="com.codetech.www.domain.MenuCategory"/>
@@ -25,6 +26,7 @@
         <typeAlias alias="sil" type="com.codetech.www.domain.StoreInfoList"/>
         <typeAlias alias="customer" type="com.codetech.www.domain.Customer"/>
         <typeAlias alias="profit" type="com.codetech.www.domain.Profit"/>
+        <typeAlias alias="order-status" type="com.codetech.www.domain.OrderStatus"/>
     </typeAliases>
 
     <mappers>

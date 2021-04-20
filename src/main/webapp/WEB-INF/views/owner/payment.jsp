@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,46 +11,75 @@
 <title>Insert title here</title>
 </head>
 <body>
-<input type="hidden" class="amount" value="${amount }">
-<input type="hidden" class="price" value="${newtotalPrice }">
-<input type="hidden" class="email" value="${user.user_email }">
-<input type="hidden" class="name" value="${user.user_name }">
-<input type="hidden" class="tel" value="${user.user_tel }">
+	<input type="hidden" class="cartCount" value="${cartCount }">
+	<input type="hidden" class="amount" value="${amount }">
+	<input type="hidden" class="price" value="${newtotalPrice }">
+	<input type="hidden" class="email" value="${user.user_email }">
+	<input type="hidden" class="name" value="${user.user_name }">
+	<input type="hidden" class="tel" value="${user.user_tel }">
+
+	<c:forEach var="list" items="${list}" varStatus="status">
+			<input type="hidden" class="o_menu${status.index}"
+			value="${list.menuName }">
+		<input type="hidden" class="p_num${status.index}"
+			value="${list.orderAmount }">
+			<input type="hidden" class="m_num${status.index}"
+			value="${list.menu_id }">
+
+	</c:forEach>
+
+<div class="order"></div>
+
 
 	<script>
-	$(function() {
-		//아임포트 관리자 페이지의 "시스템 설정" > "내 정보" 에서 확인 가능
-		IMP.init('imp88328398');
-		var amountA = $('.price').val();
+		$(function() {
+			
+			for(var i = 0; i < $('.cartCount').val(); i++) {
+				$('.order').append($('.o_menu'+i).val());
+				$('.order').append($('.p_num'+i).val() + '개  + ');
+			}
+			
+			//아임포트 관리자 페이지의 "시스템 설정" > "내 정보" 에서 확인 가능
+			IMP.init('imp88328398');
+			var amountA = $('.price').val();
 
-		IMP.request_pay({
-			pg : 'kakaopay',
-			pay_method : 'card',
-			merchant_uid : 'merchant_' + new Date().getTime(),
-			name : $('.name').val(),
-			amount : amountA,
-			buyer_email : $('.email').val(),
-			buyer_name : $('.name').val(),
-			buyer_tel : $('.tel').val(),
-		}, function(rsp) {
-			console.log(rsp);
-			//결제검증
-			$.ajax({
-				type : "POST",
-				url : "${pageContext.request.contextPath}/verifyIamport/" + rsp.imp_uid
-			}).done(function(data) {
-				console.log(data);
+			IMP
+					.request_pay(
+							{
+								pg : 'kakaopay',
+								pay_method : 'card',
+								merchant_uid : 'merchant_'
+										+ new Date().getTime(),
+								name : $('.order').text(),
+								amount : amountA,
+								buyer_email : $('.email').val(),
+								buyer_name : $('.name').val(),
+								buyer_tel : $('.tel').val(),
+							},
+							function(rsp) {
+								console.log(rsp);
+								//결제검증
+								$
+										.ajax(
+												{
+													type : "POST",
+													url : "${pageContext.request.contextPath}/verifyIamport/"
+															+ rsp.imp_uid
+												})
+										.done(
+												function(data) {
+													console.log(data);
 
-				//위의 rsp.paid_amount와 data.response.amount를 비교한 후 로직 실행(import 서버검증)
-				if (rsp.paid_amount == data.response.amount) {
-					//alert("결제 및 결제검증완료");
-					location.href = "payment_complete"
-				} else {
-					//alert("결제 실패");
-				}
-			});
+													//위의 rsp.paid_amount와 data.response.amount를 비교한 후 로직 실행(import 서버검증)
+													if (rsp.paid_amount == data.response.amount) {
+														//alert("결제 및 결제검증완료");
+														location.href = "payment_complete"
+													} else {
+														//alert("결제 실패");
+													}
+												});
+							});
 		});
-	});
 	</script>
 </body>
 </html>

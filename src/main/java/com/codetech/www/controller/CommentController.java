@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,5 +121,20 @@ public class CommentController {
         String redirectURI = "/comment/comment-read?comment_id=" + comment_ref;
         return "redirect:" + redirectURI;
 
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/comment-list-by-user-ajax", method= RequestMethod.GET)
+    public Map<String, Object> getUserCommentListAjax(HttpSession session
+    								,@RequestParam(value="page",defaultValue="1",required=false)int page
+    									) {
+    	logger.info("여기는 getlistajax");
+    	int user_id = (Integer)session.getAttribute("user_id");
+    	List<Comment> list= commentService.getUserCommentList(user_id, page);
+    	int listcount = commentService.getCommentCountByUser(user_id);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("listcount", listcount);
+    	map.put("list", list);
+    	return map;
     }
 }

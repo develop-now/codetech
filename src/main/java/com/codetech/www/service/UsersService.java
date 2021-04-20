@@ -49,5 +49,17 @@ public interface UsersService {
 
 	int favoriteCancel(int user_id, int store_id);
 
+	int cartRegister(int user_id, int m_numA, int m_num);
+
+	List<Cart> getCart(int user_id);
+
+	List<Menu> getMenuForCart(int user_id);
+
+	List<Store> getStoreForCart(int user_id);
+
+	int getAmount(int user_id);
+
+	int getTotalPrice(int user_id);
+
 
 }

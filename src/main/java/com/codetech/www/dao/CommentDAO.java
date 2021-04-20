@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,16 @@ public class CommentDAO {
 	public Report readCommentReport(int cmt_report_id) {
 		return sqlSession.selectOne("Comments.readCommentReport", cmt_report_id);
 	}
+
+	public List<Comment> getUserCommentList(HashMap<String, Object> map) {
+		return sqlSession.selectList("Comments.userCommentList", map);
+	}
+
+	public int getCommentCountByUser(int user_id) {
+		return sqlSession.selectOne("Comments.commentCountByUser", user_id);
+	}
+
+
 
 
 }

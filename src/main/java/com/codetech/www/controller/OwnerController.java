@@ -1,6 +1,7 @@
 package com.codetech.www.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.codetech.www.domain.Menu;
+import com.codetech.www.domain.MiniCart;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.OwnerService;
+import com.codetech.www.service.StoreService;
+import com.codetech.www.service.UsersService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
@@ -40,6 +45,11 @@ public class OwnerController {
 
 	@Autowired
 	private OwnerService ownerService;
+	
+	@Autowired
+	private UsersService usersService;
+	
+	
 
 	private IamportClient api;
 
@@ -241,26 +251,61 @@ public class OwnerController {
 
 	}
 
+	//pay
 	@RequestMapping(value = "/pay")
-	public ModelAndView pay(@RequestParam(value = "user_id", defaultValue = "1", required = false) int user_id,
-int amount, String totalPrice, ModelAndView mv) {
+	public ModelAndView pay(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
+			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "p_numA") int[] p_numA,
+			@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
+			int user_id, int store_id, String totalPrice, int amount, 
+			ModelAndView mv) {
+
+		List<MiniCart> list = new ArrayList<MiniCart>();
+		
+		if (totalPrice.equals("")) {
+			mv.setViewName("user/orderMain?store_id=" + store_id);
+		}
+
+		for (int i = 0; i < p_num.length; i++) {
+			if (p_num[i] > 0) {
+				 MiniCart cart = new MiniCart();
+				cart.setMenuName(o_menu[i]);
+				cart.setOrderAmount(p_num[i]);
+				list.add(cart);
+			}
+
+		}
+
+		for (int i = 0; i < p_numA.length; i++) {
+			if (p_numA[i] > 0) {
+				 MiniCart cart = new MiniCart();
+				cart.setMenuName(o_menuA[i]);
+				cart.setOrderAmount(p_numA[i]);
+				list.add(cart);
+			}
+		}
+		
+
 		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
 		String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
 		mv.addObject("amount", amount);
+		mv.addObject("list", list);
 		mv.addObject("newtotalPrice", newtotalPrice);
 		mv.addObject("user", user);
+		mv.addObject("cartCount", list.size());
 		mv.setViewName("owner/payment");
 		return mv;
 	}
 	
+	
+	
+
 	@ResponseBody
 	@RequestMapping(value = "/verifyIamport/{imp_uid}")
-	public IamportResponse<Payment> paymentByImplUid(
-			Model model, Local locale, HttpSession session, @PathVariable(value= "imp_uid") String imp_uid) throws IamportResponseException, IOException
-	{
+	public IamportResponse<Payment> paymentByImplUid(Model model, Local locale, HttpSession session,
+			@PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
 		return api.paymentByImpUid(imp_uid);
 	}
-	
+
 	@RequestMapping(value = "/payment_complete")
 	public String payment_complete() {
 		return "payment_complete";

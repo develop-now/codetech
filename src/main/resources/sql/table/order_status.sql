@@ -15,5 +15,7 @@ insert into order_status
 values (4, 'completed');    -- 조리가 끝났을때
 insert into order_status
 values (5, 'done');         -- 손님이 픽업을 했을때
+insert into order_status
+values (6, 'canceled');     -- 손님이 픽업을 했을때
 
 commit;

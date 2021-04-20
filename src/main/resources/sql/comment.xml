@@ -80,18 +80,20 @@
         #{comment_ref},#{comment_seq},#{comment_writer},#{comment_store})
     </insert>
 
-    
-    <select id="selectComment" parameterType="int" resultType= "comment">
-    	select comment_content
-    	from comments
-    	where comment_id = #{comment_id}
-    </select>
-    
-    <select id="readCommentReport" parameterType="int" resultType="report">
-		select * from comment_report where cmt_report_id = #{cmt_report_id}   
+
+    <select id="selectComment" parameterType="int" resultType="comment">
+        select comment_content
+        from comments
+        where comment_id = #{comment_id}
     </select>
 
-  
+    <select id="readCommentReport" parameterType="int" resultType="report">
+        select *
+        from comment_report
+        where cmt_report_id = #{cmt_report_id}
+    </select>
+
+
     <update id="update" parameterType="comment">
         update comments
         set updated_at = sysdate,
@@ -109,7 +111,23 @@
         from comments
         where comment_writer = ${user_id}
     </select>
-
-
+	
+	<select id="commentCountByUser" resultType="int" parameterType="int">
+		select count(*)
+		from comments
+		where comment_writer = #{user_id}
+	</select>
+	
+	<select id="userCommentList" parameterType="int" resultType="comment">
+		select * 
+		from (select rownum rnum, c.* 
+				from (select * 
+						from comments 
+						where comment_writer = #{user_id}
+						order by created_at desc	
+						 )c
+				)
+		where rnum between #{start} and #{end}
+	</select>
 </mapper> 
 

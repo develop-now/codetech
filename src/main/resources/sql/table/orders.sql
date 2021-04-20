@@ -200,15 +200,44 @@ values (79, '830000', 7, 5, 2);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
 values (80, '530000', 7, 5, 2);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (81, '530000', 17, 1, 1);
+values (81, '530000', 16, 1, 1);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (82, '530000', 17, 2, 2);
+values (82, '530000', 16, 2, 2);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (83, '530000', 17, 3, 3);
+values (83, '530000', 16, 3, 3);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (84, '530000', 17, 4, 4);
+values (84, '530000', 16, 4, 4);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (85, '530000', 17, 5, 5);
-
+values (85, '530000', 16, 5, 3);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (86, '830000', 16, 4, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (87, '930000', 16, 3, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (88, '1530000', 7, 2, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (89, '830000', 7, 1, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (90, '530000', 7, 6, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (91, '30000', 10, 4, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (92, '80000', 11, 3, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (93, '110000', 12, 2, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (94, '430000', 13, 1, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (95, '320000', 14, 3, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (96, '830000', 15, 4, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (97, '930000', 16, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (98, '1530000', 7, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (99, '830000', 7, 6, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id)
+values (100, '530000', 7, 3, 2);
 
 commit;
