@@ -79,7 +79,7 @@ function makeStaffTable(data, store_name) {
         let clonedTr = templateTr.clone();
         clonedTr.attr("id", `staff_${staff.user_id}`).removeClass("d-none");
         clonedTr.find(".staff_count").text(count);
-        clonedTr.find(".staff_name").append(staff.user_name);
+        clonedTr.find(".staff_name").text(staff.user_name);
         clonedTr.find(".staff_email").text(staff.user_email);
         clonedTr.find(".staff_date").text(staff.created_at.substr(0, 11));
         clonedTr.find(".staff_expire").append(`<button class="btn btn-danger btn-sm"

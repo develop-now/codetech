@@ -1,8 +1,7 @@
 let basket = {
 	totalCount : 0,
 	totalPrice : 0,
-	totalCountA : 0,
-	totalPriceA : 0,
+
 
 	// 재계산
 	reCalc : function() {
@@ -17,23 +16,22 @@ let basket = {
 							var price = item.parentElement.parentElement.previousElementSibling.firstElementChild
 									.getAttribute('value');
 							this.totalPrice += count * price;
-						}, this); // forEach 2번째 파라메터로 객체를
-		// 넘겨서 this 가 객체리터럴을
-		// 가리키도록 함. - thisArg
+						}, this); 
+		
 	},
 
 	// 화면 업데이트
 	updateUI : function() {
 		document.querySelector('#sum_p_num').textContent = '총 : ' 
 			+ this.totalCount.formatNumber() + '개';
-	document.querySelector('#sum_p_price').textContent	 = 
-			this.totalPrice.formatNumber(); + '원';
+	document.querySelector('#sum_p_price').textContent	 = '총  ' 
+			+ this.totalPrice.formatNumber() + '원';
 		document.querySelector('#sum_p_numA').value = 
 				+ this.totalCount.formatNumber();
 		document.querySelector('#sum_p_priceA').value	 = 
 				this.totalPrice.formatNumber();
 	},
-	// 개별 수량 변경 인기메뉴
+	
 	changePNum : function(pos) {
 		var item = document.querySelector('input[id=p_num' + pos + ']');
 		var p_num = parseInt(item.getAttribute('value'));
@@ -51,38 +49,8 @@ let basket = {
 
 		var price = item.parentElement.parentElement.previousElementSibling.firstElementChild
 				.getAttribute('value');
-
-		// AJAX 업데이트 전송
-
-		// 전송 처리 결과가 성공이면
-		this.reCalc();
-		this.updateUI();
-	},
-	// 개별 수량 변경 전체메뉴
-	changePANum : function(pos) {
-		
-		var itemA = document.querySelector('input[id=p_numA' + pos + ']');
-		var p_numA = parseInt(itemA.getAttribute('value'));
-		var newvalA = event.target.classList.contains('up') ? p_numA + 1
-				: event.target.classList.contains('down') ? p_numA - 1
-						: event.target.value;
-
-		if (parseInt(newvalA) < 0 || parseInt(newvalA) > 99) {
-			return false;
-		}
-		
 	
-		
-	
-		itemA.setAttribute('value', newvalA);
-		itemA.value = newvalA;
 
-		var priceA = itemA.parentElement.parentElement.previousElementSibling.firstElementChild
-				.getAttribute('value');
-		itemA.parentElement.parentElement.nextElementSibling.textContentA = (newvalA * priceA)
-				.formatNumber()
-				+ "원";
-		
 		// AJAX 업데이트 전송
 
 		// 전송 처리 결과가 성공이면
@@ -105,6 +73,7 @@ Number.prototype.formatNumber = function() {
 		nstr = nstr.replace(regex, '$1' + ',' + '$2');
 	return nstr;
 };
+
 
 	
 

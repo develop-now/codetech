@@ -215,4 +215,43 @@
 		FROM MENUS
 		WHERE STORE_ID = #{store_id}
 	</select>
+	
+	<select id="getNoticeList" parameterType="map" resultType="notice">
+	 SELECT *
+ 	 FROM (SELECT ROWNUM RNUM, N.*
+       	   FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
+       	   		 		NOTICE_READCOUNT, NOTICE_DATE, NOTICE_SAVED_IMAGE, NOTICE_ORIGINAL_IMAGE
+             	 FROM NOTICE   	 
+				<if test="search_text != null and notice_status != null">
+				 WHERE NOTICE_STATUS = 
+					<choose>
+						<when test="notice_status == 1">1</when> <!-- 공지사항 -->
+						<when test="notice_status == 2">2</when> <!-- 이벤트 -->
+						<when test="notice_status == 3">3</when> <!-- 점검사항 -->
+					</choose>
+				 AND NOTICE_SUBJECT LIKE #{search_text}	
+				</if>
+           		) N
+      	   )
+     WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+	</select>
+	
+	<select id="getNoticeListCount" parameterType="map" resultType="int">
+	 SELECT COUNT(*)
+ 	 FROM (SELECT ROWNUM RNUM, N.*
+       	   FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
+       	   		 		NOTICE_READCOUNT, NOTICE_DATE, NOTICE_SAVED_IMAGE, NOTICE_ORIGINAL_IMAGE
+             	 FROM NOTICE   	 
+				<if test="search_text != null and notice_status != null">
+				 WHERE NOTICE_STATUS = 
+					<choose>
+						<when test="notice_status == 1">1</when> <!-- 공지사항 -->
+						<when test="notice_status == 2">2</when> <!-- 이벤트 -->
+						<when test="notice_status == 3">3</when> <!-- 점검사항 -->
+					</choose> 
+				 AND NOTICE_SUBJECT LIKE #{search_text}	
+				</if>
+           		) N
+      	   )
+	</select>
 </mapper>

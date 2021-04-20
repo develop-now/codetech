@@ -278,9 +278,25 @@ img.modifyModal__img-profile{
 
 .more{
 	text-align:center;
-}
+	opacity:0.9;}
+	
 
 .pageInc{
 	background-color:#6b9068ba !important;
+}
+#sum_p_num, #sum_p_price {
+	text-align:center;
+	text-size:large;
+}
+
+#pmbtn {
+	color: #be9f7b;
+	font-size: 2em;
+	letter-spacing: -5px;
+}
+
+.menuName, .buttonGroup {
+	text-align: center;
+	font-size: large;
 }
 /*mypage-review end*/
