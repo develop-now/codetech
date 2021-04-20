@@ -229,42 +229,25 @@ img.modifyModal__img-profile{
 .mypageReview__content-left>div{
 	margin: 20px;
 }
-.mypageReview__content-left div span{
-	padding:0 0 0 10px;
+.mypageReview__content-left > div:nth-child(1){
+	position: relative;
+    right: 20px
 }
 .mypageReview__content-left > div > span:nth-child(1){
 	position: relative;
 	bottom:20px;
 }
 .mypageReview__content-left > div > span:nth-child(2){
-	position: relative;
-	right: 15px;
     font-weight: 700;
     
 }
 .mypageReview__content-right{
-	display:grid;
-	grid-template-rows: 1fr 1fr;
 	padding-right:40px;
 	padding-bottom: 20px;
 }
 .mypageReview__content-right--rivew{
 	padding-top:30px;
 }
-.mypageReview__content-right > .ownerCmt{
-	padding-top:20px;
-	color: gray;
-    opacity: 0.8;
-}
-.mypageReview__content-right > .ownerCmt > img{
-	width:20px;
-	height:15px;
-	margin-bottom:10px;
-}
-.mypageReview__content-left > .text-center{
-	padding-top:20px;
-} 
-    
 .mypageReview__content-left > .text-center > button{
 	border-radius:5px;
 	border-line: none;
@@ -275,7 +258,14 @@ img.modifyModal__img-profile{
 	margin: 5px 8px;
 	padding:0 10px;
 }
-
+.addMessage{
+    width: 87%;
+    margin: 100px 0;
+    background-color:oldlace;
+    border: solid 1px #6b9068ba;
+    border-radius:5px;
+    color:#6b9068;
+}
 .more{
 	text-align:center;
 	opacity:0.9;}

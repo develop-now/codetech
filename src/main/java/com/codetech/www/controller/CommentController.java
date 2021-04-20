@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -124,17 +123,33 @@ public class CommentController {
     }
     
     @ResponseBody
-    @RequestMapping(value="/comment-list-by-user-ajax", method= RequestMethod.GET)
+    @RequestMapping(value="/user/comment-list-by-user-ajax", method= RequestMethod.GET)
     public Map<String, Object> getUserCommentListAjax(HttpSession session
     								,@RequestParam(value="page",defaultValue="1",required=false)int page
     									) {
     	logger.info("여기는 getlistajax");
     	int user_id = (Integer)session.getAttribute("user_id");
     	List<Comment> list= commentService.getUserCommentList(user_id, page);
-    	int listcount = commentService.getCommentCountByUser(user_id);
+    	int listCount = commentService.getCommentCountByUser(user_id);
     	Map<String, Object> map = new HashMap<String, Object>();
-    	map.put("listcount", listcount);
+    	map.put("listCount", listCount);
     	map.put("list", list);
+    	return map;
+    }
+    
+    @RequestMapping(value="/user/deleteUserComment", method = RequestMethod.POST)
+    public Map<String, Object> deleteUserComment(int comment_id) {
+    	logger.info("''''''''''''''''''''''''''''''''''''''''' deleteUserComment들어옴");
+
+    	//comment_id받고 그 아이디에 해당하는 글의 status를 update해준다 + update_at도 변경
+    	int result = commentService.deleteComment(comment_id);
+    	logger.info("''''''''''''''''''''''''''''''''''''''''' deleteUserComment" + result);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	if(result != 1) {
+    		logger.info("deleteUserComment update ERROR");
+    	}else {
+    		map.put("result", result);
+    	}
     	return map;
     }
 }
