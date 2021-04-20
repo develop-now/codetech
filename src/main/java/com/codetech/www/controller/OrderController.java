@@ -64,6 +64,20 @@ public class OrderController {
         return "store/order/order-read";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
+    public Map<String, Object> updateAction(@RequestParam(value = "order_id") int order_id,
+                                            @RequestParam(value = "status_id") int status_id) {
+
+        Map<String, Object> rtn = new HashMap<String, Object>();
+
+        int result = orderService.updateOrderStatus(order_id, status_id);
+
+        rtn.put("success", result > 0);
+
+        return rtn;
+    }
+
     @RequestMapping(value = "/order-update", method = RequestMethod.GET)
     public void updateOrder(@RequestParam(value = "order_id") int order_id, Model model) {
         model.addAttribute("storeNav", "orderUpdate");
