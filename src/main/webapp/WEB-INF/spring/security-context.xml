@@ -18,6 +18,10 @@
         <security:intercept-url pattern="/user/join" access="permitAll"/>
         <security:intercept-url pattern="/user/idCheck" access="permitAll"/>
         <security:intercept-url pattern="/user/joinProcess" access="permitAll"/>
+        <security:intercept-url pattern="/order/order-read"
+                                access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
+        <security:intercept-url pattern="/order/updateAction"
+                                access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/order/order-list-ajax"
                                 access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/order/order-status-ajax"
@@ -29,13 +33,13 @@
         <security:intercept-url pattern="/menu/updateAction" access="hasRole('ROLE_STORE_OWNER')"/>
         <security:intercept-url pattern="/staff/order-list" access="hasRole('ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_STORE_OWNER')"/>
-        <security:intercept-url pattern="/comment/comment-list-by-user-ajax" access="hasRole('ROLE_MEMBER')"/>
+        <security:intercept-url pattern="/comment/user/**" access="hasRole('ROLE_MEMBER')"/>
         <security:intercept-url pattern="/comment/**" access="hasRole('ROLE_STORE_OWNER')"/>
-		<security:intercept-url pattern="/user/addReport" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/user/addReport" access="isAuthenticated()"/>
         <security:intercept-url pattern="/user/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
-		
+
         <security:form-login
                 login-page="/"
                 login-processing-url="/auth/loginAction"

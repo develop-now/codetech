@@ -1,11 +1,15 @@
 package com.codetech.www.service;
 
+import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.OrderStatus;
 
 import java.util.List;
 
 public interface OrderService {
+    public int getOrderStatusID(String status_value);
+
     public List<OrderStatus> getOrderStatusList();
 
     public int updateOrderStatus(int order_id, int status_id);
@@ -18,7 +22,9 @@ public interface OrderService {
 
     public void createOrder();
 
-    public Order readOrder();
+    public Order readOrder(int order_id);
+
+    public List<DetailMenuJoin> readOrderDetail(int order_id);
 
     public int updateOrder();
 

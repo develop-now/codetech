@@ -38,11 +38,15 @@
 	              		<h2 class="text-right">리뷰관리</h2>
 	              	</div>
 	              		<hr>
+	              	<input type="hidden" id="listCount" value="${listCount}">
+	              	<div class="mypageReview-content">
+	              	<c:if test="${!empty list}">
+	              	<c:forEach var="list" items="${list}">
 	              	<div class="mypageReview__body d-inline-flex">
 	              		<div class="mypageReview__content-left">
 	              			<div>
 	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/unlike.png" alt="likecheck" width="30px"></span>
-	              				<span>카페이름카페이름길고긴카페이름</span>
+	              				<span>${list.comment_store_value}</span>
 	              			</div>
 	              			<div class="text-center">
 	              				<button>주문상세</button>
@@ -51,16 +55,18 @@
 	              		</div>
 	              		<div class="mypageReview__content-right">
 	              			<div class="mypageReview__content-right--rivew">
-	              			단골이 되고 싶은 카페 입니다. 커피 이외에도 디저트도 너무 맛있었어요.
-	              			<span>(2021/04/19)</span>
-	              			</div>
-	              			<div class="ownerCmt">
-	              				<img src="${pageContext.request.contextPath}/resources/image/user/review.png" width="20px">
-	              			사장님 답변 : 감사합니다 앞으로도 저희매장을 즐겨찾아 주세요~^^
+	              			${ list.comment_content}<br>
+	              			<span>(${list.created_at})</span>
 	              			</div>
 	              		</div >
 	              	</div>
-	              	<div class="addMessage"></div>
+	              	</c:forEach>
+	              	</c:if>
+	              	<c:if test="${empty list} ">
+	              	 등록된 댓글이 없습니다~ 주문을 해보시겠어요?
+	              	</c:if>
+	            </div>
+	           <div class="addMessage text-center"></div>
             </div>
         </div>
     </div>

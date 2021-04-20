@@ -468,12 +468,17 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/reviewList", method = RequestMethod.GET)
-	public String reviewList(String user_id/* ,review테이블 빈 */) {
-		String url = "";
-
-		url = "user/mypage-review";
-
-		return url;
+	public String reviewList(Model md) {
+		int user_id = (int)session.getAttribute("user_id");
+		int page = 1;
+		//commentlist + store 이름
+		List<Comment> list = commentService.getUserCommentList(user_id, page);
+		int listCount = commentService.getCommentCountByUser(user_id);
+		md.addAttribute("listCount", listCount);
+		md.addAttribute("list", list);
+		logger.info("comment도착");
+		return "user/mypage-review";
+		
 	}
 
 	@RequestMapping(value = "/reviesWrite", method = RequestMethod.POST)

@@ -50,7 +50,6 @@
             <div class="col-12 col-sm-10">
                 <div class="container">
                     <div class="row mt-5">
-
                         <div class="ml-auto mr-2">
                             <h3 class="text-right">오더 리스트</h3>
                         </div>
@@ -149,7 +148,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">ID</th>
+                                        <th scope="col">주문번호</th>
                                         <th scope="col">주문자</th>
                                         <th scope="col">주문일시</th>
                                         <th scope="col">주문상태</th>
@@ -173,7 +172,8 @@
                             </div>
 
                             <div class="col-12">
-                                <div class="modal fade" id="statusChangeModal" data-backdrop="static" data-keyboard="false"
+                                <div class="modal fade" id="statusChangeModal" data-backdrop="static"
+                                     data-keyboard="false"
                                      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -185,7 +185,8 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="<c:url value="/order/updateAction"/>" method="post" id="orderUpdateForm">
+                                                <form action="<c:url value="/order/updateAction"/>" method="post"
+                                                      id="orderUpdateForm">
                                                     <input type="hidden" name="${_csrf.parameterName}"
                                                            value="${_csrf.token}">
                                                     <input type="hidden" name="order_id">

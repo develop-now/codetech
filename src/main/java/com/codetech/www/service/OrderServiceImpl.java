@@ -1,13 +1,16 @@
 package com.codetech.www.service;
 
 import com.codetech.www.dao.OrderDAO;
+import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.Order;
 
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.OrderStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,8 +81,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order readOrder() {
-        return null;
+    public int getOrderStatusID(String status_value) {
+        return dao.getOrderStatusID(status_value);
+    }
+
+
+    @Override
+    @Transactional
+    public Order readOrder(int order_id) {
+        Order order = dao.readOrder(order_id);
+
+        if (order.getOrder_status() == 1) {
+            logger.info("ORDER STATUS VALUE 1");
+
+            int status_id = getOrderStatusID("checked");
+            logger.info("status_id : " + status_id);
+
+            int result = updateOrderStatus(order_id, status_id);
+            logger.info("update result : " + (result > 0));
+        }
+
+        return dao.readOrder(order_id);
+    }
+
+    @Override
+    public List<DetailMenuJoin> readOrderDetail(int order_id) {
+        return dao.readOrderDetail(order_id);
     }
 
     @Override
