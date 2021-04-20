@@ -1,8 +1,10 @@
 package com.codetech.www.service;
 
 import com.codetech.www.dao.OrderDAO;
+import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.Order;
 
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.OrderStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,8 +80,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order readOrder() {
-        return null;
+    public Order readOrder(int order_id) {
+        return dao.readOrder(order_id);
+    }
+
+    @Override
+    public List<DetailMenuJoin> readOrderDetail(int order_id) {
+        return dao.readOrderDetail(order_id);
     }
 
     @Override

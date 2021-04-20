@@ -54,6 +54,21 @@
         where order_id = #{order_id}
     </update>
 
+    <select id="readOrder" resultType="order" parameterType="int">
+        select o.*, f.user_name as order_user_name, f.user_tel as order_user_tel
+        from orders o
+                 left join user_info f on o.order_user = f.user_id
+        where o.order_id = #{order_id}
+    </select>
+
+    <select id="readOrderDetail" resultType="detail-menu-join" parameterType="int">
+        select *
+        from order_details t
+                 left join menus m on t.menu_id = m.menu_id
+        where t.order_id = #{order_id}
+    </select>
+
+
     <!-- end for order controller -->
 
     <select id="list" resultType="menu" parameterType="int">
@@ -130,6 +145,7 @@
         on s.store_id = c.store_id
     </select>
 
+
     <sql id="forCart">
         select *
         from carts
@@ -158,13 +174,11 @@
             parameterType="map">
         select * from (
         select row_number() over(order by updated_at desc) row_num, bb.* from (
-
         select store_name, s.store_id, s.updated_at from stores s join
         (
         <include refid="forOrdered"/>
         ) b
         on s.store_id = b.store_id
-
         ) bb ) where row_num &gt;= #{start}
         and row_num &lt;= #{end}
     </select>
@@ -177,8 +191,7 @@
     </sql>
 
 
-    <select id="ordered_details" resultType="order-detail"
-            parameterType="map">
+    <select id="ordered_details" resultType="order-detail" parameterType="map">
         select * from (
         select row_number() over(order by updated_at desc) row_num, bb.* from (
         select b.updated_at, detail_id, menu_quantity, detail_total_price, menu_id

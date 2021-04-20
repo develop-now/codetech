@@ -13,6 +13,15 @@ public class Order {
 
     private String order_status_value;
     private String order_user_name;
+    private String order_user_tel;
+
+    public String getOrder_user_tel() {
+        return order_user_tel;
+    }
+
+    public void setOrder_user_tel(String order_user_tel) {
+        this.order_user_tel = order_user_tel;
+    }
 
     public String getOrder_user_name() {
         return order_user_name;
