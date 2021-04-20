@@ -16,8 +16,6 @@
 
     <script>
         $(() => {
-            changeStatusLabel();
-
             $("#backBtn").on("click", () => {
                 history.back();
             })
@@ -26,7 +24,9 @@
 </head>
 <body>
 <div class="container-fluid px-0" id="bodyWrapper">
-    <input type="hidden" name="order_id" id="order_id" value="${order_id_value}">
+    <input type="hidden" name="order_id" id="order_id" value="${order.order_id}">
+    <input type="hidden" name="order_status" id="order_status" value="${order.order_status}">
+
     <%-- main nav --%>
     <%@include file="../../partial/nav.jsp" %>
 
@@ -62,7 +62,7 @@
                                     <h5 class="text-info text-right">주문번호 : ${order.order_id}</h5>
 
                                     <h6 class="text-secondary">주문 상태 : <span
-                                            id="current_status">${order.order_status}</span></h6>
+                                            id="current_status"></span></h6>
                                     <div class="progress">
                                         <c:choose>
                                             <c:when test="${order.order_status < 6}">
@@ -70,7 +70,7 @@
                                                      role="progressbar" aria-valuenow="${order.order_status*20}"
                                                      aria-valuemin="0" aria-valuemax="100"
                                                      style="width: ${order.order_status * 20}%">
-                                                    <span id="status_text"></span>
+                                                    <span id="status_text_in_progress"></span>
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
@@ -79,7 +79,7 @@
                                                      role="progressbar" aria-valuenow="100"
                                                      aria-valuemin="0" aria-valuemax="100"
                                                      style="width: 100%">
-                                                    <span>오더취소</span>
+                                                    <span>주문 취소</span>
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
@@ -97,24 +97,9 @@
 
                         <div class="col-12">
                             <div class="container px-sm-3">
-                                <div class="row mx-sm-n3">
-                                    <div class="col-6 col-sm-4 px-sm-3 my-1">
-                                        <button class="btn btn-block btn-secondary disabled" disabled>주문 완료</button>
-                                    </div>
-                                    <div class="col-6 col-sm-4 px-sm-3 my-1">
-                                        <button class="btn btn-block btn-warning">주문 확인</button>
-                                    </div>
-                                    <div class="col-6 col-sm-4 px-sm-3 my-1">
-                                        <button class="btn btn-block btn-info">주문 조리</button>
-                                    </div>
-                                    <div class="col-6 col-sm-4 px-sm-3 my1">
-                                        <button class="btn btn-block btn-primary">조리 완료</button>
-                                    </div>
-                                    <div class="col-6 col-sm-4 px-sm-3 my-1">
-                                        <button class="btn btn-block btn-success">픽업 완료</button>
-                                    </div>
-                                    <div class="col-6 col-sm-4 px-sm-3 my-1">
-                                        <button class="btn btn-block btn-danger">취소</button>
+                                <div class="row mx-sm-n3" id="statusBtn__wrapper">
+                                    <div class="col-6 col-sm-4 px-sm-3 my-1 d-none status__btn__template">
+                                        <button class="btn btn-block"></button>
                                     </div>
                                 </div>
                             </div>
