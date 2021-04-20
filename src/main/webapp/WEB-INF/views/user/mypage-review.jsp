@@ -14,6 +14,7 @@
     <!--주문내역의 리뷰작성을 클릭하면 이동되며 마이페이지에서 작성됨,가게, 총주문수, 작성칸 사진삽입, 좋아요 수정아이콘 -->
     <%@include file="../partial/head.jsp" %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
+    <script src="${pageContext.request.contextPath}/resources/js/user/user-commentList.js"></script>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -43,36 +44,23 @@
 	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/unlike.png" alt="likecheck" width="30px"></span>
 	              				<span>카페이름카페이름길고긴카페이름</span>
 	              			</div>
-	              			<div class="mypageReview__content-left--img">
-	              				<img src="${pageContext.request.contextPath}/resources/image/user/sample-review-image/review1.jpg" alt="reviewImage">
+	              			<div class="text-center">
+	              				<button>주문상세</button>
+	              				<button>리뷰삭제</button>
 	              			</div>
 	              		</div>
 	              		<div class="mypageReview__content-right">
 	              			<div class="mypageReview__content-right--rivew">
 	              			단골이 되고 싶은 카페 입니다. 커피 이외에도 디저트도 너무 맛있었어요.
+	              			<span>(2021/04/19)</span>
 	              			</div>
-	              			<div class="order-summary">아메리카노 X4 외 7</div>
-	              			<div class="text-right"><button>리뷰삭제</button></div>
+	              			<div class="ownerCmt">
+	              				<img src="${pageContext.request.contextPath}/resources/image/user/review.png" width="20px">
+	              			사장님 답변 : 감사합니다 앞으로도 저희매장을 즐겨찾아 주세요~^^
+	              			</div>
 	              		</div >
 	              	</div>
-	              	<div class="mypageReview__body d-inline-flex">
-	              		<div class="mypageReview__content-left">
-	              			<div>
-	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/like.png" alt="likecheck" width="30px"></span>
-	              				<span>카페이름카페이름길고긴카페이름</span>
-	              			</div>
-	              			<div class="mypageReview__content-left--img">
-	              				<img src="${pageContext.request.contextPath}/resources/image/user/sample-review-image/review1.jpg" alt="reviewImage">
-	              			</div>
-	              		</div>
-	              		<div class="mypageReview__content-right">
-	              			<div class="mypageReview__content-right--rivew">
-	              			단골이 되고 싶은 카페 입니다. 커피 이외에도 디저트도 너무 맛있었어요.
-	              			</div>
-	              			<div class="order-summary">아메리카노 X4 외 7</div>
-	              			<div class="text-right"><button>리뷰삭제</button></div>
-	              		</div >
-	              	</div>
+	              	<div class="addMessage"></div>
             </div>
         </div>
     </div>
