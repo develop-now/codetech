@@ -58,19 +58,21 @@
 	}
 	
 	.notice_list_grid {
-		display: grid;
-		grid-template-columns: 4fr 1fr;
-		margin: 20px 0px;
+		width: 100%;
+		border-collapse: collapse;
+		
+	}
+	
+	.notice_list_grid tr:hover {
+		background: #F2F2F8;
+	}
+	
+	.notice_list_grid td {
 		border-top: 1px solid #C3C3D1;
-	}
-	
-	.notice_list_grid > div {
 		border-bottom: 1px solid #e2e2d0;
+		padding: 15px 0px;
 	}
 	
-	.notice_list_grid div:nth-last-child(-n + 2) {
-		border-bottom: 1px solid #C3C3D1;
-	}
 </style>
 </head>
 <body>
@@ -89,56 +91,102 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-sm-10">
-            	<div class="notice_head">
-            		<div><h3 class="notice_h3">공지 사항</h3></div>
-            		<div></div>
-            		<div></div>
-            		<div style="text-align: right; border: 1px solid #999999; margin: auto;">
-            			<label style="padding: 6px 20px; margin: 0px; border-right: 1px solid #999999;">제목</label>
-            			<input type="text" name="search_text" value="${search_word}"
-            					style="width: 250px; margin: 5px; border: none">
-            			<input type="hidden" name="notice_status" value="0"/>
-            		</div>
-            	</div>
-            	
-            	<div class="notice_select_list">
-            		<div class="noticeAll" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList';">전체</div>
-            		<div class="noticeNews" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=0';">공지사항</div>
-            		<div class="noticeEvent" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=1';">이벤트</div>
-            		<div class="noticeCheck" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=2';">점검</div>
-            	</div>
-				
-				<div class="notice_list_grid">
-				<c:forEach var="notice" items="${noticelist}">
-					<div style="margin: auto 0px; padding: 20px 5px;">
-					<c:set var="sysdate" value="${notice.notice_date}"/>
-						<c:choose>
-							<c:when test="${notice.notice_status == 1}">
-								<img src="${pageContext.request.contextPath}/resources/image/admin/notice.png" style="padding: 0px 20px"/>
-								<span style="font-size:1.2em">${notice.notice_subject}</span>
-							</c:when>
-						
-							<c:when test="${notice.notice_status == 2}">
-								<img src="${pageContext.request.contextPath}/resources/image/admin/event.png" style="padding: 0px 20px"/>
-								<span style="font-size:1.2em">${notice.notice_subject}</span>
-							</c:when>
+	            <form action="noticeList">
+	            	<div class="notice_head">
+	            		<div><h3 class="notice_h3">공지 사항</h3></div>
+	            		<div></div>
+	            		<div></div>
+	            		<div style="text-align: right; border: 1px solid #999999; margin: auto;">
+	            			<label style="padding: 6px 20px; margin: 0px; border-right: 1px solid #999999;">제목</label>
+	            			<input type="text" name="search_text" value="${search_word}"
+	            					style="width: 250px; margin: 5px; border: none">
+	            					
+	            			<input type="hidden" name="notice_status" value="${notice_status}"/>
+	            		</div>
+	            	</div>
+	            	
+	            	<div class="notice_select_list">
+	            		<div class="noticeAll" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList';">전체</div>
+	            		<div class="noticeNews" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=0';">공지사항</div>
+	            		<div class="noticeEvent" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=1';">이벤트</div>
+	            		<div class="noticeCheck" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=2';">점검</div>
+	            	</div>
+	            	
+					<table class="notice_list_grid">
+						<c:forEach var="notice" items="${noticelist}">
+						<c:set var="sysdate" value="${notice.notice_date}"/>
+						<tr>
+							<td>
+							<c:choose>
+								<c:when test="${notice.notice_status == 1}">
+									<img src="${pageContext.request.contextPath}/resources/image/admin/NOTICE.png" style="padding: 0px 20px;"/>
+									<span style="font-size:1.0em">${notice.notice_subject}</span>
+								</c:when>
 							
-							<c:when test="${notice.notice_status == 3}">
-								<img src="${pageContext.request.contextPath}/resources/image/admin/inspect.png" style="padding: 0px 20px"/>
-								<span style="font-size:1.2em">${notice.notice_subject}</span>
-							</c:when>
-						</c:choose>
-					</div>
-					<div style="padding: 30px 0px;"><c:out value="${fn:substring(sysdate, 0, 10)}"/></div>
-				</c:forEach>
-				</div>
-            </div>
-        </div>
-    </div>
-    <!-- /.container -->
-
-    <%-- footer --%>
-    <%@include file="../partial/footer.jsp" %>
+								<c:when test="${notice.notice_status == 2}">
+									<img src="${pageContext.request.contextPath}/resources/image/admin/EVENT.png" style="padding: 0px 20px"/>
+									<span style="font-size:1.0em">${notice.notice_subject}</span>
+								</c:when>
+								
+								<c:when test="${notice.notice_status == 3}">
+									<img src="${pageContext.request.contextPath}/resources/image/admin/CHECK.png" style="padding: 0px 20px"/>
+									<span style="font-size:1.0em">${notice.notice_subject}</span>
+								</c:when>
+							</c:choose>
+							</td>
+							<td><c:out value="${fn:substring(sysdate, 0, 10)}"/><td>
+						</tr>
+						</c:forEach>
+					</table>
+					
+					<div style="margin: 50px;">
+			        <ul class="pagination justify-content-center">
+			            <c:if test="${page <= 1}">
+			                 <li class="page-item"><a class="page-link current" href="#">이전&nbsp;</a></li>
+			            </c:if>
+			
+			            <c:if test="${page > 1}">
+			                  <li class="page-item"><a
+			                     href="noticeList?page=${page-1}&search_word=${search_text}&notice_status=${notice.notice_status}"
+			                     class="page-link">이전</a>&nbsp;
+			                  </li>
+			            </c:if>
+			
+			
+			            <c:forEach var="a" begin="${startpage}" end="${endpage}">
+			                  <c:if test="${a == page }">
+			                     <li class="page-item"><a class="page-link current" href="#">${a}</a></li>
+			                  </c:if>
+			
+			                  <c:if test="${a != page }">
+			                     <li class="page-item"><a
+			                        href="noticeList?page=${a}&search_word=${search_text}&notice_status=${notice.notice_status}"
+			                        class="page-link">${a}</a>
+			                     </li>
+			                  </c:if>
+			            </c:forEach>
+			
+			
+			            <c:if test="${page >= maxpage }">
+			                  <li class="page-item"><a class="page-link current" href="#">&nbsp;다음</a></li>
+			            </c:if>
+			
+			            <c:if test="${page < maxpage }">
+			                  <li class="page-item"><a
+			                     href="noticeList?page=${page+1}&search_word=${search_text}&check_state=${check_state}"
+			                     class="page-link">&nbsp;다음</a>
+			                  </li>
+						</c:if>
+			        </ul>
+			        </div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
+<!-- /.container -->
+
+<%-- footer --%>
+<%@include file="../partial/footer.jsp" %>
 </body>
 </html>
