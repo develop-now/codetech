@@ -119,13 +119,15 @@
 	</select>
 	
 	<select id="userCommentList" parameterType="int" resultType="comment">
-		select * 
-		from (select rownum rnum, c.* 
-				from (select * 
-						from comments 
-						where comment_writer = #{user_id}
-						order by created_at desc	
-						 )c
+		select *
+		from(select rownum rnum, cs.*
+			from (select c.*,s.comment_store_value
+					from COMMENTS c
+					left join(select store_id as comment_store, store_name as comment_store_value
+							   from STORES )s
+					on c.comment_store = s.comment_store
+					where comment_writer = #{user_id}
+					order by created_at desc)cs
 				)
 		where rnum between #{start} and #{end}
 	</select>
