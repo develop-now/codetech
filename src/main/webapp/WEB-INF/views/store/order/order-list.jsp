@@ -149,6 +149,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">주문자</th>
                                         <th scope="col">주문일시</th>
                                         <th scope="col">주문상태</th>
@@ -157,6 +158,7 @@
                                     </tr>
                                     <tr id="order_template_tr" class="d-none">
                                         <th scope="row" class="order_count"></th>
+                                        <td class="order_id"></td>
                                         <td class="order_user"></td>
                                         <td class="order_date"></td>
                                         <td class="order_status"></td>
@@ -168,6 +170,52 @@
 
                                     </tbody>
                                 </table>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false"
+                                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">주문 상태 변경</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/order/updateAction" method="post" id="orderUpdateForm">
+                                                    <input type="hidden" name="${_csrf.parameterName}"
+                                                           value="${_csrf.token}">
+                                                    <input type="hidden" name="order_id">
+                                                    <div class="form-group">
+                                                        <label for="order_id">주문 ID</label>
+                                                        <input type="text" id="order_id" class="form-control" readonly>
+                                                    </div>
+                                                    <%-- Radio Start --%>
+                                                    <div class="col-12 mb-3" id="status_target_in_modal">
+                                                        <div class="custom-control custom-radio custom-control-inline status_template_in_modal d-none">
+                                                            <input type="radio" id="template_radio_input"
+                                                                   name="order-change-status"
+                                                                   class="custom-control-input" value="0">
+                                                            <label class="custom-control-label"
+                                                                   for="template_radio_input"></label>
+                                                        </div>
+                                                    </div>
+                                                    <%-- Radio End --%>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="button" class="btn btn-primary" id="updateOrder">확인
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
