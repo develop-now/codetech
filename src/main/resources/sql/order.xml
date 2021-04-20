@@ -8,6 +8,13 @@
         from order_status
     </select>
 
+    <update id="updateStatus" parameterType="map">
+        update orders
+        set order_status = #{status_id},
+            updated_at   = sysdate
+        where order_id = #{order_id}
+    </update>
+
     <select id="listCountAjax" parameterType="map" resultType="int">
         select count(*)
         from orders o

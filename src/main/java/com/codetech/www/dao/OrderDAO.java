@@ -19,6 +19,10 @@ public class OrderDAO {
         return sqlSession.selectList("Orders.statusList");
     }
 
+    public int updateOrderStatus(Map<String, Object> param) {
+        return sqlSession.update("Orders.updateStatus", param);
+    }
+
     public int getOrderListCountAjax(Map<String, Object> param) {
         return sqlSession.selectOne("Orders.listCountAjax", param);
     }
@@ -48,12 +52,12 @@ public class OrderDAO {
     }
 
 
-	public int getListCount(int user_id) {
-		return sqlSession.selectOne("Orders.orderCount", user_id);
-	}
+    public int getListCount(int user_id) {
+        return sqlSession.selectOne("Orders.orderCount", user_id);
+    }
 
-	public int cartRegister(HashMap<String, Object> map) {
-		return sqlSession.insert("Orders.cart", map);
-	}
+    public int cartRegister(HashMap<String, Object> map) {
+        return sqlSession.insert("Orders.cart", map);
+    }
 
 }
