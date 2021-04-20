@@ -2,199 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Orders">
-	<select id="list" resultType="menu" parameterType="int">
-		select *
-		from
-		orders
-		where store_id = #{store_id}
-	</select>
 
-	<select id="ordered" resultType="order" parameterType="map">
-		select * from (
-		select row_number() over(order by updated_at desc)
-		row_num, bb.* from (
-		<include refid="forOrdered" />
-		) bb ) where row_num &gt;= #{start}
-		and row_num &lt;= #{end}
-	</select>
-
-
-
-	<select id="ordered_stores" resultType="store"
-		parameterType="map">
-		select * from (
-		select row_number() over(order by updated_at desc)
-		row_num, bb.* from (
-
-		select store_name, s.store_id, s.updated_at from
-		stores s join
-		(
-		<include refid="forOrdered" />
-		) b
-		on s.store_id = b.store_id
-
-		) bb ) where row_num &gt;= #{start}
-		and
-		row_num &lt;= #{end}
-	</select>
-
-
-
-	<sql id="forOrdered">
-		select *
-		from orders
-		where order_user = #{user_id}
-	</sql>
-
-
-
-	<select id="ordered_details" resultType="order-detail"
-		parameterType="map">
-		select * from (
-		select row_number() over(order by updated_at desc)
-		row_num, bb.* from (
-		select b.updated_at, detail_id, menu_quantity,
-		detail_total_price,
-		menu_id
-		from
-		order_details a
-		join (
-		<include refid="forOrdered" />
-		) b
-		on a.order_id = b.order_id
-		) bb ) where row_num &gt;= #{start}
-		and
-		row_num &lt;= #{end}
-	</select>
-
-	<select id="ordered_menu" resultType="menu" parameterType="map">
-		select * from (
-		select row_number() over(order by updated_at desc)
-		row_num, bb.* from (
-		select p.updated_at, m.menu_id, m.menu_name from
-		menus m join (
-		select
-		b.updated_at, detail_id,
-		menu_quantity,
-		detail_total_price, menu_id
-		from
-		order_details a
-		join (
-		<include refid="forOrdered" />
-		) b
-		on a.order_id = b.order_id ) p on m.menu_id = p.menu_id
-		) bb ) where
-		row_num &gt;= #{start}
-		and row_num &lt;= #{end}
-	</select>
-
-	<select id="orderCount" resultType="int">
-		select count(*) from orders
-		where order_user = #{user_id}
-	</select>
-
-	<insert id="cart" parameterType="map">
-		insert into carts values(
-		(select nvl(max(cart_id), 0) + 1 from carts), #{amount}, sysdate,
-		sysdate,
-		#{user_id}, #{menu_id}, 0
-		)
-	</insert>
-
-	<select id="cartList" parameterType="int" resultType="cart">
-		<include refid="forCart" />
-	</select>
-
-	<select id="menuList" parameterType="int" resultType="menu">
-		select m.* from menus m join (
-		<include refid="forCart" />
-		) b on m.menu_id = b.menu_id
-	</select>
-
-	<select id="storeList" parameterType="int" resultType="store">
-		select s.* from stores s join (
-		select m.* from menus m join (
-		<include refid="forCart" />
-		) b on m.menu_id = b.menu_id) c
-		on s.store_id = c.store_id
-	</select>
-
-
-	<sql id="forCart">
-		select * from carts where user_id = #{user_id} and
-		cart_status = 0 order by
-		created_at desc
-	</sql>
-
-	<select id="getAmount" parameterType="int" resultType="int">
-		select
-		sum(menu_quantity) from (
-		<include refid="forCart" />
-		)
-	</select>
-
-	<select id="getTotalPrice" parameterType="int" resultType="int">
-		select sum(q) from (
-		select m.menu_price * b.menu_quantity as q from
-		menus m join (
-		<include refid="forCart" />
-		) b on m.menu_id = b.menu_id)
-	</select>
-
-	<select id="statusList" resultType="order-status">
-		select *
-		from order_status
-	</select>
-
-	<select id="listCountAjax" parameterType="map" resultType="int">
-		select count(*)
-		from orders o
-		join order_status t on o.order_status = t.order_status_id
-		where store_id = #{store_id}
-		and TO_CHAR(created_at, 'YYYYMMDD') = #{selected_date}
-		<if test="status_id != null">
-			and t.order_status_id = #{status_id}
-		</if>
-	</select>
-
-	<select id="listAjax" parameterType="map" resultType="order">
-		select *
-		from (select rownum as rnum, j.*
-		from (select o.*, f.user_name as order_user_name, t.status_value as
-		order_status_value
-		from orders o
-		join user_info f on o.order_user = f.user_id
-		join order_status t on o.order_status = t.order_status_id
-		where store_id = #{store_id}
-		and TO_CHAR(created_at, 'YYYYMMDD') = #{selected_date}
-		<if test="status_id != null">
-			and t.order_status_id = #{status_id}
-		</if>
-		order by
-		<choose>
-			<when test="order_key == 'order_date'">
-				o.created_at
-			</when>
-			<when test="order_key == 'order_user'">
-				order_user_name
-			</when>
-		</choose>
-		desc, o.order_id) j)
-		where rnum between #{startRow} and #{endRow}
-	</select>
-
+    <!-- start for order controller -->
 
     <select id="statusList" resultType="order-status">
         select *
         from order_status
     </select>
-
-    <update id="updateStatus" parameterType="map">
-        update orders
-        set order_status = #{status_id},
-            updated_at   = sysdate
-        where order_id = #{order_id}
-    </update>
 
     <select id="listCountAjax" parameterType="map" resultType="int">
         select count(*)
@@ -210,7 +24,8 @@
     <select id="listAjax" parameterType="map" resultType="order">
         select *
         from (select rownum as rnum, j.*
-        from (select o.*, f.user_name as order_user_name, t.status_value as order_status_value
+        from (select o.*, f.user_name as order_user_name, t.status_value as
+        order_status_value
         from orders o
         join user_info f on o.order_user = f.user_id
         join order_status t on o.order_status = t.order_status_id
@@ -232,19 +47,112 @@
         where rnum between #{startRow} and #{endRow}
     </select>
 
+    <update id="updateStatus" parameterType="map">
+        update orders
+        set order_status = #{status_id},
+            updated_at   = sysdate
+        where order_id = #{order_id}
+    </update>
+
+    <!-- end for order controller -->
+
     <select id="list" resultType="menu" parameterType="int">
         select *
         from orders
         where store_id = #{store_id}
     </select>
 
+
     <select id="ordered" resultType="order" parameterType="map">
         select * from (
-        select row_number() over(order by updated_at desc) row_num, bb.* from (
+        select row_number() over(order by updated_at desc)
+        row_num, bb.* from (
         <include refid="forOrdered"/>
         ) bb ) where row_num &gt;= #{start}
         and row_num &lt;= #{end}
     </select>
+
+
+    <select id="ordered_menu" resultType="menu" parameterType="map">
+        select * from (
+        select row_number() over(order by updated_at desc)
+        row_num, bb.* from (
+        select p.updated_at, m.menu_id, m.menu_name from
+        menus m join (
+        select
+        b.updated_at, detail_id,
+        menu_quantity,
+        detail_total_price, menu_id
+        from
+        order_details a
+        join (
+        <include refid="forOrdered"/>
+        ) b
+        on a.order_id = b.order_id ) p on m.menu_id = p.menu_id
+        ) bb ) where
+        row_num &gt;= #{start}
+        and row_num &lt;= #{end}
+    </select>
+
+
+    <select id="orderCount" resultType="int">
+        select count(*)
+        from orders
+        where order_user = #{user_id}
+    </select>
+
+
+    <insert id="cart" parameterType="map">
+        insert into carts
+        values ((select nvl(max(cart_id), 0) + 1 from carts), #{amount}, sysdate,
+                sysdate,
+                #{user_id}, #{menu_id}, 0)
+    </insert>
+
+
+    <select id="cartList" parameterType="int" resultType="cart">
+        <include refid="forCart"/>
+    </select>
+
+
+    <select id="menuList" parameterType="int" resultType="menu">
+        select m.* from menus m join (
+        <include refid="forCart"/>
+        ) b on m.menu_id = b.menu_id
+    </select>
+
+
+    <select id="storeList" parameterType="int" resultType="store">
+        select s.* from stores s join (
+        select m.* from menus m join (
+        <include refid="forCart"/>
+        ) b on m.menu_id = b.menu_id) c
+        on s.store_id = c.store_id
+    </select>
+
+    <sql id="forCart">
+        select *
+        from carts
+        where user_id = #{user_id}
+          and cart_status = 0
+        order by created_at desc
+    </sql>
+
+    <select id="getAmount" parameterType="int" resultType="int">
+        select
+        sum(menu_quantity) from (
+        <include refid="forCart"/>
+        )
+    </select>
+
+    <select id="getTotalPrice" parameterType="int" resultType="int">
+        select sum(q) from (
+        select m.menu_price * b.menu_quantity as q from
+        menus m join (
+        <include refid="forCart"/>
+        ) b on m.menu_id = b.menu_id)
+    </select>
+
 
     <select id="ordered_stores" resultType="store"
             parameterType="map">
@@ -282,29 +190,6 @@
         on a.order_id = b.order_id
         ) bb ) where row_num &gt;= #{start}
         and row_num &lt;= #{end}
-    </select>
-
-    <select id="ordered_menu" resultType="menu" parameterType="map">
-        select * from (
-        select row_number() over(order by updated_at desc) row_num, bb.* from (
-        select p.updated_at, m.menu_id, m.menu_name from menus m join (
-        select b.updated_at, detail_id,
-        menu_quantity, detail_total_price, menu_id
-        from
-        order_details a
-        join (
-        <include refid="forOrdered"/>
-        ) b
-        on a.order_id = b.order_id ) p on m.menu_id = p.menu_id
-        ) bb ) where row_num &gt;= #{start}
-        and row_num &lt;= #{end}
-    </select>
-
-
-    <select id="orderCount" resultType="int">
-        select count(*)
-        from orders
-        where order_user = #{user_id}
     </select>
 
 
