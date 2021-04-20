@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Cart;
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.MailVO;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
 import com.codetech.www.domain.Order;
@@ -47,6 +48,7 @@ import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.CommentService;
 import com.codetech.www.service.StoreService;
 import com.codetech.www.service.UsersService;
+import com.codetech.www.task.SendMail;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 @Controller
@@ -68,6 +70,9 @@ public class UsersController {
 
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private SendMail sendMail;
 
 	@Value("${saveFolderName}")
 	private String saveFolder;
@@ -353,30 +358,66 @@ public class UsersController {
 
 	}
 
-	@RequestMapping(value = "/addReport", method = RequestMethod.POST)
-	public String reportWriteAction(Report report, String reporter_email,
-			@RequestParam(value = "store_id", defaultValue = "0", required = false) int reported_store,
-			@RequestParam(value = "comment_id", defaultValue = "0", required = false) int reported_cmt,
-			RedirectAttributes rattr) {
-		logger.info("addReport 도착");
-		logger.info("cmt" + report.getReported_cmt());
-		;
-		logger.info("store" + report.getReported_store());
-		String user_email = reporter_email;
-		User user = usersService.getUserId(user_email);
-		int user_id = user.getUser_id();
-		report.setReporter(user_id);
-		report.setReported_store(reported_store);
-		report.setReported_cmt(reported_cmt);
+//	@RequestMapping(value = "/addReport", method = RequestMethod.POST)
+//	public String reportWriteAction(Report report, String reporter_email,
+//			@RequestParam(value = "store_id", defaultValue = "0", required = false) int reported_store,
+//			@RequestParam(value = "comment_id", defaultValue = "0", required = false) int reported_cmt,
+//			RedirectAttributes rattr) {
+//		logger.info("addReport 도착");
+//		logger.info("cmt" + report.getReported_cmt());;
+//		logger.info("store" + report.getReported_store());
+//		String user_email = reporter_email;
+//		User user = usersService.getUserId(user_email);
+//		int user_id = user.getUser_id();
+//		report.setReporter(user_id);
+//		report.setReported_store(reported_store);
+//		report.setReported_cmt(reported_cmt);
+//
+//		int result = usersService.addReport(report);
+//		if (result == 1) {
+//			rattr.addFlashAttribute("info", "신고내용이 접수 완료되었습니다.");
+//			return "redirect:/user/reportList";
+//		} else {
+//			logger.info("addReport error");
+//		}
+//		return null;
+//	}
+	
+	@RequestMapping(value = "/addReport")
+	public String report(String reported, String subject, String content, int user_id, RedirectAttributes rattr) {
+		User reporter = usersService.getUser(user_id);
+		Store store = usersService.getStore(reported);
+		UserInfo user = usersService.getUser(reported);
 
-		int result = usersService.addReport(report);
-		if (result == 1) {
-			rattr.addFlashAttribute("info", "신고내용이 접수 완료되었습니다.");
-			return "redirect:/user/reportList";
+		if (store != null) {
+			int result = usersService.reportStore(subject, content, user_id, store.getStore_id());
+			if (result == 1) {
+				MailVO vo = new MailVO();
+				vo.setTo(reporter.getUser_email());
+				vo.setContent(user.getUser_name() + "님 신고 접수가 완료되었습니다. <br> 사실 관계를 빠르게 확인하여 조치를 취하도록 하겠습니다. 감사합니다. ");
+				sendMail.sendMail(vo);
+				rattr.addFlashAttribute("result", "신고가 접수되었습니다.");
+				logger.info("가게신고성공");
+			} else {
+				rattr.addFlashAttribute("result", "죄송합니다. 다시 시도해 주세요.");
+				logger.info("가게신고실패");
+			}
 		} else {
-			logger.info("addReport error");
+			int user_result = usersService.reportUser(subject, content, user_id, user.getUser_id());
+			if (user_result == 1) {
+				MailVO vo = new MailVO();
+				vo.setTo(reporter.getUser_email());
+				vo.setContent(user_id + "님 회원 신고 접수가 완료되었습니다. .");
+				sendMail.sendMail(vo);
+				rattr.addFlashAttribute("result", "신고가 접수되었습니다.");
+				logger.info("유저신고성공");
+			} else {
+				rattr.addFlashAttribute("result", "죄송합니다. 다시 시도해 주세요.");
+				logger.info("유저신고실패");
+			}
 		}
-		return null;
+		return "redirect:/home";
+
 	}
 
 	@RequestMapping(value = "/reportList", method = RequestMethod.GET)
@@ -580,6 +621,8 @@ public class UsersController {
 		mv.addObject("totalPrice", totalPrice);
 		return mv;
 	}
+	
+	
 
 	// for cart register
 	@ResponseBody

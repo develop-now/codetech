@@ -13,5 +13,5 @@ create table store_report
     constraint fk_store_report_reporter foreign key (reporter) references users (user_id),
     constraint fk_store_report_reported_store foreign key (reported_store) references stores (store_id)
 );
-
+select * from store_report;
 commit;

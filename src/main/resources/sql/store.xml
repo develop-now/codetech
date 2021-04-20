@@ -207,6 +207,10 @@
 		and rownum &lt;= #{end}
 	</select>
 
+	<select id="getStoreName" resultType="store">
+		select * from stores
+	</select>
+
 
 	<sql id="forSearch">
 		(store_name || store_address_si || store_address_gu ||
@@ -214,6 +218,7 @@
 		like
 		#{searchWord}
 	</sql>
+
 
 
 	<sql id="storeCall">
@@ -257,6 +262,14 @@
 
 	</select>
 
+	<select id="storeInfoFR" resultType="store"
+		parameterType="String">
+		select *
+		from stores
+		where store_name = #{reported}
+
+	</select>
+
 	<select id="storeLikeCount" resultType="int" parameterType="int">
 		select like_count from (
 		<include refid="storeCall" />
@@ -279,5 +292,15 @@
 		delete from favorite where user_id = #{user_id} and store_id =
 		#{store_id}
 	</select>
+
+	<insert id="storeReport" parameterType="map">
+		insert into store_report
+		values(
+		(select nvl(max(store_report_id), 0) +1 from store_report),
+		#{subject}, #{content},
+		sysdate, sysdate, 1, #{user_id}, #{store_id})
+	</insert>
+	
+	
 
 </mapper>
