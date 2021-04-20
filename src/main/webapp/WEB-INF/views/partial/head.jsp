@@ -19,7 +19,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/index.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/user/join.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/owner/report.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"

@@ -20,7 +20,7 @@ img.loginModal__img-profile{
 .loginModal__img-profile:hover{
 	cursor: pointer;
 }
-.joinModal-body > input, .joinModal-body-postcode > input[type=text] { 
+.joinModal-body > input, .joinModal-body-postcode > input[type=text], textarea { 
 	width: 100%;
 	padding: 9px 18px;
 	margin: 8px 0;

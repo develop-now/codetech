@@ -38,6 +38,12 @@ public interface OwnerService {
 
 	public UserPlusInfo getOwnerInfo(int user_id);
 
+	public List<Store> getStoreName();
+
+	public List<UserInfo> getUserName();
+
+
+
 
 
 }
