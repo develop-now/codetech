@@ -60,6 +60,24 @@ let basket = {
 	
 	delItem : function() {
 		event.target.parentElement.parentElement.parentElement.remove();
+		var cart_id = event.target.previousElementSibling.getAttribute('value');
+		var url = $('#ab').val() + "/user/cartDel"
+		$.ajax({
+			type : 'get',
+			url : url, 
+			data : 	data = {
+					"cart_id" : cart_id
+				},
+			dataType : "json",
+			success : function(rdata) {
+				if(rdata == 1) {
+				$("#cart_num"+$(".cart_id").val()).remove();
+				}
+				
+			} // success;
+		}) // ajax
+		this.reCalc();
+		this.updateUI();
 	}
 }
 
@@ -77,7 +95,10 @@ Number.prototype.formatNumber = function() {
 
 	
 
-  
 
+
+
+
+	
 
 

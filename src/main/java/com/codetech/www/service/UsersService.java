@@ -61,5 +61,7 @@ public interface UsersService {
 
 	int getTotalPrice(int user_id);
 
+	int cartDel(int cart_id);
+
 
 }

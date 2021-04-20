@@ -211,5 +211,10 @@
         and row_num &lt;= #{end}
     </select>
 
+	<delete id="cartDel" parameterType="int">
+		delete from carts where
+		cart_id = #{cart_id}
+	</delete>
+
 
 </mapper>
