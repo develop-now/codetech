@@ -20,6 +20,17 @@ public class OrderDAO {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
+    public int getOrderStatusID(String status_value){
+        return sqlSession.selectOne("Orders.orderStatusID", status_value);
+    }
+
+    public Order readOrder(int order_id) {
+        return sqlSession.selectOne("Orders.readOrder", order_id);
+    }
+
+    public List<DetailMenuJoin> readOrderDetail(int order_id) {
+        return sqlSession.selectList("Orders.readOrderDetail", order_id);
+    }
 
     public List<OrderStatus> getOrderStatusList() {
         return sqlSession.selectList("Orders.statusList");

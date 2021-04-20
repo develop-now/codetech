@@ -1,6 +1,8 @@
 package com.codetech.www.controller;
 
+import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.OrderStatus;
 import com.codetech.www.service.OrderService;
 import org.slf4j.Logger;
@@ -60,6 +62,12 @@ public class OrderController {
     @RequestMapping(value = "/order-read", method = RequestMethod.GET)
     public String readOrder(@RequestParam(value = "order_id") int order_id, Model model) {
         model.addAttribute("storeNav", "orderRead");
+
+        Order order = orderService.readOrder(order_id);
+        List<DetailMenuJoin> detail_list = orderService.readOrderDetail(order_id);
+
+        model.addAttribute("order", order);
+        model.addAttribute("detail_list", detail_list);
 
         return "store/order/order-read";
     }
