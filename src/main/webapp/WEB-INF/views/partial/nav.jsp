@@ -46,7 +46,7 @@
 
 				<sec:authorize access="hasRole('ROLE_STORE_OWNER')">
 					<li class="nav-item"><a class="nav-link text-right"
-						href="<c:url value="/store"/>">내가게</a></li>
+						href="<c:url value="/store/index"/>">내가게</a></li>
 					<li class="nav-item"><a class="nav-link text-right"
 						href="<c:url value="/store/order-list"/>">오더확인</a></li>
 				</sec:authorize>

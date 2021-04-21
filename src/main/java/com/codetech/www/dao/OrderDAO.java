@@ -56,6 +56,10 @@ public class OrderDAO {
         return sqlSession.selectList("Orders.list", store_id);
     }
 
+    public int getOrderCountByStore(int store_id){
+        return sqlSession.selectOne("Orders.orderCountByStore", store_id);
+    }
+
     public List<Order> getOrder(HashMap<String, Integer> map) {
         return sqlSession.selectList("Orders.ordered", map);
     }

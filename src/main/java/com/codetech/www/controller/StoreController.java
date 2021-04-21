@@ -1,6 +1,8 @@
 package com.codetech.www.controller;
 
 import com.codetech.www.domain.*;
+import com.codetech.www.service.CommentService;
+import com.codetech.www.service.OrderService;
 import com.codetech.www.service.StoreService;
 
 import org.slf4j.Logger;
@@ -29,8 +31,43 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private CommentService commentService;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model, HttpSession session) {
+        Integer owner_id = (Integer) session.getAttribute("user_id");
+        logger.info("store owner id : " + owner_id);
+
+        List<Store> stores = storeService.getStoreListByOwner(owner_id);
+        model.addAttribute("store_count", stores.size());
+
+        int store_total_count = 0;
+        int store_total_customer = 0;
+        int store_total_income = 0;
+        int store_total_order = 0;
+        int store_total_comment = 0;
+        int store_total_like = 0;
+
+        for (Store s : stores) {
+            store_total_count++;
+            store_total_customer += storeService.getStoreCustomerCount(s.getStore_id());
+            store_total_income += storeService.getStoreTotalIncome(s.getStore_id());
+            store_total_order += orderService.getOrderCountByStore(s.getStore_id());
+            store_total_comment += commentService.getCommentCountByStore(s.getStore_id(), "");
+            store_total_like += storeService.getStoreTotalLike(s.getStore_id());
+        }
+
+        model.addAttribute("store_total_count", store_total_count);
+        model.addAttribute("store_total_customer", store_total_customer);
+        model.addAttribute("store_total_income", store_total_income);
+        model.addAttribute("store_total_order", store_total_order);
+        model.addAttribute("store_total_comment", store_total_comment);
+        model.addAttribute("store_total_like", store_total_like);
+
         return "store/index";
     }
 

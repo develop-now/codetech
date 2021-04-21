@@ -137,12 +137,12 @@
                                                 <ul class="list-group list-group-flush text-right">
                                                     <li class="list-group-item">메뉴가격 : ${detail.menu_price} 원</li>
                                                     <li class="list-group-item">주문 수량 : ${detail.menu_quantity} 개</li>
-                                                        <%--                                                    <li class="list-group-item">--%>
-                                                        <%--                                                        <a role="button" class="btn btn-success btn-sm"--%>
-                                                        <%--                                                           href="${pageContext.request.contextPath}/menu/menu-read?menu_id=${detail.menu_id}">--%>
-                                                        <%--                                                            메뉴 상세보기--%>
-                                                        <%--                                                        </a>--%>
-                                                        <%--                                                    </li>--%>
+                                                        <%--   <li class="list-group-item">--%>
+                                                        <%--        <a role="button" class="btn btn-success btn-sm"--%>
+                                                        <%--            href="${pageContext.request.contextPath}/menu/menu-read?menu_id=${detail.menu_id}">--%>
+                                                        <%--            메뉴 상세보기--%>
+                                                        <%--        </a>--%>
+                                                        <%--   </li>--%>
                                                 </ul>
                                             </div>
                                         </div>
