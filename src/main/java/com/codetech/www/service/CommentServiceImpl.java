@@ -129,4 +129,21 @@ public class CommentServiceImpl implements CommentService {
 		return comment_dao.getCommentCountByUser(user_id);
 	}
 
+	@Override
+	public List<Comment> getCommentListAllByStore(int store_id, int page) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//id리스트를 받아와서 스트링 배열이 넣고 그 배열을 map으로 보내준 뒤 mapper 에서 foreach로 가게 부분을 돌려준다.
+		int endcount = page * 8;
+		logger.info("-------------review all ajax페이지 ========================" + endcount);
+		map.putIfAbsent("store_id",store_id);
+		map.put("start",1);
+		map.put("end", endcount);
+		return comment_dao.getCommentAllByStore(map);
+	}
+
+	@Override
+	public int addCommentByUser(Comment cmt) {
+		return comment_dao.addCommentByUser(cmt);
+	}
+
 }
