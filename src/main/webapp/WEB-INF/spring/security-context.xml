@@ -41,6 +41,9 @@
         <security:intercept-url pattern="/user/addReport" access="isAuthenticated()"/>
         <security:intercept-url pattern="/user/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
+        <security:intercept-url pattern="/admin/noticeImage" access="permitAll"/>
+        <security:csrf disabled="true"/>
+        
         <security:intercept-url pattern="/" access="permitAll"/>
 
         <security:form-login
