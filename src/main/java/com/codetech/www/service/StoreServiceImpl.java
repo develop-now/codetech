@@ -162,5 +162,4 @@ public class StoreServiceImpl implements StoreService {
 
         return store_dao.getStoreProfit(param);
     }
-
 }

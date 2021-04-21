@@ -46,8 +46,8 @@
         <security:form-login
                 login-page="/"
                 login-processing-url="/auth/loginAction"
-                username-parameter="user_id"
-                password-parameter="user_password"
+                username-parameter="login_id"
+                password-parameter="login_password"
                 default-target-url="/"
                 authentication-success-handler-ref="customLoginSuccessHandler"
                 authentication-failure-handler-ref="customLoginFailHandler"
