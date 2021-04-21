@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.codetech.www.domain.Point;
 import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
@@ -111,6 +112,19 @@ public class UsersDAO {
 
 	public User getUser(int user_id) {
 		return sqlSession.selectOne("users.getUser", user_id);
+	}
+
+	public int updatePoint(Map<String, Object> map) {
+		return sqlSession.update("users.updatePoint", map);
+	}
+
+	public List<Point> getPointList(HashMap<String, Integer> map) {
+		logger.info("dao==========");
+		return sqlSession.selectList("users.getPointList", map);
+	}
+
+	public int pointListCount(int user_id) {
+		return sqlSession.selectOne("users.pointListCount", user_id);
 	}
 
 

@@ -2,7 +2,9 @@ package com.codetech.www.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +42,7 @@ import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
 import com.codetech.www.domain.Order;
 import com.codetech.www.domain.OrderDetail;
+import com.codetech.www.domain.Point;
 import com.codetech.www.domain.Report;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
@@ -315,19 +318,42 @@ public class UsersController {
         }
         return "redirect:/user/infoMain";
     }
-
+    @ResponseBody
     @RequestMapping(value = "/pointList", method = RequestMethod.GET)
-    public String pointList(String user_id) {
-        // 포인트내역 조회 한 값을 가지고 mypage-point.jsp로 이동한다
-        String url = "";
-
-        url = "user/mypage-point";
-
-        // 세션이 만료되었으니 로그인을 다시하라는 안내를 해준다.
-
-        return url;
+    public ModelAndView pointList(@RequestParam(value="page", defaultValue="1", required = false)int page
+    								,@RequestParam(value="limit", defaultValue="4", required = false)int limit
+    								,@RequestParam(value="ajax", defaultValue="false", required=false)String ajax
+    								,ModelAndView mv) {
+    												
+    	int user_id = (int)session.getAttribute("user_id");
+    	int count =usersService.pointListCount(user_id);
+    	int maxpage = (count + limit -1)/limit;
+		int startpage = ((page-1)/10)*10+1;
+		int endpage = startpage +10-1;
+		
+		if (endpage >  maxpage)
+			endpage = maxpage;
+    	List<Point> list =usersService.getPointList(user_id, page, limit);
+    	UserPlusInfo upi = usersService.user_info(user_id);
+    	int totalPoint = upi.getPoint();
+    	logger.info("=============pointList 갯수================" + count);
+    	if(list == null) {
+    		
+    		logger.info("list가  null? ==========");
+    	}
+    	logger.info("=======ajax실행 boolean"+ ajax);
+    	if(ajax.equals("false")) {
+    		mv.setViewName("user/mypage-point");
+    	}
+    	mv.addObject("page", page);
+    	mv.addObject("maxpage",maxpage);
+    	mv.addObject("startpage", startpage);
+    	mv.addObject("endpage",endpage);
+		mv.addObject("list", list);
+		mv.addObject("count", count);
+		mv.addObject("totalPoint", totalPoint);
+        return mv;
     }
-
     @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
     public ModelAndView reportWrite(
             @RequestParam(value = "reported_store", defaultValue = "0", required = false) String reported_store,

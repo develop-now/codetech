@@ -21,7 +21,6 @@
 <%@include file="../partial/head.jsp"%>
 <script
 	src="${pageContext.request.contextPath}/resources/js/user/order-main.js"></script>
-<script src ="${pagecontext.request.contextPath}/resources/js/uer/order-storeReview.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
@@ -50,8 +49,8 @@
 					
 							<!-- searchbar -->
 		<div class="topnav">
-			<a class="active" href="${pageContext.request.contextPath}/user/orderMain?store_id=${store_id}">메 뉴</a> <a
-				href="#">리뷰보기</a>
+			<a class="active" href="${pageContext.request.contextPath}/user/orderMain?store_id=${store_id}">메 뉴</a> 
+			<a 	href="javascript:void(0);" class='storeReview-btn'>리뷰보기</a>
 		</div>
 					<div class="col-12 col-sm-10">
 
@@ -205,7 +204,7 @@
 							class="bigtext right-align box blue summoney" id="sum_p_priceA"
 							name="totalPrice"> <br> <br> <input
 							type="hidden" name="user_id" value="${user_id}"> <input
-							type="hidden" name="store_id" value="${store_id}">
+							type="hidden" id="store_id" name="store_id" value="${store_id}">
 						<div class="buttonGroup">
 							<button class="w3-button w3-khaki" id="forCart">장바구니 담기</button>
 							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>

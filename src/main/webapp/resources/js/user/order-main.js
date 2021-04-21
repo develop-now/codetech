@@ -111,4 +111,62 @@ Number.prototype.formatNumber = function() {
   
 
 
-
+$(function(){
+	
+	$(".order").hide();
+	var page = 1;
+	count = $("#listCount").val();
+	if(count != 0){
+		getStoreCommentList(page);
+	}
+	var store_id = $("#store_id").val();
+	   console.log(store_id);
+	console.log("function");
+	
+	$(".storeReview-btn").on('click', function(){
+		console.log("btn클릭");
+		getStoreCommentList(page);
+	});//$(".storeReview-btn").on('click' end
+	
+	
+	function getStoreCommentList(currentPage){
+		$.ajax({
+			type:"get",
+			url:"../comment/user/storeAllReview",
+			data:{"page":currentPage},
+			dataType:"json",
+			success:function(data){
+				if(data.listCount > 0){
+					$(".order").empty();
+					var output = "<div>"
+					$(data.list).each(function(){
+						console.log("each 실행")
+						output +="<div class='mypageReview__body d-inline-flex'>"
+							+"<div class='mypageReview__content-left'>" 
+							+	"<div><span><img src='../resources/image/common/unlike.png' alt='likecheck' width='30px'></span>"
+		              		+		"<span>"+this.comment_store_value+"</span></div>"
+		              		+		"<div class='text-center'>" 
+		              		+	"<span>리뷰 summary</span>"
+		              		+"<input type='hidden' id='comment_id' name='comment_id' value='"+this.comment_id+"'></div></div>"
+		              		+ 	"<div class='mypageReview__content-right'>"
+		              		+		"<div class='mypageReview__content-right--rivew'>" + this.comment_content
+		              		+	"<br><span>("+this.created_at+")</span></div></div></div>" 
+		              		
+		              		$(".order").append(output);
+					});//each end
+					if(data.listCount>data.list.length){
+						$(".addMessage").text("더보기")
+					}else{
+						$(".addMessage").text("첫 댓글입니다.")
+					}
+					output + "</div>"
+				}
+			 }
+			
+		});//$.ajax end
+	};
+	
+	$(".addMessage").click(function(){
+		getUserCommentList(++page);
+	});
+});//$(function() end

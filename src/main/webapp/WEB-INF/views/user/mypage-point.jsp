@@ -39,28 +39,88 @@
 	              	</div>
               		<hr>
               		<div>
-              			<span>내 포인트 :P</span>
+              			<span class="totalPoint">내 포인트 :&nbsp;${totalPoint}P</span>
+              		</div>
+              		<c:if test="${count ne 0 }">
+              		<div class="rows">
+						<select class="form-control pointList-viewcount" id="viewcount">
+							<option value="4" selected>4</option>
+							<option value="8">8</option>
+							<option value="12">12</option>
+							<option value="16">16</option>
+						</select>
               		</div>
               		<div class="pointList__body">
-              		<div class="pointList__table">
-	                	<table class="table">
-	                		<thead class="pointList__table-head">
-	                			<tr>
-	                				<td></td>
-	                				<td>결제 금액</td>
-	                				<td>적립 포인트</td>
-	                			</tr>
-	                		</thead>
-	                		<tbody>
-	                			<tr>
-	                				<td>a카페</td>
-	                				<td>47,300원</td>
-	                				<td>473p</td>
-	                			</tr>
-	                		</tbody>
-	                	</table>
+	              		<div class="pointList__table">
+	              		<input type="hidden" name="count" value="${count}">
+		                	<table class="table">
+		                		<thead class="pointList__table-head">
+		                			<tr>
+		                				<td>점포명</td>
+		                				<td>결제금액</td>
+		                				<td>적립 및 사용</td>
+		                				<td></td>
+		                			</tr>
+		                		</thead>
+		                		<tbody class="pointList__table-body">
+		                		<c:forEach var="list" items="${list}">
+		                			<tr>
+		                				<td>${list.store_name}</td>
+		                				<td>${list.order_total_price}원</td>
+		                				<c:if test="${list.point_type eq 'get' }">
+		                					<td>&#43;${list.point_value}p</td>
+		                				</c:if>
+		                				<c:if test="${list.point_type ne 'get' }">
+		                					<td>&#8722;${list.point_value}p</td>
+		                				</c:if>
+		                				<td ><span class="pointList__table-body--btn">
+		                					<a href="?order_id=${list.order_id}">결제내역</a>
+		                					</span></td>
+		                			</tr>
+		                		</c:forEach>
+		                		</tbody>
+		                	</table>
+		                	
+	              		</div>
+	              		<div class="center-block">
+	              			<ul class="pointPagination justify-content-center">
+								<c:if test="${page <= 1 }">
+									<li class="pointPage-item"><a class="link" style="background-color:white">이전</a>
+									</li>
+								</c:if>
+								<c:if test="${page > 1 }">
+									<li class="pointPage-item"><a href="pointList?page=${page-1}"
+										class="link">이전</a></li>
+								</c:if>
+								<c:forEach var="n" begin="${startpage }" end="${endpage}">
+									<c:if test="${n == page }">
+										<li class="pointPage-item ">
+										<a class="link" style="background-color:#6b9068ba; color:white;">${n}</a></li>
+									</c:if>
+									<c:if test="${n != page }">
+										<li class="pointPage-item "><a href="pointList?page=${n}"
+											class="link" >${n}</a></li>
+									</c:if>
+								</c:forEach>
+			
+								<c:if test="${page >= maxpage }">
+									<li class="pointPage-item">
+									<a class="link" style="background-color:white">다음</a>
+									</li>
+								</c:if>
+								<c:if test="${page < maxpage }">
+									<li class="pointPage-item"><a href="pointList?page=${page+1 }"
+										class="link">다음</a></li>
+								</c:if>
+							</ul>
+	              		</div>
               		</div>
-              		</div>
+              	  </c:if>
+              	  <c:if test="${count eq 0 }">
+              	  	<div class="noPointList">
+              	  	  포인트 내역이 없습니다. 주문하러 가기
+              	  	</div>
+              	  </c:if>
                 </div>
             </div>
         </div>
