@@ -249,11 +249,11 @@
 		s1.store_id
 	</sql>
 
-	<!-- <select id="getMap" resultType="storemap" parameterType="String"> -->
-	<!-- select * from storemap where -->
-	<!-- <include refid="forSearch"/> -->
-	<!-- and rownum &lt;= 1 -->
-	<!-- </select> -->
+	 <select id="getMap" resultType="storemap" parameterType="String"> 
+	 select * from storemap where 
+	 <include refid="forSearch"/> 
+	 and rownum &lt;= 1
+	 </select> 
 
 	<select id="storeInfo" resultType="store" parameterType="int">
 		select *

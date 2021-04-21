@@ -106,7 +106,7 @@ public class OwnerController {
 
 	@RequestMapping(value = "/searchListMap")
 	public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
-
+		logger.info("search 도착");
 		StoreMap storeMap = ownerService.getMap(searchWord);
 		mv.addObject("storeMap", storeMap);
 		mv.setViewName("owner/mapPageSearch");

@@ -2,32 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<!-- Bootstrap core CSS -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/owner/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/owner/blog-home.css"
-	rel="stylesheet">
-
-<!-- SearchBar CSS  -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/owner/mainList.css"
-	rel="stylesheet">
 
 
-	
+<div class="container-fluid">
+	<div class="row1">
+		<div class="col-12 col-sm-10">
+			<div class="container">
 
 				<!-- Blog Post -->
 				<c:forEach var="store" items="${stores}" varStatus="status">
 					<c:if test="${store.store_status == 1}">
 
-						<div class="card mb-4">
+						<div class="card mb-4" style="width: 555px">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap">
+								alt="Card image cap" style="height: 50% !important;">
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
@@ -40,17 +29,18 @@
 									width="30" height="30" alt="">
 								${store.like_count}&nbsp;&nbsp; <img class="card-img-comments"
 									src="${pageContext.request.contextPath}/resources/upload/message.png"
-									width="30" height="30" alt="">&nbsp;${store.comment_count} 
+									width="30" height="30" alt="">&nbsp;${store.comment_count}
 							</div>
 						</div>
 					</c:if>
 
 					<c:if test="${store.store_status == 2}">
 
-						<div class="card mb-4">
+						<div class="card mb-4" style="width: 555px">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap" style="filter: blur(5px);" >
+								alt="Card image cap" style="filter: blur(5px);"
+								style="height: 50% !important;">
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
@@ -70,7 +60,10 @@
 					</c:if>
 
 				</c:forEach>
-				
-		
-				
-	
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
