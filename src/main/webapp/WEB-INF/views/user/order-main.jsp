@@ -45,7 +45,7 @@
 			<div class="row">
 				<%@include file="user-nav-mypage.jsp"%>
 				<form action="${pageContext.request.contextPath}/owner/pay"
-					method="get">
+					method="post">
 					
 							<!-- searchbar -->
 		<div class="topnav">
@@ -209,7 +209,7 @@
 							<button class="w3-button w3-khaki" id="forCart">장바구니 담기</button>
 							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
 						</div>
-
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 					</div> <!-- payMentView -->
 			</div>
 			<!-- order -->

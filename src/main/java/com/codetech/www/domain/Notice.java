@@ -1,7 +1,5 @@
 package com.codetech.www.domain;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class Notice {
 	private int      notice_id;       		// 글번호
 	private int		 notice_status;			// 공지/이벤트/점검
@@ -10,11 +8,6 @@ public class Notice {
 	private String   notice_content;
 
 	private int      notice_readcount;		//글의 조회수
-
-	private MultipartFile uploadfile;
-	
-	private String notice_saved_image; 		// 첨부될 파일의 이름
-	private String notice_original_image;	// 첨부될 파일의 이름
 	
 	private String   notice_date;
 
@@ -56,30 +49,6 @@ public class Notice {
 
 	public void setNotice_readcount(int notice_readcount) {
 		this.notice_readcount = notice_readcount;
-	}
-
-	public MultipartFile getUploadfile() {
-		return uploadfile;
-	}
-
-	public void setUploadfile(MultipartFile uploadfile) {
-		this.uploadfile = uploadfile;
-	}
-
-	public String getNotice_saved_image() {
-		return notice_saved_image;
-	}
-
-	public void setNotice_saved_image(String notice_saved_image) {
-		this.notice_saved_image = notice_saved_image;
-	}
-
-	public String getNotice_original_image() {
-		return notice_original_image;
-	}
-
-	public void setNotice_original_image(String notice_original_image) {
-		this.notice_original_image = notice_original_image;
 	}
 
 	public String getNotice_date() {

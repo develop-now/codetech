@@ -17,6 +17,8 @@ create table orders
 select * from orders;
 
 
+
+
 		
 		
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
@@ -239,5 +241,5 @@ insert into orders (order_id, order_total_price, order_user, order_status, store
 values (99, '830000', 7, 6, 2);
 insert into orders (order_id, order_total_price, order_user, order_status, store_id)
 values (100, '530000', 7, 3, 2);
-
+select * from orders;
 commit;

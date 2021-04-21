@@ -220,7 +220,7 @@
 	 SELECT *
  	 FROM (SELECT ROWNUM RNUM, N.*
        	   FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
-       	   		 		NOTICE_READCOUNT, NOTICE_DATE, NOTICE_SAVED_IMAGE, NOTICE_ORIGINAL_IMAGE
+       	   		 		NOTICE_READCOUNT, NOTICE_DATE
              	 FROM NOTICE   	 
 				<if test="search_text != null and notice_status != null">
 				 WHERE NOTICE_STATUS = 
@@ -240,7 +240,7 @@
 	 SELECT COUNT(*)
  	 FROM (SELECT ROWNUM RNUM, N.*
        	   FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
-       	   		 		NOTICE_READCOUNT, NOTICE_DATE, NOTICE_SAVED_IMAGE, NOTICE_ORIGINAL_IMAGE
+       	   		 		NOTICE_READCOUNT, NOTICE_DATE
              	 FROM NOTICE   	 
 				<if test="search_text != null and notice_status != null">
 				 WHERE NOTICE_STATUS = 
@@ -254,4 +254,42 @@
            		) N
       	   )
 	</select>
+	
+	<insert id="insertNotice" parameterType="notice">
+		<selectKey resultType="int" order="BEFORE" keyProperty="notice_id">
+			SELECT NVL(MAX(NOTICE_ID), 0) + 1 FROM NOTICE		
+		</selectKey>
+		
+		INSERT INTO NOTICE
+		(NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT, NOTICE_DATE)
+		VALUES
+		(#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, SYSDATE)
+	</insert>
+	
+	<update id="readCountUpdate" parameterType="int">
+		UPDATE NOTICE
+		SET NOTICE_READCOUNT = NOTICE_READCOUNT + 1
+		<!-- 인자값이 하나만 넘어오면 파라미터 명을 아무거나 적어줘도 되지만
+			  여러가지가 넘어올 경우(board 등등) 파라미터 명을 맞춰줘야 한다. -->
+		WHERE NOTICE_ID = #{notice_id}
+	</update>
+	
+	<select id="noticeView" parameterType="int" resultType="notice">
+		SELECT * FROM NOTICE
+		WHERE NOTICE_ID = #{notice_id}
+	</select>
+	
+	<update id="modifyAction" parameterType="notice">
+		UPDATE NOTICE
+		SET
+			NOTICE_SUBJECT = #{notice_subject},
+			NOTICE_CONTENT = #{notice_content},
+			NOTICE_STATUS = #{notice_status}
+		WHERE NOTICE_ID = #{notice_id}
+	</update>
+	
+	<delete id="noticeDelete" parameterType="notice">
+		DELETE FROM NOTICE
+		WHERE NOTICE_ID = #{notice_id}
+	</delete>
 </mapper>

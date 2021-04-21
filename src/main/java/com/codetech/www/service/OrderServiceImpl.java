@@ -112,6 +112,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public int getOrderCountByStore(int store_id) {
+        return order_dao.getOrderCountByStore(store_id);
+    }
+
+    @Override
     public List<Order> getOrderList(int store_id) {
         return order_dao.getOrderList(store_id);
     }

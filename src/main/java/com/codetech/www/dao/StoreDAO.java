@@ -132,7 +132,14 @@ public class StoreDAO {
 
     public int favoriteCancel(HashMap<String, Integer> map) {
         return sqlSession.delete("Stores.favoriteCancel", map);
+    }
 
+    public int getStoreTotalLike(int store_id){
+        return sqlSession.selectOne("Stores.storeTotalLike", store_id);
+    }
+
+    public int getStoreTotalIncome(int store_id) {
+        return sqlSession.selectOne("Stores.storeTotalIncome", store_id);
     }
 
     public List<Profit> getStoreProfit(Map<String, Object> param) {
@@ -156,6 +163,8 @@ public class StoreDAO {
     public int reportStore(HashMap<String, Object> map) {
         return sqlSession.insert("Stores.storeReport", map);
     }
+
+
 
 
 }

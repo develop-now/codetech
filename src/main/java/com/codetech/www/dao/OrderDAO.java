@@ -51,6 +51,10 @@ public class OrderDAO {
         return sqlSession.selectList("Orders.list", store_id);
     }
 
+    public int getOrderCountByStore(int store_id){
+        return sqlSession.selectOne("Orders.orderCountByStore", store_id);
+    }
+
     public List<Order> getOrder(HashMap<String, Integer> map) {
         return sqlSession.selectList("Orders.ordered", map);
     }
@@ -101,6 +105,14 @@ public class OrderDAO {
 
 	public int insertPoint(Point point) {
 		return sqlSession.insert("Orders.insertPoint", point);
+	}
+
+	public int order(HashMap<String, Integer> map) {
+		return sqlSession.insert("Orders.order", map);
+	}
+
+	public int orderDetail(HashMap<String, Integer> map) {
+		return sqlSession.insert("Orders.orderDetail", map);
 	}
 
 }

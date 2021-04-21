@@ -42,6 +42,9 @@
         <security:intercept-url pattern="/user/**" 
         						access="hasAnyRole('ROLE_STORE_STAFF', 'ROLE_STORE_OWNER','ROLE_MEMBER')"/>
         <security:intercept-url pattern="/home" access="permitAll"/>
+        <security:intercept-url pattern="/admin/noticeImage" access="permitAll"/>
+        <security:csrf disabled="true"/>
+        
         <security:intercept-url pattern="/" access="permitAll"/>
 
         <security:form-login
