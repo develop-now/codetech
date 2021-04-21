@@ -30,5 +30,9 @@ public interface CommentService {
 
 	public int getCommentCountByUser(int user_id);
 
+	public List<Comment> getCommentListAllByStore(int store_id, int page);
+
+	public int addCommentByUser(Comment cmt);
+
 
 }

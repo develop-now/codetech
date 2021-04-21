@@ -85,11 +85,11 @@ $(".mypageReview-content").on("click","#deleteReview",function(){
 			if( data.result){
 				getUserCommentList(page);
 				$("#infoModal__msg").text("리뷰 삭제 성공하였습니다")
-				infoModal.modal("show");
+				$("#infoModal").modal("show");
 			}
 			else{
 				$("#infoModal__msg").text("리뷰 삭제 실패하였습니다. 관리자에게 문의해주세요.");
-				infoModal.modal("show");
+				$("#infoModal").modal("show");
 				console.log("deleteUserComment ERROR");
 			}
 		},

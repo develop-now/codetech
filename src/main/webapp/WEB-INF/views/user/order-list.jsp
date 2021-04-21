@@ -15,6 +15,20 @@
 <%@include file="../partial/head.jsp"%>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
+	<script>
+	$(function(){
+		
+	$('.reviewbtn').on("click",function(){
+		var store_id = $(this).next().val();
+		var store_name = $("#getStore_id").text();
+		console.log(store_name);
+		$("#storeReviewWriteModal").modal("show");
+		
+		$('#storeReviewWriteModal_id').val(store_id);
+	})
+	})
+
+	</script>
 </head>
 <body>
 	<div class="container-fluid px-0">
@@ -33,26 +47,26 @@
 			<div class="row">
 				<%@include file="user-nav-mypage.jsp"%>
 				<div class="col-12 col-sm-10">
-					<div class="container mypageReview">
+					<div class="container mypageOrderList">
 						<div class="userContainer__header">
 							<h2 class="text-right">주문내역</h2>
 						</div>
 						<hr>
 						<c:forEach var="store" items="${store}" varStatus="status">
-							<div class="mypageReview__body d-inline-flex">
-								<div class="mypageReview__content-left">
+							<div class="mypageOrderList__body d-inline-flex text-center">
+								<div class="mypageOrderList__content-left">
 									<div>
-										<span>${store.store_name }</span>
+										<span id="getStore_name">${store.store_name }</span>
 									</div>
-									<div class="mypageReview__content-left--img">
+									<div class="mypageOrderList__content-left--img">
 										<img
 											src="${pageContext.request.contextPath}resources/upload/${store.store_saved_image}"
 											alt="test">
 									</div>
 								</div>
-								<div class="mypageReview__content-right">
-									<div class="mypageReview__content-right--rivew">
-
+								<div class="mypageOrderList__content-right">
+									<div class="mypageOrderList__content-right--status text-center">
+										<span>
 										<c:choose>
 											<c:when test="${orders[status.index].order_status == 1}">
 											주문 접수 완료
@@ -74,6 +88,7 @@
 											픽업완료
 										</c:when>
 										</c:choose>
+										</span>
 
 									</div>
 									<div class="order-summary">
@@ -84,7 +99,8 @@
 										<button type="button" onclick="location.href='home'">가게보기</button>
 										<c:if
 											test="${orders[status.index].comment_writable eq 'false'}">
-											<button type="button" onclick="location.href='home'">리뷰작성</button>
+											<button type="button" class="reviewbtn">리뷰작성</button>
+											<input type="hidden" class="reviewIndex"id="reviewIndex" value="${store.store_id}">
 										</c:if>
 										<c:if
 											test="${orders[status.index].comment_writable eq 'true'}">
@@ -129,10 +145,45 @@ $('.pageInc').click(function () {
         })
 
 })
-
+	
 }
 )
-
 </script>
+
+
+<div class="modal fade storeReviewWriteModal" id="storeReviewWriteModal"
+						tabindex="-1" role="dialog"
+						aria-labelledby="storeReviewWriteModalTitle" aria-hidden="true">
+
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header storeReviewWriteModal-header">
+									<h1 class="storeReviewWriteModal-title" id="storeReviewWriteModalTitle">가게이름</h1>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							
+								<div class="modal-body storeReviewWriteModal-body">
+									<form name="joinform" id="joinModalForm"
+          action="<c:url value="/comment/user/addComment"/>"
+          method="post" enctype="multipart/form-data"
+          class="border-light p-5">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        		<sec:authentication property="principal" var="pinfo"/>
+                    <input type="hidden" name="comment_writer_value" value="${pinfo.username}">
+									<input type="hidden" id="storeReviewWriteModal_id" name="comment_store">
+									<div>
+									<textarea name="comment_content" placeholder="리뷰를 작성해주세요" required></textarea>
+									</div>
+									<div>
+									</div>
+									<button type="submit" class="storeReviewWriteModal__button" >작성하기</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 </body>
 </html>
