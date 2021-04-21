@@ -181,4 +181,39 @@ public class AdminServiceImpl implements AdminService {
 		
 		return dao.getNoticeList(map);
 	}
+	
+	@Override
+	public int setReadCountUpdate(int notice_id) {
+		return dao.setReadCountUpdate(notice_id);
+	}
+	
+	@Override
+	public void insertNotice(Notice notice) {
+		dao.insertBoard(notice);
+	}
+
+	@Override
+	public Notice noticeView(int notice_id) {
+		if (setReadCountUpdate(notice_id) != 1)
+			return null;
+		return dao.noticeView(notice_id);
+	}
+
+	@Override
+	public int modifyAction(Notice noticeModify) {
+		return dao.modifyAction(noticeModify);
+	}
+
+	@Override
+	public int noticeDelete(int notice_id) {
+		int result = 0;
+		
+		Notice notice = dao.noticeView(notice_id);
+		
+		if (notice != null) {
+			result = dao.noticeDelete(notice);
+		}
+		
+		return result;
+	}
 }

@@ -74,7 +74,15 @@
 	}
 	
 </style>
+<script>
+	var result = "${result}";
+	
+	if (result == 'deleteSuccess') {
+		alert("공지사항을 삭제 했습니다.");
+	}
+</script>
 </head>
+
 <body>
 <div class="container-fluid px-0">
     <%-- main nav --%>
@@ -120,17 +128,17 @@
 							<c:choose>
 								<c:when test="${notice.notice_status == 1}">
 									<img src="${pageContext.request.contextPath}/resources/image/admin/NOTICE.png" style="padding: 0px 20px;"/>
-									<span style="font-size:1.0em">${notice.notice_subject}</span>
+									<span style="font-size:1.0em"><a href="noticeView?notice_id=${notice.notice_id}">${notice.notice_subject}</a></span>
 								</c:when>
 							
 								<c:when test="${notice.notice_status == 2}">
 									<img src="${pageContext.request.contextPath}/resources/image/admin/EVENT.png" style="padding: 0px 20px"/>
-									<span style="font-size:1.0em">${notice.notice_subject}</span>
+									<span style="font-size:1.0em"><a href="noticeView?notice_id=${notice.notice_id}">${notice.notice_subject}</a></span>
 								</c:when>
 								
 								<c:when test="${notice.notice_status == 3}">
 									<img src="${pageContext.request.contextPath}/resources/image/admin/CHECK.png" style="padding: 0px 20px"/>
-									<span style="font-size:1.0em">${notice.notice_subject}</span>
+									<span style="font-size:1.0em"><a href="noticeView?notice_id=${notice.notice_id}">${notice.notice_subject}</a></span>
 								</c:when>
 							</c:choose>
 							</td>

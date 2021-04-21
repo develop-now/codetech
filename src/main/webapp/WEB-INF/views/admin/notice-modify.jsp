@@ -93,10 +93,13 @@
 		box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
 	}
 </style>
-	<!-- ckeditor5 -->
-	<script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
-	
-    <title>Notice Write</title>
+	<script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script> 
+	<script>
+		window.onload = function() {
+			ck = CKEDITOR.replace("Notice_content");
+		};
+	</script>
+    <title>Notice Modify</title>
     <%@include file="../partial/head.jsp" %>  
 </head>
 <body>
@@ -114,14 +117,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-sm-10">
-                <h3 class="notice_h3">공지 사항 수정</h3> <!-- style="border: solid 1px #e2e2d0; -->
+	    		<form action="noticeAction" method="post">
+                <h3 class="notice_h3">공지 사항 수정</h3>
+                <input type="hidden" name="notice_id" value="${noticeModify.notice_id}">
 	    		<div>
 		    		<div class="Not_subject">
 		    			<div style="margin:auto 0px; padding: 30px 0px">
 		    				<b><span style="font-size:1.2em">제목</span></b>
 		    			</div>
 			    		<div style="padding: 30px 0px">
-			    			<input type="text" name="Notice_subject" id="Notice_subject" placeholder="공지사항 제목을 입력하세요." required>
+			    			<input type="text" name="notice_subject" id="Notice_subject"
+			    				placeholder="제목을 입력하세요." value="${noticeModify.notice_subject}" required>
 			    		</div>  		
 		    		</div>
 		    		
@@ -130,9 +136,9 @@
 		    				<b><span style="font-size:1.2em">카테고리</span></b>
 		    			</div>
 		    			<div style="margin:auto 0px; height: 28px">
-				    		<input type="radio" name="noticeCatgories" id="noticeNews" value="0"/><label for="noticeNews">&nbsp;공지사항 &nbsp;</label>
-				    		<input type="radio" name="noticeCatgories" id="noticeEvent" value="1"/><label for="noticeEvent">&nbsp;이벤트 &nbsp;</label>
-				    		<input type="radio" name="noticeCatgories" id="noticeInspect" value="2"/><label for="noticeInspect">&nbsp;점검사항 &nbsp;</label>
+				    		<input type="radio" name="notice_status" id="noticeNews" value="1"/><label for="noticeNews">&nbsp;공지사항 &nbsp;</label>
+				    		<input type="radio" name="notice_status" id="noticeEvent" value="2"/><label for="noticeEvent">&nbsp;이벤트 &nbsp;</label>
+				    		<input type="radio" name="notice_status" id="noticeInspect" value="3"/><label for="noticeInspect">&nbsp;점검사항 &nbsp;</label>
 		    			</div>
 		    			<div></div>
 		    		</div>    			    		
@@ -147,21 +153,17 @@
 			    		</div>
     				</div>
 			    	<div>
-				    	<textarea name="Notice_content" id="Notice_content" placeholder="내용을 입력하세요."></textarea>
-				    	<script>
-					           ClassicEditor /* 에디터 사용을 위해 textarea 밑에 스크립트 추가 */
-					               .create( document.querySelector( '#Notice_content' ))
-					               .catch( error => {
-					                   console.error( error );
-					           });
-					    </script>
+				    	<textarea name="notice_content" id="Notice_content" placeholder="내용을 입력하세요.">
+				    		${noticeModify.notice_content}
+				    	</textarea>
 			    	</div>
 		    	</div>    		
     			
 			    <div class="btn_group">
 					<button type=submit class="btn_submit">수정</button>
-					<button type=reset class="btn_cancle">취소</button>
-				</div>
+					<button type=reset class="btn_cancle" onClick="history.go(-1)">취소</button>
+				</div>	    		
+	    		</form>
             </div>
         </div>
     </div>
@@ -172,8 +174,6 @@
     <div class="container-fluid">
     	
     </div>
-    <!-- /.container -->
-	
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
 </div>
