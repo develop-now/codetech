@@ -13,6 +13,23 @@
 <head>
     <title>Store Index Page</title>
     <%@include file="../partial/head.jsp" %>
+
+    <script>
+        $(() => {
+            $(".counter_animation").each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
+            })
+        })
+
+    </script>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -39,7 +56,7 @@
                                 <div class="row detail__container">
                                     <i class="fas fa-store dashboard__icon"></i>
                                     <p class="ml-2">
-                                        <span id="store_count" class="detail_number">
+                                        <span id="store_count" class="detail_number counter_animation">
                                             ${store_total_count}
                                         </span>
                                         <br/>
@@ -53,7 +70,7 @@
                                 <div class="row detail__container">
                                     <i class="fas fa-user-check dashboard__icon"></i>
                                     <p class="detail__wrapper">
-                                        <span id="customer_count" class="detail_number">
+                                        <span id="customer_count" class="detail_number counter_animation">
                                             ${store_total_customer}
                                         </span>
                                         <br/>
@@ -67,8 +84,9 @@
                                 <div class="row">
                                     <i class="fas fa-won-sign dashboard__icon"></i>
                                     <p class="detail__wrapper">
-                                        <span id="income_amount" class="detail_number">
-                                           <fmt:formatNumber type="number" value="${store_total_income}"/>
+                                        <span id="income_amount" class="detail_number counter_animation">
+<%--                                           <fmt:formatNumber type="number" value="${store_total_income}"/>--%>
+                                            ${store_total_income}
                                         </span>
                                         <br/>
                                         <span class="detail__title">INCOME</span>
@@ -77,11 +95,11 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 px-sm-3 my-1">
-                            <div class="summary__box bg-primary text-white">
+                            <div class="summary__box bg-info text-white">
                                 <div class="row">
                                     <i class="fas fa-clipboard-list dashboard__icon"></i>
                                     <p class="detail__wrapper">
-                                        <span id="order_count" class="detail_number">
+                                        <span id="order_count" class="detail_number counter_animation">
                                             ${store_total_order}
                                         </span>
                                         <br/>
@@ -91,11 +109,11 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 px-sm-3 my-1">
-                            <div class="summary__box bg-info text-white">
+                            <div class="summary__box bg-primary text-white">
                                 <div class="row">
                                     <i class="fas fa-comments dashboard__icon"></i>
                                     <p class="detail__wrapper">
-                                        <span id="comment_count" class="detail_number">
+                                        <span id="comment_count" class="detail_number counter_animation">
                                             ${store_total_comment}
                                         </span>
                                         <br/>
@@ -109,7 +127,7 @@
                                 <div class="row">
                                     <i class="fas fa-thumbs-up dashboard__icon"></i>
                                     <p class="detail__wrapper">
-                                        <span id="like_count" class="detail_number">
+                                        <span id="like_count" class="detail_number counter_animation">
                                             ${store_total_like}
                                         </span>
                                         <br/>
