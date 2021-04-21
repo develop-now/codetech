@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.codetech.www.dao.AdminDAO;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
-import com.codetech.www.domain.Store;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -181,5 +180,40 @@ public class AdminServiceImpl implements AdminService {
 		map.put("end", endrow);
 		
 		return dao.getNoticeList(map);
+	}
+	
+	@Override
+	public int setReadCountUpdate(int notice_id) {
+		return dao.setReadCountUpdate(notice_id);
+	}
+	
+	@Override
+	public void insertNotice(Notice notice) {
+		dao.insertBoard(notice);
+	}
+
+	@Override
+	public Notice noticeView(int notice_id) {
+		if (setReadCountUpdate(notice_id) != 1)
+			return null;
+		return dao.noticeView(notice_id);
+	}
+
+	@Override
+	public int modifyAction(Notice noticeModify) {
+		return dao.modifyAction(noticeModify);
+	}
+
+	@Override
+	public int noticeDelete(int notice_id) {
+		int result = 0;
+		
+		Notice notice = dao.noticeView(notice_id);
+		
+		if (notice != null) {
+			result = dao.noticeDelete(notice);
+		}
+		
+		return result;
 	}
 }
