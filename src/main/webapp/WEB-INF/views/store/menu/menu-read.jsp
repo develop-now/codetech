@@ -12,14 +12,12 @@
 <head>
     <title>Menu Read Page</title>
     <%@include file="../../partial/head.jsp" %>
-    <script src="${pageContext.request.contextPath}/resources/js/store/menu-create.js"></script>
     <script>
         $(() => {
             $("#backBtn").on("click", () => {
                 history.back();
             })
 
-            // TODO:: FIX HARDCODING OWNER ID VALUE
             $("#listBtn").on("click", () => {
                 location.href = "/store/menu-list"
             })

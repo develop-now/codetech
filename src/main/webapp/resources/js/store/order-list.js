@@ -32,14 +32,11 @@ $(() => {
     })
 
     $("input:radio#order_all").on("change", function () {
-        console.log("debug 111")
         status_id_val = $(this).val();
         ajaxCall()
     })
 
     $("input:radio[name='customer_order_key']").on("change", function () {
-        console.log("debug 222")
-
         order_key_val = $(this).val();
         ajaxCall()
     })
@@ -98,7 +95,6 @@ function makeStatusInput(data) {
         clonedEl.removeClass("status_template");
         clonedEl.find("input").attr("id", status.status_value)
             .attr("checked", false).val(status.order_status_id).on("change", function () {
-            console.log($(this))
             status_id_val = $(this).val();
             ajaxCall()
         })
@@ -135,9 +131,9 @@ function loadMoreOrder() {
 function resetAction() {
     store_id_val = 0;
     status_id_val = 0
-    $("input#order_all").attr("checked", true)
+    $("input#order_all").prop("checked", true)
     order_key_val = "order_date"
-    $("input#order_date").attr("checked", true)
+    $("input#order_date").prop("checked", true)
     page_val = 1;
     order_total_count = 0;
 }
@@ -190,7 +186,7 @@ function makeOrderTable(data) {
         clonedTr.find(".order_date").text(order.created_at.substr(0, 19));
         clonedTr.find(".order_status").text(statusLabel("", order.order_status_value, ""));
         clonedTr.find(".order_action").append(`<button class="btn btn-sm btn-info" onclick="orderStatusChange('${order.order_id}', '${order.order_status}')">변경</button>`);
-        clonedTr.find(".order_read").append(`<button class="btn btn-sm btn-primary" onclick="orderRead('${order.order_id}')">보기</button>`);
+        clonedTr.find(".order_read").append(`<a role="button" class="btn btn-sm btn-primary" href="/order/order-read?order_id=${order.order_id}">보기</a>`);
 
         $("#target-tbody").append(clonedTr);
     }
@@ -233,7 +229,7 @@ function updateAction() {
                 }
             },
             error: (req, status, err) => {
-                console.log("err : ", err)
+                console.log("order update action err : ", err)
             },
             complete: () => {
                 ajaxCall()
@@ -243,9 +239,6 @@ function updateAction() {
 }
 
 function orderStatusChange(order_id, status_id) {
-    console.log("status_id : ", status_id)
-    console.log("update order : " + order_id)
-
     $("#orderUpdateForm input#order_id").val(order_id)
     $("#orderUpdateForm input#prev_status_id").val(status_id)
     $("#orderUpdateForm input[name='order_id']").val(order_id)
@@ -281,7 +274,6 @@ function ajaxCall() {
         dataType: "json",
         cache: false,
         success: (jsonData) => {
-            console.log("jsonData : ", jsonData)
             if (jsonData.success) {
                 makeOrderTable(jsonData)
             } else {

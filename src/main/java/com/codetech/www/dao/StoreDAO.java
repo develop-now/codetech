@@ -125,23 +125,44 @@ public class StoreDAO {
     }
 
 
-	public List<Store> getStoreFavorite(int user_id) {
+    public List<Store> getStoreFavorite(int user_id) {
         return sqlSession.selectList("Stores.favorite", user_id);
 
-	}
+    }
 
-	public int favoriteCancel(HashMap<String, Integer> map) {
+    public int favoriteCancel(HashMap<String, Integer> map) {
         return sqlSession.delete("Stores.favoriteCancel", map);
+    }
 
-	}
+    public int getStoreTotalLike(int store_id){
+        return sqlSession.selectOne("Stores.storeTotalLike", store_id);
+    }
 
+    public int getStoreTotalIncome(int store_id) {
+        return sqlSession.selectOne("Stores.storeTotalIncome", store_id);
+    }
 
     public List<Profit> getStoreProfit(Map<String, Object> param) {
         return sqlSession.selectList("Stores.storeProfit", param);
     }
 
-	public Report readStoreReport(int store_report_id) {
-		return sqlSession.selectOne("Stores.readStoreReport", store_report_id);
-	}
+    public Report readStoreReport(int store_report_id) {
+        return sqlSession.selectOne("Stores.readStoreReport", store_report_id);
+    }
+
+    public List<Store> getStoreName() {
+        return sqlSession.selectList("Stores.getStoreName");
+
+    }
+
+    public Store getStore(String reported) {
+        return sqlSession.selectOne("Stores.storeInfoFR", reported);
+
+    }
+
+    public int reportStore(HashMap<String, Object> map) {
+        return sqlSession.insert("Stores.storeReport", map);
+    }
+
 
 }

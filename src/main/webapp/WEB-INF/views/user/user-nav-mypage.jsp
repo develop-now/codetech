@@ -23,7 +23,7 @@
 				class="nav-link">신고관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="${pageContext.request.contextPath}/comment/comment-list-by-user-ajax"
+			<a href="${pageContext.request.contextPath}/user/reviewList"
 				class="nav-link">리뷰관리</a>
 		</li>
 				<li class="nav-item">

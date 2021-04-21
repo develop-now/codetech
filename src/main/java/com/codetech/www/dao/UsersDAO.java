@@ -1,5 +1,6 @@
 package com.codetech.www.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,22 @@ public class UsersDAO {
 			sqlSession.insert("users.addCmtReport",report);
 		}
 		return 0;
+	}
+
+	public List<UserInfo> getUserName() {
+        return sqlSession.selectList("users.getUserName");
+	}
+
+	public UserInfo getUser(String reported) {
+		return sqlSession.selectOne("users.getUserRP", reported);
+	}
+
+	public int reportUser(HashMap<String, Object> map) {
+		return sqlSession.insert("users.userReport", map);
+	}
+
+	public User getUser(int user_id) {
+		return sqlSession.selectOne("users.getUser", user_id);
 	}
 
 

@@ -1,13 +1,15 @@
 package com.codetech.www.controller;
 
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.User;
 import com.codetech.www.service.CommentService;
+import com.codetech.www.service.UsersService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+    
+    @Autowired
+    private UsersService userService;
 
     @ResponseBody
     @RequestMapping(value = "/comment-list-by-store-ajax", method = RequestMethod.GET)
@@ -124,17 +129,73 @@ public class CommentController {
     }
     
     @ResponseBody
-    @RequestMapping(value="/comment-list-by-user-ajax", method= RequestMethod.GET)
+    @RequestMapping(value="/user/comment-list-by-user-ajax", method= RequestMethod.GET)
     public Map<String, Object> getUserCommentListAjax(HttpSession session
     								,@RequestParam(value="page",defaultValue="1",required=false)int page
     									) {
     	logger.info("여기는 getlistajax");
     	int user_id = (Integer)session.getAttribute("user_id");
     	List<Comment> list= commentService.getUserCommentList(user_id, page);
-    	int listcount = commentService.getCommentCountByUser(user_id);
+    	int listCount = commentService.getCommentCountByUser(user_id);
     	Map<String, Object> map = new HashMap<String, Object>();
-    	map.put("listcount", listcount);
+    	map.put("listCount", listCount);
     	map.put("list", list);
     	return map;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/user/deleteUserComment", method = RequestMethod.POST)
+    public Map<String, Object> deleteUserComment(int comment_id) {
+    	logger.info("''''''''''''''''''''''''''''''''''''''''' deleteUserComment들어옴");
+
+    	//comment_id받고 그 아이디에 해당하는 글의 status를 update해준다 + update_at도 변경
+    	int result = commentService.deleteComment(comment_id);
+    	logger.info("''''''''''''''''''''''''''''''''''''''''' deleteUserComment" + result);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	if(result != 1) {
+    		logger.info("deleteUserComment update ERROR");
+    	}else {
+    		map.put("result", result);
+    	}
+    	return map;
+    }
+    @RequestMapping(value = "/user/storeReviewView", method = RequestMethod.GET)
+	public String storeReviewView() {
+		// 상세내역 조회 후 order-list.jsp modal로 이동
+    	
+    	String url="user/storeReview";
+    	return url;
+    	
+	}
+    
+    @ResponseBody
+    @RequestMapping(value = "/user/storeAllReview", method = RequestMethod.GET)
+	public Map<String, Object> storeReview(int store_id, int page) {
+    	String search_val = "";
+    	List<Comment> list = commentService.getCommentListAllByStore(store_id, page);
+    	int count = commentService.getCommentCountByStore(store_id, search_val);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("list",list);
+    	map.put("listCount", count);
+    	logger.info("=================storeAllReview ajax로 들어옴===========================+"+count);
+    	return map;
+	}
+    
+    @RequestMapping(value="/user/addComment", method=RequestMethod.POST)
+    public String addCommentByUser(Comment cmt, RedirectAttributes rattr) {
+    	logger.info("addcommetnbyuser도착");
+    	String user_email = cmt.getComment_writer_value();
+    	User user = userService.getUserId(user_email);
+    	cmt.setComment_writer(user.getUser_id());
+    	logger.info("addCommentByUser-----------user_id=>comment_writer"+cmt.getComment_writer());
+    	cmt.setComment_lev(0);
+    	cmt.setComment_lev(0);
+    	int result = commentService.addCommentByUser(cmt);
+    	if(result == 1) {
+    		rattr.addFlashAttribute("info", "리뷰작성을 완료하였습니다.");
+    	}else {
+    		rattr.addFlashAttribute("alert", "리뷰작성에 실패하였습니다.");
+    	}
+    	return"redirect:/home";
     }
 }

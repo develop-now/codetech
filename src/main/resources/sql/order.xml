@@ -5,6 +5,25 @@
 
     <!-- start for order controller -->
 
+    <select id="list" parameterType="int" resultType="order">
+        select *
+        from orders
+        where store_id = #{store_id}
+    </select>
+
+    <select id="orderCountByStore" parameterType="int" resultType="int">
+        select count(*)
+        from orders
+        where store_id = #{store_id}
+    </select>
+
+    <select id="getOrderDetails" resultType="order-detail" parameterType="int">
+        select *
+        from order_details t
+                 join menus m on t.menu_id = m.menu_id
+        where t.order_id = #{order_id}
+    </select>
+
     <select id="statusList" resultType="order-status">
         select *
         from order_status
@@ -47,21 +66,39 @@
         where rnum between #{startRow} and #{endRow}
     </select>
 
+    <select id="orderStatusID" parameterType="string" resultType="int">
+        select order_status_id
+        from order_status
+        where status_value = #{status_value}
+    </select>
+
     <update id="updateStatus" parameterType="map">
         update orders
         set order_status = #{status_id},
-            updated_at   = sysdate
+        updated_at = sysdate
+        <if test="comment_writable != null">
+            , comment_writable = #{comment_writable}
+        </if>
         where order_id = #{order_id}
     </update>
 
-    <!-- end for order controller -->
-
-    <select id="list" resultType="menu" parameterType="int">
-        select *
-        from orders
-        where store_id = #{store_id}
+    <select id="readOrder" resultType="order" parameterType="int">
+        select o.*, t.status_value as order_status_value, f.user_name as order_user_name, f.user_tel as order_user_tel
+        from orders o
+                 left join user_info f on o.order_user = f.user_id
+                 join order_status t on o.order_status = t.order_status_id
+        where o.order_id = #{order_id}
     </select>
 
+    <select id="readOrderDetail" resultType="detail-menu-join" parameterType="int">
+        select *
+        from order_details t
+                 left join menus m on t.menu_id = m.menu_id
+        where t.order_id = #{order_id}
+    </select>
+
+
+    <!-- end for order controller -->
 
     <select id="ordered" resultType="order" parameterType="map">
         select * from (
@@ -130,6 +167,7 @@
         on s.store_id = c.store_id
     </select>
 
+
     <sql id="forCart">
         select *
         from carts
@@ -158,13 +196,11 @@
             parameterType="map">
         select * from (
         select row_number() over(order by updated_at desc) row_num, bb.* from (
-
         select store_name, s.store_id, s.updated_at from stores s join
         (
         <include refid="forOrdered"/>
         ) b
         on s.store_id = b.store_id
-
         ) bb ) where row_num &gt;= #{start}
         and row_num &lt;= #{end}
     </select>
@@ -177,8 +213,7 @@
     </sql>
 
 
-    <select id="ordered_details" resultType="order-detail"
-            parameterType="map">
+    <select id="ordered_details" resultType="order-detail" parameterType="map">
         select * from (
         select row_number() over(order by updated_at desc) row_num, bb.* from (
         select b.updated_at, detail_id, menu_quantity, detail_total_price, menu_id
@@ -191,6 +226,12 @@
         ) bb ) where row_num &gt;= #{start}
         and row_num &lt;= #{end}
     </select>
+
+    <delete id="cartDel" parameterType="int">
+        delete
+        from carts
+        where cart_id = #{cart_id}
+    </delete>
 
 
 </mapper>

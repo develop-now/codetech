@@ -14,7 +14,6 @@
     <%@include file="../partial/head.jsp" %>
 </head>
 <body>
-<div class="container-fluid px-0">
     <%-- main nav --%>
     <%@include file="../partial/nav.jsp" %>
 
@@ -25,10 +24,9 @@
     <%@include file="../partial/alertModal.jsp" %>
 
 
-  
+    
 
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
-</div>
 </body>
 </html>

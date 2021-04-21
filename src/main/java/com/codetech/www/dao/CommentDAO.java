@@ -61,6 +61,14 @@ public class CommentDAO {
 		return sqlSession.selectOne("Comments.commentCountByUser", user_id);
 	}
 
+	public List<Comment> getCommentAllByStore(HashMap<String, Object> map) {
+		return sqlSession.selectList("Comments.commentAllByStore", map);
+	}
+
+	public int addCommentByUser(Comment cmt) {
+		return sqlSession.insert("Comments.addCommentByUser", cmt);
+	}
+
 
 
 

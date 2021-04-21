@@ -142,4 +142,19 @@
             updated_at = sysdate
         where user_id = #{user_id}
     </update>
+    
+    <select id="getUserRP" resultType="user-info" parameterType="String">
+    select * from user_info where user_name = #{reported}
+    </select>
+    
+    <insert id="userReport" parameterType="map">
+    insert into user_report values(
+		(select nvl(max(user_report_id), 0) +1 from user_report), #{subject}, #{content},
+		sysdate, sysdate, 1, #{reporter}, #{reported})
+    </insert>
+    
+    <select id="getUser" resultType="user" parameterType="int">
+    select * from users where user_id = #{user_id}
+    </select>
+    
 </mapper>

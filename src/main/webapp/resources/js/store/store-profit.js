@@ -93,6 +93,9 @@ function makeEmptyProfitChart() {
 }
 
 function ajaxCall() {
+    console.log({store_id_val})
+    console.log({date_val})
+
     $.ajax({
         method: "get",
         url: "/store/profit-list-ajax",

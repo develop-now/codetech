@@ -27,6 +27,7 @@
         <typeAlias alias="customer" type="com.codetech.www.domain.Customer"/>
         <typeAlias alias="profit" type="com.codetech.www.domain.Profit"/>
         <typeAlias alias="order-status" type="com.codetech.www.domain.OrderStatus"/>
+        <typeAlias alias="detail-menu-join" type="com.codetech.www.domain.DetailMenuJoin"/>
     </typeAliases>
 
     <mappers>

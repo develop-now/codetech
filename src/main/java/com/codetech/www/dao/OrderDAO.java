@@ -20,6 +20,17 @@ public class OrderDAO {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
+    public int getOrderStatusID(String status_value) {
+        return sqlSession.selectOne("Orders.orderStatusID", status_value);
+    }
+
+    public Order readOrder(int order_id) {
+        return sqlSession.selectOne("Orders.readOrder", order_id);
+    }
+
+    public List<DetailMenuJoin> readOrderDetail(int order_id) {
+        return sqlSession.selectList("Orders.readOrderDetail", order_id);
+    }
 
     public List<OrderStatus> getOrderStatusList() {
         return sqlSession.selectList("Orders.statusList");
@@ -27,6 +38,10 @@ public class OrderDAO {
 
     public int updateOrderStatus(Map<String, Object> param) {
         return sqlSession.update("Orders.updateStatus", param);
+    }
+
+    public List<OrderDetail> getOrderDetails(int store_id) {
+        return sqlSession.selectList("Orders.getOrderDetails", store_id);
     }
 
     public int getOrderListCountAjax(Map<String, Object> param) {
@@ -39,6 +54,10 @@ public class OrderDAO {
 
     public List<Order> getOrderList(int store_id) {
         return sqlSession.selectList("Orders.list", store_id);
+    }
+
+    public int getOrderCountByStore(int store_id){
+        return sqlSession.selectOne("Orders.orderCountByStore", store_id);
     }
 
     public List<Order> getOrder(HashMap<String, Integer> map) {
@@ -67,17 +86,14 @@ public class OrderDAO {
 
     public List<Cart> getCart(int user_id) {
         return sqlSession.selectList("Orders.cartList", user_id);
-
     }
 
     public List<Menu> getMenuForCart(int user_id) {
         return sqlSession.selectList("Orders.menuList", user_id);
-
     }
 
     public List<Store> getStoreForCart(int user_id) {
         return sqlSession.selectList("Orders.storeList", user_id);
-
     }
 
     public int getAmount(int user_id) {
@@ -86,7 +102,10 @@ public class OrderDAO {
 
     public int getTotalPrice(int user_id) {
         return sqlSession.selectOne("Orders.getTotalPrice", user_id);
+    }
 
+    public int cartDel(int cart_id) {
+        return sqlSession.delete("Orders.cartDel", cart_id);
     }
 
 }

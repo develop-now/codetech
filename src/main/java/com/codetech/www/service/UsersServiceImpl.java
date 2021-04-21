@@ -254,4 +254,47 @@ public class UsersServiceImpl implements UsersService {
 
 	}
 
+	@Override
+	public int cartDel(int cart_id) {
+		return odao.cartDel(cart_id);
+	}
+	
+	@Override
+	public Store getStore(String reported) {
+		return sdao.getStore(reported);
+
+	}
+
+	@Override
+	public int reportStore(String subject, String content, int user_id, int store_id) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("subject", subject);
+		map.put("content", content);
+		map.put("user_id", user_id);
+		map.put("store_id", store_id);
+		return sdao.reportStore(map);
+	}
+
+	@Override
+	public UserInfo getUser(String reported) {
+		return dao.getUser(reported);
+
+	}
+
+	@Override
+	public int reportUser(String subject, String content, int user_id, int user_id2) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("subject", subject);
+		map.put("content", content);
+		map.put("reporter", user_id);
+		map.put("reported", user_id2);
+		return dao.reportUser(map);
+
+	}
+
+	@Override
+	public User getUser(int user_id) {
+		return dao.getUser(user_id);
+	}
+
 }

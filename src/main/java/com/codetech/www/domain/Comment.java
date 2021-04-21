@@ -12,8 +12,17 @@ public class Comment {
     private int comment_store;
     private int comment_status;
     private String comment_writer_value;
+    private String comment_store_value;
 
-    public String getComment_writer_value() {
+    public String getComment_store_value() {
+		return comment_store_value;
+	}
+
+	public void setComment_store_value(String comment_store_value) {
+		this.comment_store_value = comment_store_value;
+	}
+
+	public String getComment_writer_value() {
         return comment_writer_value;
     }
 

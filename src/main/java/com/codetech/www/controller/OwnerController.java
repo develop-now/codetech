@@ -1,12 +1,14 @@
 package com.codetech.www.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.jni.Local;
@@ -33,6 +35,8 @@ import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.OwnerService;
 import com.codetech.www.service.StoreService;
 import com.codetech.www.service.UsersService;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
@@ -45,11 +49,9 @@ public class OwnerController {
 
 	@Autowired
 	private OwnerService ownerService;
-	
+
 	@Autowired
 	private UsersService usersService;
-	
-	
 
 	private IamportClient api;
 
@@ -104,7 +106,7 @@ public class OwnerController {
 
 	@RequestMapping(value = "/searchListMap")
 	public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
-
+		logger.info("search 도착");
 		StoreMap storeMap = ownerService.getMap(searchWord);
 		mv.addObject("storeMap", storeMap);
 		mv.setViewName("owner/mapPageSearch");
@@ -251,23 +253,22 @@ public class OwnerController {
 
 	}
 
-	//pay
+	// pay
 	@RequestMapping(value = "/pay")
 	public ModelAndView pay(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
 			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "p_numA") int[] p_numA,
 			@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
-			int user_id, int store_id, String totalPrice, int amount, 
-			ModelAndView mv) {
+			int user_id, int store_id, String totalPrice, int amount, ModelAndView mv) {
 
 		List<MiniCart> list = new ArrayList<MiniCart>();
-		
+
 		if (totalPrice.equals("")) {
 			mv.setViewName("user/orderMain?store_id=" + store_id);
 		}
 
 		for (int i = 0; i < p_num.length; i++) {
 			if (p_num[i] > 0) {
-				 MiniCart cart = new MiniCart();
+				MiniCart cart = new MiniCart();
 				cart.setMenuName(o_menu[i]);
 				cart.setOrderAmount(p_num[i]);
 				list.add(cart);
@@ -277,13 +278,12 @@ public class OwnerController {
 
 		for (int i = 0; i < p_numA.length; i++) {
 			if (p_numA[i] > 0) {
-				 MiniCart cart = new MiniCart();
+				MiniCart cart = new MiniCart();
 				cart.setMenuName(o_menuA[i]);
 				cart.setOrderAmount(p_numA[i]);
 				list.add(cart);
 			}
 		}
-		
 
 		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
 		String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
@@ -295,9 +295,36 @@ public class OwnerController {
 		mv.setViewName("owner/payment");
 		return mv;
 	}
-	
-	
-	
+
+	@RequestMapping(value = "/payCart")
+	public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num,
+			@RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
+			@RequestParam(value = "cart_id") int[] cart_id, int user_id, String totalPrice, int amount,
+			ModelAndView mv) {
+
+		List<MiniCart> list = new ArrayList<MiniCart>();
+
+		if (totalPrice.equals("")) {
+			mv.setViewName("owner/mainList");
+		}
+
+		for (int i = 0; i < p_num.length; i++) {
+			MiniCart cart = new MiniCart();
+			cart.setMenuName(o_menu[i]);
+			cart.setOrderAmount(p_num[i]);
+			list.add(cart);
+		}
+
+		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
+		String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
+		mv.addObject("amount", amount);
+		mv.addObject("list", list);
+		mv.addObject("newtotalPrice", newtotalPrice);
+		mv.addObject("user", user);
+		mv.addObject("cartCount", list.size());
+		mv.setViewName("owner/payment");
+		return mv;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/verifyIamport/{imp_uid}")
@@ -310,5 +337,7 @@ public class OwnerController {
 	public String payment_complete() {
 		return "payment_complete";
 	}
+
+	
 
 }

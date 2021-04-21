@@ -17,8 +17,6 @@ $(() => {
     menuImgVal = $("#prev_image").val();
     menuStatusVal = $("#menu_status").val();
 
-    getLoadCategoryList();
-
     alertModal = $("#alertModal")
 
     formEl = $("#updateMenuForm");

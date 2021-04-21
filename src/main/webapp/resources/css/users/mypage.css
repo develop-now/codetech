@@ -215,7 +215,7 @@ img.modifyModal__img-profile{
 .mypageReview__body{
 	width:80%;
 	margin: 40px 40px 0 40px;
-	background-color: oldlace;
+	background-color: #fef9f1;
 	box-shadow: -7px 7px 9px darkgrey;
 	border-radius: 50px 50px 0 50px;
 	
@@ -229,42 +229,25 @@ img.modifyModal__img-profile{
 .mypageReview__content-left>div{
 	margin: 20px;
 }
-.mypageReview__content-left div span{
-	padding:0 0 0 10px;
+.mypageReview__content-left > div:nth-child(1){
+	position: relative;
+    right: 20px
 }
 .mypageReview__content-left > div > span:nth-child(1){
 	position: relative;
 	bottom:20px;
 }
 .mypageReview__content-left > div > span:nth-child(2){
-	position: relative;
-	right: 15px;
     font-weight: 700;
     
 }
 .mypageReview__content-right{
-	display:grid;
-	grid-template-rows: 1fr 1fr;
 	padding-right:40px;
 	padding-bottom: 20px;
 }
 .mypageReview__content-right--rivew{
 	padding-top:30px;
 }
-.mypageReview__content-right > .ownerCmt{
-	padding-top:20px;
-	color: gray;
-    opacity: 0.8;
-}
-.mypageReview__content-right > .ownerCmt > img{
-	width:20px;
-	height:15px;
-	margin-bottom:10px;
-}
-.mypageReview__content-left > .text-center{
-	padding-top:20px;
-} 
-    
 .mypageReview__content-left > .text-center > button{
 	border-radius:5px;
 	border-line: none;
@@ -275,14 +258,13 @@ img.modifyModal__img-profile{
 	margin: 5px 8px;
 	padding:0 10px;
 }
-
-.more{
-	text-align:center;
-	opacity:0.9;}
-	
-
-.pageInc{
-	background-color:#6b9068ba !important;
+.addMessage{
+    width: 87%;
+    margin: 100px 0;
+    background-color:oldlace;
+    border: solid 1px #6b9068ba;
+    border-radius:5px;
+    color:#6b9068;
 }
 #sum_p_num, #sum_p_price {
 	text-align:center;
@@ -299,4 +281,70 @@ img.modifyModal__img-profile{
 	text-align: center;
 	font-size: large;
 }
+
 /*mypage-review end*/
+
+/*mypage-oreder-list start*/
+.mypageOrderList__body{
+	width:80%;
+	margin: 40px 40px 0 40px;
+	background-color: #fef9f1;
+	box-shadow: -7px 7px 9px darkgrey;
+	border-radius: 5px;
+	display:flex;
+	justify-content:center;
+}
+.mypageOrderList__content-left{
+	width:40%;
+}
+.mypageOrderList__content-left div{
+	text-align:center;
+}
+.mypageOrderList__content-left>div{
+	margin: 20px;
+}
+.mypageOrderList__content-left > div > span{
+    font-weight: 700;
+}
+.mypageOrderList__content-right{
+	display:grid;
+	grid-tamplate-rows: 1fr 1fr 1fr;
+	padding: 10px;
+}
+.mypageOrderList__content-right--status{
+	padding-top:5px;
+}
+.mypageOrderList__content-right--status span{
+	background-color:blanchedalmond;
+	
+}
+.mypageOrderList__content-right > .text-right{
+	display: inline-block;
+}
+.mypageOrderList__content-right > .text-right > button{
+	border-radius:5px;
+	border-line: none;
+	border-color:#6b9068ba;
+	background-color: #6b9068ba;
+	color:white;
+	opacity:0.9;
+	margin: 5px 8px;
+}
+.more{
+	text-align:center;
+	opacity:0.9;}
+	
+
+.pageInc{
+	background-color:#6b9068ba !important;
+}
+
+/*mypage-oreder list end*/
+
+
+#pay{
+		text-align:center;
+	
+}
+/*mypage-review end*/
+

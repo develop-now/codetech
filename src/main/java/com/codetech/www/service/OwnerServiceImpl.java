@@ -115,6 +115,20 @@ public class OwnerServiceImpl implements OwnerService {
 		return udao.user_total_info(user_id);
 	}
 
+	@Override
+	public List<Store> getStoreName() {
+		return dao.getStoreName();
+
+	}
+
+	@Override
+	public List<UserInfo> getUserName() {
+		return udao.getUserName();
+
+	}
+
+
+
 
 
 }

@@ -62,7 +62,7 @@ function expireStaff(staff_id) {
             }
         },
         error: (req, status, err) => {
-            console.log("err : ", err)
+            console.log("staff delete action err : ", err)
         }
     })
 }
