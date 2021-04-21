@@ -27,11 +27,15 @@ public interface StoreService {
 
     public boolean isStoreOwner(int owner_id, int store_id);
 
-	  public Report readStoreReport(int store_report_id);
+    public Report readStoreReport(int store_report_id);
 
     public int getStoreCustomerCount(int store_id);
 
     public List<Customer> getStoreCustomer(int store_id, int page, String order_key);
+
+    public int getStoreTotalIncome(int store_id);
+
+    public int getStoreTotalLike(int store_id);
 
     public List<Profit> getStoreProfit(int store_id, String selected_date);
 
