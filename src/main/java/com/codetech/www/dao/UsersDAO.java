@@ -113,5 +113,9 @@ public class UsersDAO {
 		return sqlSession.selectOne("users.getUser", user_id);
 	}
 
+	public int updatePoint(Map<String, Object> map) {
+		return sqlSession.update("users.updatePoint", map);
+	}
+
 
 }

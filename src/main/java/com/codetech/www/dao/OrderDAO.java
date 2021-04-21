@@ -1,10 +1,5 @@
 package com.codetech.www.dao;
 
-import com.codetech.www.domain.Cart;
-import com.codetech.www.domain.Menu;
-import com.codetech.www.domain.Order;
-import com.codetech.www.domain.OrderDetail;
-import com.codetech.www.domain.Store;
 import com.codetech.www.domain.*;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -102,6 +97,10 @@ public class OrderDAO {
 
 	public int cartDel(int cart_id) {
 		return sqlSession.delete("Orders.cartDel", cart_id);
+	}
+
+	public int insertPoint(Point point) {
+		return sqlSession.insert("Orders.insertPoint", point);
 	}
 
 }

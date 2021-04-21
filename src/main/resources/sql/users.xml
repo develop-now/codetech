@@ -134,6 +134,12 @@
     	values(select nvl(max(cmt_report_id),0)+1 from COMMENT_REPORT)
     	,#{report_subject},#{report_content},sysdate, sysdate,'1',#{reporter})
     </insert>
+    
+    <update id="updatePoint" parameterType="map">
+    	update user_info
+    	set point = #{point} 
+		where user_id = #{user_id}
+    </update>
 
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">

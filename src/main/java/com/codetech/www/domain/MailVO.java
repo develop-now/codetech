@@ -4,8 +4,8 @@ public class MailVO {
 
 	private String from = "codetechhta@naver.com";
 	private String to;
-	private String subject = "Ä¿ÇÇÅ×Å©ÀÔ´Ï´Ù. ";
-	private String content = "Ä¿ÇÇÅ×Å©ÀÔ´Ï´Ù. ";
+	private String subject = "ì»¤í”¼í…Œí¬ì…ë‹ˆë‹¤. ";
+	private String content = "ì»¤í”¼í…Œí¬ì…ë‹ˆë‹¤. ";
 
 	public String getFrom() {
 		return from;

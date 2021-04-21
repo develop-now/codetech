@@ -215,6 +215,11 @@
         from carts
         where cart_id = #{cart_id}
     </delete>
-
+	
+	<insert id="insertPoint" parameterType="point">
+	 	insert into points
+	 	values( (select nvl(max(point_id),0)+1 from points), #{point_value}, sysdate
+	 			, #{order_id}, #{store_id}, #{user_id}, 'get')
+	</insert>
 
 </mapper>
