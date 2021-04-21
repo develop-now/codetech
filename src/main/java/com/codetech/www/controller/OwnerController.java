@@ -258,6 +258,7 @@ public class OwnerController {
 	public ModelAndView pay(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
 			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "p_numA") int[] p_numA,
 			@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
+			@RequestParam(value = "m_num") int[] m_num, @RequestParam(value = "m_numA") int[] m_numA,
 			int user_id, int store_id, String totalPrice, int amount, ModelAndView mv) {
 
 		List<MiniCart> list = new ArrayList<MiniCart>();
@@ -271,6 +272,8 @@ public class OwnerController {
 				MiniCart cart = new MiniCart();
 				cart.setMenuName(o_menu[i]);
 				cart.setOrderAmount(p_num[i]);
+				cart.setMenu_id(m_num[i]);
+				cart.setMenu_price(p_price[i]);
 				list.add(cart);
 			}
 
@@ -281,6 +284,8 @@ public class OwnerController {
 				MiniCart cart = new MiniCart();
 				cart.setMenuName(o_menuA[i]);
 				cart.setOrderAmount(p_numA[i]);
+				cart.setMenu_id(m_numA[i]);
+				cart.setMenu_price(p_priceA[i]);
 				list.add(cart);
 			}
 		}
@@ -334,8 +339,26 @@ public class OwnerController {
 	}
 
 	@RequestMapping(value = "/payment_complete")
-	public String payment_complete() {
-		return "payment_complete";
+	public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
+			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
+			@RequestParam(value = "p_price") int[] p_price,
+			int user_id, int cartCount, int price, int amount, ModelAndView mv) {
+
+		for(int i = 0; i < m_num.length; i++) {
+			int result = ownerService.plusOrderCount(m_num[i]);
+			if(result != 1) {
+				logger.info("에러");
+			}
+		}
+		
+		int store_id = ownerService.getStoreId(m_num[0]);
+		int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num);
+		if(order == 1) {
+			logger.info("order + detail 성공");
+		}
+		
+		mv.setViewName("user/orderView?user_id="+user_id);
+		return mv;
 	}
 
 	

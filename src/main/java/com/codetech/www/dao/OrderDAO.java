@@ -104,4 +104,14 @@ public class OrderDAO {
         return sqlSession.delete("Orders.cartDel", cart_id);
     }
 
+	public int order(HashMap<String, Integer> map) {
+		return sqlSession.insert("Orders.order", map);
+	}
+
+	public int orderDetail(HashMap<String, Integer> map) {
+		return sqlSession.insert("Orders.orderDetail", map);
+	}
+
+	
+
 }
