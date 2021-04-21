@@ -104,10 +104,10 @@ public class StoreServiceImpl implements StoreService {
     }
 
 
-	@Override
-	public Report readStoreReport(int store_report_id) {
-		return store_dao.readStoreReport(store_report_id);
-	}
+    @Override
+    public Report readStoreReport(int store_report_id) {
+        return store_dao.readStoreReport(store_report_id);
+    }
 
     @Override
     public int getStoreCustomerCount(int store_id) {
@@ -147,6 +147,16 @@ public class StoreServiceImpl implements StoreService {
         }
 
         return df.format(cal.getTime());
+    }
+
+    @Override
+    public int getStoreTotalLike(int store_id) {
+        return store_dao.getStoreTotalLike(store_id);
+    }
+
+    @Override
+    public int getStoreTotalIncome(int store_id) {
+        return store_dao.getStoreTotalIncome(store_id);
     }
 
     @Override

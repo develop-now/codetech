@@ -5,6 +5,18 @@
 
     <!-- start for order controller -->
 
+    <select id="list" parameterType="int" resultType="order">
+        select *
+        from orders
+        where store_id = #{store_id}
+    </select>
+
+    <select id="orderCountByStore" parameterType="int" resultType="int">
+        select count(*)
+        from orders
+        where store_id = #{store_id}
+    </select>
+
     <select id="getOrderDetails" resultType="order-detail" parameterType="int">
         select *
         from order_details t

@@ -1,3 +1,32 @@
+.store-summary--container .summary__box {
+    min-height: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: .5rem;
+}
+
+.store-summary--container .detail__container {
+    padding: 10px;
+}
+
+.store-summary--container .detail__wrapper {
+    margin-left: 2rem;
+}
+
+.store-summary--container .dashboard__icon {
+    font-size: 6rem;
+}
+
+.store-summary--container .detail_number {
+    font-size: 2rem;
+}
+
+.store-summary--container .detail__title {
+    font-size: 1rem;
+}
+
+
 #storeNavWrapper {
     min-height: 100px;
     overflow: scroll;
