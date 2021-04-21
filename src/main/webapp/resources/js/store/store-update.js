@@ -6,12 +6,15 @@ let checkBoxes;
 let submitBtn;
 let resetBtn;
 let formEl;
+
 let alertModal;
+let infoModal;
 
 let storeImgVal;
 
 $(() => {
     alertModal = $("#alertModal")
+    infoModal = $("#infoModal")
 
     const pickerTargetEl = ["opening_h_w_open", "opening_h_w_close", "opening_h_h_open", "opening_h_h_close"];
     pickerTargetEl.forEach(el => {

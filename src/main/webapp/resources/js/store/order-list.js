@@ -131,9 +131,9 @@ function loadMoreOrder() {
 function resetAction() {
     store_id_val = 0;
     status_id_val = 0
-    $("input#order_all").attr("checked", true)
+    $("input#order_all").prop("checked", true)
     order_key_val = "order_date"
-    $("input#order_date").attr("checked", true)
+    $("input#order_date").prop("checked", true)
     page_val = 1;
     order_total_count = 0;
 }

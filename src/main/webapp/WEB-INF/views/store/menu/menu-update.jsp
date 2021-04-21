@@ -15,6 +15,8 @@
     <script src="${pageContext.request.contextPath}/resources/js/store/menu-update.js"></script>
     <script>
         $(() => {
+            getLoadCategoryList();
+
             $("#backBtn").on("click", () => {
                 history.back();
             })

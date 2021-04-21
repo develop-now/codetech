@@ -14,6 +14,8 @@ public interface OrderService {
 
     public int updateOrderStatus(int order_id, int status_id);
 
+    public List<OrderDetail> getOrderDetails(int store_id);
+
     public int getOrderListCountAjax(int store_id, String selected_date, int status_id);
 
     public List<Order> getOrderListAjax(int store_id, String selected_date, int status_id, String order_key, int page);

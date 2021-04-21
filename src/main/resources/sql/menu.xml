@@ -107,4 +107,25 @@
         where store_id = #{store_id}
     </select>
 
+    <update id="menuStatusUpdate" parameterType="map">
+        update menus
+        set
+        <choose>
+            <when test="status_key == 'menu_read_count'">menu_read_count</when>
+            <when test="status_key == 'menu_order_count'">menu_order_count</when>
+            <when test="status_key == 'menu_status'">menu_status</when>
+        </choose>
+        =
+        <choose>
+            <when test="status_key == 'menu_read_count'">
+                (select menu_read_count from menus where menu_id = #{menu_id}) + #{status_value}
+            </when>
+            <when test="status_key == 'menu_order_count'">
+                (select menu_order_count from menus where menu_id = #{menu_id}) + #{status_value}
+            </when>
+            <when test="status_key == 'menu_status'">#{status_value}</when>
+        </choose>
+        where menu_id = #{menu_id}
+    </update>
+
 </mapper>

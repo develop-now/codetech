@@ -5,8 +5,6 @@ let alertModal;
 let infoModal;
 
 $(() => {
-    getLoadStoreListByOwner()
-
     alertModal = $("#alertModal")
     infoModal = $("#infoModal")
 
