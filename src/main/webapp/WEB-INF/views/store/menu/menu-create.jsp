@@ -15,6 +15,9 @@
     <script src="${pageContext.request.contextPath}/resources/js/store/menu-create.js"></script>
     <script>
         $(() => {
+            getLoadCategoryList();
+            getLoadStoreListByOwner()
+
             $("#backBtn").on("click", () => {
                 history.back();
             })

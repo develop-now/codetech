@@ -15,6 +15,8 @@
     <script src="${pageContext.request.contextPath}/resources/js/store/staff-create.js"></script>
     <script>
         $(() => {
+            getLoadStoreListByOwner()
+
             $("#backBtn").on("click", () => {
                 history.back();
             })

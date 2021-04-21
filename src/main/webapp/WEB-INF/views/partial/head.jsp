@@ -18,7 +18,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/owner/report.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
-
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link
         rel="stylesheet"

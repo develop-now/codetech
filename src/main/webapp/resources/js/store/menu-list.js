@@ -1,7 +1,3 @@
-$(() => {
-    console.log("menu list loaded")
-})
-
 function loadStoreMenu(store_id, store_name) {
     $.ajax({
         method: "get",
