@@ -10,8 +10,6 @@ let menuImgVal;
 
 $(() => {
     owner_id_val = $("#owner_id").val();
-    getLoadCategoryList();
-    getLoadStoreListByOwner()
 
     alertModal = $("#alertModal")
 

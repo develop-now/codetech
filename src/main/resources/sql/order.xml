@@ -4,6 +4,14 @@
 <mapper namespace="Orders">
 
     <!-- start for order controller -->
+
+    <select id="getOrderDetails" resultType="order-detail" parameterType="int">
+        select *
+        from order_details t
+                 join menus m on t.menu_id = m.menu_id
+        where t.order_id = #{order_id}
+    </select>
+
     <select id="statusList" resultType="order-status">
         select *
         from order_status
@@ -55,14 +63,18 @@
     <update id="updateStatus" parameterType="map">
         update orders
         set order_status = #{status_id},
-            updated_at   = sysdate
+        updated_at = sysdate
+        <if test="comment_writable != null">
+            , comment_writable = #{comment_writable}
+        </if>
         where order_id = #{order_id}
     </update>
 
     <select id="readOrder" resultType="order" parameterType="int">
-        select o.*, f.user_name as order_user_name, f.user_tel as order_user_tel
+        select o.*, t.status_value as order_status_value, f.user_name as order_user_name, f.user_tel as order_user_tel
         from orders o
                  left join user_info f on o.order_user = f.user_id
+                 join order_status t on o.order_status = t.order_status_id
         where o.order_id = #{order_id}
     </select>
 
@@ -75,13 +87,6 @@
 
 
     <!-- end for order controller -->
-
-    <select id="list" resultType="menu" parameterType="int">
-        select *
-        from orders
-        where store_id = #{store_id}
-    </select>
-
 
     <select id="ordered" resultType="order" parameterType="map">
         select * from (

@@ -28,11 +28,11 @@
                     </button>
                 </div>
                 <div class="modal-body loginModal-body">
-                    <label for="user_id"><strong>아이디</strong></label>
-                    <input type="text" placeholder="이메일형식의 아이디를 입력하세요" id="user_id" name="user_id" required>
+                    <label for="login_id"><strong>아이디</strong></label>
+                    <input type="text" placeholder="이메일형식의 아이디를 입력하세요" id="login_id" name="login_id" required>
 
-                    <label for="user_password"><strong>비밀번호</strong></label>
-                    <input type="password" placeholder="비밀번호를 입력하세요" id="user_password" name="user_password" required>
+                    <label for="login_password"><strong>비밀번호</strong></label>
+                    <input type="password" placeholder="비밀번호를 입력하세요" id="login_password" name="login_password" required>
 
                 </div>
                 <div class="modal-footer loginModal-footer">

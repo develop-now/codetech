@@ -18,6 +18,9 @@
         <security:intercept-url pattern="/user/join" access="permitAll"/>
         <security:intercept-url pattern="/user/idCheck" access="permitAll"/>
         <security:intercept-url pattern="/user/joinProcess" access="permitAll"/>
+        <security:intercept-url pattern="/owner/mapPage" access="permitAll"/>
+        <security:intercept-url pattern="/owner/searchListMap" access="permitAll"/>
+        <security:intercept-url pattern="/owner/mapPageSearch" access="permitAll"/>
         <security:intercept-url pattern="/order/order-read"
                                 access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/order/updateAction"
@@ -43,8 +46,8 @@
         <security:form-login
                 login-page="/"
                 login-processing-url="/auth/loginAction"
-                username-parameter="user_id"
-                password-parameter="user_password"
+                username-parameter="login_id"
+                password-parameter="login_password"
                 default-target-url="/"
                 authentication-success-handler-ref="customLoginSuccessHandler"
                 authentication-failure-handler-ref="customLoginFailHandler"
