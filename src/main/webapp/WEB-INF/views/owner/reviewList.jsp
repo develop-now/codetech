@@ -5,14 +5,7 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
 <title>List Page</title>
-<%@include file="indexCommon.jsp"%>
 
 <!-- Bootstrap core CSS -->
 <link
@@ -32,14 +25,27 @@
 <!-- SearchBar JS -->
 <script
 	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
+	    <%@include file="../partial/head.jsp" %>
+	
 </head>
 
 <body>
+<div class="container-fluid px-0">
+  <%-- main nav --%>
+    <%@include file="../partial/nav.jsp" %>
 
+    <%-- info Modal --%>
+    <%@include file="../partial/infoModal.jsp" %>
+
+    <%-- alert Modal --%>
+    <%@include file="../partial/alertModal.jsp" %>
 
 
 	<!-- Page Content -->
-	<div class="container">
+		<div class="container-fluid">
+			<div class="row1">
+				<div class="col-12 col-sm-10">
+					<div class="container">
 
 		<!-- searchbar -->
 		<div class="topnav">
@@ -58,10 +64,7 @@
 			</div>
 		</div>
 
-		<div class="row">
 
-			<!-- Blog Entries Column -->
-			<div class="col-md-8">
 
 				<h1 class="my-4">
 					이번달 리뷰 많은 카페! <small>소개합니다!</small>
@@ -71,15 +74,15 @@
 				<c:forEach var="store" items="${stores}" varStatus="status">
 					<c:if test="${store.store_status == 1}">
 
-						<div class="card mb-4">
+						<div class="card mb-4" style="width:555px">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap">
+								alt="Card image cap" style="height: 50% !important;">
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
 								<p class="card-text">5분후 수령 가능</p>
-								<a href="#" class="btn btn-primary">주문하기 &rarr;</a>
+								<a href="${pageContext.request.contextPath}/user/orderMain?store_id=${store.store_id}" class="btn btn-primary">주문하기 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
 								 <img class="card-img-heart"
@@ -94,10 +97,10 @@
 
 					<c:if test="${store.store_status == 2}">
 
-						<div class="card mb-4">
+						<div class="card mb-4" style="width:555px">
 							<img class="card-img-top"
 								src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
-								alt="Card image cap" style="filter: blur(5px)">
+								alt="Card image cap" style="filter: blur(5px)" style="height: 50% !important;">
 							<div class="card-body">
 								<h2 class="card-title">${store.store_name}</h2>
 
@@ -117,28 +120,30 @@
 					</c:if>
 
 				</c:forEach>
-
+		</div> 
+		<!-- container -->
+		</div> 
+	<!-- col-12 col-sm-10 -->
+	</div>
+	<!-- row1 -->
+	<br>
 									<div class="row" id="moreAjax"></div>
 		<c:if test="${more eq 1}">
 				<!-- button for more -->
-				<div class="card mb-4">
+			<div class="buttonGroup" style="text-align:center;"> <br>
     <button class="pageInc btn btn-dark btn-lg" style="width: 300px;">더보기</button>
 				
 				</div>
 				</c:if>
 
-			</div>
-			<!-- col-md-8 -->
-
-
-
-		</div>
-		<!-- /.row -->
-
+		
+								    <%-- footer --%>
+    <%@include file="../partial/footer.jsp" %>
+    
 	</div>
-	<!-- /.container -->
-
-
+	<!-- /.container-fluid -->
+</div> 
+<!-- container-fluid px-0 -->
 
 	
 <script>

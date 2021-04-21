@@ -18,6 +18,9 @@
         <security:intercept-url pattern="/user/join" access="permitAll"/>
         <security:intercept-url pattern="/user/idCheck" access="permitAll"/>
         <security:intercept-url pattern="/user/joinProcess" access="permitAll"/>
+        <security:intercept-url pattern="/owner/mapPage" access="permitAll"/>
+        <security:intercept-url pattern="/owner/searchListMap" access="permitAll"/>
+        <security:intercept-url pattern="/owner/mapPageSearch" access="permitAll"/>
         <security:intercept-url pattern="/order/order-read"
                                 access="hasAnyRole('ROLE_STORE_OWNER', 'ROLE_STORE_STAFF')"/>
         <security:intercept-url pattern="/order/updateAction"

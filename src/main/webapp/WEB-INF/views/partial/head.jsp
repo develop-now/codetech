@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: im-inseop
-  Date: 2021/03/16
-  Time: 1:48 오후
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <meta charset="UTF-8">
@@ -25,7 +18,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/owner/report.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
-
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link
         rel="stylesheet"
@@ -39,4 +31,3 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/index.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/login.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/join.css">
-
