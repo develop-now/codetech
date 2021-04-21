@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MenuDAO {
@@ -32,18 +33,19 @@ public class MenuDAO {
         return sqlSession.selectList("Menus.listByOwner", owner_id);
     }
 
-	public List<Menu> getTopMenu(int store_id) {
+    public int menuStatusUpdate(Map<String, Object> param) {
+        return sqlSession.update("Menus.menuStatusUpdate", param);
+    }
+
+    public List<Menu> getTopMenu(int store_id) {
         return sqlSession.selectList("Menus.topMenu", store_id);
+    }
 
-	}
-
-	public List<Menu> getAllMenu(int store_id) {
+    public List<Menu> getAllMenu(int store_id) {
         return sqlSession.selectList("Menus.allMenu", store_id);
+    }
 
-	}
-
-	public int getMenuCount(int store_id) {
+    public int getMenuCount(int store_id) {
         return sqlSession.selectOne("Menus.menuCount", store_id);
-
-	}
+    }
 }

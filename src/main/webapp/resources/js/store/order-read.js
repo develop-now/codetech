@@ -1,12 +1,10 @@
 $(() => {
-    changeStatusLabel();
-    loadOrderStatus()
+
 })
 
 function makeStatusButton(data) {
-    let order_status_val = $("input#order_status").val();
 
-    let current_status_value = parseInt(order_status_val);
+    let curr_status_id = parseInt($("input#order_status").val());
 
     const target = $("#statusBtn__wrapper");
     const templateBtn = $(".status__btn__template")
@@ -39,10 +37,9 @@ function makeStatusButton(data) {
         }
 
         clonedEl.find("button").addClass(btnClass).data("status", status.order_status_id)
-            .text(statusLabel("주문 ", status.order_status_id, ""))
+            .text(statusLabel("주문 ", status.status_value, ""))
 
-        if (status.order_status_id <= current_status_value) {
-            console.log("not binding")
+        if (status.order_status_id <= curr_status_id) {
             clonedEl.find("button").addClass("disabled").prop("disabled", true)
         } else {
             clonedEl.find("button").on("click", function () {
@@ -72,33 +69,32 @@ function loadOrderStatus() {
 }
 
 function changeStatusLabel() {
-    let targetEl = $("#current_status")
-    let current_status_value = parseInt($("#order_status").val())
+    let current_status_value = $("#order_status_value").val()
     let changed_status_text = statusLabel("주문 ", current_status_value, "");
 
     $("#status_text_in_progress").text(changed_status_text)
-    targetEl.text(changed_status_text)
+    $("#current_status").text(changed_status_text)
 }
 
 function statusLabel(prevText, status, nextText) {
     let label_str = ""
     switch (status) {
-        case 1:
+        case "ordered":
             label_str = "완료";
             break;
-        case 2:
+        case "checked":
             label_str = "확인";
             break;
-        case 3:
+        case "processing":
             label_str = "조리중"
             break;
-        case 4:
+        case "completed":
             label_str = "조리완료"
             break;
-        case 5:
+        case "done":
             label_str = "픽업완료"
             break;
-        case 6:
+        case "canceled":
             label_str = "취소"
             break;
         default:

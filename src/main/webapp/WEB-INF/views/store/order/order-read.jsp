@@ -16,6 +16,9 @@
 
     <script>
         $(() => {
+            changeStatusLabel();
+            loadOrderStatus();
+
             $("#backBtn").on("click", () => {
                 history.back();
             })
@@ -26,6 +29,7 @@
 <div class="container-fluid px-0" id="bodyWrapper">
     <input type="hidden" name="order_id" id="order_id" value="${order.order_id}">
     <input type="hidden" name="order_status" id="order_status" value="${order.order_status}">
+    <input type="hidden" name="order_status_value" id="order_status_value" value="${order.order_status_value}">
 
     <%-- main nav --%>
     <%@include file="../../partial/nav.jsp" %>
