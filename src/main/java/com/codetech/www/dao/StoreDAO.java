@@ -144,4 +144,24 @@ public class StoreDAO {
 		return sqlSession.selectOne("Stores.readStoreReport", store_report_id);
 	}
 
+	public List<Store> getStoreName() {
+        return sqlSession.selectList("Stores.getStoreName");
+
+	}
+
+	public Store getStore(String reported) {
+        return sqlSession.selectOne("Stores.storeInfoFR", reported);
+
+	}
+
+	public int reportStore(HashMap<String, Object> map) {
+		return sqlSession.insert("Stores.storeReport", map);
+	}
+
+
+
+
+
+
+
 }

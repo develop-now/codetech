@@ -203,9 +203,10 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 7, 1);
 
-        
+
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
-                   store_saved_image, store_original_image, opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+                   store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
+                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
 values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
         '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
 
@@ -1001,9 +1002,10 @@ values (1, '이마트24 카페', '서울시', '종로구', '종로3가', 37.5727
 
 
 drop table notice_status cascade constraints;
-create table notice_status (
-	notice_status_id number(1) primary key,
-	status_value	 varchar2(20) not null
+create table notice_status
+(
+    notice_status_id number(1) primary key,
+    status_value     varchar2(20) not null
 );
 
 insert into notice_status
@@ -1014,19 +1016,20 @@ insert into notice_status
 values (3, 'inspect'); -- 점검
 
 drop table notice cascade constraints;
-create table notice (
-	notice_id				number(6) 		primary key,
-	notice_status			number(1) 		not null,	-- 공지/이벤트/점검
-	notice_subject			varchar2(100) 	not null,	
-	notice_content  		varchar2(400)	not null,
-	notice_readcount 		number(6) 		default 0,
-	notice_date 			date 			default sysdate,
-	notice_saved_image    	varchar2(200) 	not null,
-    notice_original_image 	varchar2(200) 	not null,
-    
-	-- notice_top				number(1)		default 0,	-- 공지 최상단 고정
+create table notice
+(
+    notice_id             number(6) primary key,
+    notice_status         number(1)     not null, -- 공지/이벤트/점검
+    notice_subject        varchar2(100) not null,
+    notice_content        varchar2(400) not null,
+    notice_readcount      number(6) default 0,
+    notice_date           date      default sysdate,
+    notice_saved_image    varchar2(200) not null,
+    notice_original_image varchar2(200) not null,
+
+    -- notice_top				number(1)		default 0,	-- 공지 최상단 고정
     constraint fk_notice_status foreign key (notice_status) references notice_status (notice_status_id)
-);	
+);
 
 insert into notice
 (notice_id, notice_status, notice_subject, notice_content, notice_readcount, notice_saved_image, notice_original_image)

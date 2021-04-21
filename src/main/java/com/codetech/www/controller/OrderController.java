@@ -1,6 +1,8 @@
 package com.codetech.www.controller;
 
+import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.Order;
+import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.OrderStatus;
 import com.codetech.www.service.OrderService;
 import org.slf4j.Logger;
@@ -61,7 +63,27 @@ public class OrderController {
     public String readOrder(@RequestParam(value = "order_id") int order_id, Model model) {
         model.addAttribute("storeNav", "orderRead");
 
+        Order order = orderService.readOrder(order_id);
+        List<DetailMenuJoin> detail_list = orderService.readOrderDetail(order_id);
+
+        model.addAttribute("order", order);
+        model.addAttribute("detail_list", detail_list);
+
         return "store/order/order-read";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/updateAction", method = RequestMethod.POST)
+    public Map<String, Object> updateAction(@RequestParam(value = "order_id") int order_id,
+                                            @RequestParam(value = "status_id") int status_id) {
+
+        Map<String, Object> rtn = new HashMap<String, Object>();
+
+        int result = orderService.updateOrderStatus(order_id, status_id);
+
+        rtn.put("success", result > 0);
+
+        return rtn;
     }
 
     @RequestMapping(value = "/order-update", method = RequestMethod.GET)

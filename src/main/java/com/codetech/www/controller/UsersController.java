@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Cart;
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.MailVO;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
 import com.codetech.www.domain.Order;
@@ -47,6 +48,7 @@ import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.CommentService;
 import com.codetech.www.service.StoreService;
 import com.codetech.www.service.UsersService;
+import com.codetech.www.task.SendMail;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 @Controller
@@ -68,6 +70,9 @@ public class UsersController {
 
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private SendMail sendMail;
 
 	@Value("${saveFolderName}")
 	private String saveFolder;
@@ -353,30 +358,66 @@ public class UsersController {
 
 	}
 
-	@RequestMapping(value = "/addReport", method = RequestMethod.POST)
-	public String reportWriteAction(Report report, String reporter_email,
-			@RequestParam(value = "store_id", defaultValue = "0", required = false) int reported_store,
-			@RequestParam(value = "comment_id", defaultValue = "0", required = false) int reported_cmt,
-			RedirectAttributes rattr) {
-		logger.info("addReport 도착");
-		logger.info("cmt" + report.getReported_cmt());
-		;
-		logger.info("store" + report.getReported_store());
-		String user_email = reporter_email;
-		User user = usersService.getUserId(user_email);
-		int user_id = user.getUser_id();
-		report.setReporter(user_id);
-		report.setReported_store(reported_store);
-		report.setReported_cmt(reported_cmt);
+//	@RequestMapping(value = "/addReport", method = RequestMethod.POST)
+//	public String reportWriteAction(Report report, String reporter_email,
+//			@RequestParam(value = "store_id", defaultValue = "0", required = false) int reported_store,
+//			@RequestParam(value = "comment_id", defaultValue = "0", required = false) int reported_cmt,
+//			RedirectAttributes rattr) {
+//		logger.info("addReport 도착");
+//		logger.info("cmt" + report.getReported_cmt());;
+//		logger.info("store" + report.getReported_store());
+//		String user_email = reporter_email;
+//		User user = usersService.getUserId(user_email);
+//		int user_id = user.getUser_id();
+//		report.setReporter(user_id);
+//		report.setReported_store(reported_store);
+//		report.setReported_cmt(reported_cmt);
+//
+//		int result = usersService.addReport(report);
+//		if (result == 1) {
+//			rattr.addFlashAttribute("info", "신고내용이 접수 완료되었습니다.");
+//			return "redirect:/user/reportList";
+//		} else {
+//			logger.info("addReport error");
+//		}
+//		return null;
+//	}
+	
+	@RequestMapping(value = "/addReport")
+	public String report(String reported, String subject, String content, int user_id, RedirectAttributes rattr) {
+		User reporter = usersService.getUser(user_id);
+		Store store = usersService.getStore(reported);
+		UserInfo user = usersService.getUser(reported);
 
-		int result = usersService.addReport(report);
-		if (result == 1) {
-			rattr.addFlashAttribute("info", "신고내용이 접수 완료되었습니다.");
-			return "redirect:/user/reportList";
+		if (store != null) {
+			int result = usersService.reportStore(subject, content, user_id, store.getStore_id());
+			if (result == 1) {
+				MailVO vo = new MailVO();
+				vo.setTo(reporter.getUser_email());
+				vo.setContent(user.getUser_name() + "님 신고 접수가 완료되었습니다. <br> 사실 관계를 빠르게 확인하여 조치를 취하도록 하겠습니다. 감사합니다. ");
+				sendMail.sendMail(vo);
+				rattr.addFlashAttribute("result", "신고가 접수되었습니다.");
+				logger.info("가게신고성공");
+			} else {
+				rattr.addFlashAttribute("result", "죄송합니다. 다시 시도해 주세요.");
+				logger.info("가게신고실패");
+			}
 		} else {
-			logger.info("addReport error");
+			int user_result = usersService.reportUser(subject, content, user_id, user.getUser_id());
+			if (user_result == 1) {
+				MailVO vo = new MailVO();
+				vo.setTo(reporter.getUser_email());
+				vo.setContent(user_id + "님 회원 신고 접수가 완료되었습니다. .");
+				sendMail.sendMail(vo);
+				rattr.addFlashAttribute("result", "신고가 접수되었습니다.");
+				logger.info("유저신고성공");
+			} else {
+				rattr.addFlashAttribute("result", "죄송합니다. 다시 시도해 주세요.");
+				logger.info("유저신고실패");
+			}
 		}
-		return null;
+		return "redirect:/home";
+
 	}
 
 	@RequestMapping(value = "/reportList", method = RequestMethod.GET)
@@ -529,62 +570,68 @@ public class UsersController {
 		return result;
 
 	}
+
+	// for cart register
+	@RequestMapping(value = "/cartRegister")
+	public String cartRegister(@RequestParam(value = "p_num") int[] p_num,
+			@RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
+			@RequestParam(value = "m_num") int[] m_num, @RequestParam(value = "p_numA") int[] p_numA,
+			@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
+			@RequestParam(value = "m_numA") int[] m_numA, int user_id, int store_id, String totalPrice, int amount) {
+
+		for (int i = 0; i < p_num.length; i++) {
+			if (p_num[i] > 0) {
+				int result = usersService.cartRegister(user_id, p_num[i], m_num[i]);
+
+				if (result == 1) {
+					logger.info("장바구니 담기 성공");
+				} else {
+					logger.info("장바구니 담기 실패");
+				}
+			}
+		}
+
+		for (int i = 0; i < p_numA.length; i++) {
+			if (p_numA[i] > 0) {
+				int result = usersService.cartRegister(user_id, p_numA[i], m_numA[i]);
+				if (result == 1) {
+					logger.info("장바구니 담기 성공");
+				} else {
+					logger.info("장바구니 담기 실패");
+				}
+			}
+		}
+		return "redirect:/user/cartList?user_id=" + user_id;
+	}
+
+	@RequestMapping(value = "/cartList", method = RequestMethod.GET)
+	public ModelAndView cartList(int user_id, ModelAndView mv) {
+
+		List<Cart> cart = usersService.getCart(user_id);
+		List<Menu> menu = usersService.getMenuForCart(user_id);
+		List<Store> store = usersService.getStoreForCart(user_id);
+		int amount = usersService.getAmount(user_id);
+		int totalPrice = usersService.getTotalPrice(user_id);
+
+		mv.setViewName("user/order-cart");
+		mv.addObject("store", store);
+		mv.addObject("menu", menu);
+		mv.addObject("cart", cart);
+		mv.addObject("amount", amount);
+		mv.addObject("totalPrice", totalPrice);
+		return mv;
+	}
 	
 	
-		
-		//for cart register
-			@RequestMapping(value = "/cartRegister")
-			public String cartRegister(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
-					@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
-					@RequestParam(value = "p_numA") int[] p_numA,
-					@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
-					@RequestParam(value = "m_numA") int[] m_numA,
-					int user_id, int store_id, String totalPrice, int amount
-					) {
 
-				for(int i = 0; i < p_num.length; i++) { 
-					if (p_num[i] > 0) {
-						int result = usersService.cartRegister(user_id, p_num[i], m_num[i]);
-						
-						if(result == 1) {
-							logger.info("장바구니 담기 성공");
-						} else {
-							logger.info("장바구니 담기 실패");
-						}
-					}
-				}
-				
-				for(int i = 0; i < p_numA.length; i++) { 
-					if (p_numA[i] > 0) {
-						int result = usersService.cartRegister(user_id, p_numA[i], m_numA[i]);
-						if(result == 1) {
-							logger.info("장바구니 담기 성공");
-						} else {
-							logger.info("장바구니 담기 실패");
-						}
-					}
-				}
-				return "redirect:/user/cartList?user_id="+user_id;
-			}
-			
-			@RequestMapping(value = "/cartList", method = RequestMethod.GET)
-			public ModelAndView cartList(int user_id, ModelAndView mv) {
+	// for cart register
+	@ResponseBody
+	@RequestMapping(value = "/cartDel")
+	public int cartDel(int cart_id) {
 
-				List<Cart> cart = usersService.getCart(user_id);
-				List<Menu> menu = usersService.getMenuForCart(user_id);
-				List<Store> store = usersService.getStoreForCart(user_id);
-				int amount = usersService.getAmount(user_id);
-				int totalPrice = usersService.getTotalPrice(user_id);
-				
-				mv.setViewName("user/order-cart");
-				mv.addObject("store", store);
-				mv.addObject("menu", menu);
-				mv.addObject("cart", cart);
-				mv.addObject("amount", amount);
-				mv.addObject("totalPrice", totalPrice);
-				return mv;
-			}
-			
+		int result = usersService.cartDel(cart_id);
+		return result;
+	}
 
 	@RequestMapping(value = "/option", method = RequestMethod.GET)
 	public void option(int menu_id) {
@@ -592,8 +639,6 @@ public class UsersController {
 		// 메뉴아이디에따른 옵션화면에 보여주기, 가게 정보도 보여줘야함
 		// ajax로 리턴값알려줄 거니까 httpResponse또는 map으로 싸서 oreder-main.jsp의 모달로 보내주기
 	}
-
-
 
 	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
 	public void orderList(String user_id) {

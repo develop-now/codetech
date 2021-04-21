@@ -11,7 +11,7 @@ create table user_info
     user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
-
+select * from user_info
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (1, 'site_owner', '111-222-3333', 'korea', 1);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)

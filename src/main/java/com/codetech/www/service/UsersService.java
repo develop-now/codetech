@@ -61,5 +61,16 @@ public interface UsersService {
 
 	int getTotalPrice(int user_id);
 
+	int cartDel(int cart_id);
+
+	public Store getStore(String reported);
+
+	public int reportStore(String subject, String content, int user_id, int store_id);
+
+	public UserInfo getUser(String reported);
+
+	public int reportUser(String subject, String content, int user_id, int user_id2);
+
+	User getUser(int user_id);
 
 }
