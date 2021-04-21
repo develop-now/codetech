@@ -5,6 +5,7 @@ public class MiniCart {
 	private String menuName;
 	private int orderAmount;
 	private int menu_id;
+	private int menu_price;
 
 	public int getMenu_id() {
 		return menu_id;
@@ -28,6 +29,14 @@ public class MiniCart {
 
 	public void setOrderAmount(int orderAmount) {
 		this.orderAmount = orderAmount;
+	}
+
+	public int getMenu_price() {
+		return menu_price;
+	}
+
+	public void setMenu_price(int menu_price) {
+		this.menu_price = menu_price;
 	}
 
 }
