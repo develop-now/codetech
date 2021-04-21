@@ -140,7 +140,31 @@
     	set point = #{point} 
 		where user_id = #{user_id}
     </update>
-
+    
+    <select id="pointListCount" parameterType="int" resultType="int">
+    	select count(*)
+    	from points
+    	where user_id = #{user_id}
+    </select> 
+    
+	<select id="getPointList" parameterType="map" resultType="point">
+	select * 
+	from(select rownum rnum ,pso.* 
+			from(select ps.*, o.order_total_price
+				from(select p.*, s.store_name 
+					from points p 
+					left join (select store_name, store_id 
+								from stores) s
+					on p.store_id = s.store_id
+					)ps
+				left join (select order_id,order_total_price from ORDERS)o
+				on ps.order_id = o.order_id
+				where ps.user_id = #{user_id} 
+				order by ps.created_at desc) pso
+			)
+	where rnum between #{start} and #{end}
+	</select>
+	
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">
         update users

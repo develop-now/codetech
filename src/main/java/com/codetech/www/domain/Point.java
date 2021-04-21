@@ -9,6 +9,22 @@ public class Point {
 	private int user_id;
 	private String point_type;
 	
+	private String store_name;
+	private String order_total_price;
+	
+	
+	public String getStore_name() {
+		return store_name;
+	}
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
+	public String getOrder_total_price() {
+		return order_total_price;
+	}
+	public void setOrder_total_price(String order_total_price) {
+		this.order_total_price = order_total_price;
+	}
 	public int getPoint_id() {
 		return point_id;
 	}
