@@ -154,6 +154,20 @@
 		where rnum between #{startRow} and #{endRow}
 	</select>
 
+	<select id="storeProfit" parameterType="map" resultType="profit">
+		select o.*, d.menu_list
+		from orders o
+				 join (select d.order_id, listagg(m.menu_name, ', ') within group ( order by m.menu_id ) as menu_list
+					   from order_details d
+								join menus m on d.menu_id = m.menu_id
+					   group by d.order_id) d on o.order_id = d.order_id
+				 join order_status t on o.order_status = t.order_status_id
+		where o.store_id = #{store_id}
+		  and t.status_value = 'done'
+		  and o.updated_at between TO_DATE(#{startDate}, 'YYYYMMDD') and TO_DATE(#{endDate}, 'YYYYMMDD')
+		order by o.updated_at
+	</select>
+
 	<!-- after this line for main -->
 	<select id="forMain" resultType="store">
 		select bb.*, rownum from (

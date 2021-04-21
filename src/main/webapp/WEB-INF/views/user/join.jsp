@@ -47,7 +47,7 @@
                     <label for="user_name"><strong>닉네임</strong></label>
                     <span id="message-nick"></span>
                     <input type="text" placeholder="닉네임을 입력하세요" name="user_name" id="user_name" required>
-                    
+
                     <label for="user_tel"><strong>연락처</strong></label>
                     <span id="message-tel"></span>
                     <input type="text" placeholder="예)01012341234" name="user_tel" id="user_tel" required>
