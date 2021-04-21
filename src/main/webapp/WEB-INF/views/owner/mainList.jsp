@@ -84,7 +84,7 @@
 								<h2 class="card-title">${store.store_name}</h2>
 
 								<p class="card-text">5분후 수령 가능</p>
-								<a href="#" class="btn btn-primary">주문하기 &rarr;</a>
+								<a href="${pageContext.request.contextPath}/user/orderMain?store_id=${store.store_id}" class="btn btn-primary">주문하기 &rarr;</a>
 							</div>
 							<div class="card-footer text-muted">
 								<img class="card-img-heart"

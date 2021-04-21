@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
          pageEncoding="UTF-8" %>
 
 <div class="modal fade storeReviewModal2" id="storeReviewModal2" tabindex="-1" role="dialog" aria-labelledby="storeReviewModal2Title"

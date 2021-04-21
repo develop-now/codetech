@@ -47,6 +47,12 @@
 				<%@include file="user-nav-mypage.jsp"%>
 				<form action="${pageContext.request.contextPath}/owner/pay"
 					method="get">
+					
+							<!-- searchbar -->
+		<div class="topnav">
+			<a class="active" href="${pageContext.request.contextPath}/user/orderMain?store_id=${store_id}">메 뉴</a> <a
+				href="#">리뷰보기</a>
+		</div>
 					<div class="col-12 col-sm-10">
 
 						<div class="order">
@@ -105,41 +111,51 @@
 														id="pmbtn"
 														onclick="javascript:basket.changePNum(${status.count});"><i
 														class="fas fa-arrow-alt-circle-down down"></i></span>
-												</div>
-											</div>
+												</div> <!-- updown -->
+											</div> <!-- num -->
 
-										</div>
+										</div> <!-- topMenus -->
 										<br>
 										<br>
 									</c:forEach>
-								</div>
+								</div> <!-- topMenu -->
 								<hr>
 								<div class="categories">
+								<c:set var="coffee" value="0"/>
+								<c:set var="dessert" value="0"/>
+								<c:set var="japanese" value="0"/>
+								<c:set var="korean" value="0"/>
+								<c:set var="western" value="0"/>
 									<c:forEach var="allMenu" items="${allMenu}" varStatus="status">
 										<c:choose>
-											<c:when test="${allMenu.category_id == 5}">
+											<c:when test="${allMenu.category_id == 5 && coffee == 0}">
 												<div class="coffee">
 													커피<br>
+													<c:set var="coffee" value="${coffee + 1}"/>
 											</c:when>
 
-											<c:when test="${allMenu.category_id == 4}">
+											<c:when test="${allMenu.category_id == 4 && dessert == 0 }">
 												<div class="dessert">
 													디저트<br>
+													<c:set var="dessert" value="${dessert + 1}"/>
 											</c:when>
 
-											<c:when test="${allMenu.category_id == 3}">
+											<c:when test="${allMenu.category_id == 3 && japanese == 0}">
 												<div class="japanese">
 													일식<br>
+													<c:set var="japanese" value="${japanese + 1}"/>
 											</c:when>
 
-											<c:when test="${allMenu.category_id == 2}">
+											<c:when test="${allMenu.category_id == 2 && korean == 0}">
 												<div class="korean">
 													한식<br>
+													<c:set var="korean" value="${korean + 1}"/>
 											</c:when>
 
-											<c:when test="${allMenu.category_id == 1}">
+											<c:when test="${allMenu.category_id == 1 && western == 0}">
 												<div class="western">
 													양식<br>
+													<c:set var="western" value="${western + 1}"/>
 											</c:when>
 										</c:choose>
 
@@ -170,17 +186,16 @@
 													class="fas fa-arrow-alt-circle-up up"></i></span> <span id="pmbtn"
 													onclick="javascript:basket.changePANum(${status.count});"><i
 													class="fas fa-arrow-alt-circle-down down"></i></span>
-											</div>
-										</div>
+											</div> <!-- updown -->
+										</div> <!-- num -->
 
 										<br>
-								</div>
+								</div> <!-- per categories -->
 								</c:forEach>
-
+								</div> <!-- categories -->
 								<br> <br> <br>
-							</div>
-						</div>
-						<div class="payMentView"></div>
+							</div> <!-- menuView -->
+						<div class="payMentView">
 
 						<div class="bigtext right-align sumcount" id="sum_p_num"></div>
 						<div class="bigtext right-align box blue summoney"
@@ -194,21 +209,22 @@
 						<div class="buttonGroup">
 							<button class="w3-button w3-khaki" id="forCart">장바구니 담기</button>
 							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
-
-
 						</div>
 
-					</div>
+					</div> <!-- payMentView -->
 			</div>
-			</form>
+			<!-- order -->
 		</div>
+		<!-- col-12 col-sm-10 -->
+		</form>
 	</div>
+	<!-- row -->
+	
 	</div>
-	<!-- /.container -->
+	<!-- container-fluid-->
 
 	<%-- footer --%>
 	<%@include file="../partial/footer.jsp"%>
-	</div>
 
 	<script>
 $(function() {
