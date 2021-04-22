@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/order.css">
 
 </head>
 <body>
@@ -44,6 +45,8 @@
 		<div class="container-fluid">
 			<div class="row">
 				<%@include file="user-nav-mypage.jsp"%>
+				<div class="col-12 col-sm-10">
+				
 				<form action="${pageContext.request.contextPath}/owner/pay"
 					method="post">
 					
@@ -51,9 +54,17 @@
 		<div class="topnav">
 			<a class="active" href="${pageContext.request.contextPath}/user/orderMain?store_id=${store_id}">메 뉴</a> 
 			<a 	href="javascript:void(0);" class='storeReview-btn'>리뷰보기</a>
+			<input type="hidden" name="count" value="${count }">
 		</div>
-					<div class="col-12 col-sm-10">
-
+					<div class='store_oreder_main_table'>
+						<table>
+							<tbody>
+								<tr><td></td></tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="RVaddMessage text-center"></div>
+					<div class="col-12 col-sm-10 store_oreder_main">
 						<div class="order">
 							<div class="storeInfoView">
 								<div class="storeName">
@@ -164,6 +175,7 @@
 																						<input type="hidden" name="o_menuA"
 											id="o_menu${status.count}" class="o_menu"
 											value="${allMenu.menu_name }">
+
 										<input type="hidden" name="m_numA" id="m_numA${status.count}"
 											class="m_numA" value="${allMenu.menu_id }">
 
@@ -193,7 +205,9 @@
 								</c:forEach>
 								</div> <!-- categories -->
 								<br> <br> <br>
-							</div> <!-- menuView -->
+			
+							</div> <!-- menuView --><!-- order view -->
+		
 						<div class="payMentView">
 
 						<div class="bigtext right-align sumcount" id="sum_p_num"></div>
@@ -211,16 +225,15 @@
 						</div>
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 					</div> <!-- payMentView -->
-			</div>
+			</div><!-- content fluid -->
 			<!-- order -->
+		</form>
 		</div>
 		<!-- col-12 col-sm-10 -->
-		</form>
-	</div>
-	<!-- row -->
+		</div><!-- row -->
+	</div><!-- container-fluid-->
 	
-	</div>
-	<!-- container-fluid-->
+	</div><!-- container-fluid-->
 
 	<%-- footer --%>
 	<%@include file="../partial/footer.jsp"%>

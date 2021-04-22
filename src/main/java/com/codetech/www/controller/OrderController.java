@@ -100,7 +100,7 @@ public class OrderController {
         	point.setOrder_id(order_id);
         	point.setStore_id(order.getStore_id());
         	point.setUser_id(order.getOrder_user());
-        	
+        	point.setPoint_type("get");
         	orderService.insertPoint(point);
         	//dao에서 리턴값이 1일경우 point.java에 담긴 point_value를 user_info에 담고 user_info테이블을 update해준다. -- 이때 업데이트하느날짜는 사용하지 않음
         	//userservieceimpl에서 위의 로직 처리

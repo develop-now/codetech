@@ -516,13 +516,14 @@ public class UsersController {
 
     @RequestMapping(value = "/orderMain", method = RequestMethod.GET)
     public ModelAndView order(int store_id, ModelAndView mv) {
-
+    	String search_val = "";
         Store store = usersService.getStore(store_id);
         int storeLike = usersService.getStoreLike(store_id);
         List<Menu> topMenu = usersService.getTopMenu(store_id);
         List<Menu> allMenu = usersService.getAllMenu(store_id);
         int menuCount = usersService.getMenuCount(store_id);
-
+        int count = commentService.getCommentCountByStore(store_id, search_val);
+        
         mv.setViewName("user/order-main");
         mv.addObject("store", store);
         mv.addObject("storeLike", storeLike);
@@ -530,6 +531,7 @@ public class UsersController {
         mv.addObject("allMenu", allMenu);
         mv.addObject("menuCount", menuCount);
         mv.addObject("store_id", store_id);
+        mv.addObject("count", count);
         return mv;
 
     }

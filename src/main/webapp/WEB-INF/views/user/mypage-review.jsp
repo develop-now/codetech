@@ -66,7 +66,7 @@
 	              	 등록된 댓글이 없습니다~ 주문을 해보시겠어요?
 	              	</c:if>
 	            </div>
-	           <div class="addMessage text-center"></div>
+	           <div class="addMessage text-center">더보기자리</div>
             </div>
         </div>
     </div>

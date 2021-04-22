@@ -39,7 +39,7 @@ $(function(){
                 output + "</tbody></table>"   
                 $(".storeReviewModal").append(output);
              })
-             if(rdata.listcount > rdata.list.length){
+             if(data.listCount > data.list.length){
                 $(".storeReviewModal__button").text("더보기")
              }else{
                 $(".storeReviewModal__button").text("")

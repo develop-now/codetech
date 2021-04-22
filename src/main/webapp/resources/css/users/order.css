@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/*review start*/
+
+.store_oreder_main_table{
+    display: flex;
+    justify-content: center;
+}
+.store_oreder_main_table table{
+	background-color:#f7f7f7;
+}
+  .reivewline{
+    border-top: solid 1px papayawhip;
+
+  }
+  .RVaddMessage{
+    margin: 100px 0;
+    background-color:#f7f7f7;
+    border: solid 2px #f5f0f0;
+    border-radius:5px;
+    color:#6b9068;
+    }
+  
+  /*review end*/

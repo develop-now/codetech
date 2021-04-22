@@ -342,17 +342,19 @@ public class OwnerController {
 	public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
 			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
 			@RequestParam(value = "p_price") int[] p_price,
-			int user_id, int cartCount, int price, int amount, ModelAndView mv) {
+			int user_id, int cartCount, int price, int amount, ModelAndView mv
+			,@RequestParam(value="usedPoint", defaultValue="0", required = false)int point) {
 
 		for(int i = 0; i < m_num.length; i++) {
 			int result = ownerService.plusOrderCount(m_num[i]);
+			
 			if(result != 1) {
 				logger.info("에러");
 			}
 		}
 		
 		int store_id = ownerService.getStoreId(m_num[0]);
-		int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num);
+		int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num, point);
 		if(order == 1) {
 			logger.info("order + detail 성공");
 		}

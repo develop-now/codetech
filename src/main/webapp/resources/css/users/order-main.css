@@ -59,3 +59,8 @@ h4, #sum_p_num, #sum_p_price, sum_p_name {
     margin: 0;
     padding: 14px;
   }
+  
+ .payMentView{
+ display:flex;
+ justify-content:center;
+ }

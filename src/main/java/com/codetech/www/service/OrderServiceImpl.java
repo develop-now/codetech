@@ -177,7 +177,7 @@ public class OrderServiceImpl implements OrderService {
             map.put("user_id", user_id);
             map.put("point", total_point);
             int pointUpdateResult = u_dao.updatePoint(map);
-            if (pointUpdateResult == 1) {
+            if (pointUpdateResult != 1) {
                 logger.info("user_info의 point update 실패"); //실패시 내역 삭제로 보완하기
             } else {
                 logger.info("user_info의 point update 성공");

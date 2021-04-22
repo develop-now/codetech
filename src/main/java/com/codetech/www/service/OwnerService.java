@@ -46,7 +46,7 @@ public interface OwnerService {
 
 	public int getStoreId(int menu_id);
 
-	public int order(int price, int user_id, int store_id, int[] m_num, int[] p_price, int[] p_num);
+	public int order(int price, int user_id, int store_id, int[] m_num, int[] p_price, int[] p_num, int point);
 
 
 
