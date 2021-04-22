@@ -24,7 +24,7 @@
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
 
- <!-- Page Content -->
+    <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
             <div id="sideNav" class="col-12 col-sm-2">
@@ -39,7 +39,7 @@
         </div>
     </div>
     <!-- /.container -->
-  
+
 
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>

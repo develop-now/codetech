@@ -5,7 +5,7 @@
   Time: 2:16 오후
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
@@ -23,18 +23,16 @@
     <div class="collapse navbar-collapse justify-content-end"
          id="navbarNav">
         <ul class="navbar-nav">
-
-
-			<sec:authorize access="isAuthenticated()">
-			<li class="nav-item"><a class="nav-link text-right" href="#"
-				data-toggle="modal" data-target="#reportModal"><img class="card-img-heart"
-									src="${pageContext.request.contextPath}/resources/image/common/siren.png"
-									width="30" height="30" alt=""></a></li>
-									
-				<sec:authentication property="principal" var="pinfo" />
-				<li class="nav-item"><a class="nav-link text-right" href="#">${pinfo.username}</a>
-				</li>
-
+            <sec:authorize access="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link text-right" href="#"
+                       data-toggle="modal" data-target="#reportModal">
+                        <img class="card-img-heart"
+                             src="${pageContext.request.contextPath}/resources/image/common/siren.png"
+                             width="30" height="30"
+                             alt="siren_icon">
+                    </a>
+                </li>
 
                 <sec:authentication property="principal" var="pinfo"/>
                 <li class="nav-item">

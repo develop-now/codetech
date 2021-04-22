@@ -14,19 +14,17 @@
     <%@include file="../partial/head.jsp" %>
 </head>
 <body>
-    <%-- main nav --%>
-    <%@include file="../partial/nav.jsp" %>
+<%-- main nav --%>
+<%@include file="../partial/nav.jsp" %>
 
-    <%-- info Modal --%>
-    <%@include file="../partial/infoModal.jsp" %>
+<%-- info Modal --%>
+<%@include file="../partial/infoModal.jsp" %>
 
-    <%-- alert Modal --%>
-    <%@include file="../partial/alertModal.jsp" %>
+<%-- alert Modal --%>
+<%@include file="../partial/alertModal.jsp" %>
 
 
-    
-
-    <%-- footer --%>
-    <%@include file="../partial/footer.jsp" %>
+<%-- footer --%>
+<%@include file="../partial/footer.jsp" %>
 </body>
 </html>
