@@ -4,6 +4,7 @@ import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.Order;
 import com.codetech.www.domain.OrderDetail;
 import com.codetech.www.domain.OrderStatus;
+import com.codetech.www.domain.Point;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface OrderService {
     public int updateOrder();
 
     public int deleteOrder();
+
+	public void insertPoint(Point point);
 }

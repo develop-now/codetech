@@ -28,4 +28,14 @@ public interface AdminService {
 	
 	public List<Notice> getNoticeList(String search_text, int index, int page, int limit);
 	public int getNoticeListCount(String search_text, int index);
+	
+	public void insertNotice(Notice notice);
+	
+	public Notice noticeView(int notice_id);
+	
+	int setReadCountUpdate(int num);
+	
+	public int modifyAction(Notice noticeModify);
+	
+	public int noticeDelete(int notice_id);
 }

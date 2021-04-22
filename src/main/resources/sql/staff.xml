@@ -31,7 +31,7 @@
     </select>
 
     <select id="isWorker" resultType="int" parameterType="Map">
-        select count(*)
+        select nvl(count(*), 0)
         from staffs
         where user_id = #{user_id}
         <if test="store_id != null">

@@ -4,30 +4,28 @@
 <mapper namespace="Orders">
 
 
-	<insert id="order" parameterType="map">
-		<selectKey resultType="int" order="BEFORE"
-			keyProperty="order_id">
-			select
-			nvl(max(order_id), 0) + 1 from orders
-		</selectKey>
-		insert into orders(order_id, created_at, updated_at,
-		order_total_price,
-		order_user, order_status, store_id)
-		values(
-		(select
-		nvl(max(order_id), 0) + 1 from orders), sysdate, sysdate, #{price},
-		#{user_id}, 1, #{store_id}
-		)
-	</insert>
+    <insert id="order" parameterType="map">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="order_id">
+            select
+            nvl(max(order_id), 0) + 1 from orders
+        </selectKey>
+        insert into orders(order_id, created_at, updated_at,
+        order_total_price,
+        order_user, order_status, store_id)
+        values(
+        (select
+        nvl(max(order_id), 0) + 1 from orders), sysdate, sysdate, #{price},
+        #{user_id}, 1, #{store_id}
+        )
+    </insert>
 
-	<insert id="orderDetail" parameterType="int">
-		insert into order_details
-		values(
-		(select nvl(max(detail_id), 0) + 1 from order_details),
-		#{p_num},
-		#{p_price}, sysdate, sysdate, #{order_id}, #{m_num}
-		)
-	</insert>
+    <insert id="orderDetail" parameterType="int">
+        insert into order_details
+        values ((select nvl(max(detail_id), 0) + 1 from order_details),
+                #{p_num},
+                #{p_price}, sysdate, sysdate, #{order_id}, #{m_num})
+    </insert>
 
     <!-- start for order controller -->
 
@@ -38,7 +36,7 @@
     </select>
 
     <select id="orderCountByStore" parameterType="int" resultType="int">
-        select count(*)
+        select nvl(count(*), 0)
         from orders
         where store_id = #{store_id}
     </select>
@@ -56,7 +54,7 @@
     </select>
 
     <select id="listCountAjax" parameterType="map" resultType="int">
-        select count(*)
+        select nvl(count(*),0)
         from orders o
         join order_status t on o.order_status = t.order_status_id
         where store_id = #{store_id}
@@ -259,5 +257,10 @@
         where cart_id = #{cart_id}
     </delete>
 
+    <insert id="insertPoint" parameterType="point">
+        insert into points
+        values ( (select nvl(max(point_id), 0) + 1 from points), #{point_value}, sysdate
+               , #{order_id}, #{store_id}, #{user_id}, 'get')
+    </insert>
 
 </mapper>

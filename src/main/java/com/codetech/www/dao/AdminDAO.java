@@ -71,5 +71,25 @@ public class AdminDAO {
 	
     public int getNoticeListCount(Map<String, Object> map) {
         return sqlSession.selectOne("Admin.getNoticeListCount", map);
-    } 
+    }
+
+	public int insertBoard(Notice notice) {
+		return sqlSession.insert("Admin.insertNotice", notice);
+	}
+
+	public int setReadCountUpdate(int notice_id) {
+		return sqlSession.update("Admin.readCountUpdate", notice_id);
+	}
+
+	public Notice noticeView(int notice_id) {
+		return sqlSession.selectOne("Admin.noticeView", notice_id);
+	}
+
+	public int modifyAction(Notice noticeModify) {
+		return sqlSession.update("Admin.modifyAction", noticeModify);
+	}
+
+	public int noticeDelete(Notice notice) {
+		return sqlSession.delete("Admin.noticeDelete", notice);
+	}
 }

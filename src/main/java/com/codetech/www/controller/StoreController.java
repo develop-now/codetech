@@ -53,6 +53,7 @@ public class StoreController {
         int store_total_like = 0;
 
         for (Store s : stores) {
+            logger.info("[StoreController] STORE ID : "+ s.getStore_id());
             store_total_count++;
             store_total_customer += storeService.getStoreCustomerCount(s.getStore_id());
             store_total_income += storeService.getStoreTotalIncome(s.getStore_id());
