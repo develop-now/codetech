@@ -80,8 +80,6 @@ public class UserlistTest {
 			 logger.info("글 상태: " + result.getNotice_status());
 			 logger.info("날짜: " + result.getNotice_date());
 			 logger.info("조회수: " + result.getNotice_readcount());
-			 logger.info("세이브: " + result.getNotice_saved_image());
-			 logger.info("오리지날: " + result.getNotice_original_image());
 		 }
 	 }
 }

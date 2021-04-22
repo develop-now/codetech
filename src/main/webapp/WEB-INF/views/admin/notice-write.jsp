@@ -98,6 +98,19 @@
 		window.onload = function() {
 			ck = CKEDITOR.replace("Notice_content");
 		};
+		
+		var check = document.getElementsByName('#notice_status');
+		var sel_type = null;
+		
+		for (var i = 0; i < check.length; i++) {
+			if (check[i].checked == true) {
+				sel_type = check[i].value;
+			}
+		}
+		
+		if (sel_type = null) {
+			alert("공지할 글의 유형을 선택해 주세요.");
+		}
 	</script>
     <title>Notice Write</title>
     <%@include file="../partial/head.jsp" %>  

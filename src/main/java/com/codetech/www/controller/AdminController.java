@@ -7,10 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -18,7 +15,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -430,7 +426,6 @@ public class AdminController {
 	@RequestMapping(value = "/noticeImage")
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest multiFile, @RequestParam MultipartFile upload) throws Exception {
-		logger.info("노티스 이미지 입니다.");
 		System.out.println(upload);
 		
 		// 랜덤 문자 생성
@@ -469,7 +464,6 @@ public class AdminController {
 			out.write(bytes);
 			out.flush(); // outputStram에 저장된 데이터를 전송하고 초기화
 
-			String callback = request.getParameter("CKEditorFuncNum");
 			printWriter = response.getWriter();
 			String fileUrl = "/www/admin/noticeImageSub?uid=" + uid + "&fileName=" + fileName; // 작성화면
 
@@ -499,7 +493,6 @@ public class AdminController {
 	public void ckSubmit(@RequestParam(value = "uid") String uid,
 						 @RequestParam(value = "fileName") String fileName,
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		// 서버에 저장된 이미지 경로
 		String path = saveFolder + "upImage/";
 
