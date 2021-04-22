@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codetech.www.dao.MenuDAO;
+import com.codetech.www.dao.OrderDAO;
 import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
 import com.codetech.www.domain.Store;
@@ -22,9 +24,15 @@ public class OwnerServiceImpl implements OwnerService {
 
 	@Autowired
 	private StoreDAO dao;
-	
-	@Autowired 
+
+	@Autowired
 	private UsersDAO udao;
+
+	@Autowired
+	private OrderDAO odao;
+
+	@Autowired
+	private MenuDAO mdao;
 
 	@Override
 	public List<Store> getStoreForMain() {
@@ -93,7 +101,6 @@ public class OwnerServiceImpl implements OwnerService {
 		return dao.getMap(searchWordLike);
 	}
 
-
 	@Override
 	public List<User> getAdmin(int user_id) {
 		return udao.getAdmin(user_id);
@@ -127,8 +134,47 @@ public class OwnerServiceImpl implements OwnerService {
 
 	}
 
+	@Override
+	public int plusOrderCount(int menu_id) {
+		return mdao.plusOrderCount(menu_id);
+	}
 
+	@Override
+	public int getStoreId(int menu_id) {
+		return mdao.getStoreId(menu_id);
+	}
 
+	@Override
+	public int order(int price, int user_id, int store_id, int[] m_num, int[] p_price, int[] p_num) {
+		int rtn = -1;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("price", price);
+		map.put("store_id", store_id);
+		map.put("user_id", user_id);
 
+		int result = odao.order(map);
+
+		if (result != 0) {
+			int key = map.get("order_id");
+			int detailInsert = 0;
+			for (int i = 0; i < m_num.length; i++) {
+				map.put("order_id", key);
+				map.put("m_num", m_num[i]);
+				logger.info("m_num = " + m_num[i]);
+				map.put("p_price", p_price[i]);
+				logger.info("p_price = " + p_price[i]);
+				map.put("p_num", p_num[i]);
+				logger.info("p_num = " + p_num[i]);
+
+				detailInsert = odao.orderDetail(map);
+				if (detailInsert == 1) {
+					logger.info("Detail »ðÀÔ ¼º°ø");
+				}
+			}
+			return detailInsert;
+		}
+		logger.info("order : " + user_id);
+		return rtn;
+	}
 
 }

@@ -1,6 +1,8 @@
 package com.codetech.www.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.codetech.www.domain.*;
 
@@ -72,5 +74,9 @@ public interface UsersService {
 	public int reportUser(String subject, String content, int user_id, int user_id2);
 
 	User getUser(int user_id);
+
+	List<Point> getPointList(int user_id, int page,int limit);
+
+	int pointListCount(int user_id);
 
 }

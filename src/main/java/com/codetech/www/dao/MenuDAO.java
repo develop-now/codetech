@@ -48,4 +48,15 @@ public class MenuDAO {
     public int getMenuCount(int store_id) {
         return sqlSession.selectOne("Menus.menuCount", store_id);
     }
+
+	public int plusOrderCount(int menu_id) {
+		return sqlSession.update("Menus.plusOrderCount", menu_id);
+
+	}
+	
+	public int getStoreId(int menu_id) {
+		return sqlSession.selectOne("Menus.getStoreId", menu_id);
+	}
+	
+	
 }

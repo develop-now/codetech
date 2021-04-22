@@ -22,7 +22,7 @@ public class UsersServiceImpl implements UsersService {
 	private static final Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
 
 	@Autowired
-	private UsersDAO dao;
+	private UsersDAO udao;
 
 	@Autowired
 	private StoreDAO sdao;
@@ -38,30 +38,30 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public int isEmail(String user_email) {
-		User user = dao.isEmail(user_email);
+		User user = udao.isEmail(user_email);
 		return (user == null) ? -1 : 1;
 	}
 
 	@Override
 	public int isName(String user_name) {
-		UserInfo user = dao.isName(user_name);
+		UserInfo user = udao.isName(user_name);
 		return (user == null) ? -1 : 1;
 	}
 
 	@Override
 	public int userinsert(User user, UserInfo info) {
-		int result = dao.userinsert(user);
+		int result = udao.userinsert(user);
 		if (result == 1) {
-			int user_id = dao.userId(user);
+			int user_id = udao.userId(user);
 			info.setUser_id(user_id);
-			dao.infoinsert(info);
+			udao.infoinsert(info);
 		}
 		return result;
 	}
 
 	@Override
 	public int isUser(String user_email, String user_password) {
-		User user = dao.isEmail(user_email);
+		User user = udao.isEmail(user_email);
 		int result = -1;
 		logger.info("dao.isEmail result : " + result);
 		if (user != null) {
@@ -76,17 +76,17 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public UserPlusInfo user_info(int user_id) {
-		return dao.user_total_info(user_id);
+		return udao.user_total_info(user_id);
 	}
 
 	@Override
 	public User getUserId(String user_email) {
-		return dao.getUserId(user_email);
+		return udao.getUserId(user_email);
 	}
 
 	@Override
 	public int passcheck(int user_id, String user_newpassword, String user_password) {
-		User userInfo = dao.userInfo(user_id);
+		User userInfo = udao.userInfo(user_id);
 		int result = 0;
 		if (userInfo != null) {
 			if (passwordEncoder.matches(user_password, userInfo.getUser_password())) {
@@ -95,7 +95,7 @@ public class UsersServiceImpl implements UsersService {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("user_id", user_id);
 				map.put("user_password", user_newpassword);
-				result = dao.updatePassword(map);
+				result = udao.updatePassword(map);
 				if (result == 0) {
 					logger.info("dao updatepassword fail");
 					result = -1;
@@ -131,17 +131,17 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public int modifyInfo(UserInfo ui) {
-		return dao.userModify(ui);
+		return udao.userModify(ui);
 	}
 
 	@Override
 	public List<Report> reportStoreAndComment(int user_id) {
-		return dao.reportStoreAndComment(user_id);
+		return udao.reportStoreAndComment(user_id);
 	}
 
 	@Override
 	public int addReport(Report report) {
-		return dao.addReport(report);
+		return udao.addReport(report);
 	}
 
 	public int getMenuCount(int user_id) {
@@ -277,7 +277,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public UserInfo getUser(String reported) {
-		return dao.getUser(reported);
+		return udao.getUser(reported);
 
 	}
 
@@ -288,13 +288,30 @@ public class UsersServiceImpl implements UsersService {
 		map.put("content", content);
 		map.put("reporter", user_id);
 		map.put("reported", user_id2);
-		return dao.reportUser(map);
+		return udao.reportUser(map);
 
 	}
 
 	@Override
 	public User getUser(int user_id) {
-		return dao.getUser(user_id);
+		return udao.getUser(user_id);
+	}
+
+	@Override
+	public List<Point> getPointList(int user_id, int page,int limit) {
+		logger.info("servicimpl");
+		HashMap<String, Integer> map = new HashMap<String,Integer>();
+		int startrow=(page-1)*limit+1;
+		int endrow=startrow+limit-1;
+		map.put("user_id", user_id);
+		map.put("start", startrow);
+		map.put("end",  endrow);
+		return udao.getPointList(map);
+	}
+
+	@Override
+	public int pointListCount(int user_id) {
+		return udao.pointListCount(user_id);
 	}
 
 }

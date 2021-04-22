@@ -23,7 +23,7 @@ public class SendMail {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 
-	@Value("${sendfile}")
+	@Value("${sendFile}")
 	private String sendfile;
 
 	public void sendMail(MailVO vo) {

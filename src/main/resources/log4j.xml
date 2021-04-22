@@ -10,6 +10,24 @@
         </layout>
     </appender>
 
+    <!--    sql logger      -->
+    <logger name="Stores">
+        <level value="trace"/>
+    </logger>
+
+    <logger name="Orders">
+        <level value="trace"/>
+    </logger>
+
+    <logger name="Menus">
+        <level value="trace"/>
+    </logger>
+
+    <logger name="Comments">
+        <level value="trace"/>
+    </logger>
+
+
     <!-- Application Loggers -->
     <logger name="com.codetech.www">
         <level value="info"/>
