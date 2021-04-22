@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,12 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -87,6 +84,15 @@ public class UsersController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "user/index";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public void loginGet(Model model, @CookieValue(value = "remember-me", required = false) Cookie cookie) {
+        logger.info("login called...");
+
+        if (cookie != null) {
+            logger.info("remember id : " + cookie.getValue());
+        }
     }
 
     @RequestMapping(value = "/emailcheck", method = RequestMethod.GET)
@@ -318,42 +324,44 @@ public class UsersController {
         }
         return "redirect:/user/infoMain";
     }
+
     @ResponseBody
     @RequestMapping(value = "/pointList", method = RequestMethod.GET)
-    public ModelAndView pointList(@RequestParam(value="page", defaultValue="1", required = false)int page
-    								,@RequestParam(value="limit", defaultValue="4", required = false)int limit
-    								,@RequestParam(value="ajax", defaultValue="false", required=false)String ajax
-    								,ModelAndView mv) {
-    												
-    	int user_id = (int)session.getAttribute("user_id");
-    	int count =usersService.pointListCount(user_id);
-    	int maxpage = (count + limit -1)/limit;
-		int startpage = ((page-1)/10)*10+1;
-		int endpage = startpage +10-1;
-		
-		if (endpage >  maxpage)
-			endpage = maxpage;
-    	List<Point> list =usersService.getPointList(user_id, page, limit);
-    	UserPlusInfo upi = usersService.user_info(user_id);
-    	int totalPoint = upi.getPoint();
-    	logger.info("=============pointList 갯수================" + count);
-    	if(list == null) {
-    		
-    		logger.info("list가  null? ==========");
-    	}
-    	logger.info("=======ajax실행 boolean"+ ajax);
-    	if(ajax.equals("false")) {
-    		mv.setViewName("user/mypage-point");
-    	}
-    	mv.addObject("page", page);
-    	mv.addObject("maxpage",maxpage);
-    	mv.addObject("startpage", startpage);
-    	mv.addObject("endpage",endpage);
-		mv.addObject("list", list);
-		mv.addObject("count", count);
-		mv.addObject("totalPoint", totalPoint);
+    public ModelAndView pointList(@RequestParam(value = "page", defaultValue = "1", required = false) int page
+            , @RequestParam(value = "limit", defaultValue = "4", required = false) int limit
+            , @RequestParam(value = "ajax", defaultValue = "false", required = false) String ajax
+            , ModelAndView mv) {
+
+        int user_id = (int) session.getAttribute("user_id");
+        int count = usersService.pointListCount(user_id);
+        int maxpage = (count + limit - 1) / limit;
+        int startpage = ((page - 1) / 10) * 10 + 1;
+        int endpage = startpage + 10 - 1;
+
+        if (endpage > maxpage)
+            endpage = maxpage;
+        List<Point> list = usersService.getPointList(user_id, page, limit);
+        UserPlusInfo upi = usersService.user_info(user_id);
+        int totalPoint = upi.getPoint();
+        logger.info("=============pointList 갯수================" + count);
+        if (list == null) {
+
+            logger.info("list가  null? ==========");
+        }
+        logger.info("=======ajax실행 boolean" + ajax);
+        if (ajax.equals("false")) {
+            mv.setViewName("user/mypage-point");
+        }
+        mv.addObject("page", page);
+        mv.addObject("maxpage", maxpage);
+        mv.addObject("startpage", startpage);
+        mv.addObject("endpage", endpage);
+        mv.addObject("list", list);
+        mv.addObject("count", count);
+        mv.addObject("totalPoint", totalPoint);
         return mv;
     }
+
     @RequestMapping(value = "/reportWrite", method = RequestMethod.GET)
     public ModelAndView reportWrite(
             @RequestParam(value = "reported_store", defaultValue = "0", required = false) String reported_store,

@@ -2,18 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%
-	Cookie[] cookies = request.getCookies();
-
-	if (cookies != null) {
-		for (Cookie c : cookies) {
-			String cName = c.getName();
-			System.out.println("cookie name : " + cName);
-		}
-	}
-
-%>
-
 <div class="modal fade loginModal" id="reportModal" tabindex="-1"
 	role="dialog" aria-labelledby="reportModalTitle" aria-hidden="true">
 	<form name="loginform" action="<c:url value="/user/addReport"/>"
