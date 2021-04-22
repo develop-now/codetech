@@ -6,7 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +29,7 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <%@include file="../store-nav.jsp"%>
+            <%@include file="../store-nav.jsp" %>
             <div class="col-12 col-sm-10">
                 <p>Store Delete Content</p>
             </div>

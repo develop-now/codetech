@@ -19,11 +19,12 @@ function loadStoreMenu(store_id, store_name) {
 }
 
 function makeEmptyTable(store_name) {
-    $("#target-tbody").empty();
+    const targetEl = $("#target-tbody")
+    targetEl.empty();
 
     $("#store_name").text(store_name);
 
-    $("#target-tbody").append("<tr><td colspan='5' class='text-warning'>해당 매장에 메뉴가 존재하지 않습니다</td></tr>");
+    targetEl.append("<tr><td colspan='5' class='text-warning'>해당 매장에 메뉴가 존재하지 않습니다</td></tr>");
 }
 
 function makeMenuTable(data, store_name) {

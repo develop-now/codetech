@@ -200,7 +200,7 @@
         order by created_at desc
     </sql>
 
-    <select id="getAmount" parameterType="int" resultType="int">
+    <select id="getAmount" parameterType="Integer" resultType="int">
         select
         sum(menu_quantity) from (
         <include refid="forCart"/>

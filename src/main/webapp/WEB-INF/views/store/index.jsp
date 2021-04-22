@@ -7,7 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +23,7 @@
                     duration: 2000,
                     easing: 'swing',
                     step: function (now) {
-                        $(this).text(Math.ceil(now));
+                        $(this).text(Math.ceil(now).toLocaleString('en'));
                     }
                 });
             })

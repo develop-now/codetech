@@ -1,9 +1,4 @@
-$(() => {
-
-})
-
 function makeStatusButton(data) {
-
     let curr_status_id = parseInt($("input#order_status").val());
 
     const target = $("#statusBtn__wrapper");
@@ -77,7 +72,8 @@ function changeStatusLabel() {
 }
 
 function statusLabel(prevText, status, nextText) {
-    let label_str = ""
+    let label_str;
+
     switch (status) {
         case "ordered":
             label_str = "완료";
@@ -109,9 +105,6 @@ function statusChange(status_id) {
     const token = $("meta[name='_csrf']").attr('content');
 
     const order_id = $("input#order_id").val();
-
-    console.log({order_id});
-    console.log({status_id});
 
     $.ajax({
         url: "/order/updateAction",
