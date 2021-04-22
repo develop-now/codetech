@@ -6,7 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -125,12 +126,14 @@
                                 <h3 class="text-primary">
                                     <i class="fas fa-store"></i> <span id="store_name"></span>
                                 </h3>
+                                <h6 class="text-info">
+                                    <i class="fas fa-calendar-alt"></i> 기간 : <span id="profit_date"></span>
+                                </h6>
                             </div>
 
                             <div class="row d-none" id="profit__empty">
                                 <h6 class='text-warning'>해당 매장에 매출이 존재하지 않습니다</h6>
                             </div>
-
 
                             <div class="row" id="profit__graph__wrapper">
                                 <div class="col-12">

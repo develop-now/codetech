@@ -43,7 +43,8 @@ $(() => {
 })
 
 function statusLabel(prevText, status, nextText) {
-    let label_str = ""
+    let label_str;
+
     switch (status) {
         case "ordered":
             label_str = "완료";

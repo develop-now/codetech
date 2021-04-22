@@ -3,8 +3,6 @@ let storeImgEl;
 
 let checkBoxes;
 
-let submitBtn;
-let resetBtn;
 let formEl;
 
 let alertModal;
@@ -33,14 +31,12 @@ $(() => {
     })
 
     formEl = $("#updateStoreForm");
-    submitBtn = $("#submitBtn");
-    resetBtn = $("#resetBtn");
 
-    submitBtn.on("click", (e) => submitForm(e));
-    resetBtn.on("click", (e) => resetForm(e));
+    $("#submitBtn").on("click", (e) => submitForm(e));
+    $("#resetBtn").on("click", (e) => resetForm(e));
 
     textEls = $("input:text, textarea").not("#store_name");
-    ;
+
     textEls.each((idx, el) => {
         $(el).on("keyup", textInputChangeHandler)
     })
@@ -154,6 +150,7 @@ function submitForm(e) {
         if (!$(el).val() && $(el).data("valid") === "required") {
             $(el).addClass("is-invalid")
             formIsValid = false;
+
             console.log("Required 값이 입력되지 않았습니다")
         }
     })
@@ -163,6 +160,7 @@ function submitForm(e) {
         checkBoxes.addClass("is-invalid");
 
         formIsValid = false;
+
         console.log("휴일이 입력되지 않았습니다")
     }
 
