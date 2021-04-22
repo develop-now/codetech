@@ -30,9 +30,9 @@ public interface OwnerService {
 
 	public StoreMap getMap(String searchWord);
 
-	public List<User> getAdmin(int user_id);
+	public User getAdmin(int user_id);
 
-	public List<UserInfo> getAdminInfo(int user_id);
+	public UserInfo getAdminInfo(int user_id);
 
 	public Store getStore(int store_id);
 
@@ -49,6 +49,8 @@ public interface OwnerService {
 	public int order(int price, int user_id, int store_id, int[] m_num, int[] p_price, int[] p_num, int point);
 
 	public int delCartList(int menu_id);
+
+	public int revoke(int user_id);
 
 
 
