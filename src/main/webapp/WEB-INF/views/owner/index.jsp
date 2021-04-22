@@ -24,7 +24,7 @@
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
 
- <!-- Page Content -->
+    <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
             <%@include file="owner-nav.jsp"%>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <!-- /.container -->
-  
+
 
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>

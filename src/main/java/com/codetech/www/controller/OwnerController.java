@@ -344,8 +344,9 @@ public class OwnerController {
 	@RequestMapping(value = "/payment_complete")
 	public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
 			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
+			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh,
 			@RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount,
-			int cartTh, ModelAndView mv) {
+			 ModelAndView mv) {
 		int cartStatus = 0;
 		for (int i = 0; i < m_num.length; i++) {
 			int result = ownerService.plusOrderCount(m_num[i]);

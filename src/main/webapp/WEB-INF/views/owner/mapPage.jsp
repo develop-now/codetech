@@ -1,9 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	    <%@include file="../partial/head.jsp" %>
+
+<%@include file="../partial/head.jsp"%>
 
 <meta charset="utf-8">
 <meta name="viewport"
@@ -29,7 +31,7 @@
 <!-- SearchBar JS -->
 <script
 	src="${pageContext.request.contextPath}/resources/js/owner/search.js"></script>
-	
+
 </head>
 
 <body>
@@ -85,13 +87,14 @@
 				<!-- col-12 col-sm-10 -->
 			</div>
 			<!-- row1 -->
-			
-											    <%-- footer --%>
-    <%@include file="../partial/footer.jsp" %>
+
+			<%-- footer --%>
+			<%@include file="../partial/footer.jsp"%>
 		</div>
 		<!-- /.container-fluid -->
 	</div>
 	<!-- container-fluid px-0 -->
+
 </body>
 
 </html>
