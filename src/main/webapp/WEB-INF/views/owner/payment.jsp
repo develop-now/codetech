@@ -41,7 +41,7 @@
 		<div class="order"></div>
 				<input type="hidden" id="cartTh" name="cartTh"
 			value="${cartTh}">
-		<div class="order"></div>
+		<div class="order" style="display:none"></div>
 	</form>
 	<input type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}">

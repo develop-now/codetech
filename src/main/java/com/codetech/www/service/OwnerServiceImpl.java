@@ -102,13 +102,13 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 	@Override
-	public List<User> getAdmin(int user_id) {
+	public User getAdmin(int user_id) {
 		return udao.getAdmin(user_id);
 
 	}
 
 	@Override
-	public List<UserInfo> getAdminInfo(int user_id) {
+	public UserInfo getAdminInfo(int user_id) {
 		return udao.getAdminInfo(user_id);
 	}
 
@@ -180,6 +180,11 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public int delCartList(int menu_id) {
 		return mdao.delCartList(menu_id);
+	}
+
+	@Override
+	public int revoke(int user_id) {
+		return udao.revoke(user_id);
 	}
 
 }

@@ -27,12 +27,8 @@
  <!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
-            <div id="sideNav" class="col-12 col-sm-2">
-                <a href="owner/manage">관리자 관리</a>
-                <a href="#">방문자 관리</a>
-                <a href="owner/chatM">매출 　관리</a>
-                <a href="#">제휴　 관리</a>
-            </div>
+            <%@include file="owner-nav.jsp"%>
+
             <div class="col-12 col-sm-10">
                 <p>User Main Content</p>
             </div>

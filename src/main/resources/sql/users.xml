@@ -187,4 +187,8 @@
     select * from users where user_id = #{user_id}
     </select>
     
+    <update id="revoke" parameterType="int">
+    update users users set role_id = 5 where user_id = #{user_id}
+    </update>
+    
 </mapper>
