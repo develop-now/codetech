@@ -36,4 +36,6 @@ public interface OrderService {
     public int deleteOrder();
 
 	public void insertPoint(Point point);
+
+	public List<DetailMenuJoin> getOrderDetailsWithStoreName(int order_id);
 }

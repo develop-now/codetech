@@ -74,7 +74,7 @@
 		                					<td>&#8722;${list.point_value}p</td>
 		                				</c:if>
 		                				<td ><span class="pointList__table-body--btn">
-		                					<a href="?order_id=${list.order_id}">결제내역</a>
+		                					<a href='../user/orderDetail?order_id=${list.order_id}'>주문상세</a>
 		                					</span></td>
 		                			</tr>
 		                		</c:forEach>

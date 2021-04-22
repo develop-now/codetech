@@ -13,6 +13,7 @@
 <html>
 <head>
 
+
     <title>order-main</title>
     <!-- 가게에서 주문하기를 클릭하면 이곳으로 이동됨, (toggle에서 필요하지 않음. sidenav에서 주문하기를 클릭하면 다시 가게 리스트찾는 페이지로 돌아감
         메뉴 + 를 하면 메뉴에 옵션선택이 가능한 modal이 출력됨. 추가하기 하면 화면의 right bar에서 추가한 아이템들이 보여짐(이때 테이블에 저장은 아니고 잠시 저장될 곳이 어디인지
@@ -27,26 +28,19 @@
           href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
 </head>
 <body>
-
 <div class="container-fluid px-0">
     <%-- main nav --%>
     <%@include file="../partial/nav.jsp" %>
-
     <%-- info Modal --%>
     <%@include file="../partial/infoModal.jsp" %>
-
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
-
-
     <!-- Page Content -->
-
     <div class="container-fluid">
         <div class="row">
             <%@include file="user-nav-mypage.jsp" %>
             <form action="${pageContext.request.contextPath}/owner/pay"
                   method="get">
-
                 <!-- searchbar -->
                 <div class="topnav">
                     <a class="active" href="${pageContext.request.contextPath}/user/orderMain?store_id=${store_id}">메
@@ -54,7 +48,6 @@
                     <a href="javascript:void(0);" class='storeReview-btn'>리뷰보기</a>
                 </div>
                 <div class="col-12 col-sm-10">
-
                     <div class="order">
                         <div class="storeInfoView">
                             <div class="storeName">
@@ -67,9 +60,7 @@
                                 &nbsp;${store.store_address_gu }&nbsp;${store.store_address_dong }&nbsp;${store.store_address_etc }
                             </div>
                         </div>
-
                         <div class="menuView">
-
                             <div class="topMenu">
                                 <input type="hidden" id="menuCount" value="${menuCount }">
                                 <br>
@@ -90,12 +81,9 @@
                                                                                          value="${topMenu.menu_id }">
                                             <span
                                                     id="menuNameA${status.count}">${topMenu.menu_name }</span>
-
                                         </div>
                                         &nbsp;&nbsp;
-
                                         <div class="basketprice">
-
                                             <input type="hidden" name="p_price"
                                                    id="p_price${status.count}" class="p_price"
                                                    value="${topMenu.menu_price }">
@@ -116,7 +104,6 @@
                                                     class="fas fa-arrow-alt-circle-down down"></i></span>
                                             </div> <!-- updown -->
                                         </div> <!-- num -->
-
                                     </div>
                                     <!-- topMenus -->
                                     <br>
@@ -137,32 +124,27 @@
                                     커피<br>
                                     <c:set var="coffee" value="${coffee + 1}"/>
                                     </c:when>
-
                                     <c:when test="${allMenu.category_id == 4 && dessert == 0 }">
                                     <div class="dessert">
                                         디저트<br>
                                         <c:set var="dessert" value="${dessert + 1}"/>
                                         </c:when>
-
                                         <c:when test="${allMenu.category_id == 3 && japanese == 0}">
                                         <div class="japanese">
                                             일식<br>
                                             <c:set var="japanese" value="${japanese + 1}"/>
                                             </c:when>
-
                                             <c:when test="${allMenu.category_id == 2 && korean == 0}">
                                             <div class="korean">
                                                 한식<br>
                                                 <c:set var="korean" value="${korean + 1}"/>
                                                 </c:when>
-
                                                 <c:when test="${allMenu.category_id == 1 && western == 0}">
                                                 <div class="western">
                                                     양식<br>
                                                     <c:set var="western" value="${western + 1}"/>
                                                     </c:when>
                                                     </c:choose>
-
                                                     <img class="card-img-heart"
                                                          src="${pageContext.request.contextPath}/resources/upload/${allMenu.menu_saved_image}"
                                                          width="100" height="100" alt="">
@@ -172,7 +154,6 @@
                                                            value="${allMenu.menu_name }">
                                                     <input type="hidden" name="m_numA" id="m_numA${status.count}"
                                                            class="m_numA" value="${allMenu.menu_id }">
-
                                                     <div class="basketprice">
                                                         <input type="hidden" name="p_priceA"
                                                                id="p_price${status.count}" class="p_price"
@@ -194,7 +175,6 @@
                                                                     class="fas fa-arrow-alt-circle-down down"></i></span>
                                                         </div> <!-- updown -->
                                                     </div> <!-- num -->
-
                                                     <br>
                                                 </div> <!-- per categories -->
                                                 </c:forEach>
@@ -202,7 +182,6 @@
                                             <br> <br> <br>
                                         </div> <!-- menuView -->
                                         <div class="payMentView">
-
                                             <div class="bigtext right-align sumcount" id="sum_p_num"></div>
                                             <div class="bigtext right-align box blue summoney"
                                                  id="sum_p_price"></div>
@@ -227,13 +206,10 @@
             </form>
         </div>
         <!-- row -->
-
     </div>
     <!-- container-fluid-->
-
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
-
     <script>
         $(function () {
             $('form').submit(function () {
@@ -241,9 +217,7 @@
                     alert("메뉴를 선택하세요");
                     return false;
                 }
-
             })
-
             $('#forCart').click(function () {
                 $("form").attr("action", "${pageContext.request.contextPath}/user/cartRegister");
             })

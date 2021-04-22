@@ -345,8 +345,9 @@ public class OwnerController {
 	public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
 			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
 			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh,
-			@RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount,
-			 ModelAndView mv) {
+			@RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount,int cartTh, ModelAndView mv,
+      @RequestParam(value="usedPoint", defaultValue="0", required = false)int point) {
+
 		int cartStatus = 0;
 		for (int i = 0; i < m_num.length; i++) {
 			int result = ownerService.plusOrderCount(m_num[i]);
@@ -358,7 +359,7 @@ public class OwnerController {
 
 		for (int i = 0; i < m_num.length; i++) {
 			int store_id = ownerService.getStoreId(m_num[i]);
-			int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num);
+			int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num, point);
 			if (cartTh == 1) {
 				cartStatus = ownerService.delCartList(m_num[i]);
 			}

@@ -121,7 +121,7 @@
         where t.order_id = #{order_id}
     </select>
 
-
+	
     <!-- end for order controller -->
 
     <select id="ordered" resultType="order" parameterType="map">
@@ -260,7 +260,29 @@
     <insert id="insertPoint" parameterType="point">
         insert into points
         values ( (select nvl(max(point_id), 0) + 1 from points), #{point_value}, sysdate
-               , #{order_id}, #{store_id}, #{user_id}, 'get')
+               , #{order_id}, #{store_id}, #{user_id}, 
+			<choose>
+				<when test='point_type.equals("get")'>
+               'get'
+				</when>	
+				<when test='point_type.equals("use")'>
+               'use'
+				</when>		
+			</choose>               
+               
+               )
     </insert>
-
+	
+	<select id="orderDetailStoreName" parameterType="int" resultType="detail-menu-join">
+		select * 
+		from ORDER_DETAILS od
+		left join (select m.menu_id, m.menu_name, m.store_id, us.store_name
+					from MENUS m
+					left join (select store_id, store_name
+								from STORES)us
+					on m.store_id = us.store_id
+				  ) ms
+		on od.menu_id = ms.menu_id
+		where od.order_id = #{order_id}
+	</select>
 </mapper>

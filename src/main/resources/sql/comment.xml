@@ -134,19 +134,23 @@
 	
 	<select id="commentAllByStore" parameterType="map" resultType="comment">
 		select *
-		from(select rownum rnum, ci.*
-			from (select c.comment_id ,c.comment_content,c.comment_lev,c.comment_seq
+			from(select rownum rnum, ci.*
+				from(select c.comment_id ,c.comment_content,c.comment_lev,c.comment_seq
 						,c.comment_ref,c.created_at,c.comment_writer,c.comment_store,c.comment_status
 						,i.comment_writer_value
-					from (select * 
+					from (
+							select * 
 							from comments 
-							where comment_store = #{store_id} 
-							order by comment_ref desc , comment_lev)c
+							where comment_store = #{store_id}
+							
+							)c
 					left join (select user_id as comment_writer, user_name as comment_writer_value
 								from USER_INFO)i
-					on c.comment_writer = i.comment_writer)ci
-			)
-		where rnum between #{start} and #{end}
+					on c.comment_writer = i.comment_writer
+					order by c.comment_ref desc , c.comment_lev
+					) ci
+				)
+				where rnum between #{start} and #{end}
 	</select>
 	
 	<insert id="addCommentByUser" parameterType="comment">

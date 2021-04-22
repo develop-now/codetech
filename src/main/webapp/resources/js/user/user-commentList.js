@@ -54,6 +54,12 @@ function getUserCommentList(currentPage){
 		error:function(){
 			console.log("comment-list-by-user-ajax ERROR")
 		}
+	})//ajax end
+	$(".mypageReview-content").on("click","#orderDetail",function(){
+		var order_id= $(this).next().next().val();
+		var quary = "order_id="+order_id;
+		location.href="../user/orderDetail?"+quary;
+		console.log(order_id);
 	})
 }
 

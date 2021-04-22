@@ -115,5 +115,9 @@ public class OrderDAO {
 		return sqlSession.insert("Orders.orderDetail", map);
 	}
 
+	public List<DetailMenuJoin> getOrderDetailsWithStoreName(int order_id) {
+		return sqlSession.selectList("Orders.orderDetailStoreName",order_id);
+	}
+
 
 }
