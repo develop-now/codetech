@@ -35,11 +35,12 @@
 				value="${list.menu_id }" name="m_num">
 			<input type="hidden" name="p_price" id="p_price${status.count}"
 				class="p_price" value="${list.menu_price}">
-			<input type="hidden" name="store_id" id="store_id${status.count}"
-				class="store_id" value="${list.store_id}">
 		</c:forEach>
 		<input type="hidden" id="url"
 			value="${pageContext.request.contextPath}">
+		<div class="order"></div>
+				<input type="hidden" id="cartTh" name="cartTh"
+			value="${cartTh}">
 		<div class="order"></div>
 	</form>
 	<input type="hidden" name="${_csrf.parameterName}"
@@ -84,14 +85,24 @@
 					console.log(data);
 
 					//위의 rsp.paid_amount와 data.response.amount를 비교한 후 로직 실행(import 서버검증)
+					console.log("test1");
 					if (rsp.paid_amount == data.response.amount) {
+						console.log("test2");
 						//alert("결제 및 결제검증완료");
-						//location.href = "owner/payment_complete"
 						$('#test').submit();
 					} else {
-						//alert("결제 실패");
+						alert("결제 실패");
+						
+						location.href="${pageContext.request.contextPath}/home";
 					}
-				});
+				})
+				.fail(function(request, status, error) {
+					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+
+					location.href="${pageContext.request.contextPath}/home";
+
+				})
+				
 			});
 		})
 	</script>

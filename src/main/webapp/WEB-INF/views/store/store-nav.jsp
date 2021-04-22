@@ -55,6 +55,10 @@
                 <a href="<c:url value="/store/store-comment"/>"
                    class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">가게 리뷰</a>
             </li>
+                        <li class="nav-item">
+                <a href="<c:url value="/owner/chatS"/>"
+                   class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">운영자 채팅</a>
+            </li>
         </sec:authorize>
     </ul>
 </div>

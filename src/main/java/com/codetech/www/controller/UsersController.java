@@ -636,9 +636,10 @@ public class UsersController {
         List<Cart> cart = usersService.getCart(user_id);
         List<Menu> menu = usersService.getMenuForCart(user_id);
         List<Store> store = usersService.getStoreForCart(user_id);
-        int amount = usersService.getAmount(user_id);
-        int totalPrice = usersService.getTotalPrice(user_id);
+        Integer amount = usersService.getAmount(user_id);
+        Integer totalPrice = usersService.getTotalPrice(user_id);
 
+        if(cart != null) {
         mv.setViewName("user/order-cart");
         mv.addObject("store", store);
         mv.addObject("menu", menu);
@@ -646,6 +647,10 @@ public class UsersController {
         mv.addObject("amount", amount);
         mv.addObject("totalPrice", totalPrice);
         return mv;
+        } else {
+            mv.setViewName("user");
+        }
+        return null;
     }
 
 

@@ -6,15 +6,7 @@ public class MiniCart {
 	private int orderAmount;
 	private int menu_id;
 	private int menu_price;
-	private int store_id;
 
-	public int getStore_id() {
-		return store_id;
-	}
-
-	public void setStore_id(int store_id) {
-		this.store_id = store_id;
-	}
 
 	public int getMenu_id() {
 		return menu_id;

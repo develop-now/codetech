@@ -177,4 +177,9 @@ public class OwnerServiceImpl implements OwnerService {
 		return rtn;
 	}
 
+	@Override
+	public int delCartList(int menu_id) {
+		return mdao.delCartList(menu_id);
+	}
+
 }

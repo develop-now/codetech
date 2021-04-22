@@ -138,6 +138,8 @@
 							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
 							 <br> <br> <input
 							type="hidden" name="user_id" value="${user_id}"> 
+							<input
+							type="hidden" name="cartTh" value="1"> 
 							</form>
 							</div>
 					</div>

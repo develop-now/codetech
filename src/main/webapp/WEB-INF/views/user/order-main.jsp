@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 
 </head>
 <body>
@@ -45,7 +46,7 @@
 			<div class="row">
 				<%@include file="user-nav-mypage.jsp"%>
 				<form action="${pageContext.request.contextPath}/owner/pay"
-					method="post">
+					method="get">
 					
 							<!-- searchbar -->
 		<div class="topnav">

@@ -27,7 +27,7 @@
 			<sec:authorize access="isAuthenticated()">
 			<li class="nav-item"><a class="nav-link text-right" href="#"
 				data-toggle="modal" data-target="#reportModal"><img class="card-img-heart"
-									src="${pageContext.request.contextPath}/resources/upload/siren.png"
+									src="${pageContext.request.contextPath}/resources/image/common/siren.png"
 									width="30" height="30" alt=""></a></li>
 									
 				<sec:authentication property="principal" var="pinfo" />

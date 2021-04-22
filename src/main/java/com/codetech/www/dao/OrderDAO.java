@@ -91,11 +91,11 @@ public class OrderDAO {
         return sqlSession.selectList("Orders.storeList", user_id);
     }
 
-    public int getAmount(int user_id) {
+    public Integer getAmount(int user_id) {
         return sqlSession.selectOne("Orders.getAmount", user_id);
     }
 
-    public int getTotalPrice(int user_id) {
+    public Integer getTotalPrice(int user_id) {
         return sqlSession.selectOne("Orders.getTotalPrice", user_id);
     }
 
@@ -114,5 +114,6 @@ public class OrderDAO {
 	public int orderDetail(HashMap<String, Integer> map) {
 		return sqlSession.insert("Orders.orderDetail", map);
 	}
+
 
 }
