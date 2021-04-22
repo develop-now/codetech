@@ -54,6 +54,9 @@
 								<div class="mypageReview__content-left">
 									<div>
 										<span>${store.store_name }</span>
+										<input type="hidden" name="store_id"
+											id="store_id${status.count}" class="store_id"
+											value="${store.store_id }">
 									</div>
 									<div class="mypageReview__content-left--img">
 										<img
@@ -80,6 +83,9 @@
 										<input type="hidden" name="o_menu"
 											id="o_menu${status.count}" class="o_menu"
 											value="${menu[status.index].menu_name }">
+											<input type="hidden" name="m_num"
+											id="m_num${status.count}" class="m_num"
+											value="${cart[status.index].menu_id}">
 										<fmt:formatNumber value="${menu[status.index].menu_price }"
 											pattern="###,###,###" />
 									</div>
@@ -132,6 +138,8 @@
 							<button type="submit" class="w3-button w3-khaki" id="pay">결제하기</button>
 							 <br> <br> <input
 							type="hidden" name="user_id" value="${user_id}"> 
+							<input
+							type="hidden" name="cartTh" value="1"> 
 							</form>
 							</div>
 					</div>

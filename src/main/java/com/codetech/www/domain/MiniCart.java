@@ -7,6 +7,7 @@ public class MiniCart {
 	private int menu_id;
 	private int menu_price;
 
+
 	public int getMenu_id() {
 		return menu_id;
 	}

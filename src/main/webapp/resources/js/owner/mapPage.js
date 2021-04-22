@@ -1,5 +1,12 @@
 $(function() {
+	
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
 
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader(header, token);
+	});
+	
 	/* <!-- 지도를 띄우는 코드 --> */
 	var container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
 	var options = { // 지도를 생성할 때 필요한 기본 옵션

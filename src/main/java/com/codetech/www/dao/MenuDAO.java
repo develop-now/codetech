@@ -58,5 +58,9 @@ public class MenuDAO {
 		return sqlSession.selectOne("Menus.getStoreId", menu_id);
 	}
 	
+	public int delCartList(int menu_id) {
+		return sqlSession.update("Menus.delCartList", menu_id);
+	}
+
 	
 }
