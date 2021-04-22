@@ -10,7 +10,7 @@
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
 
-<c:set var="login_id" value="${id}" scope="session"/>
+<c:set var="login_id" value="${user_id}" scope="session"/>
 <c:set var="role_value" value="${role}" scope="session"/>
 
 <nav class="navbar navbar-expand-sm navbar-light" id="headerNav">
@@ -60,7 +60,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-right"
-                           href="<c:url value="/store/order-list"/>">오더확인</a>
+                           href="<c:url value="/store/order-list"/>">
+                            오더확인
+                            <span class="badge badge-danger" id="order_count_badge"></span>
+                        </a>
                     </li>
                 </sec:authorize>
 
@@ -109,3 +112,5 @@
 <jsp:include page="/WEB-INF/views/user/join.jsp"/>
 <!-- report Modal -->
 <jsp:include page="/WEB-INF/views/owner/report.jsp"/>
+<%-- order count --%>
+<jsp:include page="/WEB-INF/views/store/order-count.jsp"/>

@@ -35,6 +35,16 @@
         where store_id = #{store_id}
     </select>
 
+    <select id="newOrderCountByStore" parameterType="map" resultType="int">
+        select nvl(count(*), 0)
+        from orders o
+                 join order_status t on o.order_status = t.order_status_id
+        where store_id = #{store_id}
+          and t.status_value = 'ordered'
+          and TO_CHAR(o.created_at, 'YYYYMMDD') = #{selected_date}
+    </select>
+
+
     <select id="orderCountByStore" parameterType="int" resultType="int">
         select nvl(count(*), 0)
         from orders
