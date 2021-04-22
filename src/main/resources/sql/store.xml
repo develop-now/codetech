@@ -303,14 +303,14 @@
         from stores s
                  join (
             select *
-            from FAVORITE
+            from likes
             where user_id = #{user_id}
             order by created_at) b on s.store_id = b.store_id
     </select>
 
     <select id="favoriteCancel" resultType="int" parameterType="map">
         delete
-        from favorite
+        from likes
         where user_id = #{user_id}
           and store_id =
               #{store_id}

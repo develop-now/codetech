@@ -48,6 +48,8 @@ public interface OwnerService {
 
 	public int order(int price, int user_id, int store_id, int[] m_num, int[] p_price, int[] p_num, int point);
 
+	public int delCartList(int menu_id);
+
 
 
 

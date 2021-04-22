@@ -24,16 +24,20 @@
 	</insert>
 
 	<select id="read" resultType="menu" parameterType="int">
-		select s.store_name,
+		select
+		s.store_name,
 		m.*,
 		c.category_name,
 		mt.status_value as
 		menu_status_value
 		from menus m
 		join stores s on m.store_id = s.store_id
-		join categories c on m.category_id = c.category_id
-		join store_status st on s.store_status = st.store_status_id
-		join menu_status mt on m.menu_status = mt.menu_status_id
+		join categories c
+		on m.category_id = c.category_id
+		join store_status st on s.store_status
+		= st.store_status_id
+		join menu_status mt on m.menu_status =
+		mt.menu_status_id
 		where m.menu_id = #{menu_id}
 	</select>
 
@@ -47,42 +51,53 @@
 			menu_original_image=#{menu_original_image},
 		</if>
 		category_id=#{category_id},
-		menu_status=(select menu_status_id from menu_status where
+		menu_status=(select menu_status_id from
+		menu_status where
 		status_value=#{menu_status_value}),
 		updated_at=sysdate
 		where menu_id = #{menu_id}
 	</update>
 
 	<select id="listByOwner" resultType="menu" parameterType="int">
-		select s.store_name,
+		select
+		s.store_name,
 		m.*,
 		c.category_name,
 		mt.status_value as
 		menu_status_value
 		from menus m
 		join stores s on m.store_id = s.store_id
-		join categories c on m.category_id = c.category_id
-		join store_status st on s.store_status = st.store_status_id
-		join menu_status mt on m.menu_status = mt.menu_status_id
+		join categories c
+		on m.category_id = c.category_id
+		join store_status st on s.store_status
+		= st.store_status_id
+		join menu_status mt on m.menu_status =
+		mt.menu_status_id
 		where s.owner_id = #{owner_id}
-		and st.status_value not like '%in%'
+		and st.status_value not
+		like '%in%'
 		order by s.store_name
 		, m.menu_name
 	</select>
 
 	<select id="listByStore" resultType="menu" parameterType="int">
-		select s.store_name,
+		select
+		s.store_name,
 		m.*,
 		c.category_name,
 		mt.status_value as
 		menu_status_value
 		from menus m
 		join stores s on m.store_id = s.store_id
-		join categories c on m.category_id = c.category_id
-		join store_status st on s.store_status = st.store_status_id
-		join menu_status mt on m.menu_status = mt.menu_status_id
+		join categories c
+		on m.category_id = c.category_id
+		join store_status st on s.store_status
+		= st.store_status_id
+		join menu_status mt on m.menu_status =
+		mt.menu_status_id
 		where s.store_id = #{store_id}
-		and st.status_value not like '%in%'
+		and st.status_value not
+		like '%in%'
 		order by s.store_name
 		, m.menu_name
 	</select>
@@ -92,7 +107,8 @@
 		from menus
 		where store_id = #{store_id}
 		and rownum &lt;= 3
-		order by menu_order_count desc
+		order by
+		menu_order_count desc
 	</select>
 
 	<select id="allMenu" resultType="menu" parameterType="int">
@@ -102,7 +118,8 @@
 	</select>
 
 	<select id="menuCount" resultType="int" parameterType="int">
-		select nvl(count(*), 0)
+		select
+		nvl(count(*), 0)
 		from menus
 		where store_id = #{store_id}
 	</select>
@@ -118,11 +135,13 @@
 		=
 		<choose>
 			<when test="status_key == 'menu_read_count'">
-				(select menu_read_count from menus where menu_id = #{menu_id}) +
+				(select menu_read_count from menus where menu_id =
+				#{menu_id}) +
 				#{status_value}
 			</when>
 			<when test="status_key == 'menu_order_count'">
-				(select menu_order_count from menus where menu_id = #{menu_id}) +
+				(select menu_order_count from menus where menu_id =
+				#{menu_id}) +
 				#{status_value}
 			</when>
 			<when test="status_key == 'menu_status'">#{status_value}</when>
@@ -131,11 +150,17 @@
 	</update>
 
 	<update id="plusOrderCount" parameterType="int">
-		update menus set menu_order_count = menu_order_count + 1 where menu_id =
+		update menus set
+		menu_order_count = menu_order_count + 1 where menu_id =
 		#{menu_id}
 	</update>
 
 	<select id="getStoreId" parameterType="int" resultType="int">
-		select store_id from menus where menu_id = #{menu_id}
+		select
+		store_id from menus where menu_id = #{menu_id}
 	</select>
+
+	<update id="delCartList" parameterType="int">
+		update carts set cart_status = 1 where menu_id = #{menu_id}
+	</update>
 </mapper>

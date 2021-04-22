@@ -59,9 +59,9 @@ public interface UsersService {
 
 	List<Store> getStoreForCart(int user_id);
 
-	int getAmount(int user_id);
+	Integer getAmount(int user_id);
 
-	int getTotalPrice(int user_id);
+	Integer getTotalPrice(int user_id);
 
 	int cartDel(int cart_id);
 

@@ -71,7 +71,7 @@ let basket = {
 			dataType : "json",
 			success : function(rdata) {
 				if(rdata == 1) {
-				$("#cart_num"+$(".cart_id").val()).remove();
+				$("#cart_num"+$(".cart_id")).remove();
 				}
 				
 			} // success;

@@ -7,7 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <c:set var="storeNavVal" value="${storeNav}" scope="request"/>
 <c:set var="storeIdVal" value="${store_id}" scope="session"/>
@@ -54,6 +54,10 @@
             <li class="nav-item">
                 <a href="<c:url value="/store/store-comment"/>"
                    class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">가게 리뷰</a>
+            </li>
+                        <li class="nav-item">
+                <a href="<c:url value="/owner/chatS"/>"
+                   class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">운영자 채팅</a>
             </li>
         </sec:authorize>
     </ul>

@@ -10,11 +10,8 @@ $(() => {
 
     formEl = $("#searchStaffForm");
 
-    submitBtn = $("#submitBtn");
-    resetBtn = $("#resetBtn");
-
-    submitBtn.on("click", (e) => submitForm(e));
-    resetBtn.on("click", (e) => resetForm(e));
+    $("#submitBtn").on("click", (e) => submitForm(e));
+    $("#resetBtn").on("click", (e) => resetForm(e));
 
     nameInputEl = $("input:text#search_val")
     nameInputEl.on("keyup", function () {
@@ -101,7 +98,7 @@ function registerStaff(staff_id) {
             }
         },
         error: (req, status, err) => {
-            console.log("err : ", err)
+            console.log("register staff err : ", err)
         }
     })
 }
@@ -122,6 +119,7 @@ function submitForm(e) {
     if (!nameInputEl.val() && nameInputEl.data("valid") === "required") {
         nameInputEl.addClass("is-invalid")
         formIsValid = false;
+
         console.log("Required 값이 입력되지 않았습니다")
     } else {
         formIsValid = true
@@ -160,7 +158,6 @@ function submitForm(e) {
             },
             complete: () => {
                 $("input:radio[name='store_id']").each((idx, el) => {
-                    console.log("debug")
                     $(el).attr("disabled", true)
                 })
             }

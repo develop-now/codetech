@@ -33,7 +33,7 @@ $(() => {
 
 function changeStatus(store_id) {
     const confirmResult = confirm("정말로 변경하시겠습니까?")
-    const statusEl =  $(`#store_status_value_${store_id}`)
+    const statusEl = $(`#store_status_value_${store_id}`)
     const targetEl = $(`#statusSwitch_${store_id}`)
     const targetEl_val = targetEl.val();
     let changed_val = targetEl_val === "active" ? "inactive" : "active"
@@ -51,18 +51,17 @@ function changeStatus(store_id) {
 
                     statusEl
                         .text(targetEl_val === "active" ? "영업안함" : "영업중")
-                        .data("store_status_value",  changed_val)
+                        .data("store_status_value", changed_val)
 
                     targetEl.val(changed_val)
 
-                    if(changed_val === 'active'){
+                    if (changed_val === 'active') {
                         statusEl.removeClass('text-warning').addClass("text-success")
                         targetEl.next().text("비활성화하기")
-                    } else if(changed_val === 'inactive') {
+                    } else if (changed_val === 'inactive') {
                         statusEl.removeClass('text-success').addClass("text-warning")
                         targetEl.next().text("활성화하기")
                     }
-
                 }
             },
             error: (req, status, err) => {

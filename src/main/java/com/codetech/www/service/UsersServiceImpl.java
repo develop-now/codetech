@@ -244,12 +244,12 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public int getAmount(int user_id) {
+	public Integer getAmount(int user_id) {
 		return odao.getAmount(user_id);
 	}
 
 	@Override
-	public int getTotalPrice(int user_id) {
+	public Integer getTotalPrice(int user_id) {
 		return odao.getTotalPrice(user_id);
 
 	}

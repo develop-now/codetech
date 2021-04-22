@@ -10,9 +10,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>mypage-review</title>
+<title>favorite</title>
 <!--주문내역의 리뷰작성을 클릭하면 이동되며 마이페이지에서 작성됨,가게, 총주문수, 작성칸 사진삽입, 좋아요 수정아이콘 -->
 <%@include file="../partial/head.jsp"%>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 </head>
 <body>
 	<div class="container-fluid px-0">
@@ -45,7 +47,8 @@
 								<div class="card-body">
 									<h4 class="card-title">${store.store_name}</h4>
 									<p class="card-text">${store.store_address_si}&nbsp;&nbsp;${store.store_address_gu}&nbsp;&nbsp;${store.store_address_dong}</p>
-									<button class="btn btn-secondary" id="cancel">즐겨찾기 취소</button>
+									<input type="hidden" value="${store.store_id}" id="store">
+									<button class="btn btn-secondary" id="cancel" onclick="javascript:del();">즐겨찾기 취소</button>
 									<a
 										href="${pageContext.request.contextPath}/user/orderMain?store_id=${store.store_id}"
 										class="btn btn-primary">주문하러가기</a>
@@ -53,7 +56,7 @@
 							</div>
 							<br>
 							<input type="hidden" value="${user_id}" id="user">
-							<input type="hidden" value="${store.store_id}" id="store">
+							
 						</c:forEach>
 					</div>
 				</div>
@@ -66,24 +69,34 @@
 	</div>
 
 	<script>
-		$(document).on("click", "#cancel", function() {
+	
+	function del(){
+		var user_id = $("#user").val();
+		var store_id = event.target.previousElementSibling.getAttribute('value');
+		var url = $('#ab').val() + "/user/cartDel"
+		event.target.parentElement.parentElement.remove();
+		
+		$.ajax({
+			type : 'get',
+			url : "${pageContext.request.contextPath}/user/favoriteCancel",
+			data : data = {
+				"user_id" : user_id,
+				"store_id" : store_id
+			},
+			dataType : "json",
+			success : function(rdata) {
+				if (rdata == 1) {
+					$("#check" + store_id).remove();
+				}
 
-			$.ajax({
-				type : 'post',
-				url : "${pageContext.request.contextPath}/user/favoriteCancel",
-				data : data = {
-					"user_id" : $("#user").val(),
-					"store_id" : $("#store_id").val()
-				},
-				dataType : "json",
-				success : function(rdata) {
-					if (rdata == 1) {
-						$("#check" + $("#store_id").val()).remove();
-					}
+			} // success;
+		}) // ajax
+	}
+		//$(document).on("click", "#cancel", function() {
+//$('#cancel').click(function() {
+	
 
-				} // success;
-			}) // ajax
-		});
+		
 	</script>
 
 </body>
