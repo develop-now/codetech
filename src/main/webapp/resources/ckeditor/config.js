@@ -37,4 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 	
 	config.filebrowserUploadUrl = '/www/admin/noticeImage?type=Files'
+		
+	config.height = '400px';
+	config.resize_enabled = false;
 };
