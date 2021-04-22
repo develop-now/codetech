@@ -102,7 +102,7 @@
 	</select>
 
 	<select id="menuCount" resultType="int" parameterType="int">
-		select count(*)
+		select nvl(count(*), 0)
 		from menus
 		where store_id = #{store_id}
 	</select>

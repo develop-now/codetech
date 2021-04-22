@@ -28,12 +28,12 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
-    
+    @Autowired
     private OrderDAO order_dao;
 
     @Autowired
     private MenuDAO menu_dao;
-    
+
     @Autowired
     private UsersDAO u_dao;
 
@@ -165,25 +165,25 @@ public class OrderServiceImpl implements OrderService {
         return 0;
     }
 
-	@Override
-	public void insertPoint(Point point) {
-		int result = order_dao.insertPoint(point);
-		if(result == 1) {
-			int user_id = point.getUser_id();
-			UserPlusInfo ui = u_dao.user_total_info(user_id);
-			int prev_point = ui.getPoint();
-			int total_point = prev_point + point.getPoint_value();
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("user_id", user_id);
-			map.put("point", total_point);
-			int pointUpdateResult = u_dao.updatePoint(map);
-			if(pointUpdateResult == 1) {
-				logger.info("user_info의 point update 실패"); //실패시 내역 삭제로 보완하기
-			}else {
-				logger.info("user_info의 point update 성공");
-			}
-		}else {
-			logger.info("points의 point 내역 insert 실패");
-		}
-	}
+    @Override
+    public void insertPoint(Point point) {
+        int result = order_dao.insertPoint(point);
+        if (result == 1) {
+            int user_id = point.getUser_id();
+            UserPlusInfo ui = u_dao.user_total_info(user_id);
+            int prev_point = ui.getPoint();
+            int total_point = prev_point + point.getPoint_value();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("user_id", user_id);
+            map.put("point", total_point);
+            int pointUpdateResult = u_dao.updatePoint(map);
+            if (pointUpdateResult == 1) {
+                logger.info("user_info의 point update 실패"); //실패시 내역 삭제로 보완하기
+            } else {
+                logger.info("user_info의 point update 성공");
+            }
+        } else {
+            logger.info("points의 point 내역 insert 실패");
+        }
+    }
 }
