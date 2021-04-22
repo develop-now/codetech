@@ -23,14 +23,38 @@
 	}
 	
 	.notice_select_list {
-		background: white;
 		text-align: center;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr;
 		margin: 30px 0px;
-		border-top: 1px solid #4e3418;
+		color: #737373;
+		background: #fafafa
+	}
+	
+	.noticeAll {
+		border-top: 1px solid #e2e2d0;
+		border-left: 1px solid #e2e2d0;
 		border-bottom: 1px solid #C3C3D1;
-		
+	}
+	
+	.noticeNotice {
+		border-top: 7px solid #392714;
+		border-left: 1px solid #392714;
+		border-right: 1px solid #392714;
+		color: #392714;
+		background: white;
+	}
+	
+	.noticeEvent {
+		border-top: 1px solid #e2e2d0;
+		border-right: 1px solid #e2e2d0;
+		border-bottom: 1px solid #C3C3D1;
+	}
+	
+	.noticeCheck {
+		border-top: 1px solid #e2e2d0;
+		border-right: 1px solid #e2e2d0;
+		border-bottom: 1px solid #C3C3D1;
 	}
 	
 	.notice_select_list > div{
@@ -38,12 +62,11 @@
 	}
 	
 	.noticeAll:hover {
-		background: #F2F2F8; 
+	background: #F2F2F8;
 		cursor: pointer
 	}
 	
-	.noticeNews:hover {
-		background: #F2F2F8;
+	.noticeNotice:hover {	
 		cursor: pointer
 	}
 	
@@ -75,6 +98,8 @@
 	
 </style>
 <script>
+	console.log($("input[name='notice_status']").val());
+
 	var result = "${result}";
 	
 	if (result == 'deleteSuccess') {
@@ -99,7 +124,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-sm-10">
-	            <form action="noticeList">
+	            <form action="noticeNotice">
 	            	<div class="notice_head">
 	            		<div><h3 class="notice_h3">공지 사항</h3></div>
 	            		<div></div>
@@ -109,15 +134,15 @@
 	            			<input type="text" name="search_text" value="${search_word}"
 	            					style="width: 250px; margin: 5px; border: none">
 	            					
-	            			<input type="hidden" name="notice_status" value="${notice_status}"/>
+	            			<input type="hidden" name="notice_status" value="0"/>
 	            		</div>
 	            	</div>
 	            	
 	            	<div class="notice_select_list">
-	            		<div class="noticeAll" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList';">전체</div>
-	            		<div class="noticeNews" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=0';">공지사항</div>
-	            		<div class="noticeEvent" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=1';">이벤트</div>
-	            		<div class="noticeCheck" onclick="location.href='${pageContext.request.contextPath}/admin/noticeList?notice_status=2';">점검</div>
+	            		<div class="noticeAll" onclick="location.href='${pageContext.request.contextPath}/admin/noticeAll';">전체</div>
+	            		<div class="noticeNotice" onclick="location.href='${pageContext.request.contextPath}/admin/noticeNotice';">공지사항</div>
+	            		<div class="noticeEvent" onclick="location.href='${pageContext.request.contextPath}/admin/noticeEvent';">이벤트</div>
+	            		<div class="noticeCheck" onclick="location.href='${pageContext.request.contextPath}/admin/noticeCheck';">점검</div>
 	            	</div>
 	            	
 					<table class="notice_list_grid">
@@ -155,7 +180,7 @@
 			
 			            <c:if test="${page > 1}">
 			                  <li class="page-item"><a
-			                     href="noticeList?page=${page-1}&search_word=${search_text}&notice_status=${notice.notice_status}"
+			                     href="noticeNotice?page=${page-1}&search_word=${search_text}&notice_status=${notice.notice_status}"
 			                     class="page-link">이전</a>&nbsp;
 			                  </li>
 			            </c:if>
@@ -168,7 +193,7 @@
 			
 			                  <c:if test="${a != page }">
 			                     <li class="page-item"><a
-			                        href="noticeList?page=${a}&search_word=${search_text}&notice_status=${notice.notice_status}"
+			                        href="noticeNotice?page=${a}&search_word=${search_text}&notice_status=${notice.notice_status}"
 			                        class="page-link">${a}</a>
 			                     </li>
 			                  </c:if>
@@ -181,7 +206,7 @@
 			
 			            <c:if test="${page < maxpage }">
 			                  <li class="page-item"><a
-			                     href="noticeList?page=${page+1}&search_word=${search_text}&check_state=${check_state}"
+			                     href="noticeNotice?page=${page+1}&search_word=${search_text}&check_state=${check_state}"
 			                     class="page-link">&nbsp;다음</a>
 			                  </li>
 						</c:if>

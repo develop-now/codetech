@@ -7,10 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -18,7 +15,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
@@ -284,11 +281,11 @@ public class AdminController {
 		}
 	}
 
-	@RequestMapping(value = "/noticeList", method = RequestMethod.GET)
-	public ModelAndView noticeList(@RequestParam(value = "page", defaultValue = "1", required = false) int page,
-			ModelAndView mv, @RequestParam(value = "notice_status", defaultValue = "-1") int index,
-			@RequestParam(value = "search_text", defaultValue = "") String search_text) {
-		logger.info("div 영역 눌러서 넘어온 값: " + index);
+	@RequestMapping(value = "/noticeAll", method = RequestMethod.GET)
+	public ModelAndView noticeList
+			(@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv,
+			 @RequestParam(value = "notice_status", defaultValue = "-1") int index,
+			 @RequestParam(value = "search_text", defaultValue = "") String search_text) {
 		int limit = 10; // 한 화면에 출력할 레코드 갯수
 
 		int listcount = adminService.getNoticeListCount(search_text, index); // 샐랙트 구문을 통해 리스트 값을 가져옴
@@ -306,7 +303,7 @@ public class AdminController {
 		if (endpage > maxpage)
 			endpage = maxpage;
 
-		mv.setViewName("admin/notice-list");
+		mv.setViewName("admin/notice-all");
 
 		mv.addObject("limit", limit);
 		mv.addObject("page", page);
@@ -321,6 +318,115 @@ public class AdminController {
 		return mv;
 	}
 
+	@RequestMapping(value = "/noticeNotice", method = RequestMethod.GET)
+	public ModelAndView noticeNotice
+			(@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv, 
+			 @RequestParam(value = "notice_status", defaultValue = "0") int index,
+			 @RequestParam(value = "search_text", defaultValue = "") String search_text) {
+		int limit = 10; // 한 화면에 출력할 레코드 갯수
+
+		int listcount = adminService.getNoticeListCount(search_text, index); // 샐랙트 구문을 통해 리스트 값을 가져옴
+		List<Notice> noticelist = adminService.getNoticeList(search_text, index, page, limit); // 리스트를 받아온다.
+
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/notice-notice");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("noticelist", noticelist);
+		mv.addObject("listcount", listcount);
+
+		return mv;
+	}
+	
+	@RequestMapping(value = "/noticeEvent", method = RequestMethod.GET)
+	public ModelAndView noticeEvent(@RequestParam(value = "page", defaultValue = "1", required = false) int page, ModelAndView mv, 
+			@RequestParam(value = "notice_status", defaultValue = "1") int index,
+			@RequestParam(value = "search_text", defaultValue = "") String search_text) {
+		int limit = 10; // 한 화면에 출력할 레코드 갯수
+
+		int listcount = adminService.getNoticeListCount(search_text, index); // 샐랙트 구문을 통해 리스트 값을 가져옴
+		List<Notice> noticelist = adminService.getNoticeList(search_text, index, page, limit); // 리스트를 받아온다.
+
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/notice-event");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("noticelist", noticelist);
+		mv.addObject("listcount", listcount);
+
+		return mv;
+	}
+	
+	@RequestMapping(value = "/noticeCheck", method = RequestMethod.GET)
+	public ModelAndView noticeCheck(@RequestParam(value = "page", defaultValue = "1", required = false) int page,
+			ModelAndView mv, @RequestParam(value = "notice_status", defaultValue = "2") int index,
+			@RequestParam(value = "search_text", defaultValue = "") String search_text) {
+		int limit = 10; // 한 화면에 출력할 레코드 갯수
+
+		int listcount = adminService.getNoticeListCount(search_text, index); // 샐랙트 구문을 통해 리스트 값을 가져옴
+		List<Notice> noticelist = adminService.getNoticeList(search_text, index, page, limit); // 리스트를 받아온다.
+
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/notice-check");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("noticelist", noticelist);
+		mv.addObject("listcount", listcount);
+
+		return mv;
+	}
+	
 	@RequestMapping(value = "/noticeWrite", method = RequestMethod.GET)
 	public String noticeWrite() throws Exception {
 		return "admin/notice-write";
@@ -430,7 +536,6 @@ public class AdminController {
 	@RequestMapping(value = "/noticeImage")
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest multiFile, @RequestParam MultipartFile upload) throws Exception {
-		logger.info("노티스 이미지 입니다.");
 		System.out.println(upload);
 		
 		// 랜덤 문자 생성
@@ -469,7 +574,6 @@ public class AdminController {
 			out.write(bytes);
 			out.flush(); // outputStram에 저장된 데이터를 전송하고 초기화
 
-			String callback = request.getParameter("CKEditorFuncNum");
 			printWriter = response.getWriter();
 			String fileUrl = "/www/admin/noticeImageSub?uid=" + uid + "&fileName=" + fileName; // 작성화면
 
@@ -499,7 +603,6 @@ public class AdminController {
 	public void ckSubmit(@RequestParam(value = "uid") String uid,
 						 @RequestParam(value = "fileName") String fileName,
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		// 서버에 저장된 이미지 경로
 		String path = saveFolder + "upImage/";
 
@@ -540,5 +643,62 @@ public class AdminController {
 				out.close();
 			}
 		}
+	}
+	
+//	@RequestMapping(value = "/reportUser", method = RequestMethod.GET)
+//	public String reportUser() {
+//		return "admin/report-user";
+//	}
+	
+	@RequestMapping(value = "/reportUser", method = RequestMethod.GET)
+	public ModelAndView reportUser(
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page,
+			@RequestParam(value = "select_field", defaultValue = "-1") int index,
+			@RequestParam(value = "search_text", defaultValue = "") String search_text, ModelAndView mv) {
+		logger.info("--------------------- 유저 리포트 리스트 ---------------------");
+		logger.info("검색 조건: " + index + " 검색어: " + search_text);
+		logger.info("-------------------------------------------------------");
+		
+		List<ReportUserList> RUL = null;
+		
+		int limit = 10;
+		
+		int listcount = adminService.getRULcount(index, search_text);
+				  RUL = adminService.getRUL(index, search_text, page, limit);
+				  
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/report-user");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("listcount", listcount);
+		mv.addObject("ReportUserList", RUL);
+		return mv;
+	}
+	
+	@RequestMapping(value = "/reportStore", method = RequestMethod.GET)
+	public String reportStore() {
+		return "admin/report-store";
+	}
+	
+	@RequestMapping(value = "/reportComment", method = RequestMethod.GET)
+	public String reportComment() {
+		return "admin/report-comment";
 	}
 }

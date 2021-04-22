@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -38,4 +39,7 @@ public interface AdminService {
 	public int modifyAction(Notice noticeModify);
 	
 	public int noticeDelete(int notice_id);
+	
+	public int getRULcount(int index, String search_text);
+	public List<ReportUserList> getRUL(int index, String search_text, int page, int limit);
 }

@@ -154,7 +154,7 @@
 		    				<button type="button" name="go-modify" id="go-modify" class="go-modify"
 		    					onClick="location.href='${pageContext.request.contextPath}/admin/noticeModify?notice_id=${noticeView.notice_id}';">수정</button>
 		    				<button type="button" name="go-list" id="go-list" class="go-list"
-		    					onClick="location.href='${pageContext.request.contextPath}/admin/noticeList';">목록</button>
+		    					onClick="location.href='${pageContext.request.contextPath}/admin/noticeAll';">목록</button>
 		    			</div>
 		    		</div>
 		    		
