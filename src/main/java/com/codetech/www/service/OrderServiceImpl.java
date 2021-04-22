@@ -19,9 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -109,6 +110,21 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return order_dao.getOrderListAjax(param);
+    }
+
+    @Override
+    public int getNewOrderCountByStore(int store_id) {
+        Map<String, Object> param = new HashMap<>();
+
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+
+        String today = df.format(date);
+
+        param.put("store_id", store_id);
+        param.put("selected_date", today);
+
+        return order_dao.getNewOrderCountByStore(param);
     }
 
     @Override
