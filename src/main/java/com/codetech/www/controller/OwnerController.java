@@ -291,7 +291,7 @@ public class OwnerController {
 		}
 
 		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
-		String newtotalPrice = totalPrice.replace("%", "").replace("2", "").replace("C", "").replace(",", "");
+		String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
 		mv.addObject("amount", amount);
 		mv.addObject("list", list);
 		mv.addObject("newtotalPrice", newtotalPrice);
@@ -302,7 +302,7 @@ public class OwnerController {
 	}
 
 	@RequestMapping(value = "/payCart")
-	public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num,
+	public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "m_num") int[] m_num,
 			@RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
 			@RequestParam(value = "cart_id") int[] cart_id, int user_id, String totalPrice, int amount,
 			ModelAndView mv) {
@@ -317,6 +317,8 @@ public class OwnerController {
 			MiniCart cart = new MiniCart();
 			cart.setMenuName(o_menu[i]);
 			cart.setOrderAmount(p_num[i]);
+			cart.setMenu_price(p_price[i]);
+			cart.setMenu_id(m_num[i]);
 			list.add(cart);
 		}
 
@@ -351,13 +353,15 @@ public class OwnerController {
 			}
 		}
 		
-		int store_id = ownerService.getStoreId(m_num[0]);
+		for(int i = 0; i < m_num.length; i++) {
+		int store_id = ownerService.getStoreId(m_num[i]);
 		int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num);
 		if(order == 1) {
 			logger.info("order + detail 성공");
 		}
+		}
 		
-		mv.setViewName("user/orderView?user_id="+user_id);
+		mv.setViewName("home");
 		return mv;
 	}
 
