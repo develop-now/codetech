@@ -2,7 +2,6 @@ let owner_id_val;
 let textEls;
 let menuImgEl;
 
-let submitBtn;
 let resetBtn;
 let formEl;
 let alertModal;
@@ -14,10 +13,9 @@ $(() => {
     alertModal = $("#alertModal")
 
     formEl = $("#createMenuForm");
-    submitBtn = $("#submitBtn");
     resetBtn = $("#resetBtn");
 
-    submitBtn.on("click", (e) => submitForm(e));
+    $("#submitBtn").on("click", (e) => submitForm(e));
     resetBtn.on("click", (e) => resetForm(e));
 
     textEls = $("input:text, textarea");
@@ -142,6 +140,7 @@ function submitForm(e) {
         if (!$(el).val() && $(el).data("valid") === "required") {
             $(el).addClass("is-invalid")
             formIsValid = false;
+
             console.log("Required 값이 입력되지 않았습니다")
         }
     })
@@ -165,6 +164,7 @@ function submitForm(e) {
     if (!menuImgVal) {
         $("#menu_image").addClass("is-invalid")
         formIsValid = false;
+
         console.log("메뉴 이미지가 입력되지 않았습니다")
     }
 

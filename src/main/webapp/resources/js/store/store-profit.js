@@ -15,7 +15,7 @@ let total_count_val = [
 $(() => {
     let dateEl = $("#profitCurrentDate")
     dateEl.attr("placeholder", moment().add(-1, "day").format("YYYY/MM/DD"));
-    date_val = moment().format("YYYYMMDD")
+    date_val = moment().add(-1, "day").format("YYYYMMDD")
 
     $("#profitDateSelectBtn").bootstrapMaterialDatePicker({
         format: 'YYYY/MM/DD',
@@ -28,9 +28,9 @@ $(() => {
         nowText: "오늘",
         cancelText: "닫기",
         okText: "선택"
-    }).on("change", (e, val) => {
-        dateEl.val(val.format("YYYY/MM/DD"))
-        date_val = val.format("YYYYMMDD")
+    }).on("change", (e, momentObj) => {
+        dateEl.val(momentObj.format("YYYY/MM/DD"))
+        date_val = momentObj.format("YYYYMMDD")
 
         ajaxCall();
     })
@@ -93,9 +93,6 @@ function makeEmptyProfitChart() {
 }
 
 function ajaxCall() {
-    console.log({store_id_val})
-    console.log({date_val})
-
     $.ajax({
         method: "get",
         url: "/store/profit-list-ajax",
@@ -111,6 +108,12 @@ function ajaxCall() {
         },
         error: (req, status, err) => {
             console.log("get profit list err : ", err)
+        },
+        complete: () => {
+            let startDate = moment(date_val, "YYYYMMDD").add(-3, "day").format("YYYY/MM/DD")
+            let endDate = moment(date_val, "YYYYMMDD").add(3, "day").format("YYYY/MM/DD")
+
+            $("#profit_date").text(`${startDate} ~ ${endDate}`)
         }
     })
 }

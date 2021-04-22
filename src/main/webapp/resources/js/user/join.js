@@ -11,7 +11,6 @@ function checkSpace(str) {
 function DaumPostcode() {
     new daum.Postcode({
         oncomplete: function (data) {
-
             var fullRoadAddr = data.roadAddress;
             var extraRoadAddr = '';
 
@@ -29,7 +28,6 @@ function DaumPostcode() {
             }
             $('#user_postcode').val(data.zonecode);
             $("#user_address").val(fullRoadAddr);
-
         }
     }).open();
 }

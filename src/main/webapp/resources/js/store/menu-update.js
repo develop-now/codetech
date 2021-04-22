@@ -6,8 +6,6 @@ let menuStatusVal;
 let textEls;
 let menuImgEl;
 
-let submitBtn;
-let resetBtn;
 let formEl;
 let alertModal;
 
@@ -20,11 +18,9 @@ $(() => {
     alertModal = $("#alertModal")
 
     formEl = $("#updateMenuForm");
-    submitBtn = $("#submitBtn");
-    resetBtn = $("#resetBtn");
 
-    submitBtn.on("click", (e) => submitForm(e));
-    resetBtn.on("click", (e) => resetForm(e));
+    $("#submitBtn").on("click", (e) => submitForm(e));
+    $("#resetBtn").on("click", (e) => resetForm(e));
 
     textEls = $("input:text, textarea").not("#store_name");
     textEls.each((idx, el) => {
@@ -90,7 +86,7 @@ function makeCategory(list) {
 
         clonedEl.removeClass("category_template").removeClass("d-none");
         clonedEl.find("input").prop("id", `category_id_${item.category_id}`).prop("value", item.category_id)
-            .attr("checked", category_val == item.category_name ? true : false)
+            .attr("checked", category_val === item.category_name)
             .change(() => {
                 $("input:radio[name='category_id']").removeClass("is-invalid");
                 $("#categoryCheckFeedback").css({display: "none"})
@@ -126,6 +122,7 @@ function submitForm(e) {
         if (!$(el).val() && $(el).data("valid") === "required") {
             $(el).addClass("is-invalid")
             formIsValid = false;
+
             console.log("Required 값이 입력되지 않았습니다")
         }
     })
