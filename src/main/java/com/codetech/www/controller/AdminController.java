@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.AdminService;
@@ -644,9 +645,51 @@ public class AdminController {
 		}
 	}
 	
+//	@RequestMapping(value = "/reportUser", method = RequestMethod.GET)
+//	public String reportUser() {
+//		return "admin/report-user";
+//	}
+	
 	@RequestMapping(value = "/reportUser", method = RequestMethod.GET)
-	public String reportUser() {
-		return "admin/report-user";
+	public ModelAndView reportUser(
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page,
+			@RequestParam(value = "select_field", defaultValue = "-1") int index,
+			@RequestParam(value = "search_text", defaultValue = "") String search_text, ModelAndView mv) {
+		logger.info("--------------------- 유저 리포트 리스트 ---------------------");
+		logger.info("검색 조건: " + index + " 검색어: " + search_text);
+		logger.info("-------------------------------------------------------");
+		
+		List<ReportUserList> RUL = null;
+		
+		int limit = 10;
+		
+		int listcount = adminService.getRULcount(index, search_text);
+				  RUL = adminService.getRUL(index, search_text, page, limit);
+				  
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/report-user");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("listcount", listcount);
+		mv.addObject("ReportUserList", RUL);
+		return mv;
 	}
 	
 	@RequestMapping(value = "/reportStore", method = RequestMethod.GET)

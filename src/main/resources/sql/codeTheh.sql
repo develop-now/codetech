@@ -935,6 +935,21 @@ create table user_report
     constraint fk_user_report_reported_user foreign key (reported_user) references users (user_id)
 );
 
+INSERT INTO USER_REPORT
+(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
+VALUES
+(1, '해당 테스트15 유저를 신고합니다.', '사실 구라에요', 1, 10, 15);
+
+INSERT INTO USER_REPORT
+(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
+VALUES
+(2, '해당 테스트14 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 11, 14);
+
+INSERT INTO USER_REPORT
+(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
+VALUES
+(3, '해당 테스트13 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 12, 13);
+
 drop table store_report cascade constraints;
 create table store_report
 (

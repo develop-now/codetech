@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -91,5 +92,13 @@ public class AdminDAO {
 
 	public int noticeDelete(Notice notice) {
 		return sqlSession.delete("Admin.noticeDelete", notice);
+	}
+
+	public int getRULcount(Map<String, Object> map) {
+		return sqlSession.selectOne("Admin.getRULcount", map);
+	}
+
+	public List<ReportUserList> getRUL(Map<String, Object> map) {
+		return sqlSession.selectList("Admin.getRUL", map);
 	}
 }
