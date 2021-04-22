@@ -34,7 +34,7 @@
     </insert>
 
     <select id="count" resultType="int">
-        select count(*)
+        select nvl(count(*), 0)
         from stores s
                  join
              store_status t on s.store_status = t.store_status_id
@@ -108,7 +108,7 @@
     </update>
 
     <select id="storeCustomerCount" parameterType="int" resultType="int">
-        select count(*)
+        select nvl(count(*), 0)
         from (select o.order_user as customer_id,
                      count(*)     as order_count
               from orders o

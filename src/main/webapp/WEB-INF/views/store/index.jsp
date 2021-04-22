@@ -28,7 +28,6 @@
                 });
             })
         })
-
     </script>
 </head>
 <body>
@@ -55,7 +54,7 @@
                             <div class="summary__box bg-danger text-white">
                                 <div class="row detail__container">
                                     <i class="fas fa-store dashboard__icon"></i>
-                                    <p class="ml-2">
+                                    <p class="detail__wrapper">
                                         <span id="store_count" class="detail_number counter_animation">
                                             ${store_total_count}
                                         </span>
@@ -85,7 +84,7 @@
                                     <i class="fas fa-won-sign dashboard__icon"></i>
                                     <p class="detail__wrapper">
                                         <span id="income_amount" class="detail_number counter_animation">
-<%--                                           <fmt:formatNumber type="number" value="${store_total_income}"/>--%>
+                                            <%-- <fmt:formatNumber type="number" value="${store_total_income}"/> --%>
                                             ${store_total_income}
                                         </span>
                                         <br/>

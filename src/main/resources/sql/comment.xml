@@ -5,7 +5,7 @@
 <mapper namespace="Comments">
 
     <select id="commentCountByStore" resultType="int" parameterType="map">
-        select count(*)
+        select nvl(count(*), 0)
         from comments c
         left join (select u.user_id as comment_writer,
         f.user_name as comment_writer_value,
@@ -113,7 +113,7 @@
     </select>
 	
 	<select id="commentCountByUser" resultType="int" parameterType="int">
-		select count(*)
+		select nvl(count(*), 0)
 		from comments
 		where comment_writer = #{user_id}
 	</select>
