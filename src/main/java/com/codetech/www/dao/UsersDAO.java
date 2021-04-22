@@ -50,11 +50,11 @@ public class UsersDAO {
         return sqlSession.selectList("users.managerName");
     }
 
-    public List<User> getAdmin(int user_id) {
+    public User getAdmin(int user_id) {
         return sqlSession.selectOne("users.manager", user_id);
     }
 
-    public List<UserInfo> getAdminInfo(int user_id) {
+    public UserInfo getAdminInfo(int user_id) {
         return sqlSession.selectOne("users.managerInfo", user_id);
 
     }
@@ -125,6 +125,10 @@ public class UsersDAO {
 
 	public int pointListCount(int user_id) {
 		return sqlSession.selectOne("users.pointListCount", user_id);
+	}
+
+	public int revoke(int user_id) {
+		return sqlSession.update("users.revoke", user_id);
 	}
 
 

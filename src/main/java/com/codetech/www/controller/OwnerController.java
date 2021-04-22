@@ -191,7 +191,7 @@ public class OwnerController {
 	}
 
 	// Management
-	@RequestMapping(value = "/manage")
+	@RequestMapping(value = "/manager")
 	public ModelAndView managerView(ModelAndView mv) {
 		List<UserInfo> userInfo = ownerService.getAdminList();
 		mv.setViewName("owner/managerList");
@@ -203,8 +203,8 @@ public class OwnerController {
 	// Management
 	@RequestMapping(value = "/managerDetail")
 	public ModelAndView managerView(ModelAndView mv, int user_id) {
-		List<User> user = ownerService.getAdmin(user_id);
-		List<UserInfo> userInfo = ownerService.getAdminInfo(user_id);
+		User user = ownerService.getAdmin(user_id);
+		UserInfo userInfo = ownerService.getAdminInfo(user_id);
 		mv.setViewName("owner/managerDetail");
 		mv.addObject("userInfo", userInfo);
 		mv.addObject("user", user);
@@ -344,8 +344,9 @@ public class OwnerController {
 	@RequestMapping(value = "/payment_complete")
 	public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
 			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
+			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh,
 			@RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount,
-			int cartTh, ModelAndView mv) {
+			 ModelAndView mv) {
 		int cartStatus = 0;
 		for (int i = 0; i < m_num.length; i++) {
 			int result = ownerService.plusOrderCount(m_num[i]);
@@ -369,5 +370,16 @@ public class OwnerController {
 		mv.setViewName("user/orderView?user_id="+user_id);
 		return mv;
 	}
+	
+	
+	   @ResponseBody
+	    @RequestMapping(value = "/revoke", method = RequestMethod.GET)
+	    public int revoke(int user_id) {
+	        int result = ownerService.revoke(user_id);
+	        return result;
+
+	    }
+	
+	
 
 }
