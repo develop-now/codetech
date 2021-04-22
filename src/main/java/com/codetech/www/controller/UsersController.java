@@ -34,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Cart;
 import com.codetech.www.domain.Comment;
+import com.codetech.www.domain.DetailMenuJoin;
 import com.codetech.www.domain.MailVO;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
@@ -46,6 +47,7 @@ import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
 import com.codetech.www.service.CommentService;
+import com.codetech.www.service.OrderService;
 import com.codetech.www.service.StoreService;
 import com.codetech.www.service.UsersService;
 import com.codetech.www.task.SendMail;
@@ -65,6 +67,9 @@ public class UsersController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private OrderService orderService;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -687,8 +692,17 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
-    public void orderDetail(String order_id) {
-        // 상세내역 조회 후 order-list.jsp modal로 이동
+    public ModelAndView orderDetail(int order_id, ModelAndView mv) {
+    	logger.info("orderDetail 이동완료" + order_id);
+    	int point_value = usersService.getPointValue(order_id);
+    	Order o = orderService.readOrder(order_id);
+    	List<DetailMenuJoin> dmj = orderService.getOrderDetailsWithStoreName(order_id);
+    	mv.addObject("point_value", point_value);
+    	mv.addObject("order", o);
+    	mv.addObject("detail", dmj);
+    	mv.setViewName("user/order-detail");
+    	
+    	return mv;
     }
 
 }

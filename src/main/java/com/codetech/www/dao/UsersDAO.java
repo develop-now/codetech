@@ -127,5 +127,13 @@ public class UsersDAO {
 		return sqlSession.selectOne("users.pointListCount", user_id);
 	}
 
+	public int getPointValue(int order_id) {
+		logger.info("----------------값 getPointValue======================= " + order_id);
+
+		int point = sqlSession.selectOne("users.pointValue", order_id);
+		logger.info("----------------값 가져와서 " + point);
+		return point;
+	}
+
 
 }

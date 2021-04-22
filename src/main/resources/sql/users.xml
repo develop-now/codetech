@@ -165,6 +165,12 @@
 	where rnum between #{start} and #{end}
 	</select>
 	
+	<select id="pointValue" parameterType="int" resultType="int">
+		select point_value 
+		from points 
+		where order_id = #{order_id} and point_type = 'use'
+	</select>
+	
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">
         update users

@@ -54,7 +54,8 @@
 										<button type="button" onclick="location.href='home'">가게보기</button>
 										<c:if
 											test="${orders[status.index].comment_writable eq 'false'}">
-											<button type="button" onclick="location.href='home'">리뷰작성</button>
+											<button type="button"
+												 onclick="location.href='../user/orderDetail?order_id=${orders[status.index].order_id}'">리뷰작성</button>
 										</c:if>
 										<c:if
 											test="${orders[status.index].comment_writable eq 'true'}">

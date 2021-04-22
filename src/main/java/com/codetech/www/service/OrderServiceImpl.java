@@ -186,4 +186,9 @@ public class OrderServiceImpl implements OrderService {
             logger.info("points의 point 내역 insert 실패");
         }
     }
+
+	@Override
+	public List<DetailMenuJoin> getOrderDetailsWithStoreName(int order_id) {
+		return order_dao.getOrderDetailsWithStoreName(order_id);
+	}
 }

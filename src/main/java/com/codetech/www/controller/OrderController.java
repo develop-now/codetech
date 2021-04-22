@@ -88,13 +88,10 @@ public class OrderController {
         
         /*HJE points insert start 04.21.4pm 픽업완료로 status_id = 6으로 update 성공시 points에 내역 추가*/
         if(status_id ==6 && result == 1) {
-        	//order_id에 해당하는order_user-> user_id, store_id, order_total_price을 가져온다.
         	Order order = orderService.readOrder(order_id);
-        	//order_total_price의 10%를 구한다 -> point_value
         	int order_total = Integer.parseInt(order.getOrder_total_price());
         	int point_value = order_total/10; //하나의 오더 총금액의 10%를 포인트로 산정
         	
-        	//point.java에 값을 담고 points테이블에 적용하러 간다.
         	Point point = new Point();
         	point.setPoint_value(point_value);
         	point.setOrder_id(order_id);
@@ -102,8 +99,6 @@ public class OrderController {
         	point.setUser_id(order.getOrder_user());
         	point.setPoint_type("get");
         	orderService.insertPoint(point);
-        	//dao에서 리턴값이 1일경우 point.java에 담긴 point_value를 user_info에 담고 user_info테이블을 update해준다. -- 이때 업데이트하느날짜는 사용하지 않음
-        	//userservieceimpl에서 위의 로직 처리
         	
         }
         /*HJE points insert end*/
