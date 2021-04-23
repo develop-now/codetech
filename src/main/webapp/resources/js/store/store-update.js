@@ -141,10 +141,11 @@ function numInputChangeHandler(e) {
     }
 }
 
-let formIsValid = true;
 
 function submitForm(e) {
     e.preventDefault();
+
+    let formIsValid = true;
 
     textEls.each((idx, el) => {
         if (!$(el).val() && $(el).data("valid") === "required") {

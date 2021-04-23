@@ -63,7 +63,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">내 가게*</label>
                                     <div class="col-sm-10">
-                                        <div class="d-flex align-items-center" id="store_target">
+                                        <div class="form-control border-0" id="store_target">
                                             <div class="custom-control custom-radio custom-control-inline store_template d-none">
                                                 <input type="radio" id="store" name="store_id"
                                                        class="custom-control-input">
@@ -74,6 +74,7 @@
                                             가게를 선택하세요
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="form-group row">
                                     <label for="search_val" class="col-sm-2 col-form-label">검색값*</label>
@@ -85,7 +86,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="btn-group d-flex">
+                                <div class="btn-group float-right">
                                     <button class="btn btn-success" id="submitBtn" type="submit">검색</button>
                                     <button class="btn btn-info" id="resetBtn" type="reset">초기화</button>
                                 </div>

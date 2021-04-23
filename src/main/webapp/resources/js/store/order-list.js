@@ -95,7 +95,7 @@ function makeStatusInput(data) {
         let clonedEl = templateEl.clone();
         clonedEl.removeClass("status_template");
         clonedEl.find("input").attr("id", status.status_value)
-            .attr("checked", false).val(status.order_status_id).on("change", function () {
+            .prop("checked", false).val(status.order_status_id).on("change", function () {
             status_id_val = $(this).val();
             ajaxCall()
         })
@@ -153,7 +153,7 @@ function makeEmptyTable() {
     $("#order_count").text("0");
     const target = $("#target-tbody")
     target.empty();
-    target.append("<tr><td colspan='6' class='text-warning'>해당 매장에 주문이 존재하지 않습니다</td></tr>");
+    target.append("<tr><td colspan='7' class='text-warning'>해당 매장에 주문이 존재하지 않습니다</td></tr>");
 }
 
 function makeLoadMoreBtn() {
