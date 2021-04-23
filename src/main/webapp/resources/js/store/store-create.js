@@ -13,9 +13,18 @@ let infoModal;
 let storeImgVal;
 let menuImgVal;
 
+let geocoder;
+
 $(() => {
     alertModal = $("#alertModal")
     infoModal = $("#infoModal")
+
+    geocoder = new daum.maps.services.Geocoder();
+
+    $("#findAddressBtn").on("click", (e) => {
+        e.preventDefault();
+        searchAddress()
+    })
 
     const pickerTargetEl = ["opening_h_w_open", "opening_h_w_close", "opening_h_h_open", "opening_h_h_close"];
     pickerTargetEl.forEach(el => {
@@ -218,10 +227,11 @@ function numInputChangeHandler(e) {
     }
 }
 
-let formIsValid = true;
 
 function submitForm(e) {
     e.preventDefault();
+
+    let formIsValid = true;
 
     textEls.each((idx, el) => {
         if (!$(el).val() && $(el).data("valid") === "required") {
@@ -288,4 +298,40 @@ function resetForm(e) {
     $("input:checkbox#noneHoliday").prop("checked", true)
     $("#holidayCheckFeedback").css({display: "none"});
     $("#categoryCheckFeedback").css({display: 'none'})
+}
+
+function searchAddress() {
+
+    new daum.Postcode({
+        oncomplete: function (data) {
+            const addr = data.address;
+
+            const addrArr = addr.split(" ");
+
+            const siData = addrArr[1];
+            const guData = addrArr[2];
+            const dongData = data.bname;
+            const etcData = [addrArr[3], addrArr[4]].join(" ")
+
+            $("#store_address_si").val(siData).removeClass("is-invalid");
+            $("#store_address_gu").val(guData).removeClass("is-invalid");
+            $("#store_address_dong").val(dongData).removeClass("is-invalid")
+            $("#store_address_etc").val(etcData).removeClass("is-invalid")
+
+            geocoder.addressSearch(data.address, function (results, status) {
+                if (status === daum.maps.services.Status.OK) {
+
+                    const result = results[0];
+                    const coords = new daum.maps.LatLng(result.y, result.x);
+
+                    console.log("result : ", result)
+                    console.log("coords : ", coords)
+
+                    $("#store_address_lat").val(result.y)
+                    $("#store_address_lon").val(result.x)
+                }
+            })
+
+        }
+    }).open();
 }

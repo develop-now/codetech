@@ -23,6 +23,9 @@ public class Store {
     private int owner_id;
     private int store_status;
 
+    private String store_address_lat;
+    private String store_address_lon;
+
     private MultipartFile store_image;
 
     private String store_saved_image; // 실제 저정된 파일 이름
@@ -183,6 +186,22 @@ public class Store {
 
     public void setStore_status(int store_status) {
         this.store_status = store_status;
+    }
+
+    public String getStore_address_lat() {
+        return store_address_lat;
+    }
+
+    public void setStore_address_lat(String store_address_lat) {
+        this.store_address_lat = store_address_lat;
+    }
+
+    public String getStore_address_lon() {
+        return store_address_lon;
+    }
+
+    public void setStore_address_lon(String store_address_lon) {
+        this.store_address_lon = store_address_lon;
     }
 
     public MultipartFile getStore_image() {

@@ -19,16 +19,14 @@
 
         insert into stores (store_id, store_name, store_tel, store_address_si,
         store_address_gu,store_address_dong, store_address_etc, store_desc,
-        store_rnum,
-        store_saved_image, store_original_image, opening_h_w_open,
-        opening_h_w_close,
-        opening_h_h_open, opening_h_h_close, holiday,
-        owner_id, store_status)
+        store_rnum,store_saved_image, store_original_image, opening_h_w_open,
+        opening_h_w_close,opening_h_h_open, opening_h_h_close,
+        holiday,store_address_lat,store_address_lon, owner_id, store_status)
         values
         (#{store_id},#{store_name},#{store_tel},#{store_address_si},#{store_address_gu},
         #{store_address_dong},#{store_address_etc},#{store_desc},#{store_rnum},
         #{store_saved_image},#{store_original_image},#{opening_h_w_open},#{opening_h_w_close},
-        #{opening_h_h_open},#{opening_h_h_close},#{holiday}, #{owner_id},
+        #{opening_h_h_open},#{opening_h_h_close},#{holiday}, #{store_address_lat},#{store_address_lon},#{owner_id},
         (select store_status_id from store_status where
         status_value='pending'))
     </insert>
@@ -38,8 +36,7 @@
         from stores s
                  join
              store_status t on s.store_status = t.store_status_id
-        where s.owner_id =
-              #{owner_id}
+        where s.owner_id = #{owner_id}
           and t.status_value not like '%in%'
     </select>
 
@@ -47,8 +44,7 @@
         select s.*, u.*, f.*, t.status_value as store_status_value
         from stores s
                  join users u on s.owner_id = u.user_id
-                 join user_info f on s.owner_id
-            = f.user_id
+                 join user_info f on s.owner_id = f.user_id
                  join store_status t on s.store_status = t.store_status_id
         where s.owner_id = #{owner_id}
     </select>
@@ -68,8 +64,7 @@
         from stores s
                  join
              users u on s.OWNER_ID = u.USER_ID
-                 join user_info f on s.OWNER_ID =
-                                     f.USER_ID
+                 join user_info f on s.OWNER_ID = f.USER_ID
                  join store_status t on s.store_status = t.store_status_id
         where s.store_id = #{store_id}
     </select>
@@ -127,12 +122,10 @@
         from (select o.order_user as
         customer_id, count(*) as order_count
         from orders o
-        where store_id =
-        #{store_id}
+        where store_id = #{store_id}
         group by order_user
         ) j
-        left join user_info f on f.user_id =
-        j.customer_id
+        left join user_info f on f.user_id = j.customer_id
         order by
         <choose>
             <when test="order_key == 'order_count'">

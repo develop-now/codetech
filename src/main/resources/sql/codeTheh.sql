@@ -177,6 +177,8 @@ create table stores
     opening_h_h_open     varchar2(20)  not null, -- 휴일 영업 시작 시간
     opening_h_h_close    varchar2(20)  not null, -- 휴일 영업 종료 시간
     holiday              varchar2(30)  not null, -- 휴일
+    store_address_lat    varchar2(50)  not null,
+    store_address_lon    varchar2(50)  not null,
     owner_id             number(6)     not null,
     store_status         number(6)     not null,
 
@@ -187,34 +189,39 @@ create table stores
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+                   opening_h_h_open, opening_h_h_close, holiday,
+                   store_address_lat, store_address_lon, owner_id, store_status)
 values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+                   opening_h_h_open, opening_h_h_close, holiday,
+                   store_address_lat, store_address_lon, owner_id, store_status)
 values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+                   opening_h_h_open, opening_h_h_close, holiday,
+                   store_address_lat, store_address_lon, owner_id, store_status)
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 7, 1);
-
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
+                   opening_h_h_open, opening_h_h_close, holiday,
+                   store_address_lat, store_address_lon, owner_id, store_status)
 values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 3, 1);
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 2);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
-                   opening_h_h_open, opening_h_h_close, holiday, owner_id, store_status)
-values (5, 'Test Store5', '111-222-3333', '목포시', '용해동', '가게 5 설명입니다', '123-56-12325', '/e.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', 7, 3);
+                   opening_h_h_open, opening_h_h_close, holiday,
+                   store_address_lat, store_address_lon, owner_id, store_status)
+values (9, '엔젤리너스', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 1);
+
 
 
 drop table categories cascade constraints;
@@ -937,18 +944,15 @@ create table user_report
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(1, '해당 테스트15 유저를 신고합니다.', '사실 구라에요', 1, 10, 15);
+VALUES (1, '해당 테스트15 유저를 신고합니다.', '사실 구라에요', 1, 10, 15);
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(2, '해당 테스트14 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 11, 14);
+VALUES (2, '해당 테스트14 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 11, 14);
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(3, '해당 테스트13 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 12, 13);
+VALUES (3, '해당 테스트13 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 12, 13);
 
 drop table store_report cascade constraints;
 create table store_report
@@ -1033,12 +1037,12 @@ values (3, 'inspect'); -- 점검
 drop table notice cascade constraints;
 create table notice
 (
-    notice_id             number(6) primary key,
-    notice_status         number(1)     not null, -- 공지/이벤트/점검
-    notice_subject        varchar2(100) not null,
-    notice_content        varchar2(400) not null,
-    notice_readcount      number(6) default 0,
-    notice_date           date      default sysdate,
+    notice_id        number(6) primary key,
+    notice_status    number(1)     not null, -- 공지/이벤트/점검
+    notice_subject   varchar2(100) not null,
+    notice_content   varchar2(400) not null,
+    notice_readcount number(6) default 0,
+    notice_date      date      default sysdate,
 
     -- notice_top				number(1)		default 0,	-- 공지 최상단 고정
     constraint fk_notice_status foreign key (notice_status) references notice_status (notice_status_id)

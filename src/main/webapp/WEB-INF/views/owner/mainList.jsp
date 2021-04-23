@@ -9,6 +9,7 @@
     <title>List Page</title>
     <%@include file="../partial/head.jsp" %>
 
+    <%--    TODO::ERROR OCCUR FIX LATER   --%>
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/resources/css/owner/bootstrap.min.css"
           rel="stylesheet">
