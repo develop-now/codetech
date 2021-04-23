@@ -314,4 +314,9 @@ public class UsersServiceImpl implements UsersService {
 		return udao.pointListCount(user_id);
 	}
 
+	@Override
+	public int getPointValue(int order_id) {
+		return udao.getPointValue(order_id);
+	}
+
 }

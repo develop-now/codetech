@@ -93,14 +93,39 @@
 		box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
 	}
 </style>
-	<script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script> 
+
+    <title>Notice Write</title>
+    <%@include file="../partial/head.jsp" %>
+    <script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script> 
 	<script>
 		window.onload = function() {
 			ck = CKEDITOR.replace("Notice_content");
 		};
+		
+		$(function() {	
+			$("form").submit(function() {
+				if ($.trim($('input[name="notice_subject"]').val()) == "") {
+					alert ("작성할 게시글의 제목을 입력해 주세요.");
+					
+					$('input[name="notice_subject"]').focus();
+					return false;
+				}
+				
+				if ($('input:radio(name="notice_status"):checked').length < 1) {
+					alert("작성할 게시글의 카테고리를 선택 해주세요.");
+					
+					event.preventDefault();
+				}
+				
+				if ($.trim($('input[name="notice_content"]').val()) == "") {
+					alert ("작성할 게시글의 내용을 입력해 주세요.");
+					
+					$('input[name="notice_content"]').focus();
+					return false;
+				}
+			});
+		});
 	</script>
-    <title>Notice Write</title>
-    <%@include file="../partial/head.jsp" %>  
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -142,16 +167,16 @@
 		    		</div>    			    		
 		    		
 		    		<div class="Not_content">
-			    		<div>
+			    		<div style="padding: 20px 0px">
 			    			<b><span style="font-size:1.2em">내용</span></b>
 			    		</div>
 			    		<div></div>
 			    		<div style="text-align: right">
-			    			<input type="checkbox" name="noticeTop" id="noticeTop" value="0"/><label for="noticeTop">&nbsp;최상단에 등록</label>
+			    			<!-- <input type="checkbox" name="noticeTop" id="noticeTop" value="0"/><label for="noticeTop">&nbsp;최상단에 등록</label> -->
 			    		</div>
     				</div>
 			    	<div>
-				    	<textarea name="notice_content" id="Notice_content" placeholder="내용을 입력하세요."></textarea>
+				    	<textarea name="notice_content" id="Notice_content" placeholder="내용을 입력하세요." required></textarea>
 			    	</div>
 		    	</div>    		
     			

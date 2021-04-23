@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.codetech.www.dao.AdminDAO;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
 
@@ -151,8 +152,7 @@ public class AdminServiceImpl implements AdminService {
 		if (index != -1) {
 			System.out.println("ServiceImpl에서 index 값: " + index);
 			String[] notice_status = new String[] { "1", "2", "3" };
-			
-			System.out.println("대입 된 스테이터스" + notice_status[index]);
+
 			// 0 넘어오면 공지사항, 1 넘어오면 이벤트, 2 넘어오면 점검사항
 			map.put("notice_status", notice_status[index]);
 			map.put("search_text", "%" + search_text + "%");
@@ -215,5 +215,39 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public int getRULcount(int index, String search_text) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] select_field = new String[] { "reporter_user_name", "reported_user_name", "created_at" };
+			
+			map.put("select_field", select_field[index]);
+			map.put("search_word", "%" + search_text + "%");
+		}
+		
+		return dao.getRULcount(map);
+	}
+
+	@Override
+	public List<ReportUserList> getRUL(int index, String search_text, int page, int limit) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] select_field = new String[] { "reporter_user_name", "reported_user_name", "created_at" };
+			
+			map.put("select_field", select_field[index]);
+			map.put("search_word", "%" + search_text + "%");
+		}
+		
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		
+		map.put("start", startrow);
+		map.put("end", endrow);
+		
+		return dao.getRUL(map);
 	}
 }

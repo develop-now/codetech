@@ -107,7 +107,7 @@
 											<button type="button" onclick="location.href='#'"
 												style="background-color: gray !important;">리뷰불가</button>
 										</c:if>
-										<button>주문상세</button>
+										<button onclick="location.href='../user/orderDetail?order_id=${orders[status.index].order_id}'">주문상세</button>
 									</div>
 								</div>
 							</div>

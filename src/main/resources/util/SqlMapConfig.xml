@@ -29,6 +29,7 @@
         <typeAlias alias="order-status" type="com.codetech.www.domain.OrderStatus"/>
         <typeAlias alias="detail-menu-join" type="com.codetech.www.domain.DetailMenuJoin"/>
         <typeAlias alias="point" type="com.codetech.www.domain.Point"/>
+        <typeAlias alias="rul" type="com.codetech.www.domain.ReportUserList"/>
     </typeAliases>
 
     <mappers>

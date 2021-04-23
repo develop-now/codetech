@@ -79,4 +79,6 @@ public interface UsersService {
 
 	int pointListCount(int user_id);
 
+	int getPointValue(int order_id);
+
 }

@@ -171,12 +171,14 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "/user/storeAllReview", method = RequestMethod.GET)
 	public Map<String, Object> storeReview(int store_id, int page) {
+    	logger.info("=================storeAllReview ajax로 들어옴===========================store_id"+ store_id);
+    	
     	String search_val = "";
     	List<Comment> list = commentService.getCommentListAllByStore(store_id, page);
     	int count = commentService.getCommentCountByStore(store_id, search_val);
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("list",list);
-    	map.put("listCount", count);
+    	map.put("listCount", count); //필요없으면 삭제
     	logger.info("=================storeAllReview ajax로 들어옴===========================+"+count);
     	return map;
 	}
