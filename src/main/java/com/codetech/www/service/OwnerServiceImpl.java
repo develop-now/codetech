@@ -161,8 +161,8 @@ public class OwnerServiceImpl implements OwnerService {
 				map.put("order_id", key);
 				map.put("m_num", m_num[i]);
 				logger.info("m_num = " + m_num[i]);
-				map.put("p_price", p_price[i]);
-				logger.info("p_price = " + p_price[i]);
+				map.put("p_price", p_price[i] * p_num[i]);
+				logger.info("p_price = " + p_price[i] * p_num[i]);
 				map.put("p_num", p_num[i]);
 				logger.info("p_num = " + p_num[i]);
 
