@@ -3,15 +3,13 @@ package com.codetech.www.service;
 import java.util.List;
 
 import com.codetech.www.domain.Store;
-import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
 
-
 public interface OwnerService {
-	
-	//Stores for HomePage 
+
+	// Stores for HomePage
 	public List<Store> getStoreForMain();
 
 	public List<Store> getStoreForReviewList(int page, int limit);
@@ -23,12 +21,12 @@ public interface OwnerService {
 	public List<Store> getStoreForMainList(int page, int limit);
 
 	public int getListCount();
-	
+
 	public int getListCountforMainList();
 
 	public int getListCountforSearchList(String searchWord);
 
-	public StoreMap getMap(String searchWord);
+	public Store getMap(String searchWord);
 
 	public User getAdmin(int user_id);
 
@@ -52,9 +50,6 @@ public interface OwnerService {
 
 	public int revoke(int user_id);
 
-
-
-
-
+	public int getOrderStore(int store_id);
 
 }

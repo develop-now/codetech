@@ -14,7 +14,6 @@ import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
 import com.codetech.www.domain.Point;
 import com.codetech.www.domain.Store;
-import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
@@ -97,7 +96,7 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 	@Override
-	public StoreMap getMap(String searchWord) {
+	public Store getMap(String searchWord) {
 		String searchWordLike = "%" + searchWord + "%";
 		return dao.getMap(searchWordLike);
 	}
@@ -214,6 +213,12 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public int revoke(int user_id) {
 		return udao.revoke(user_id);
+	}
+
+	@Override
+	public int getOrderStore(int store_id) {
+		return udao.getOrderStore(store_id);
+
 	}
 
 }

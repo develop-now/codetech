@@ -263,8 +263,8 @@
                 s1.store_id
     </sql>
 
-    <select id="getMap" resultType="storemap" parameterType="String">
-        select * from storemap where
+    <select id="getMap" resultType="store" parameterType="String">
+        select * from store where
         <include refid="forSearch"/>
         and rownum &lt;= 1
     </select>

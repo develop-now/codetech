@@ -104,7 +104,7 @@ public class StoreDAO {
         return sqlSession.selectOne("Stores.getListCountforSearchList", searchWord);
     }
 
-    public StoreMap getMap(String searchWordLike) {
+    public Store getMap(String searchWordLike) {
         return sqlSession.selectOne("Stores.getMap", searchWordLike);
     }
 

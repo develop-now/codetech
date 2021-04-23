@@ -18,17 +18,11 @@
 				class="nav-link">관리자 관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="${pageContext.request.contextPath}/owner/chatM"
+			<a href=javascript:void(0);" onclick="window.open('${pageContext.request.contextPath}/owner/chatM', 'chatStore', 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no');"
 				class="nav-link">파트너 채팅</a>
 		</li>
-		<li class="nav-item">
-			<a href="#"
-				class="nav-link">방문자 관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="#"
-				class="nav-link">제휴 관리</a>
-		</li>
+
+
 				
 		
 	</ul>

@@ -435,10 +435,10 @@ public class UsersController {
                 vo.setTo(reporter.getUser_email());
                 vo.setContent(user.getUser_name() + "님 신고 접수가 완료되었습니다. <br> 사실 관계를 빠르게 확인하여 조치를 취하도록 하겠습니다. 감사합니다. ");
                 sendMail.sendMail(vo);
-                rattr.addFlashAttribute("result", "신고가 접수되었습니다.");
+                rattr.addFlashAttribute("info", "신고가 접수되었습니다.");
                 logger.info("가게신고성공");
             } else {
-                rattr.addFlashAttribute("result", "죄송합니다. 다시 시도해 주세요.");
+                rattr.addFlashAttribute("alert", "죄송합니다. 다시 시도해 주세요.");
                 logger.info("가게신고실패");
             }
         } else {
@@ -448,10 +448,10 @@ public class UsersController {
                 vo.setTo(reporter.getUser_email());
                 vo.setContent(user_id + "님 회원 신고 접수가 완료되었습니다. .");
                 sendMail.sendMail(vo);
-                rattr.addFlashAttribute("result", "신고가 접수되었습니다.");
+                rattr.addFlashAttribute("info", "신고가 접수되었습니다.");
                 logger.info("유저신고성공");
             } else {
-                rattr.addFlashAttribute("result", "죄송합니다. 다시 시도해 주세요.");
+                rattr.addFlashAttribute("alert", "죄송합니다. 다시 시도해 주세요.");
                 logger.info("유저신고실패");
             }
         }

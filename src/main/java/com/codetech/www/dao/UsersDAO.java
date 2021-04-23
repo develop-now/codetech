@@ -140,5 +140,10 @@ public class UsersDAO {
 		return sqlSession.update("users.revoke", user_id);
 	}
 
+	public int getOrderStore(int store_id) {
+		return sqlSession.selectOne("users.getOrderStore", store_id);
+
+	}
+
 
 }

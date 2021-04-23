@@ -43,7 +43,6 @@
             text-align: center;
         }
     </style>
-    <title>Chatting Owner</title>
 </head>
 <body>
 <!-- 유저가 접속할 때마다 이 템플릿으로 채팅창을 생성한다. -->
@@ -95,7 +94,8 @@
         // 메시지의 status는 유저의 접속 형태이다.
         // visit은 유저가 접속했을 때 알리는 메시지다.
         if (node.status === "visit") {
-            // 위 템플릿 div를 취득한다.
+
+        	// 위 템플릿 div를 취득한다.
             let form = $(".template").html();
             // div를 감싸고 속성 data-key에 unique키를 넣는다.
             form = $("<div class='float-left'></div>").attr("data-key",
@@ -104,6 +104,7 @@
             $("body").append(form);
             // message는 유저가 메시지를 보낼 때 알려주는 메시지이다.
         } else if (node.status === "message") {
+        	
             // key로 해당 div영역을 찾는다.
             let $div = $("[data-key='" + node.key + "']");
 
@@ -122,10 +123,13 @@
             //log + "(user) => " + node.message + "\n");
 
             // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
+            moveScroll();
+            
         } else if (node.status === "bye") {
             // 해당 키로 div를 찾아서 dom을 제거한다.
             $("[data-key='" + node.key + "']").remove();
         }
+        
     };
 
     // 전송 버튼을 클릭하면 발생하는 이벤트
@@ -158,6 +162,8 @@
                 $div.find("#textMessage").val("");
                 // 웹소켓으로 메시지를 보낸다.
                 webSocket.send(key + "#####" + message);
+                
+                moveScroll();
             });
 
     // 텍스트 박스에서 엔터키를 누르면
@@ -172,7 +178,9 @@
                     .trigger("click");
                 // form에 의해 자동 submit을 막는다.
                 return false;
+                
             }
+            moveScroll();
             return true;
         });
 
