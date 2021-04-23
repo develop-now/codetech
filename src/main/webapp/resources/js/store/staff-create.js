@@ -79,11 +79,14 @@ function registerStaff(staff_id) {
     const header = $("meta[name='_csrf_header']").attr('content');
     const token = $("meta[name='_csrf']").attr('content');
 
+    console.log({header})
+    console.log({token})
+
     $.ajax({
         url: "/staff/createAction",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-        },
+        // beforeSend: function (xhr) {
+        //     xhr.setRequestHeader(header, token);
+        // },
         method: "post",
         data: {store_id: $("input:radio[name='store_id']:checked").val(), user_id: staff_id},
         dataType: "json",
@@ -111,18 +114,16 @@ function makeEmptyTable() {
 }
 
 
-let formIsValid = true;
-
 function submitForm(e) {
     e.preventDefault();
+
+    let formIsValid = true;
 
     if (!nameInputEl.val() && nameInputEl.data("valid") === "required") {
         nameInputEl.addClass("is-invalid")
         formIsValid = false;
 
         console.log("Required 값이 입력되지 않았습니다")
-    } else {
-        formIsValid = true
     }
 
     if (!$("input:radio[name='store_id']:checked").val()) {
@@ -131,11 +132,13 @@ function submitForm(e) {
         $("#storeCheckFeedback").css({display: "block"})
 
         console.log("가게가 선택되지 않았습니다")
-    } else {
-        formIsValid = true
     }
 
+    console.log({formIsValid});
+
     if (formIsValid) {
+        console.log("form submit!!");
+
         const data = {
             store_id: $("input:radio[name='store_id']:checked").val(),
             search_val: nameInputEl.val()
@@ -180,4 +183,6 @@ function resetForm(e) {
     });
 
     $("#storeCheckFeedback").css({display: "none"});
+
+    $("#target-tbody").empty();
 }

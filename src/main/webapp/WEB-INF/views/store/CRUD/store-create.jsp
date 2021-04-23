@@ -14,6 +14,8 @@
     <title>Store Create Page</title>
     <%@include file="../../partial/head.jsp" %>
     <%@include file="../../partial/dateTimePicker.jsp" %>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9e946bed5a65161662be25b84ec50e9c&libraries=services"></script>
     <script src="${pageContext.request.contextPath}/resources/js/store/store-create.js"></script>
 
     <script>
@@ -90,8 +92,8 @@
                                             <div class="col-4">
                                                 <label class="sr-only" for="store_address_si">시</label>
                                                 <input type="text" class="form-control" id="store_address_si"
-                                                       name="store_address_si"
-                                                       placeholder="시*" data-valid="required">
+                                                       name="store_address_si" placeholder="시*"
+                                                       data-valid="required" readonly>
                                                 <div class="invalid-feedback">
                                                     주소명 '시' 를 입력하세요
                                                 </div>
@@ -99,26 +101,35 @@
                                             <div class="col-4">
                                                 <label class="sr-only" for="store_address_gu">구</label>
                                                 <input type="text" class="form-control" id="store_address_gu"
-                                                       name="store_address_gu"
-                                                       placeholder="구">
+                                                       name="store_address_gu" placeholder="구" readonly>
                                             </div>
                                             <div class="col-4">
                                                 <label class="sr-only" for="store_address_dong">동</label>
                                                 <input type="text" class="form-control" id="store_address_dong"
-                                                       name="store_address_dong"
-                                                       placeholder="동*" data-valid="required">
+                                                       name="store_address_dong" placeholder="동*"
+                                                       data-valid="required" readonly>
                                                 <div class="invalid-feedback">
                                                     주소명 '동' 를 입력하세요
                                                 </div>
                                             </div>
-                                            <div class="col-12 mt-2">
+                                            <div class="col-8 mt-2">
                                                 <label class="sr-only" for="store_address_etc">기타주소</label>
                                                 <input type="text" class="form-control" id="store_address_etc"
                                                        name="store_address_etc"
                                                        placeholder="기타주소를 입력하세요">
                                             </div>
+                                            <div class="col-4 mt-2">
+                                                <button role="button" class="btn btn-block btn-info"
+                                                        id="findAddressBtn">주소찾기
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="d-none">
+                                    <input type="hidden" name="store_address_lat" id="store_address_lat">
+                                    <input type="hidden" name="store_address_lon" id="store_address_lon">
                                 </div>
                                 <div class="form-group row">
                                     <label for="store_desc" class="col-sm-2 col-form-label">가게 소개*</label>
@@ -130,7 +141,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
                                     <label for="store_rnum" class="col-sm-2 col-form-label">가게 사업자번호*</label>
                                     <div class="col-sm-10">
@@ -141,7 +151,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
                                     <label for="store_image" class="col-sm-2 col-form-label">가게 이미지*</label>
                                     <div class="col-sm-10">
@@ -160,7 +169,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">쉬는날*</label>
                                     <div class="col-sm-10">
@@ -209,7 +217,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">평일 영업시간*</label>
                                     <div class="col-sm-10">
@@ -236,7 +243,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group row" id="holiday_open_time_selector">
                                     <label class="col-sm-2 col-form-label">주말 영업시간*</label>
                                     <div class="col-sm-10">
@@ -297,7 +303,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">메뉴 카테고리*</label>
                                     <div class="col-sm-10">
-                                        <div class="d-flex align-items-center" id="category_target">
+                                        <div class="form-control border-0" id="category_target">
                                             <div class="custom-control custom-radio custom-control-inline category_template d-none">
                                                 <input type="radio" id="" name="category_id"
                                                        class="custom-control-input">
