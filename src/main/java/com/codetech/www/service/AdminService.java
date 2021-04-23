@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportStoreList;
 import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
@@ -42,4 +43,16 @@ public interface AdminService {
 	
 	public int getRULcount(int index, String search_text);
 	public List<ReportUserList> getRUL(int index, String search_text, int page, int limit);
+	public int RULstatusChange(int user_report_id);
+	public int RULstatusCompleted(int user_report_id);
+	
+	public int getRSLcount(int index, String search_text);
+	public List<ReportUserList> getRSL(int index, String search_text, int page, int limit);
+	public int RSLstatusChange(int user_report_id);
+	public int RSLstatusCompleted(int user_report_id);
+	
+	public int getRUScount(int index, String search_text);
+	public List<ReportStoreList> getRUS(int index, String search_text, int page, int limit);
+	public int RUSstatusChange(int store_report_id);
+	public int RUSstatusCompleted(int store_report_id);
 }
