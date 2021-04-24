@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.codetech.www.dao.AdminDAO;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportStoreList;
 import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
@@ -249,5 +250,103 @@ public class AdminServiceImpl implements AdminService {
 		map.put("end", endrow);
 		
 		return dao.getRUL(map);
+	}
+
+	@Override
+	public int RULstatusChange(int user_report_id) {
+		return dao.RULstatusChange(user_report_id);
+	}
+
+	@Override
+	public int RULstatusCompleted(int user_report_id) {
+		return dao.RULstatusCompleted(user_report_id);
+	}
+
+	@Override
+	public int getRSLcount(int index, String search_text) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] select_field = new String[] { "reporter_user_name", "reported_user_name", "created_at" };
+			
+			map.put("select_field", select_field[index]);
+			map.put("search_word", "%" + search_text + "%");
+		}
+		
+		return dao.getRSLcount(map);
+	}
+
+	@Override
+	public List<ReportUserList> getRSL(int index, String search_text, int page, int limit) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] select_field = new String[] { "reporter_user_name", "reported_user_name", "created_at" };
+			
+			map.put("select_field", select_field[index]);
+			map.put("search_word", "%" + search_text + "%");
+		}
+		
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		
+		map.put("start", startrow);
+		map.put("end", endrow);
+		
+		return dao.getRSL(map);
+	}
+
+	@Override
+	public int RSLstatusChange(int user_report_id) {
+		return dao.RSLstatusChange(user_report_id);
+	}
+
+	@Override
+	public int RSLstatusCompleted(int user_report_id) {
+		return dao.RSLstatusCompleted(user_report_id);
+	}
+
+	@Override
+	public int getRUScount(int index, String search_text) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] select_field = new String[] { "reporter_user_name", "reported_user_name", "created_at" };
+			
+			map.put("select_field", select_field[index]);
+			map.put("search_word", "%" + search_text + "%");
+		}
+		
+		return dao.getRUScount(map);
+	}
+
+	@Override
+	public List<ReportStoreList> getRUS(int index, String search_text, int page, int limit) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (index != -1) {
+			String[] select_field = new String[] { "reporter_user_name", "reported_user_name", "created_at" };
+			
+			map.put("select_field", select_field[index]);
+			map.put("search_word", "%" + search_text + "%");
+		}
+		
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		
+		map.put("start", startrow);
+		map.put("end", endrow);
+		
+		return dao.getRUS(map);
+	}
+
+	@Override
+	public int RUSstatusChange(int store_report_id) {
+		return dao.RUSstatusChange(store_report_id);
+	}
+
+	@Override
+	public int RUSstatusCompleted(int store_report_id) {
+		return dao.RUSstatusCompleted(store_report_id);
 	}
 }
