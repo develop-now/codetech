@@ -25,7 +25,7 @@
 		color: #737373;
 	}
 	
-	.reportStore {
+	.reportUserStore {
 		border-top: 3px solid #392714;
 		border-left: 1px solid #392714;
 		border-right: 1px solid #392714;
@@ -34,14 +34,14 @@
 	}
 	
 	.reportUser {
-		border-top: 1px solid #e2e2d0;
 		border-left: 1px solid #e2e2d0;
+		border-top: 1px solid #e2e2d0;
+		border-right: 1px solid #e2e2d0;
 		border-bottom: 1px solid #C3C3D1;
 	}
 	
-	.reportUserStore {
+	.reportStore{
 		border-top: 1px solid #e2e2d0;
-		border-right: 1px solid #e2e2d0;
 		border-bottom: 1px solid #C3C3D1;
 	}
 	
@@ -53,16 +53,16 @@
 		padding: 10px;
 	}
 	
-	.reportStore:hover {
+	.reportUserStore:hover {
 		cursor: pointer
 	}
 	
-	.reportUser:hover {
+	.reportStore:hover {
 		background: #F2F2F8;
 		cursor: pointer
 	}
 	
-	.reportUserStore:hover {
+	.reportUser:hover {
 		background: #F2F2F8;
 		cursor: pointer
 	}
@@ -118,7 +118,7 @@
 	}
 </style>
 <head>
-    <title>Report Store</title>
+    <title>Report User Store</title>
     <%@include file="../partial/head.jsp" %>
     <script>
     	$(function() {
@@ -128,21 +128,21 @@
 				
 				$.ajax({
 					method 	 : "post",
-					url	   	 : "RSLstatusProcessing",
-					data   	 : { "user_status_id" : $(this).parent().parent().find("input").val() },
+					url	   	 : "RUSstatusProcessing",
+					data   	 : { "store_report_id" : $(this).parent().parent().find("input").val() },
 					dataType : "json",
 					cache	 : false,
 					success	 : function(data) {
-						console.log("유저 신고 글 변경 성공");
+						console.log("가게 신고 글 변경 성공");
 					},
 					
 					error 	 : function() {
-						console.log("유저 신고 글 상태 변경 실패");
+						console.log("가게 신고 글 상태 변경 실패");
 					}
 				});
     		});
     		
-    		$('.Completed').click(function() {
+    		$('.Completed').click(function() { 
     			console.log("글번호: [" + $(this).closest('tr').find('input').val() + "] 신고 글을 처리 상태로 변경합니다.");
 				var answer = confirm("해당 신고 글을 처리 상태로 변경 하시겠습니까?");
 				
@@ -151,17 +151,17 @@
 				} else {
 	    			$.ajax({
 						method 	 : "post",
-						url	   	 : "RSLstatusCompleted",
-						data   	 : { "user_status_id" :$(this).closest('tr').find('input').val() },
+						url	   	 : "RUSstatusCompleted",
+						data   	 : { "store_report_id" :$(this).closest('tr').find('input').val() },
 						dataType : "json",
 						cache	 : false,
 						success	 : function(data) {
-							console.log("유저 신고 글 처리 성공");
+							console.log("가게 신고글 처리 성공");
 							alert("신고 글에 대한 처리가 완료 되었습니다.");
 						},
 						
 						error 	 : function() {
-							console.log("유저 신고 글 처리 실패");
+							console.log("가게 신고 글 처리 실패");
 						}
 					});	
 				} 
@@ -191,7 +191,7 @@
                 <div><a href="${pageContext.request.contextPath}/admin/reportUser">신고 관리</a></div>
             </div>
             <div class="col-12 col-sm-10">
-                <form action="reportStore">
+                <form action="reportUserStore">
 	            	<div class="report_head">
 	            		<div><h3 class="report_h3">신고 리스트</h3></div>
 	            		<div></div>
@@ -234,30 +234,32 @@
 	            				<th>신고된 날짜</th>
 	            			</tr>
 	            			
-	            			<c:forEach var="rul" items="${ReportUserList}" varStatus="status">
+	            			<c:forEach var="rus" items="${ReportStoreList}" varStatus="status">
 	            			<tr>
-					            <input type="hidden" value="${rul.user_report_id}" id="user_report_id"/>
-	            				<td><div>${rul.reporter_user_name}</div></td>
+		            			<c:if test="">
+		            			</c:if>
+					            <input type="hidden" value="${rus.store_report_id}" id="cmt_report_id"/>
+	            				<td><div>${rus.reporter_user_name}</div></td>
 	            				<td>
-	            					<div class="changeStatus" data-toggle="modal" data-target=".bd-example-modal-lg${status.index}">${rul.report_subject}</div>
+	            					<div class="changeStatus" data-toggle="modal" data-target=".bd-example-modal-lg${status.index}">${rus.report_subject}</div>
 	            					<div class="modal fade bd-example-modal-lg${status.index}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 										<div class="modal-dialog modal-lg">
 										    <div class="modal-content">
 												<div class="modal-header">
-										        	<h4 class="modal-title">${rul.report_subject}</h4>
+										        	<h4 class="modal-title">${rus.report_subject}</h4>
 										      	</div>
 										      	<div class="modal-body">
 										        	<div class="reported_user_if">
-											        	<div class="reported_user_img">${rul.reported_user_profile}</div>
+											        	<div class="reported_user_img">${rus.reported_user_profile}</div>
 											        	<div style="text-align: left">
-											        		<div>아이디: ${rul.reported_user_email}</div>
-											        		<div>사용자: ${rul.reported_user_name}</div>
-											        		<div>전화번호: ${rul.reported_user_tel}</div>
-											        		<div>주소: ${rul.reported_user_address}</div>
+											        		<div>아이디: ${rus.reported_user_email}</div>
+											        		<div>사용자: ${rus.reported_user_name}</div>
+											        		<div>전화번호: ${rus.reported_user_tel}</div>
+											        		<div>주소: ${rus.reported_user_address}</div>
 											        	</div>
 										        	</div>
-										        	<div style="text-align: left">신고 사유 (누적된 신고 수: ${rul.reported_report_count})</div>
-										        	<div style="text-align: left; margin: 30px 0px">${rul.report_content}</div>
+										        	<div style="text-align: left">신고 사유 (누적된 신고 수: ${rus.reported_report_count})</div>
+										        	<div style="text-align: left; margin: 30px 0px">${rus.report_content}</div>
 										        </div>
 										        <div class="modal-footer">
 										        	<button type="button" class="btn btn-submit" name="cld_btn"><div class="Completed">신고 처리</div></button>
@@ -266,22 +268,22 @@
 										    </div>
 										</div>
 									</div>
-	            				</td> 
-	            				<td><div>${rul.reported_user_name}</div></td>
-	            				<td><div>${rul.reported_report_count}</div></td>
+	            				</td>
+	            				<td><div>${rus.reported_user_name}</div></td>
+	            				<td><div>${rus.reported_report_count}</div></td>
 	            				<td><!-- 읽으면 글씨 색깔 변하고 새로고침 되게끔? -->
 		            				<c:choose>
-		            					<c:when test="${rul.report_status == 1}">
+		            					<c:when test="${rus.report_status == 1}">
 				            				<div><c:out value="신고 접수"/></div>
-		            					</c:when>   					
+		            					</c:when>   					    					
 		            					
-		            					<c:when test="${rul.report_status == 2}">
+		            					<c:when test="${rus.report_status == 2}">
 		            						<div><c:out value="처리 대기"/></div>
 		            					</c:when>
 		            				</c:choose>
 	            				</td>
 	            				
-	            				<td><div>${rul.created_at}</div></td>
+	            				<td><div>${rus.created_at}</div></td>
 	            			</tr>
 	            			</c:forEach>
 	            		</table>
@@ -295,7 +297,7 @@
 		               </c:if>
 		               <c:if test="${page > 1}">
 		                  <li class="page-item"><a
-		                     href="reportStore?page=${page-1}&search_text=${search_text}&search_word=${search_word}"
+		                     href="reportUserStore?page=${page-1}&search_text=${search_text}&search_word=${search_word}"
 		                     class="page-link">이전</a> &nbsp;</li>
 		               </c:if>
 		
@@ -308,7 +310,7 @@
 		
 		                  <c:if test="${a != page }">
 		                     <li class="page-item"><a
-		                        href="reportStore?page=${a}&search_text=${search_text}&search_word=${search_word}"
+		                        href="reportUserStore?page=${a}&search_text=${search_text}&search_word=${search_word}"
 		                        class="page-link">${a}</a></li>
 		                  </c:if>
 		               </c:forEach>
@@ -321,7 +323,7 @@
 		
 		               <c:if test="${page < maxpage }">
 		                  <li class="page-item"><a
-		                     href="reportStore?page=${page+1}&search_text=${search_text}&search_word=${search_word}"
+		                     href="reportUserStore?page=${page+1}&search_text=${search_text}&search_word=${search_word}"
 		                     class="page-link">&nbsp;다음</a></li>
 		               </c:if>
 		         	</ul>

@@ -31,8 +31,6 @@ public interface UsersService {
 
     int modifyInfo(UserInfo ui);
 
-    List<Report> reportStoreAndComment(int user_id);
-
     int addReport(Report report);
 
     int getMenuCount(int store_id);
@@ -80,5 +78,15 @@ public interface UsersService {
 	int pointListCount(int user_id);
 
 	int getPointValue(int order_id);
+
+	int checkStoreLikeAsUser(Integer user_id, int store_id);
+
+	int favoriteAdd(int user_id, int store_id);
+
+	int likesCount(int user_id);
+
+	List<Report> reportStoreAndUserList(int user_id, int page, int limit);
+
+	int getReportListCount(int user_id);
 
 }

@@ -85,10 +85,6 @@ public class UsersDAO {
 		return sqlSession.update("users.updateUserInfo",ui);
 	}
 
-	public List<Report> reportStoreAndComment(int user_id) {
-		return sqlSession.selectList("users.reportStoreAndComment",user_id);
-	}
-
 	public int addReport(Report report) {
 		if(report.getReported_store()!= 0) {
 			sqlSession.insert("users.addStoreReport",report);
@@ -140,9 +136,31 @@ public class UsersDAO {
 		return sqlSession.update("users.revoke", user_id);
 	}
 
+
 	public int getOrderStore(int store_id) {
 		return sqlSession.selectOne("users.getOrderStore", store_id);
 
+}
+	public int chcekStoreLikeAsUser(Map<String, Integer> map) {
+		Integer result = sqlSession.selectOne("users.checkLike", map);
+		logger.info("checkLike xml 값조회 완료 후 result = "+result );
+		if(result == null) {
+			result = 0;
+		}
+		logger.info("만약 result=null -> 0으로 변환  result=" +result);
+		return result ;
+	}
+
+	public int likesCount(int user_id) {
+		return sqlSession.selectOne("users.likesCount", user_id);
+	}
+
+	public List<Report> reportStoreAndUserList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("users.reportStoreAndUserList", map);
+	}
+
+	public int getReportListCount(int user_id) {
+		return sqlSession.selectOne("users.reportCount", user_id);
 	}
 
 

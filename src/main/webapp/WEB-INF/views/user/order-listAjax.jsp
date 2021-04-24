@@ -12,7 +12,9 @@
 							<div class="mypageReview__body d-inline-flex">
 								<div class="mypageReview__content-left">
 									<div>
-										<span>${store.store_name }</span>
+										<span id="getStore_name">${store.store_name }</span><br>
+										<span id="store_add">${store.store_address_si}&nbsp;${store.store_address_gu}&nbsp;${store.store_address_dong}</span><br>
+										<span>${store.store_address_etc}</span>
 									</div>
 									<div class="mypageReview__content-left--img">
 										<img
@@ -47,11 +49,11 @@
 
 									</div>
 									<div class="order-summary">
-										${menu[status.index].menu_name }
-										${orderDetail[status.index].menu_quantity }
-										${orderDetail[status.index].detail_total_price }</div>
+										${menu[status.index].menu_name }&nbsp;X&nbsp;
+										${orderDetail[status.index].menu_quantity }&nbsp;
+										${orderDetail[status.index].detail_total_price }원</div>
 									<div class="text-right">
-										<button type="button" onclick="location.href='home'">가게보기</button>
+										<button type="button" onclick="location.href='user/orderMain?store_id=${store.store_id}'">가게보기</button>
 										<c:if
 											test="${orders[status.index].comment_writable eq 'false'}">
 											<button type="button"
@@ -62,7 +64,7 @@
 											<button type="button" onclick="location.href='#'"
 												style="background-color: gray !important;">리뷰불가</button>
 										</c:if>
-										<button>주문상세</button>
+										<button onclick="location.href='../user/orderMain?store_id=${store.store_id}'">주문상세</button>
 									</div>
 								</div>
 							</div>

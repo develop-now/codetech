@@ -118,7 +118,8 @@
               	  </c:if>
               	  <c:if test="${count eq 0 }">
               	  	<div class="noPointList">
-              	  	  포인트 내역이 없습니다. 주문하러 가기
+              	  	  <div>포인트 내역이 없습니다.</div> 
+              	  	 <div><button onclick="location.href='${pageContext.request.contextPath}/owner/mainList'">주문하러 가기</button></div>
               	  	</div>
               	  </c:if>
                 </div>

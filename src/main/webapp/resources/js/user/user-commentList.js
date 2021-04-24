@@ -29,12 +29,19 @@ function getUserCommentList(currentPage){
 					output="";
 					output +="<div class='mypageReview__body d-inline-flex'>"
 						+"<div class='mypageReview__content-left'>" 
-						+	"<div><span><img src='../resources/image/common/unlike.png' alt='likecheck' width='30px'></span>"
-	              		+		"<span>"+this.comment_store_value+"</span></div>"
+						+	"<div><span>" 
+						if(this.like_id==null){
+				 output +=  "<img src='../resources/image/common/unlike.png' alt='storeUnlike' width='30px'>"
+							
+						}else{
+				 output +=  "<img src='../resources/image/common/like.png' alt='storeLike' width='30px'>"
+						}
+				 output	+=		"</span><span>"+this.comment_store_value+"</span></div>"
 	              		+		"<div class='text-center'>" 
-	              		+	"<button id='orderDetail'>주문상세</button>"
+	              		+	"<button id='goStore'>가게보기</button>"
 	              		+	"<button id='deleteReview'>리뷰삭제<input type='hidden' name='${_csrf.parameterName}' value='${_crsf.token}'></button>"
-	              		+"<input type='hidden' id='comment_id' name='comment_id' value='"+this.comment_id+"'></div></div>"
+	              		+"<input type='hidden' id='comment_id' name='comment_id' value='"+this.comment_id+"'>"
+	              		+"<input type='hidden' id='store_id' name='store_id' value='"+this.comment_store+"'></div></div>"
 	              		+ 	"<div class='mypageReview__content-right'>"
 	              		+		"<div class='mypageReview__content-right--rivew'>" + this.comment_content
 	              		+	"<br><span>("+this.created_at+")</span></div></div></div>" 
@@ -55,11 +62,11 @@ function getUserCommentList(currentPage){
 			console.log("comment-list-by-user-ajax ERROR")
 		}
 	})//ajax end
-	$(".mypageReview-content").on("click","#orderDetail",function(){
-		var order_id= $(this).next().next().val();
-		var quary = "order_id="+order_id;
-		location.href="../user/orderDetail?"+quary;
-		console.log(order_id);
+	$(".mypageReview-content").on("click","#goStore",function(){
+		var order_id= $(this).next().next().next().val();
+		var quary = "store_id="+order_id;
+		location.href="../user/orderMain?"+quary;
+		console.log(store_id);
 	})
 }
 
