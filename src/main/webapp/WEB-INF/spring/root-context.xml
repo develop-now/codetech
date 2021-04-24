@@ -16,6 +16,8 @@
         <property name="username" value="#{sqlInfo['username']}"/>
         <property name="password" value="#{sqlInfo['password']}"/>
     </bean>
+    
+    
 
     <bean class="org.mybatis.spring.SqlSessionFactoryBean"
           id="sqlSessionFactory">
@@ -74,4 +76,12 @@
                 </props>
             </property>
         </bean> 
+        
+        <!-- AWS RDS  -->
+<!--         <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    <property name="url" value="jdbc:oracle:thin:@database-1.co2p015u6nru.ap-northeast-2.rds.amazonaws.com:1521:ORCL" />
+    <property name="username" value="admin" />
+    <property name="password" value="hta235791" />
+</bean> -->
 </beans>
