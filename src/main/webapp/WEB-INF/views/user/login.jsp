@@ -52,14 +52,14 @@
                     <button type="button" class="loginModal__button-join" data-toggle="modal" data-target="#joinModal">
                         회원가입
                     </button>
-                    <div class="loginModal-footer__links">
-                        <span class="loginModal__link"><a href="#">아이디찾기</a></span>&nbsp;&nbsp;
-                        <span class="loginModal__link"><a href="#">&nbsp;비밀번호찾기</a></span>
-                    </div>
-
                 </div>
             </div>
         </div>
     </form>
 </div>
-
+<script>
+$('.loginModal-header > button').click(function () {
+	 $("#login_id").val('');
+     $("#login_password").val('');
+});
+</script>

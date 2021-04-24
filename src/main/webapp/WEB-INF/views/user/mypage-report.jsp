@@ -99,35 +99,7 @@
 	              			</tbody>
 	              		</table>
 	              		<div class="center-block">
-	              			<ul class="pointPagination justify-content-center">
-								<c:if test="${page <= 1 }">
-									<li class="pointPage-item"><a class="link" style="background-color:white">이전</a>
-									</li>
-								</c:if>
-								<c:if test="${page > 1 }">
-									<li class="pointPage-item"><a href="reportList?page=${page-1}"
-										class="link">이전</a></li>
-								</c:if>
-								<c:forEach var="n" begin="${startpage }" end="${endpage}">
-									<c:if test="${n == page }">
-										<li class="pointPage-item ">
-										<a class="link" style="background-color:#6b9068ba; color:white;">${n}</a></li>
-									</c:if>
-									<c:if test="${n != page }">
-										<li class="pointPage-item "><a href="reportList?page=${n}"
-											class="link" >${n}</a></li>
-									</c:if>
-								</c:forEach>
-			
-								<c:if test="${page >= maxpage }">
-									<li class="pointPage-item">
-									<a class="link" style="background-color:white">다음</a>
-									</li>
-								</c:if>
-								<c:if test="${page < maxpage }">
-									<li class="pointPage-item"><a href="reportList?page=${page+1 }"
-										class="link">다음</a></li>
-								</c:if>
+	              			<ul class="reportPagination justify-content-center">
 							</ul>
 	              		</div>
 	              	</div>

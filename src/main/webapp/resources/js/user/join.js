@@ -55,19 +55,19 @@ $(function () {
         } else {
             //user_email 중복체크
             $.ajax({
-                url: "user/emailcheck",
-                data: {"user_email": id},
+                url: 'user/emailcheck?user_email='+id,
                 success: function (isEmail) {
                     if (isEmail == -1) {
                         $("#message-id").css("color", "#BE9F7B").html("*사용가능한 이메일입니다.");
                         idpattern = true;
                     } else {
-                        $("#message-id").css("color", "#B63629").html("*사용중인  이메일입니다.다른 이메일을 입력하세요.");
+                    	console.log('${pageContext.request.contextPath}')
+                        $("#message-id").css("color", "#B63629").html("*사용중인  이메일입니다.다른 이메일을 입력하세요.b");
                         idpattern = false;
                     }
                 },
-                error: function () {
-                    console.log("emailcheck 에러");
+                error: function (req,status,err) {
+                    console.log("emailcheck Ajex ERROR"+err);
                 }
 
             }); //user_email ajax end
@@ -91,15 +91,15 @@ $(function () {
             nickpattern = false;
         } else {
             //user_name 중복체크
+        	console.log('닉네임 체크 작동');
             $.ajax({
-                url: "user/nickcheck",
-                data: {"user_name": nick},
+                url: "../user/nickcheck?user_name="+nick,
                 success: function (isName) {
                     if (isName == -1) {
                         $("#message-nick").css("color", "#BE9F7B").html("*사용가능한 닉네임입니다.");
                         nickpattern = true;
                     } else {
-                        $("#message-nick").css("color", "#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.");
+                        $("#message-nick").css("color", "#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.a");
                         nickpattern = false;
 
                     }
