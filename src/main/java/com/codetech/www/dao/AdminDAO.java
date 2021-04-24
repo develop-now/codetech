@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportStoreList;
 import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
@@ -18,6 +19,8 @@ public class AdminDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	
+	// 유저 리스트
 	public List<UserPlusInfo> getUsersSearchList(Map<String, Object> map) {
 		return sqlSession.selectList("Admin.getUsersSearchList", map);
 	}
@@ -42,6 +45,8 @@ public class AdminDAO {
 		return sqlSession.update("Admin.inac", user_id);
 	}
 
+	
+	// 파트너 가게 리스트
 	public List<StoreInfoList> getPartnerSearchList(Map<String, Object> map) {
 		return sqlSession.selectList("Admin.getPartnerSearchList", map);
 	}
@@ -66,6 +71,8 @@ public class AdminDAO {
 		return sqlSession.selectList("Admin.getStoreMenuList", store_id);
 	}
 	
+	
+	// 공지사항
 	public List<Notice> getNoticeList(Map<String, Object> map) {
 		return sqlSession.selectList("Admin.getNoticeList", map);
 	}
@@ -94,11 +101,56 @@ public class AdminDAO {
 		return sqlSession.delete("Admin.noticeDelete", notice);
 	}
 
+	
+	// 유저 신고 리스트
 	public int getRULcount(Map<String, Object> map) {
 		return sqlSession.selectOne("Admin.getRULcount", map);
 	}
 
 	public List<ReportUserList> getRUL(Map<String, Object> map) {
 		return sqlSession.selectList("Admin.getRUL", map);
+	}
+
+	public int RULstatusChange(int user_report_id) {
+		return sqlSession.update("Admin.RULstatusChange", user_report_id);
+	}
+
+	public int RULstatusCompleted(int user_report_id) {
+		return sqlSession.update("Admin.RULstatusCompleted", user_report_id);
+	}
+
+	// 가게가 유저 신고 리스트
+	public int getRSLcount(Map<String, Object> map) {
+		return sqlSession.selectOne("Admin.getRSLcount", map);
+	}
+
+	public List<ReportUserList> getRSL(Map<String, Object> map) {
+		return sqlSession.selectList("Admin.getRSL", map);
+	}
+
+	public int RSLstatusChange(int user_report_id) {
+		return sqlSession.update("Admin.RSLstatusChange", user_report_id);
+	}
+
+	public int RSLstatusCompleted(int user_report_id) {
+		return sqlSession.update("Admin.RSLstatusCompleted", user_report_id);
+	}
+
+	
+	// 유저가 가게 신고 리스트
+	public int getRUScount(Map<String, Object> map) {
+		return sqlSession.selectOne("Admin.getRUScount", map);
+	}
+
+	public List<ReportStoreList> getRUS(Map<String, Object> map) {
+		return sqlSession.selectList("Admin.getRUS", map);
+	}
+
+	public int RUSstatusChange(int store_report_id) {
+		return sqlSession.update("Admin.RUSstatusChange", store_report_id);
+	}
+
+	public int RUSstatusCompleted(int store_report_id) {
+		return sqlSession.update("Admin.RUSstatusCompleted", store_report_id);
 	}
 }

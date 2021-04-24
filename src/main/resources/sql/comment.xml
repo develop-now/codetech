@@ -121,10 +121,14 @@
 	<select id="userCommentList" parameterType="int" resultType="comment">
 		select *
 		from(select rownum rnum, cs.*
-			from (select c.*,s.comment_store_value
+			from (select c.*,s.comment_store_value,s.like_id
 					from COMMENTS c
-					left join(select store_id as comment_store, store_name as comment_store_value
-							   from STORES )s
+					left join(
+								select st.store_id as comment_store, st.store_name as comment_store_value, l.like_id
+							    from STORES st
+							    left join LIKES l
+							    on st.store_id = l.store_id
+							   )s
 					on c.comment_store = s.comment_store
 					where comment_writer = #{user_id} and comment_status = 1
 					order by created_at desc)cs
