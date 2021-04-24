@@ -28,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
 import com.codetech.www.domain.Store;
-import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
@@ -45,308 +44,310 @@ import com.siot.IamportRestClient.response.Payment;
 @Controller
 @RequestMapping(value = "/owner")
 public class OwnerController {
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
-    private OwnerService ownerService;
+	@Autowired
+	private OwnerService ownerService;
 
-    @Autowired
-    private UsersService usersService;
+	@Autowired
+	private UsersService usersService;
 
-    private IamportClient api;
+	private IamportClient api;
 
-    public OwnerController() {
-        // REST API 키와 REST API secret을 입력
-        this.api = new IamportClient("6673213502446208",
-                "j5bX7kHM0u9fFwQFJh8pudgn1CAPWAEfFPcN9TzanJq2ggI0xQp24Fp5i0VeAAtgqF4AzEKXna0EqIFY");
+	public OwnerController() {
+		// REST API 키와 REST API secret을 입력
+		this.api = new IamportClient("6673213502446208",
+				"j5bX7kHM0u9fFwQFJh8pudgn1CAPWAEfFPcN9TzanJq2ggI0xQp24Fp5i0VeAAtgqF4AzEKXna0EqIFY");
 
-    }
+	}
 
-    // Sort of like
-    @RequestMapping(value = "/mainList")
-    public ModelAndView mainList(ModelAndView mv,
-                                 @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-        int limit = 4; // 한 화면에 출력할 가게 수
-        int listCount = ownerService.getListCount();
-        List<Store> stores = ownerService.getStoreForMainList(page, limit);
+	// Sort of like
+	@RequestMapping(value = "/mainList")
+	public ModelAndView mainList(ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4; // 한 화면에 출력할 가게 수
+		int listCount = ownerService.getListCount();
+		List<Store> stores = ownerService.getStoreForMainList(page, limit);
 
-        if (listCount > stores.size()) {
-            mv.addObject("more", 1);
-        }
-        mv.setViewName("owner/mainList");
-        mv.addObject("stores", stores);
-        mv.addObject("limit", limit);
-        mv.addObject("listCount", listCount);
-        return mv;
-    }
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+		mv.setViewName("owner/mainList");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		return mv;
+	}
 
-    // Sort of like
-    @RequestMapping(value = "/mainListAjax")
-    public ModelAndView mainListAjax(ModelAndView mv,
-                                     @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-        int limit = 4; // 한 화면에 출력할 가게 수
-        int listCount = ownerService.getListCount() - limit;
-        List<Store> stores = ownerService.getStoreForMainList(page, limit);
+	// Sort of like
+	@RequestMapping(value = "/mainListAjax")
+	public ModelAndView mainListAjax(ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4; // 한 화면에 출력할 가게 수
+		int listCount = ownerService.getListCount() - limit;
+		List<Store> stores = ownerService.getStoreForMainList(page, limit);
 
-        if (listCount > stores.size()) {
-            mv.addObject("more", 1);
-        }
-        mv.setViewName("owner/mainListAjax");
-        mv.addObject("stores", stores);
-        mv.addObject("limit", limit);
-        mv.addObject("listCount", listCount);
-        return mv;
-    }
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+		mv.setViewName("owner/mainListAjax");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		return mv;
+	}
 
-    // Sort of distance
-    @RequestMapping(value = "/mapPage")
-    public String mapPage() {
-        return "owner/mapPage";
-    }
+	// Sort of distance
+	@RequestMapping(value = "/mapPage")
+	public String mapPage() {
+		return "owner/mapPage";
+	}
 
-    @RequestMapping(value = "/searchListMap")
-    public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
-        logger.info("search 도착");
-        StoreMap storeMap = ownerService.getMap(searchWord);
-        mv.addObject("storeMap", storeMap);
-        mv.setViewName("owner/mapPageSearch");
-        return mv;
-    }
+	@RequestMapping(value = "/searchListMap")
+	public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
+		logger.info("search 도착");
+		Store store = ownerService.getMap(searchWord);
+		mv.addObject("store", store);
+		mv.setViewName("owner/mapPageSearch");
+		return mv;
+	}
 
-    // Sort of review
-    @RequestMapping(value = "/reviewListPage")
-    public ModelAndView reviewListPage(ModelAndView mv,
-                                       @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+	// Sort of review
+	@RequestMapping(value = "/reviewListPage")
+	public ModelAndView reviewListPage(ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
 
-        int limit = 4;
-        int listCount = ownerService.getListCount();
+		int limit = 4;
+		int listCount = ownerService.getListCount();
 
-        List<Store> stores = ownerService.getStoreForReviewList(page, limit);
+		List<Store> stores = ownerService.getStoreForReviewList(page, limit);
 
-        if (listCount > stores.size()) {
-            mv.addObject("more", 1);
-        }
-        mv.setViewName("owner/reviewList");
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+		mv.setViewName("owner/reviewList");
 
-        mv.addObject("limit", limit);
-        mv.addObject("listCount", listCount);
-        mv.addObject("stores", stores);
-        return mv;
-    }
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		mv.addObject("stores", stores);
+		return mv;
+	}
 
-    @RequestMapping(value = "/reviewListPageAjax")
-    public ModelAndView reviewListPageAjax(ModelAndView mv,
-                                           @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-        int limit = 4;
-        int listCount = ownerService.getListCount() - limit;
-        List<Store> stores = ownerService.getStoreForReviewList(page, limit);
+	@RequestMapping(value = "/reviewListPageAjax")
+	public ModelAndView reviewListPageAjax(ModelAndView mv,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4;
+		int listCount = ownerService.getListCount() - limit;
+		List<Store> stores = ownerService.getStoreForReviewList(page, limit);
 
-        if (listCount > stores.size()) {
-            mv.addObject("more", 1);
-        }
-        mv.setViewName("owner/reviewListAjax");
-        mv.addObject("stores", stores);
-        mv.addObject("limit", limit);
-        mv.addObject("listCount", listCount);
-        return mv;
-    }
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
+		mv.setViewName("owner/reviewListAjax");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		return mv;
+	}
 
-    // Search
-    @RequestMapping(value = "/searchList")
-    public ModelAndView searchList(ModelAndView mv, String searchWord,
-                                   @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-        int limit = 4;
-        int listCount = ownerService.getListCountforSearchList(searchWord);
-        List<Store> stores = ownerService.getStoreForSearchList(page, limit, searchWord);
+	// Search
+	@RequestMapping(value = "/searchList")
+	public ModelAndView searchList(ModelAndView mv, String searchWord,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4;
+		int listCount = ownerService.getListCountforSearchList(searchWord);
+		List<Store> stores = ownerService.getStoreForSearchList(page, limit, searchWord);
 
-        if (listCount > stores.size()) {
-            mv.addObject("more", 1);
-        }
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
 
-        mv.setViewName("owner/searchList");
-        mv.addObject("stores", stores);
-        mv.addObject("limit", limit);
-        mv.addObject("listCount", listCount);
-        mv.addObject("searchWord", searchWord);
-        logger.info(searchWord);
-        return mv;
-    }
+		mv.setViewName("owner/searchList");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		mv.addObject("searchWord", searchWord);
+		logger.info(searchWord);
+		return mv;
+	}
 
-    @RequestMapping(value = "/searchListAjax")
-    public ModelAndView searchListAjax(ModelAndView mv, String searchWord,
-                                       @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-        int limit = 4;
-        int listCount = ownerService.getListCountforSearchList(searchWord) - limit;
-        List<Store> stores = ownerService.getStoreForSearchList(page, limit, searchWord);
+	@RequestMapping(value = "/searchListAjax")
+	public ModelAndView searchListAjax(ModelAndView mv, String searchWord,
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+		int limit = 4;
+		int listCount = ownerService.getListCountforSearchList(searchWord) - limit;
+		List<Store> stores = ownerService.getStoreForSearchList(page, limit, searchWord);
 
-        if (listCount > stores.size()) {
-            mv.addObject("more", 1);
-        }
+		if (listCount > stores.size()) {
+			mv.addObject("more", 1);
+		}
 
-        mv.setViewName("owner/searchListAjax");
-        mv.addObject("stores", stores);
-        mv.addObject("limit", limit);
-        mv.addObject("listCount", listCount);
-        return mv;
-    }
+		mv.setViewName("owner/searchListAjax");
+		mv.addObject("stores", stores);
+		mv.addObject("limit", limit);
+		mv.addObject("listCount", listCount);
+		return mv;
+	}
 
-    // Management
-    @RequestMapping(value = "/manager")
-    public ModelAndView managerView(ModelAndView mv) {
-        List<UserInfo> userInfo = ownerService.getAdminList();
-        mv.setViewName("owner/managerList");
-        mv.addObject("userInfo", userInfo);
-        return mv;
+	// Management
+	@RequestMapping(value = "/manager")
+	public ModelAndView managerView(ModelAndView mv) {
+		List<UserInfo> userInfo = ownerService.getAdminList();
+		mv.setViewName("owner/managerList");
+		mv.addObject("userInfo", userInfo);
+		return mv;
 
-    }
+	}
 
-    // Management
-    @RequestMapping(value = "/managerDetail")
-    public ModelAndView managerView(ModelAndView mv, int user_id) {
-        User user = ownerService.getAdmin(user_id);
-        UserInfo userInfo = ownerService.getAdminInfo(user_id);
-        mv.setViewName("owner/managerDetail");
-        mv.addObject("userInfo", userInfo);
-        mv.addObject("user", user);
-        return mv;
-    }
+	// Management
+	@RequestMapping(value = "/managerDetail")
+	public ModelAndView managerView(ModelAndView mv, int user_id) {
+		User user = ownerService.getAdmin(user_id);
+		UserInfo userInfo = ownerService.getAdminInfo(user_id);
+		mv.setViewName("owner/managerDetail");
+		mv.addObject("userInfo", userInfo);
+		mv.addObject("user", user);
+		return mv;
+	}
 
-    // chat for store
-    @RequestMapping(value = "/chatS")
-    public ModelAndView chat1(Store store, HttpServletRequest request, HttpSession session, ModelAndView mv)
-            throws Exception {
+	// chat for store
+	@RequestMapping(value = "/chatS")
+	public ModelAndView chat1(Store store, HttpServletRequest request, HttpSession session, ModelAndView mv)
+			throws Exception {
 
-        // int store_id = (Integer)session.getAttribute("store_id");
-        Store storeInfo = ownerService.getStore(1);
-        mv.addObject("store", storeInfo); // Store_id, Store_name, Store_saved_image
+		// int store_id = (Integer)session.getAttribute("store_id");
+		Store storeInfo = ownerService.getStore(1);
+		mv.addObject("store", storeInfo); // Store_id, Store_name, Store_saved_image
 
-        // ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
-        String requestURL = request.getRequestURL().toString();
-        // http://localhost:8088/mychat/logoiProecess
-        // url = //localhost:8088/www/owner
-        int start = requestURL.indexOf("//");
-        int end = requestURL.lastIndexOf("/o");
-        String url = requestURL.substring(start, end);
-        mv.addObject("url", url);
-        logger.info("url = " + url);
-        mv.setViewName("owner/chattingS");
-        return mv;
+		// ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
+		String requestURL = request.getRequestURL().toString();
+		// http://localhost:8088/mychat/logoiProecess
+		// url = //localhost:8088/www/owner
+		int start = requestURL.indexOf("//");
+		int end = requestURL.lastIndexOf("/o");
+		String url = requestURL.substring(start, end);
+		mv.addObject("url", url);
+		logger.info("url = " + url);
+		mv.setViewName("owner/chattingS");
+		return mv;
 
-    }
+	}
 
-    // chat for owner
-    @RequestMapping(value = "/chatM")
-    public ModelAndView chat(HttpServletRequest request, HttpSession session, ModelAndView mv) throws Exception {
-        int user_id = (Integer) session.getAttribute("user_id");
-        UserPlusInfo adminInfo = ownerService.getOwnerInfo(user_id);
-        mv.addObject("admin", adminInfo); // user_name, user_profile
+	// chat for owner
+	@RequestMapping(value = "/chatM")
+	public ModelAndView chat(HttpServletRequest request, HttpSession session, ModelAndView mv) throws Exception {
+		int user_id = (Integer) session.getAttribute("user_id");
+		UserPlusInfo adminInfo = ownerService.getOwnerInfo(user_id);
+		mv.addObject("admin", adminInfo); // user_name, user_profile
 
-        // ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
-        String requestURL = request.getRequestURL().toString();
-        // http://localhost:8088/mychat/logoiProecess
-        int start = requestURL.indexOf("//");
-        int end = requestURL.lastIndexOf("/o");
-        String url = requestURL.substring(start, end);
-        mv.addObject("url", url);
-        mv.setViewName("owner/chattingM");
-        return mv;
+		// ip로 접근하는 경우와 localhost로 접근하는 경우 모두 적용하기 위해 접근할 url을 구합니다.
+		String requestURL = request.getRequestURL().toString();
+		// http://localhost:8088/mychat/logoiProecess
+		int start = requestURL.indexOf("//");
+		int end = requestURL.lastIndexOf("/o");
+		String url = requestURL.substring(start, end);
+		mv.addObject("url", url);
+		mv.setViewName("owner/chattingM");
+		return mv;
 
-    }
+	}
 
-    // pay
-    @RequestMapping(value = "/pay")
-    public ModelAndView pay(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
-                            @RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "p_numA") int[] p_numA,
-                            @RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
-                            @RequestParam(value = "m_num") int[] m_num, @RequestParam(value = "m_numA") int[] m_numA, int user_id,
-                            int store_id, String totalPrice, int amount, ModelAndView mv) {
+	// pay
+	@RequestMapping(value = "/pay")
+	public ModelAndView pay(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "p_price") int[] p_price,
+			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "p_numA") int[] p_numA,
+			@RequestParam(value = "p_priceA") int[] p_priceA, @RequestParam(value = "o_menuA") String[] o_menuA,
+			@RequestParam(value = "m_num") int[] m_num, @RequestParam(value = "m_numA") int[] m_numA, int user_id,
+			int store_id, String totalPrice, int amount, ModelAndView mv) {
 
-        List<MiniCart> list = new ArrayList<MiniCart>();
+		List<MiniCart> list = new ArrayList<MiniCart>();
 
-        if (totalPrice.equals("")) {
-            mv.setViewName("user/orderMain?store_id=" + store_id);
-        }
+		if (totalPrice.equals("")) {
+			mv.setViewName("user/orderMain?store_id=" + store_id);
+		}
 
-        for (int i = 0; i < p_num.length; i++) {
-            if (p_num[i] > 0) {
-                MiniCart cart = new MiniCart();
-                cart.setMenuName(o_menu[i]);
-                cart.setOrderAmount(p_num[i]);
-                cart.setMenu_id(m_num[i]);
-                cart.setMenu_price(p_price[i]);
-                list.add(cart);
-            }
+		for (int i = 0; i < p_num.length; i++) {
+			if (p_num[i] > 0) {
+				MiniCart cart = new MiniCart();
+				cart.setMenuName(o_menu[i]);
+				cart.setOrderAmount(p_num[i]);
+				cart.setMenu_id(m_num[i]);
+				cart.setMenu_price(p_price[i]);
+				list.add(cart);
+			}
 
-        }
+		}
 
-        for (int i = 0; i < p_numA.length; i++) {
-            if (p_numA[i] > 0) {
-                MiniCart cart = new MiniCart();
-                cart.setMenuName(o_menuA[i]);
-                cart.setOrderAmount(p_numA[i]);
-                cart.setMenu_id(m_numA[i]);
-                cart.setMenu_price(p_priceA[i]);
-                list.add(cart);
-            }
-        }
+		for (int i = 0; i < p_numA.length; i++) {
+			if (p_numA[i] > 0) {
+				MiniCart cart = new MiniCart();
+				cart.setMenuName(o_menuA[i]);
+				cart.setOrderAmount(p_numA[i]);
+				cart.setMenu_id(m_numA[i]);
+				cart.setMenu_price(p_priceA[i]);
+				list.add(cart);
+			}
+		}
+		int orderedStore = ownerService.getOrderStore(store_id);
+		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
+		String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
+		mv.addObject("amount", amount);
+		mv.addObject("list", list);
+		mv.addObject("newtotalPrice", newtotalPrice);
+		mv.addObject("user", user);
+		mv.addObject("cartCount", list.size());
+		mv.addObject("orderedStore", orderedStore);
+		mv.setViewName("owner/payment");
+		return mv;
+	}
 
-        UserPlusInfo user = ownerService.getOwnerInfo(user_id);
-        String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
-        mv.addObject("amount", amount);
-        mv.addObject("list", list);
-        mv.addObject("newtotalPrice", newtotalPrice);
-        mv.addObject("user", user);
-        mv.addObject("cartCount", list.size());
-        mv.setViewName("owner/payment");
-        return mv;
-    }
+	@RequestMapping(value = "/payCart")
+	public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "m_num") int[] m_num,
+			@RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
+			@RequestParam(value = "cart_id") int[] cart_id, int user_id, String totalPrice, int amount,
+			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh, ModelAndView mv) {
 
-    @RequestMapping(value = "/payCart")
-    public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "m_num") int[] m_num,
-                                @RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
-                                @RequestParam(value = "cart_id") int[] cart_id, int user_id, String totalPrice, int amount,
-                                @RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh, ModelAndView mv) {
+		List<MiniCart> list = new ArrayList<MiniCart>();
 
-        List<MiniCart> list = new ArrayList<MiniCart>();
+		if (totalPrice.equals("")) {
+			mv.setViewName("owner/mainList");
+		}
 
-        if (totalPrice.equals("")) {
-            mv.setViewName("owner/mainList");
-        }
+		for (int i = 0; i < p_num.length; i++) {
+			MiniCart cart = new MiniCart();
+			cart.setMenuName(o_menu[i]);
+			cart.setOrderAmount(p_num[i]);
+			cart.setMenu_price(p_price[i]);
+			cart.setMenu_id(m_num[i]);
+			list.add(cart);
+		}
 
-        for (int i = 0; i < p_num.length; i++) {
-            MiniCart cart = new MiniCart();
-            cart.setMenuName(o_menu[i]);
-            cart.setOrderAmount(p_num[i]);
-            cart.setMenu_price(p_price[i]);
-            cart.setMenu_id(m_num[i]);
-            list.add(cart);
-        }
+		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
+		String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
+		mv.addObject("amount", amount);
+		mv.addObject("list", list);
+		mv.addObject("newtotalPrice", newtotalPrice);
+		mv.addObject("user", user);
+		mv.addObject("cartCount", list.size());
+		mv.addObject("cartTh", cartTh);
+		mv.setViewName("owner/payment");
+		return mv;
+	}
 
-        UserPlusInfo user = ownerService.getOwnerInfo(user_id);
-        String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
-        mv.addObject("amount", amount);
-        mv.addObject("list", list);
-        mv.addObject("newtotalPrice", newtotalPrice);
-        mv.addObject("user", user);
-        mv.addObject("cartCount", list.size());
-        mv.addObject("cartTh", cartTh);
-        mv.setViewName("owner/payment");
-        return mv;
-    }
+	@ResponseBody
+	@RequestMapping(value = "/verifyIamport/{imp_uid}")
+	public IamportResponse<Payment> paymentByImplUid(Model model, Local locale, HttpSession session,
+			@PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
+		return api.paymentByImpUid(imp_uid);
+	}
 
-    @ResponseBody
-    @RequestMapping(value = "/verifyIamport/{imp_uid}")
-    public IamportResponse<Payment> paymentByImplUid(Model model, Local locale, HttpSession session,
-                                                     @PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
-        return api.paymentByImpUid(imp_uid);
-    }
-
-    @RequestMapping(value = "/payment_complete")
+	@RequestMapping(value = "/payment_complete")
     public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
                                          @RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
                                          @RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh,
                                          @RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount, ModelAndView mv,
-                                         @RequestParam(value = "usedPoint", defaultValue = "0", required = false) int point) {
+                                         @RequestParam(value = "usedPoint", defaultValue = "0", required = false) int point,  int ordered_store)
+   {
 
         int cartStatus = 0;
         for (int i = 0; i < m_num.length; i++) {
@@ -367,19 +368,18 @@ public class OwnerController {
                 logger.info("order + detail 성공");
             }
         }
-
-        mv.setViewName("user/orderView?user_id=" + user_id);
+		mv.addObject("amount", amount);
+		mv.addObject("orderedStore", ordered_store);
+        mv.setViewName("owner/paySuccess");
         return mv;
     }
 
+	@ResponseBody
+	@RequestMapping(value = "/revoke", method = RequestMethod.GET)
+	public int revoke(int user_id) {
+		int result = ownerService.revoke(user_id);
+		return result;
 
-    @ResponseBody
-    @RequestMapping(value = "/revoke", method = RequestMethod.GET)
-    public int revoke(int user_id) {
-        int result = ownerService.revoke(user_id);
-        return result;
-
-    }
-
+	}
 
 }

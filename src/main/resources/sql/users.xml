@@ -216,10 +216,16 @@
     update users users set role_id = 5 where user_id = #{user_id}
     </update>
     
+
+       <select id="getOrderStore" parameterType="int" resultType="int">
+    select owner_id from stores where store_id = #{store_id}
+      </select>
+
     <select id="likesCount" parameterType="int" resultType="int">
     select count(*)
     from likes
     where user_id=#{user_id}
+
     </select>
     
 </mapper>

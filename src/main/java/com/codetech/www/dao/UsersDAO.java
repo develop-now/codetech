@@ -136,6 +136,11 @@ public class UsersDAO {
 		return sqlSession.update("users.revoke", user_id);
 	}
 
+
+	public int getOrderStore(int store_id) {
+		return sqlSession.selectOne("users.getOrderStore", store_id);
+
+}
 	public int chcekStoreLikeAsUser(Map<String, Integer> map) {
 		Integer result = sqlSession.selectOne("users.checkLike", map);
 		logger.info("checkLike xml 값조회 완료 후 result = "+result );

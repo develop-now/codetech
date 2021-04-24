@@ -31,6 +31,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         User user = sqlSession.selectOne("users.authIdCheck", authentication.getName());
 
         session.setAttribute("user_id", user.getUser_id());
+        session.setAttribute("user_idS", user.getUser_id()+"");
         session.setAttribute("role", user.getAuth());
 
         logger.info("Login Success Handler USER ROLE : " + user.getAuth());
