@@ -104,7 +104,7 @@ public class StoreDAO {
         return sqlSession.selectOne("Stores.getListCountforSearchList", searchWord);
     }
 
-    public StoreMap getMap(String searchWordLike) {
+    public Store getMap(String searchWordLike) {
         return sqlSession.selectOne("Stores.getMap", searchWordLike);
     }
 
@@ -163,6 +163,10 @@ public class StoreDAO {
     public int reportStore(HashMap<String, Object> map) {
         return sqlSession.insert("Stores.storeReport", map);
     }
+
+	public int favoriteAdd(HashMap<String, Integer> map) {
+		return sqlSession.insert("Stores.favoriteAdd", map);
+	}
 
 
 

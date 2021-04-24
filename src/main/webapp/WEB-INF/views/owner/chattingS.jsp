@@ -39,6 +39,7 @@
     </style>
     <title>chatting for store</title>
 </head>
+
 <body>
 <div id="frame">
     <div class="content">

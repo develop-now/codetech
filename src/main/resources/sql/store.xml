@@ -256,8 +256,8 @@
                 s1.store_id
     </sql>
 
-    <select id="getMap" resultType="storemap" parameterType="String">
-        select * from storemap where
+    <select id="getMap" resultType="store" parameterType="String">
+        select * from store where
         <include refid="forSearch"/>
         and rownum &lt;= 1
     </select>
@@ -316,5 +316,14 @@
                 sysdate, sysdate, 1, #{user_id}, #{store_id})
     </insert>
 
-
+	<select id="readStoreReport" parameterType="int" resultType="report">
+		select *
+		from store_report
+		where store_report_id =#{store_report_id}
+	</select>
+	
+	<insert id="favoriteAdd" parameterType="map">
+		insert into likes
+		values((select nvl(max(like_id),0)+1 from likes),sysdate, #{store_id}, #{user_id})
+	</insert>
 </mapper>

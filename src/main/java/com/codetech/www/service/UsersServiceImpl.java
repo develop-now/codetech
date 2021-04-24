@@ -135,11 +135,6 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public List<Report> reportStoreAndComment(int user_id) {
-		return udao.reportStoreAndComment(user_id);
-	}
-
-	@Override
 	public int addReport(Report report) {
 		return udao.addReport(report);
 	}
@@ -218,7 +213,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public int cartRegister(int user_id,  int p_num, int m_num) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-
+		logger.info("ddddddddddddddddddddddddddddddddddddddddddddddddddddd"+user_id+"  "+p_num+"   " + m_num);
 		map.put("user_id", user_id);
 		map.put("amount", p_num);
 		map.put("menu_id", m_num);
@@ -317,6 +312,44 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public int getPointValue(int order_id) {
 		return udao.getPointValue(order_id);
+	}
+
+	@Override
+	public int checkStoreLikeAsUser(Integer user_id, int store_id) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("user_id", user_id);
+		map.put("store_id", store_id);
+		logger.info("스토어의 유저좋아요 유무 user_id="+user_id +" store_id="+ store_id);
+		return udao.chcekStoreLikeAsUser(map);
+	}
+
+	@Override
+	public int favoriteAdd(int user_id, int store_id) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("store_id", store_id);
+		map.put("user_id", user_id);
+		return sdao.favoriteAdd(map);
+	}
+
+	@Override
+	public int likesCount(int user_id) {
+		return udao.likesCount(user_id);
+	}
+
+	@Override
+	public List<Report> reportStoreAndUserList(int user_id,int page,int limit) {
+		HashMap<String, Integer> map = new HashMap<String,Integer>();
+		int startrow=(page-1)*limit+1;
+		int endrow=startrow+limit-1;
+		map.put("user_id", user_id);
+		map.put("start", startrow);
+		map.put("end",  endrow);
+		return udao.reportStoreAndUserList(map);
+	}
+
+	@Override
+	public int getReportListCount(int user_id) {
+		return udao.getReportListCount(user_id);
 	}
 
 }

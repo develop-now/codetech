@@ -299,20 +299,20 @@
 		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
 		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
 		      
-		      R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
-		      
-		      R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
-		      
+          R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+          
+		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
+		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
 		      FROM (SELECT
 		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
 		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
 		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE,
+		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
 		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
 		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,    
+		            U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,    
 		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
 		                    
 		            FROM
@@ -321,8 +321,10 @@
 		                                   
 		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
 		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+		                           
+		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 5
 		            <if test="select_field != null">
-		            WHERE
+		            AND
 		            	<choose>
 		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
 		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
@@ -342,20 +344,20 @@
 		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
 		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
 		      
-		      R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
-		      
-		      R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
-		      
+          	  R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+          
+		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
+		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
 		      FROM (SELECT
 		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
 		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
 		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE,
+		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
 		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
 		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,    
+		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,  U2.ROLE_ID AS REPORTER_ROLE_ID,    
 		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
 		                    
 		            FROM
@@ -364,8 +366,10 @@
 		                                   
 		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
 		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+		                           
+		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 5
 		            <if test="select_field != null">
-		            WHERE
+		            AND
 		            	<choose>
 		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
 		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
@@ -377,4 +381,218 @@
               ) R
        )
 	</select>
+	
+	<update id="RULstatusChange" parameterType="int">
+		UPDATE USER_REPORT
+		SET	REPORT_STATUS = 2
+		WHERE USER_REPORT_ID =  #{user_report_id}
+	</update>
+	
+	<update id="RULstatusCompleted" parameterType="int">
+		UPDATE USER_REPORT
+		SET	REPORT_STATUS = 3, UPDATED_AT = SYSDATE
+		WHERE USER_REPORT_ID =  #{user_report_id}
+	</update>
+	
+	<select id="getRSL" parameterType="map" resultType="rul">
+		SELECT * 
+		FROM (SELECT ROWNUM RNUM,
+		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
+		      
+          	  R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+          
+		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
+		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
+		      FROM (SELECT
+		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
+		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
+		                    
+		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
+		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+		                    
+		            U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,    
+		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
+		                    
+		            FROM
+		            USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
+		                           INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+		                                   
+		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
+		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+		                           
+		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 3
+		            <if test="select_field != null">
+		            AND
+		            	<choose>
+		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+		            		<when test="select_field == 'created_at'">UR.CREATED_AT</when>
+		            	</choose>
+		            LIKE #{search_word}
+		            </if>
+		            ORDER BY U.REPORT_COUNT
+              ) R
+       )
+       WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+	</select>
+	
+	<select id="getRSLcount" parameterType="map" resultType="int">
+		SELECT COUNT(*) 
+		FROM (SELECT ROWNUM RNUM,
+		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
+		      
+          	  R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+          
+		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
+		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
+		      FROM (SELECT
+		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
+		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
+		                    
+		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
+		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+		                    
+		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,  U2.ROLE_ID AS REPORTER_ROLE_ID,    
+		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
+		                    
+		            FROM
+		            USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
+		                           INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+		                                   
+		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
+		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+		                           
+		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 3
+		            <if test="select_field != null">
+		            AND
+		            	<choose>
+		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+		            		<when test="select_field == 'created_at'">UR.CREATED_AT</when>
+		            	</choose>
+		            LIKE #{search_word}
+		            </if>
+		            ORDER BY U.REPORT_COUNT
+              ) R
+       )
+	</select>
+	
+	<update id="RSLstatusChange" parameterType="int">
+		UPDATE USER_REPORT
+		SET	REPORT_STATUS = 2
+		WHERE USER_REPORT_ID =  #{user_report_id}
+	</update>
+	
+	<update id="RSLstatusCompleted" parameterType="int">
+		UPDATE USER_REPORT
+		SET	REPORT_STATUS = 3, UPDATED_AT = SYSDATE
+		WHERE USER_REPORT_ID =  #{user_report_id}
+	</update>
+	
+	<select id="getRUS" parameterType="map" resultType="rsl">
+		SELECT * 
+		FROM (SELECT ROWNUM RNUM,
+		      R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
+		      
+		      R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
+		      
+		      R.REPORTER_USER_EMAIL,
+		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
+		      
+		      FROM (SELECT
+		            SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
+		            SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
+		                    
+		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE,
+		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+		                    
+		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,    
+		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
+		                    
+		            FROM
+		            STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
+		                            INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+		                                   
+		                            INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
+		                            INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+		                           
+		            WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
+		            <if test="select_field != null">
+		            AND
+		            	<choose>
+		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+		            		<when test="select_field == 'created_at'">SR.CREATED_AT</when>
+		            	</choose>
+		            LIKE #{search_word}
+		            </if>
+		            ORDER BY U.REPORT_COUNT
+              ) R
+       )
+       WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+	</select>
+	
+	<select id="getRUScount" parameterType="map" resultType="int">
+		SELECT COUNT(*) 
+		FROM (SELECT ROWNUM RNUM,
+		      R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
+		      
+		      R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
+		      
+		      R.REPORTER_USER_EMAIL,
+		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
+		      
+		      FROM (SELECT
+		            SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
+		            SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
+		                    
+		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE,
+		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+		                    
+		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,    
+		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
+		                    
+		            FROM
+		            STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
+		                            INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+		                                   
+		                            INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
+		                            INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+		                           
+		            WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
+		            <if test="select_field != null">
+		            AND
+		            	<choose>
+		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+		            		<when test="select_field == 'created_at'">SR.CREATED_AT</when>
+		            	</choose>
+		            LIKE #{search_word}
+		            </if>
+		            ORDER BY U.REPORT_COUNT
+              ) R
+       )
+	</select>
+	
+	<update id="RUSstatusChange" parameterType="int">
+		UPDATE STORE_REPORT
+		SET	REPORT_STATUS = 2
+		WHERE STORE_REPORT_ID =  #{store_report_id}
+	</update>
+	
+	<update id="RUSstatusCompleted" parameterType="int">
+		UPDATE STORE_REPORT
+		SET	REPORT_STATUS = 3, UPDATED_AT = SYSDATE
+		WHERE STORE_REPORT_ID =  #{store_report_id}
+	</update>
 </mapper>

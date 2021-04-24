@@ -2,17 +2,14 @@ package com.codetech.www.domain;
 
 public class Report {
 	/*common report table*/
-	private int rownum;
 	private String report_subject;
 	private String report_content;
 	private String created_at;
 	private String updated_at;
 	private int report_status;
 	private int reporter;
-	
-	/*comment_report*/
-	private int cmt_report_id;
-	private int reported_cmt;
+	private String store_name;
+	private String user_name;
 	
 	/*store_report*/
 	private int store_report_id;
@@ -23,11 +20,18 @@ public class Report {
 	private int reported_user;
 	
 	
-	public int getRownum() {
-		return rownum;
+	
+	public String getStore_name() {
+		return store_name;
 	}
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 	public String getReport_subject() {
 		return report_subject;
@@ -64,18 +68,6 @@ public class Report {
 	}
 	public void setReporter(int reporter) {
 		this.reporter = reporter;
-	}
-	public int getCmt_report_id() {
-		return cmt_report_id;
-	}
-	public void setCmt_report_id(int cmt_report_id) {
-		this.cmt_report_id = cmt_report_id;
-	}
-	public int getReported_cmt() {
-		return reported_cmt;
-	}
-	public void setReported_cmt(int reported_cmt) {
-		this.reported_cmt = reported_cmt;
 	}
 	public int getStore_report_id() {
 		return store_report_id;

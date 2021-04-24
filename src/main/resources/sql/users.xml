@@ -107,20 +107,34 @@
 		where user_id = #{user_id}
 	</update>
 	
-	 <select id="reportStoreAndComment" parameterType="int" resultType="report">
-    select rownum , rsc.* 
-	from (	select * 
-			from (
-					select to_number(null) store_report_id, cmt_report_id, report_subject, report_content
-					, created_at, updated_at, report_status, reporter, reported_cmt, to_number(null)reported_store           
-					from COMMENT_REPORT where reporter = #{user_id}
+	 <select id="reportStoreAndUserList" parameterType="int" resultType="report">
+	    select *
+		from(select rownum , ruc.* 
+			from (	select * 
+					from (
+							select to_number(null) store_report_id, user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, reported_user, to_number(null)reported_store           
+							from user_report where reporter = #{user_id}
+							union all
+							select store_report_id, to_number(null) user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, to_number(null)reported_user, reported_store 
+							from STORE_REPORT where reporter = #{user_id}
+							)uc
+					order by uc.created_at desc
+				)ruc
+			)
+		where rownum between #{start} and #{end}
+    </select>
+    
+    <select id="reportCount" parameterType="int" resultType="int">
+    	select count(*)
+    	from (select *
+    			from(
+					select to_number(null) store_report_id, user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, reported_user, to_number(null)reported_store           
+					from user_report where reporter = #{user_id}
 					union all
-					select store_report_id, to_number(null) cmt_report_id, report_subject, report_content
-					, created_at, updated_at, report_status, reporter, to_number(null)reported_cmt, reported_store 
+					select store_report_id, to_number(null) user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, to_number(null)reported_user, reported_store 
 					from STORE_REPORT where reporter = #{user_id}
-					)sc
-			order by sc.created_at desc
-	)rsc
+					)
+    			)
     </select>
     
     <insert id="addStoreReport" parameterType="report">
@@ -171,6 +185,11 @@
 		where order_id = #{order_id} and point_type = 'use'
 	</select>
 	
+	<select id="checkLike" parameterType="map" resultType="Integer">
+		select like_id
+		from likes
+		where user_id = #{user_id} and store_id = #{store_id}
+	</select> 
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">
         update users
@@ -196,5 +215,17 @@
     <update id="revoke" parameterType="int">
     update users users set role_id = 5 where user_id = #{user_id}
     </update>
+    
+
+       <select id="getOrderStore" parameterType="int" resultType="int">
+    select owner_id from stores where store_id = #{store_id}
+      </select>
+
+    <select id="likesCount" parameterType="int" resultType="int">
+    select count(*)
+    from likes
+    where user_id=#{user_id}
+
+    </select>
     
 </mapper>

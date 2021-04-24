@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/css/users/order-main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/order.css">
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -39,6 +40,10 @@
     <div class="container-fluid">
         <div class="row">
             <%@include file="user-nav-mypage.jsp" %>
+            <div class="col-12 col-sm-10">
+            <div class="store-order-main-container">
+                    <input type="hidden" name="count" id="count" value="${count }">
+                    <input type="hidden" name="likeValue" id="likeValue" value="${likeValue }">
             <form action="${pageContext.request.contextPath}/owner/pay"
                   method="get">
                 <!-- searchbar -->
@@ -47,14 +52,35 @@
                         뉴</a>
                     <a href="javascript:void(0);" class='storeReview-btn'>리뷰보기</a>
                 </div>
-                <div class="col-12 col-sm-10">
+                <div class='store_oreder_main_table'>
+                  <table>
+                     <tbody>
+                        <tr><td></td></tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="RVaddMessage text-center"></div>
+                <div class="col-12 store_oreder_main">
                     <div class="order">
                         <div class="storeInfoView">
                             <div class="storeName">
                                 <h2>${store.store_name}</h2>
+                                <div class="likesForAjax">
                                 <img class="card-img-heart"
                                      src="${pageContext.request.contextPath}/resources/upload/love.png"
-                                     width="50" height="50" alt=""> ${storeLike }
+                                     width="50" height="50" alt=""> ${storeLike}
+                                <span class="likeStoreStatus">
+                                	<span id="likeValue"style="visibility:hidden;">${likeValue }</span>
+                                	<c:choose>
+										<c:when test="${likeValue eq 2}">
+	                                	<a >즐겨찾기추가</a>
+									  </c:when>  
+									    <c:when test="${likeValue eq 3}">
+									    <a >즐겨찾기취소</a>
+									  </c:when>                              	
+                                	</c:choose>
+                                </span>
+                                </div>
                             </div>
                             <div class="storeAddress">${store.store_address_si }
                                 &nbsp;${store.store_address_gu }&nbsp;${store.store_address_dong }&nbsp;${store.store_address_etc }
@@ -69,7 +95,7 @@
                                 <c:forEach var="topMenu" items="${topMenu}" varStatus="status">
                                     <div class="topMenus">
                                         <img class="card-img-heart"
-                                             src="${pageContext.request.contextPath}/resources/upload/${topMenu.menu_saved_image}"
+                                             src="${pageContext.request.contextPath}/resources/upload${topMenu.menu_saved_image}"
                                              width="100" height="100" alt="">&nbsp;&nbsp;
                                         <div class="menuName">
                                             <input type="hidden" name="o_menu"
@@ -98,7 +124,8 @@
                                                        onkeyup="javascript:basket.changePNum(${status.count});">
                                                 <span id="pmbtn"
                                                       onclick="javascript:basket.changePNum(${status.count});"><i
-                                                        class="fas fa-arrow-alt-circle-up up"></i></span> <span
+                                                        class="fas fa-arrow-alt-circle-up up"></i></span>
+                                                <span
                                                     id="pmbtn"
                                                     onclick="javascript:basket.changePNum(${status.count});"><i
                                                     class="fas fa-arrow-alt-circle-down down"></i></span>
@@ -112,6 +139,7 @@
                             </div> <!-- topMenu -->
                             <hr>
                             <div class="categories">
+                            <div>
                                 <c:set var="coffee" value="0"/>
                                 <c:set var="dessert" value="0"/>
                                 <c:set var="japanese" value="0"/>
@@ -145,6 +173,7 @@
                                                     <c:set var="western" value="${western + 1}"/>
                                                     </c:when>
                                                     </c:choose>
+                                                    <div>
                                                     <img class="card-img-heart"
                                                          src="${pageContext.request.contextPath}/resources/upload/${allMenu.menu_saved_image}"
                                                          width="100" height="100" alt="">
@@ -176,8 +205,10 @@
                                                         </div> <!-- updown -->
                                                     </div> <!-- num -->
                                                     <br>
-                                                </div> <!-- per categories -->
+                                                </div> <!-- when class set -->
                                                 </c:forEach>
+                                                 </div>
+                                               </div>
                                             </div> <!-- categories -->
                                             <br> <br> <br>
                                         </div> <!-- menuView -->
@@ -202,12 +233,15 @@
                                     </div>
                                     <!-- order -->
                                 </div>
-                                <!-- col-12 col-sm-10 -->
+                                <!-- inside col-12 col-sm-10 -->
             </form>
+            </div><!-- ordermain Main container -->
+           </div> <!--  out col-12 col-sm-10 -->
         </div>
         <!-- row -->
     </div>
     <!-- container-fluid-->
+    </div>    <!-- container-fluid-->
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
     <script>

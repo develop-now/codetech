@@ -13,8 +13,18 @@ public class Comment {
     private int comment_status;
     private String comment_writer_value;
     private String comment_store_value;
+    
+    private Integer like_id;
 
-    public String getComment_store_value() {
+    public Integer getLike_id() {
+		return like_id;
+	}
+
+	public void setLike_id(Integer like_id) {
+		this.like_id = like_id;
+	}
+
+	public String getComment_store_value() {
 		return comment_store_value;
 	}
 

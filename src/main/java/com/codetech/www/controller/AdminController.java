@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.Notice;
+import com.codetech.www.domain.ReportStoreList;
 import com.codetech.www.domain.ReportUserList;
 import com.codetech.www.domain.StoreInfoList;
 import com.codetech.www.domain.UserPlusInfo;
@@ -645,10 +646,6 @@ public class AdminController {
 		}
 	}
 	
-//	@RequestMapping(value = "/reportUser", method = RequestMethod.GET)
-//	public String reportUser() {
-//		return "admin/report-user";
-//	}
 	
 	@RequestMapping(value = "/reportUser", method = RequestMethod.GET)
 	public ModelAndView reportUser(
@@ -692,13 +689,153 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/reportStore", method = RequestMethod.GET)
-	public String reportStore() {
-		return "admin/report-store";
+	@ResponseBody
+	@RequestMapping(value = "/RULstatusProcessing", method = RequestMethod.POST)
+	public int RULstatusChange(@RequestParam("user_report_id") int user_report_id) {
+		logger.info("report-user 읽음 AJAX: " + user_report_id);
+		
+		int result = adminService.RULstatusChange(user_report_id);
+		logger.info("result 값: " + result);
+		
+		return result;
 	}
 	
-	@RequestMapping(value = "/reportComment", method = RequestMethod.GET)
-	public String reportComment() {
-		return "admin/report-comment";
+	@ResponseBody
+	@RequestMapping(value = "/RULstatusCompleted", method = RequestMethod.POST)
+	public int RULstatusCompleted(@RequestParam("user_report_id") int user_report_id) {
+		logger.info("report-user 처리 AJAX: " + user_report_id);
+		
+		int result = adminService.RULstatusCompleted(user_report_id);
+		logger.info("result 값: " + result);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/reportStore", method = RequestMethod.GET)
+	public ModelAndView reportStore(
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page,
+			@RequestParam(value = "select_field", defaultValue = "-1") int index,
+			@RequestParam(value = "search_text", defaultValue = "") String search_text, ModelAndView mv) {
+		logger.info("--------------------- 스토어 리포트 리스트 ---------------------");
+		logger.info("검색 조건: " + index + " 검색어: " + search_text);
+		logger.info("-------------------------------------------------------");
+		
+		List<ReportUserList> RSL = null;
+		
+		int limit = 10;
+		
+		int listcount = adminService.getRSLcount(index, search_text);
+				  RSL = adminService.getRSL(index, search_text, page, limit);
+				  
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/report-store");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("listcount", listcount);
+		mv.addObject("ReportUserList", RSL);
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/RSLstatusProcessing", method = RequestMethod.POST)
+	public int RSLstatusProcessing(@RequestParam("user_report_id") int user_report_id) {
+		logger.info("report-user 읽음 AJAX: " + user_report_id);
+		
+		int result = adminService.RSLstatusChange(user_report_id);
+		logger.info("result 값: " + result);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/RSLstatusCompleted", method = RequestMethod.POST)
+	public int RSLstatusCompleted(@RequestParam("user_report_id") int user_report_id) {
+		logger.info("report-user 처리 AJAX: " + user_report_id);
+		
+		int result = adminService.RSLstatusCompleted(user_report_id);
+		logger.info("result 값: " + result);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/reportUserStore", method = RequestMethod.GET)
+	public ModelAndView reportComment(
+			@RequestParam(value = "page", defaultValue = "1", required = false) int page,
+			@RequestParam(value = "select_field", defaultValue = "-1") int index,
+			@RequestParam(value = "search_text", defaultValue = "") String search_text, ModelAndView mv) {
+		logger.info("--------------------- 댓글 리포트 리스트 ---------------------");
+		logger.info("검색 조건: " + index + " 검색어: " + search_text);
+		logger.info("-------------------------------------------------------");
+		
+		List<ReportStoreList> RUS = null;
+		
+		int limit = 10;
+		
+		int listcount = adminService.getRUScount(index, search_text);
+		RUS = adminService.getRUS(index, search_text, page, limit);
+				  
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+
+		// 현재 페이지에 보여줄 시작 페이지수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+
+		// 현재 페이지에 보여줄 마지막 페이지 수 (10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+
+		if (endpage > maxpage)
+			endpage = maxpage;
+
+		mv.setViewName("admin/report-user-store");
+
+		mv.addObject("limit", limit);
+		mv.addObject("page", page);
+
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+
+		mv.addObject("listcount", listcount);
+		mv.addObject("ReportStoreList", RUS);
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/RUSstatusProcessing", method = RequestMethod.POST)
+	public int RUSstatusProcessing(@RequestParam("store_report_id") int store_report_id) {
+		logger.info("report-user-store 읽음 AJAX: " + store_report_id);
+		
+		int result = adminService.RUSstatusChange(store_report_id);
+		logger.info("result 값: " + result);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/RUSstatusCompleted", method = RequestMethod.POST)
+	public int RUSstatusCompleted(@RequestParam("store_report_id") int store_report_id) {
+		logger.info("report-user-store 처리 AJAX: " + store_report_id);
+		
+		int result = adminService.RUSstatusCompleted(store_report_id);
+		logger.info("result 값: " + result);
+		
+		return result;
 	}
 }

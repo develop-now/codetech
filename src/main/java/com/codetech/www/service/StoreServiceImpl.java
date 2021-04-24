@@ -106,7 +106,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Report readStoreReport(int store_report_id) {
-        return store_dao.readStoreReport(store_report_id);
+    	logger.info("fffffffffffffffffffffffffffffffffff"+ store_report_id);
+    	return store_dao.readStoreReport(store_report_id);
     }
 
     @Override
