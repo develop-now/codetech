@@ -95,36 +95,36 @@ create table user_info
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
 
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (1, 'site_owner', '111-222-3333', 'korea', 1);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (2, 'site_admin', '111-222-3333', 'korea', 2);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (3, 'store_owner', '111-222-3333', 'korea', 3);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (4, 'staff', '111-222-3333', 'korea', 4);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (5, 'user5', '111-222-3333', 'korea', 5);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (6, 'user6', '111-222-3333', 'korea', 6);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (7, 'user7', '111-222-3333', 'korea', 7);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (8, 'user8', '111-222-3333', 'korea', 8);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (9, 'user9', '111-222-3333', 'korea', 9);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (10, 'user10', '111-222-3333', 'korea', 10);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (11, 'user11', '111-222-3333', 'korea', 11);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (12, 'user12', '111-222-3333', 'korea', 12);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (13, 'user13', '111-222-3333', 'korea', 13);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (14, 'user14', '111-222-3333', 'korea', 14);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (15, 'user15', '111-222-3333', 'korea', 15);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (1, 'site_owner', '111-222-3333', 'korea','/derault.png', 1);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (2, 'site_admin', '111-222-3333', 'korea','/derault.png', 2);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (3, 'store_owner', '111-222-3333','/derault.png', 'korea', 3);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (4, 'staff', '111-222-3333', 'korea','/derault.png', 4);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (5, 'user5', '111-222-3333', 'korea','/derault.png', 5);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (6, 'user6', '111-222-3333', 'korea','/derault.png', 6);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (7, 'user7', '111-222-3333', 'korea','/derault.png', 7);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (8, 'user8', '111-222-3333', 'korea','/derault.png', 8);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (9, 'user9', '111-222-3333', 'korea','/derault.png', 9);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (10, 'user10', '111-222-3333', 'korea','/derault.png', 10);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (11, 'user11', '111-222-3333', 'korea','/derault.png', 11);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (12, 'user12', '111-222-3333', 'korea','/derault.png', 12);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (13, 'user13', '111-222-3333', 'korea','/derault.png', 13);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (14, 'user14', '111-222-3333', 'korea','/derault.png', 14);
+insert into user_info (info_id, user_name, user_tel, user_address, user_profile, user_id)
+values (15, 'user15', '111-222-3333', 'korea','/derault.png', 15);
 
 
 drop table persistent_logins cascade constraints;
@@ -282,73 +282,73 @@ create table menus
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (1, '테스트 메뉴1', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+        '/image.jpg', '/image.jpg', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (2, '테스트 메뉴2', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+        '/image.jpg', '/image.jpg', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (3, '테스트 메뉴3', '이건 테스트 메뉴입니다', '47000',
-        'image.jpg', 'image.jpg', 1, 1);
+        '/image.jpg', '/image.jpg', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (4, '테스트 메뉴4', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+        '/image.jpg', '/image.jpg', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '38000',
-        'image.jpg', 'image.jpg', 1, 2);
+        '/image.jpg', '/image.jpg', 1, 2);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 3);
+        '/image.jpg', '/image.jpg', 1, 3);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '48000',
-        'image.jpg', 'image.jpg', 2, 1);
+        '/image.jpg', '/image.jpg', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (8, '테스트 메뉴8', '이건 테스트 메뉴입니다', '41000',
-        'image.jpg', 'image.jpg', 2, 1);
+        '/image.jpg', '/image.jpg', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (9, '테스트 메뉴9', '이건 테스트 메뉴입니다', '13000',
-        'image.jpg', 'image.jpg', 2, 1);
+        '/image.jpg', '/image.jpg', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (10, '테스트 메뉴10', '이건 테스트 메뉴입니다', '48000',
-        'image.jpg', 'image.jpg', 2, 2);
+        '/image.jpg', '/image.jpg', 2, 2);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (11, '테스트 메뉴11', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 4, 1);
+        '/image.jpg', '/image.jpg', 4, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 4, 3);
+        '/image.jpg', '/image.jpg', 4, 3);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 1);
+        '/image.jpg', '/image.jpg', 5, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 2);
+        '/image.jpg', '/image.jpg', 5, 2);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 3);
+        '/image.jpg', '/image.jpg', 5, 3);
 
 
 drop table order_status cascade constraints;

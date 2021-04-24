@@ -164,6 +164,10 @@ public class StoreDAO {
         return sqlSession.insert("Stores.storeReport", map);
     }
 
+	public int favoriteAdd(HashMap<String, Integer> map) {
+		return sqlSession.insert("Stores.favoriteAdd", map);
+	}
+
 
 
 
