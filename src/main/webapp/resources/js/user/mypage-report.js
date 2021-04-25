@@ -4,7 +4,7 @@ $(function(){
 	go(page)
 })
 function go(page){
-	var data = "&page=" + page;
+	var data = "page=" + page;
 	ajax(data);
 }
 
@@ -22,27 +22,28 @@ function ajax(sdata) {
 	console.log(sdata)
 	output = "";
 	$.ajax({
-		type : "POST",
-		data : sdata,
-		url : "../user/reportList",
-		dataType : "json",
+		type : "get",
+		url : "../user/reportList?"+sdata,
 		cache : false,
 		success : function(data){
 			if (data.reportCount > 0) { // 총갯수가 0보다 큰경우
+				console.log("성공")
 				$(".report__table tbody").remove();
+				console.log("repr"+data.reportCount)
 				var num = data.reportCount - (data.page -1) * data.limit;
-				console.log(num)
 				output = "<tbody>";
 				$(data.list).each(
 					function(index, item){
-					output += '<tr><td>' + (num--) + '</td>'
-					output += "<td><div>" 
+						console.log(num);
+						output += '<tr><td>' + (num--) + '</td>'
+						output += "<td><div>" 
 					if(item.store_report_id != 0){
 						output += ' <a href="../user/reportDetail?store_report_id='+ item.store_report_id + '">'
 					}else if(item.user_report_id != 0){
 						output += ' <a href="../user/reportDetail?user_report_id='+ item.user_report_id + '">'
 					}
-					output += item.report_subject.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</a></div></td>'
+						output += item.report_subject.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</a></div></td>'
+							+ "<td>"+ item.created_at + "</td>"
 					if(item.report_status == 1){
 						output += '<td><span>등록완료</span></td>'
 					}else if(item.report_status == 2){
@@ -55,7 +56,7 @@ function ajax(sdata) {
 				output += "</tbody>"
 				$('table').append(output)//table완성
 				
-				$(".pointPagination").empty(); //페이징 처리 영역 내용 제거
+				$(".reportPagination").empty(); //페이징 처리 영역 내용 제거
 	            output = "";
 	            
 	            digit = '이전&nbsp;';
@@ -80,7 +81,7 @@ function ajax(sdata) {
 		            }
 		            setPaging(href, digit);	
 		            
-		            $('.pointPagination').append(output)
+		            $('.reportPagination').append(output)
 			}//if(data.list) end
 			
 		},//success end

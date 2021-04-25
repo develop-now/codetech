@@ -99,14 +99,12 @@ public class UsersController {
             logger.info("remember id : " + cookie.getValue());
         }
     }
-
+    @ResponseBody
     @RequestMapping(value = "/emailcheck", method = RequestMethod.GET)
-    public void emailcheck(String user_email, HttpServletResponse response) throws IOException {
+    public  int emailcheck(String user_email) throws IOException {
+    	logger.info("emailcheck 도착");
         int result = usersService.isEmail(user_email);
-        response.setContentType("text/html;charset=utf-8");
-        logger.info("emailcheck 도착" + result);
-        PrintWriter out = response.getWriter();
-        out.println(result);
+        return result;
     }
 
     @RequestMapping(value = "/nickcheck", method = RequestMethod.GET)
@@ -222,7 +220,6 @@ public class UsersController {
         // UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로
         // 가져오기(조인사용)
         // 좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
-
         mv.setViewName("user/mypage-infomain");
         mv.addObject("userPlusInfo", upi);
         // mv.addAttribute("userinfo", upi);
@@ -467,11 +464,17 @@ public class UsersController {
 	 * mv.setViewName("user/mypage-report"); mv.addObject("list", report); return
 	 * mv; }
 	 */
+    @GetMapping("/reportListGo")
+    public String reportListGo(){
+    	logger.info("reportlistgo =================");
+    	return "user/mypage-report";
+    }
+    
     @ResponseBody
-    @RequestMapping(value = "/reportList", method = RequestMethod.POST)
-    public ModelAndView reportList(@RequestParam(value="page", defaultValue="1", required = false)int page
-    							, ModelAndView mv) {
-        logger.info("reportListAjax도착");
+    @RequestMapping(value = "/reportList", method = RequestMethod.GET)
+    public Map<String, Object> reportList(@RequestParam(value="page", defaultValue="1", required = false)int page
+    							) {
+        logger.info("reportListAjax도착"+page);
         int user_id = (int) session.getAttribute("user_id");
         logger.info("접속한유저" + user_id);
         
@@ -482,13 +485,18 @@ public class UsersController {
         int maxpage = (reportCount + limit - 1) / limit;
         int startpage = ((page - 1) / 10) * 10 + 1;
         int endpage = startpage + 10 - 1;
-
         if (endpage > maxpage)
             endpage = maxpage;
-        mv.setViewName("user/mypage-report");
-        mv.addObject("list", report);
-        mv.addObject("reportCount", reportCount);
-        return mv;
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("list", report);
+        map.put("page",page);
+        map.put("limit",limit);
+        map.put("reportCount", reportCount);
+        map.put("maxpage", maxpage);
+        map.put("startpage", startpage);
+        map.put("endpage", endpage);
+        
+        return map;
     }
     
     @RequestMapping(value = "/reportDetail", method = RequestMethod.GET)
