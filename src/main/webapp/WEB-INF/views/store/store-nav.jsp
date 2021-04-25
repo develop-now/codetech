@@ -14,7 +14,7 @@
 
 <div id="sideNav" class="col-12 col-sm-2">
     <ul class="nav" id="storeNavWrapper">
-        <sec:authorize access="hasRole('ROLE_STORE_OWNER')">
+        <sec:authorize access="isAuthenticated()">
             <li class="nav-item">
                 <a href="<c:url value="/store/store-create"/>"
                    class="nav-link <c:out value="${storeNavVal eq 'storeCreate' ? 'active' : ''}"/>">가게 만들기</a>
