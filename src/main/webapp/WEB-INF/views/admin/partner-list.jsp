@@ -331,10 +331,7 @@ $(function() {
 			         				<td>${sil.user_tel}</td>
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
-			         				<td>
-			         				<%-- <button type="button" class="btn btn-primary" data-toggle="modal"
-														data-target=".bd-example-modal-lg${status.index}"><div class="getStoreIf">가게 정보</div></button> --%>
-			         				
+			         				<td>			
 										<!-- Large modal -->
 										<div class="btn btn-primary" data-toggle="modal"
 														data-target=".bd-example-modal-lg${status.index}"><div class="getStoreIf">가게 정보</div></div>

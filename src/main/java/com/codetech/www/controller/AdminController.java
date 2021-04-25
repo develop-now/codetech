@@ -51,7 +51,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
-		return "admin/index";
+		return "admin/userList";
 	}
 
 	@RequestMapping(value = "/userList")
@@ -437,7 +437,7 @@ public class AdminController {
 	public String noticeAdd(Notice notice, RedirectAttributes rattr) throws Exception {
 		adminService.insertNotice(notice);
 		
-		return "redirect:noticeList";
+		return "redirect:noticeAll";
 	}
 	
 	@RequestMapping(value = "/noticeView", method = RequestMethod.GET)

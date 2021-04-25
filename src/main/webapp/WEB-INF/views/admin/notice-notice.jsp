@@ -96,6 +96,9 @@
 		padding: 15px 0px;
 	}
 	
+	a:link { color: black; text-decoration-line: none;}
+ 	a:visited { color: black; text-decoration-line: none;}
+ 	a:hover { color: black; text-decoration-line: none;}
 </style>
 <script>
 	console.log($("input[name='notice_status']").val());

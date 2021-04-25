@@ -33,7 +33,7 @@
 		padding-top: 30px;
 	}
 	
-	#Notice_subject {
+	#notice_subject {
 		margin: 10px 0px;
 		padding: 5px;
 		width: 100%;
@@ -157,7 +157,7 @@
 		    				<b><span style="font-size:1.2em">제목</span></b>
 		    			</div>
 			    		<div style="padding: 30px 0px">
-			    			<input type="text" name="notice_subject" id="Notice_subject"
+			    			<input type="text" name="notice_subject" id="notice_subject"
 			    				placeholder="제목을 입력하세요." value="${noticeModify.notice_subject}" required>
 			    		</div>  		
 		    		</div>
