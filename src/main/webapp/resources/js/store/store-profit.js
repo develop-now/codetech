@@ -45,7 +45,8 @@ function makeGraphValue(data) {
     let sorted_total_data = {}
 
     for (let profit of data) {
-        let key_date = profit.updated_at.substr(5, 5).replace("-", "/")
+        console.log({profit})
+        let key_date = profit.created_at.substr(5, 5).replace("-", "/")
 
         if (!sorted_total_data.hasOwnProperty(key_date)) {
             sorted_total_data[key_date] = {...sorted_data_template}

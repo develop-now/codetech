@@ -343,8 +343,9 @@ img.modifyModal__img-profile{
 .mypageOrderList__content-left>div{
 	margin: 20px;
 }
-.mypageOrderList__content-left > div > span{
+.mypageOrderList__content-left > div > span:nth-child(1){
     font-weight: 700;
+    font-size:20px;
 }
 .mypageOrderList__content-right{
 	display:grid;
@@ -387,4 +388,14 @@ img.modifyModal__img-profile{
 	
 }
 /*mypage-review end*/
-
+/*mypage-likes_list start*/
+.mypageFavoirteList__body{
+	background-color:#f7f7f7;
+	box-shadow: -7px 7px 9px darkgrey;
+	border-radius: 5px;
+}
+.FavoirteList__btn button{
+	width:117px;
+	background-color:#848fd1 !important;
+}
+/*mypage-likes_list start*/

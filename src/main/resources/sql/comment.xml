@@ -111,58 +111,69 @@
         from comments
         where comment_writer = ${user_id}
     </select>
-	
-	<select id="commentCountByUser" resultType="int" parameterType="int">
-		select nvl(count(*), 0)
-		from comments
-		where comment_writer = #{user_id}
-	</select>
-	
-	<select id="userCommentList" parameterType="int" resultType="comment">
-		select *
-		from(select rownum rnum, cs.*
-			from (select c.*,s.comment_store_value
-					from COMMENTS c
-					left join(select store_id as comment_store, store_name as comment_store_value
-							   from STORES )s
-					on c.comment_store = s.comment_store
-					where comment_writer = #{user_id} and comment_status = 1
-					order by created_at desc)cs
-				)
-		where rnum between #{start} and #{end}
-	</select>
-	
-	<select id="commentAllByStore" parameterType="map" resultType="comment">
-		select *
-			from(select rownum rnum, ci.*
-				from(select c.comment_id ,c.comment_content,c.comment_lev,c.comment_seq
-						,c.comment_ref,c.created_at,c.comment_writer,c.comment_store,c.comment_status
-						,i.comment_writer_value
-					from (
-							select * 
-							from comments 
-							where comment_store = #{store_id}
-							
-							)c
-					left join (select user_id as comment_writer, user_name as comment_writer_value
-								from USER_INFO)i
-					on c.comment_writer = i.comment_writer
-					order by c.comment_ref desc , c.comment_lev
-					) ci
-				)
-				where rnum between #{start} and #{end}
-	</select>
-	
-	<insert id="addCommentByUser" parameterType="comment">
-		<selectKey resultType="int" order="BEFORE"
+
+    <select id="commentCountByUser" resultType="int" parameterType="int">
+        select nvl(count(*), 0)
+        from comments
+        where comment_writer = #{user_id}
+    </select>
+
+    <select id="userCommentList" parameterType="int" resultType="comment">
+        select *
+        from (select rownum rnum, cs.*
+              from (select c.*, s.comment_store_value, s.like_id
+                    from COMMENTS c
+                             left join(
+                        select st.store_id as comment_store, st.store_name as comment_store_value, l.like_id
+                        from STORES st
+                                 left join LIKES l
+                                           on st.store_id = l.store_id
+                    ) s
+                                      on c.comment_store = s.comment_store
+                    where comment_writer = #{user_id}
+                      and comment_status = 1
+                    order by created_at desc) cs
+             )
+        where rnum between #{start} and #{end}
+    </select>
+
+    <select id="commentAllByStore" parameterType="map" resultType="comment">
+        select *
+        from (select rownum rnum, ci.*
+              from (select c.comment_id
+                         , c.comment_content
+                         , c.comment_lev
+                         , c.comment_seq
+                         , c.comment_ref
+                         , c.created_at
+                         , c.comment_writer
+                         , c.comment_store
+                         , c.comment_status
+                         , i.comment_writer_value
+                    from (
+                             select *
+                             from comments
+                             where comment_store = #{store_id}
+                         ) c
+                             left join (select user_id as comment_writer, user_name as comment_writer_value
+                                        from USER_INFO) i
+                                       on c.comment_writer = i.comment_writer
+                    order by c.comment_ref desc, c.comment_lev
+                   ) ci
+             )
+        where rnum between #{start} and #{end}
+    </select>
+
+    <insert id="addCommentByUser" parameterType="comment">
+        <selectKey resultType="int" order="BEFORE"
                    keyProperty="comment_id">
             select nvl(max(comment_id), 0) +1 from comments
         </selectKey>
-		insert into comments(comment_id, comment_content, comment_lev,
+        insert into comments(comment_id, comment_content, comment_lev,
         comment_ref, comment_seq, comment_writer,comment_store)
         values(#{comment_id},#{comment_content},#{comment_lev},
         #{comment_id},#{comment_seq},#{comment_writer},#{comment_store})
-		
-	</insert>
+
+    </insert>
 </mapper> 
 

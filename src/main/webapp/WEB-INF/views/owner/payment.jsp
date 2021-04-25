@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -11,10 +11,14 @@
     <script type="text/javascript"
             src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <title>Insert title here</title>
+        <%@include file="../partial/head.jsp" %>
+    
 </head>
 <body>
+    <%@include file="../partial/nav.jsp" %>
+
 <form action="${pageContext.request.contextPath}/owner/payment_complete"
-      method="get" id="test">
+      method="get" id="test" style="display:none;">
     <input type="hidden" class="cartCount" name="cartCount" value="${cartCount }">
     <input type="hidden" class="amount" name="amount" value="${amount }">
     <input type="hidden" class="price" name="price" value="${newtotalPrice }">
@@ -39,10 +43,11 @@
     <div class="order"></div>
     <input type="hidden" id="cartTh" name="cartTh"
            value="${cartTh}">
-    <div class="order" style="display:none;"></div>
+    <div class="order" ></div>
+    	<input type="hidden" name="ordered_store" id="ordered_store"
+		class="ordered_store" value="${orderedStore}">
 </form>
-<input type="hidden" name="${_csrf.parameterName}"
-       value="${_csrf.token}">
+
 <script>
     $(document).ready(function () {
 
@@ -92,11 +97,10 @@
                 }
             })
                 .fail(function (request, status, error) {
-                    alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+                    //alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+                                        alert("결제 실패");
                     location.href = "${pageContext.request.contextPath}/home";
-
                 })
-
         });
     })
 </script>

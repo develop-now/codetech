@@ -3,164 +3,163 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Menus">
 
-	<select id="readMenu" parameterType="int" resultType="menu">
-		select *
-		from menus
-		where menu_id = #{menu_id}
-	</select>
+    <select id="readMenu" parameterType="int" resultType="menu">
+        select *
+        from menus
+        where menu_id = #{menu_id}
+    </select>
 
-	<insert id="createMenu" parameterType="menu">
-		<selectKey resultType="int" order="BEFORE"
-			keyProperty="menu_id">
-			select nvl(max(menu_id), 0) +1 from menus
-		</selectKey>
+    <insert id="createMenu" parameterType="menu">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="menu_id">
+            select nvl(max(menu_id), 0) +1 from menus
+        </selectKey>
 
-		insert into menus (menu_id, menu_name, menu_desc, menu_price,
-		menu_saved_image,
-		menu_original_image, store_id, category_id)
-		values
-		(#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
-		#{menu_original_image},#{store_id}, #{category_id})
-	</insert>
+        insert into menus (menu_id, menu_name, menu_desc, menu_price,
+        menu_saved_image,
+        menu_original_image, store_id, category_id)
+        values
+        (#{menu_id},#{menu_name},#{menu_desc},#{menu_price},#{menu_saved_image},
+        #{menu_original_image},#{store_id}, #{category_id})
+    </insert>
 
-	<select id="read" resultType="menu" parameterType="int">
-		select
-		s.store_name,
-		m.*,
-		c.category_name,
-		mt.status_value as
-		menu_status_value
-		from menus m
-		join stores s on m.store_id = s.store_id
-		join categories c
-		on m.category_id = c.category_id
-		join store_status st on s.store_status
-		= st.store_status_id
-		join menu_status mt on m.menu_status =
-		mt.menu_status_id
-		where m.menu_id = #{menu_id}
-	</select>
+    <select id="read" resultType="menu" parameterType="int">
+        select s.store_name,
+               m.*,
+               c.category_name,
+               mt.status_value as
+                   menu_status_value
+        from menus m
+                 join stores s on m.store_id = s.store_id
+                 join categories c
+                      on m.category_id = c.category_id
+                 join store_status st on s.store_status
+            = st.store_status_id
+                 join menu_status mt on m.menu_status =
+                                        mt.menu_status_id
+        where m.menu_id = #{menu_id}
+    </select>
 
-	<update id="updateMenu" parameterType="menu">
-		update menus
-		set menu_name= #{menu_name},
-		menu_desc=#{menu_desc},
-		menu_price=#{menu_price},
-		<if test="menu_saved_image != null">
-			menu_saved_image=#{menu_saved_image},
-			menu_original_image=#{menu_original_image},
-		</if>
-		category_id=#{category_id},
-		menu_status=(select menu_status_id from
-		menu_status where
-		status_value=#{menu_status_value}),
-		updated_at=sysdate
-		where menu_id = #{menu_id}
-	</update>
+    <update id="updateMenu" parameterType="menu">
+        update menus
+        set menu_name= #{menu_name},
+        menu_desc=#{menu_desc},
+        menu_price=#{menu_price},
+        <if test="menu_saved_image != null">
+            menu_saved_image=#{menu_saved_image},
+            menu_original_image=#{menu_original_image},
+        </if>
+        category_id=#{category_id},
+        menu_status=(select menu_status_id from
+        menu_status where
+        status_value=#{menu_status_value}),
+        updated_at=sysdate
+        where menu_id = #{menu_id}
+    </update>
 
-	<select id="listByOwner" resultType="menu" parameterType="int">
-		select
-		s.store_name,
-		m.*,
-		c.category_name,
-		mt.status_value as
-		menu_status_value
-		from menus m
-		join stores s on m.store_id = s.store_id
-		join categories c
-		on m.category_id = c.category_id
-		join store_status st on s.store_status
-		= st.store_status_id
-		join menu_status mt on m.menu_status =
-		mt.menu_status_id
-		where s.owner_id = #{owner_id}
-		and st.status_value not
-		like '%in%'
-		order by s.store_name
-		, m.menu_name
-	</select>
+    <select id="listByOwner" resultType="menu" parameterType="int">
+        select s.store_name,
+               m.*,
+               c.category_name,
+               mt.status_value as
+                   menu_status_value
+        from menus m
+                 join stores s on m.store_id = s.store_id
+                 join categories c
+                      on m.category_id = c.category_id
+                 join store_status st on s.store_status
+            = st.store_status_id
+                 join menu_status mt on m.menu_status =
+                                        mt.menu_status_id
+        where s.owner_id = #{owner_id}
+          and st.status_value not
+            like '%in%'
+        order by s.store_name
+               , m.menu_name
+    </select>
 
-	<select id="listByStore" resultType="menu" parameterType="int">
-		select
-		s.store_name,
-		m.*,
-		c.category_name,
-		mt.status_value as
-		menu_status_value
-		from menus m
-		join stores s on m.store_id = s.store_id
-		join categories c
-		on m.category_id = c.category_id
-		join store_status st on s.store_status
-		= st.store_status_id
-		join menu_status mt on m.menu_status =
-		mt.menu_status_id
-		where s.store_id = #{store_id}
-		and st.status_value not
-		like '%in%'
-		order by s.store_name
-		, m.menu_name
-	</select>
+    <select id="listByStore" resultType="menu" parameterType="int">
+        select s.store_name,
+               m.*,
+               c.category_name,
+               mt.status_value as
+                   menu_status_value
+        from menus m
+                 join stores s on m.store_id = s.store_id
+                 join categories c
+                      on m.category_id = c.category_id
+                 join store_status st on s.store_status
+            = st.store_status_id
+                 join menu_status mt on m.menu_status =
+                                        mt.menu_status_id
+        where s.store_id = #{store_id}
+          and st.status_value not
+            like '%in%'
+        order by s.store_name
+               , m.menu_name
+    </select>
 
-	<select id="topMenu" resultType="menu" parameterType="int">
-		select *
-		from menus
-		where store_id = #{store_id}
-		and rownum &lt;= 3
-		order by
-		menu_order_count desc
-	</select>
+    <select id="topMenu" resultType="menu" parameterType="int">
+        select *
+        from menus
+        where store_id = #{store_id}
+          and rownum &lt;= 3
+        order by menu_order_count desc
+    </select>
 
-	<select id="allMenu" resultType="menu" parameterType="int">
-		select *
-		from menus
-		where store_id = #{store_id}
-	</select>
+    <select id="allMenu" resultType="menu" parameterType="int">
+        select *
+        from menus
+        where store_id = #{store_id}
+    </select>
 
-	<select id="menuCount" resultType="int" parameterType="int">
-		select
-		nvl(count(*), 0)
-		from menus
-		where store_id = #{store_id}
-	</select>
+    <select id="menuCount" resultType="int" parameterType="int">
+        select nvl(count(*), 0)
+        from menus
+        where store_id = #{store_id}
+    </select>
 
-	<update id="menuStatusUpdate" parameterType="map">
-		update menus
-		set
-		<choose>
-			<when test="status_key == 'menu_read_count'">menu_read_count</when>
-			<when test="status_key == 'menu_order_count'">menu_order_count</when>
-			<when test="status_key == 'menu_status'">menu_status</when>
-		</choose>
-		=
-		<choose>
-			<when test="status_key == 'menu_read_count'">
-				(select menu_read_count from menus where menu_id =
-				#{menu_id}) +
-				#{status_value}
-			</when>
-			<when test="status_key == 'menu_order_count'">
-				(select menu_order_count from menus where menu_id =
-				#{menu_id}) +
-				#{status_value}
-			</when>
-			<when test="status_key == 'menu_status'">#{status_value}</when>
-		</choose>
-		where menu_id = #{menu_id}
-	</update>
+    <update id="menuStatusUpdate" parameterType="map">
+        update menus
+        set
+        <choose>
+            <when test="status_key == 'menu_read_count'">menu_read_count</when>
+            <when test="status_key == 'menu_order_count'">menu_order_count</when>
+            <when test="status_key == 'menu_status'">menu_status</when>
+        </choose>
+        =
+        <choose>
+            <when test="status_key == 'menu_read_count'">
+                (select menu_read_count from menus where menu_id =
+                #{menu_id}) +
+                #{status_value}
+            </when>
+            <when test="status_key == 'menu_order_count'">
+                (select menu_order_count from menus where menu_id =
+                #{menu_id}) +
+                #{status_value}
+            </when>
+            <when test="status_key == 'menu_status'">#{status_value}</when>
+        </choose>
+        where menu_id = #{menu_id}
+    </update>
 
-	<update id="plusOrderCount" parameterType="int">
-		update menus set
-		menu_order_count = menu_order_count + 1 where menu_id =
-		#{menu_id}
-	</update>
+    <update id="plusOrderCount" parameterType="int">
+        update menus
+        set menu_order_count = menu_order_count + 1
+        where menu_id =
+              #{menu_id}
+    </update>
 
-	<select id="getStoreId" parameterType="int" resultType="int">
-		select
-		store_id from menus where menu_id = #{menu_id}
-	</select>
+    <select id="getStoreId" parameterType="int" resultType="int">
+        select store_id
+        from menus
+        where menu_id = #{menu_id}
+    </select>
 
-	<update id="delCartList" parameterType="int">
-		update carts set cart_status = 1 where menu_id = #{menu_id}
-	</update>
+    <update id="delCartList" parameterType="int">
+        update carts
+        set cart_status = 1
+        where menu_id = #{menu_id}
+    </update>
 </mapper>

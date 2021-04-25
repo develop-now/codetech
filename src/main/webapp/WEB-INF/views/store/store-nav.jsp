@@ -56,7 +56,8 @@
                    class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">가게 리뷰</a>
             </li>
                         <li class="nav-item">
-                <a href="<c:url value="/owner/chatS"/>"
+                <a href="javascript:void(0);" onclick="window.open('${pageContext.request.contextPath}/owner/chatS', 'chatStore', 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no');"
+)
                    class="nav-link <c:out value="${storeNavVal eq 'storeComment' ? 'active' : ''}"/>">운영자 채팅</a>
             </li>
         </sec:authorize>

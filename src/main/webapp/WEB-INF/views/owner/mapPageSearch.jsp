@@ -52,8 +52,8 @@
     </div>
 
     <div class="row">
-        <input type="hidden" name="lat" id="lat" value="${storeMap.lat }">
-        <input type="hidden" name="lon" id="lon" value="${storeMap.lon }">
+        <input type="hidden" name="lat" id="lat" value="${store.store_address_lat}">
+        <input type="hidden" name="lon" id="lon" value="${store.store_address_lon}">
         <!-- map -->
         <div class="container">
             <div id="map" style="width: 1100px; height: 600px;">

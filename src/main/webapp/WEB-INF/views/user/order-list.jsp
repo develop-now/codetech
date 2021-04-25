@@ -56,7 +56,9 @@
 							<div class="mypageOrderList__body d-inline-flex text-center">
 								<div class="mypageOrderList__content-left">
 									<div>
-										<span id="getStore_name">${store.store_name }</span>
+										<span id="getStore_name">${store.store_name }</span><br>
+										<span id="store_add">${store.store_address_si}&nbsp;${store.store_address_gu}&nbsp;${store.store_address_dong}</span><br>
+										<span>${store.store_address_etc}</span>
 									</div>
 									<div class="mypageOrderList__content-left--img">
 										<img
@@ -92,11 +94,11 @@
 
 									</div>
 									<div class="order-summary">
-										${menu[status.index].menu_name }
-										${orderDetail[status.index].menu_quantity }
-										${orderDetail[status.index].detail_total_price }</div>
+										${menu[status.index].menu_name }&nbsp;X&nbsp;
+										${orderDetail[status.index].menu_quantity }&nbsp;
+										${orderDetail[status.index].detail_total_price }원</div>
 									<div class="text-right">
-										<button type="button" onclick="location.href='home'">가게보기</button>
+										<button type="button" onclick="location.href='../user/orderMain?store_id=${store.store_id}'">가게보기</button>
 										<c:if
 											test="${orders[status.index].comment_writable eq 'false'}">
 											<button type="button" class="reviewbtn">리뷰작성</button>
@@ -167,15 +169,15 @@ $('.pageInc').click(function () {
 							
 								<div class="modal-body storeReviewWriteModal-body">
 									<form name="joinform" id="joinModalForm"
-          action="<c:url value="/comment/user/addComment"/>"
-          method="post" enctype="multipart/form-data"
-          class="border-light p-5">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        		<sec:authentication property="principal" var="pinfo"/>
-                    <input type="hidden" name="comment_writer_value" value="${pinfo.username}">
+							          action="<c:url value="/comment/user/addComment"/>"
+							          method="post" enctype="multipart/form-data"
+							          class="border-light p-5">
+					        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+					        		<sec:authentication property="principal" var="pinfo"/>
+				                    <input type="hidden" name="comment_writer_value" value="${pinfo.username}">
 									<input type="hidden" id="storeReviewWriteModal_id" name="comment_store">
 									<div>
-									<textarea name="comment_content" placeholder="리뷰를 작성해주세요" required></textarea>
+										<textarea name="comment_content" placeholder="리뷰를 작성해주세요" required></textarea>
 									</div>
 									<div>
 									</div>

@@ -45,11 +45,16 @@
 	              	<div class="mypageReview__body d-inline-flex">
 	              		<div class="mypageReview__content-left">
 	              			<div>
-	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/unlike.png" alt="likecheck" width="30px"></span>
+	              				<c:if test="${list.like_id ne null}">
+	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/like.png" alt="likecheck" width="30px"></span>
+	              				</c:if>
+	              				<c:if test="${list.like_id eq null}">
+	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/unlike.png" alt="unlikecheck" width="30px"></span>
+	              				</c:if>
 	              				<span>${list.comment_store_value}</span>
 	              			</div>
 	              			<div class="text-center">
-	              				<button>주문상세</button>
+	              				<button>가게보기</button>
 	              				<button>리뷰삭제</button>
 	              			</div>
 	              		</div>

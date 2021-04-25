@@ -6,13 +6,24 @@ h4, #sum_p_num, #sum_p_price, sum_p_name {
 	text-align: center;
 	font-size: large;
 }
-
+.store-order-main-container{
+	 display: flex;
+    justify-content: center;
+}
+.likeStoreStatus{
+	padding:0
+}
+.likeStoreStatusA,.likeStoreStatusB{
+	padding:0 0 0 16px;
+}
 #pmbtn {
 	color: #be9f7b;
 	font-size: 2em;
 	letter-spacing: -5px;
 }
-
+.western div{
+	padding: 20px 0;
+}
 .menuName, .buttonGroup {
 	text-align: center;
 	font-size: large;
@@ -22,7 +33,9 @@ h4, #sum_p_num, #sum_p_price, sum_p_name {
 	    text-align:center;
 	
 }
-
+.topMenus{
+	display:flex;
+}
 .topnav a {
   float: center;
   display: inline-block;

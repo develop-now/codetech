@@ -60,7 +60,7 @@ $(function(){
 						$("#message-nick_m").css("color","#BE9F7B").html("*사용가능한 닉네임입니다.");
 						nickpattern = true;
 					}else{
-						$("#message-nick_m").css("color","#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.");
+						$("#message-nick_m").css("color","#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.d");
 						nickpattern = false;
 						
 					}
@@ -171,5 +171,7 @@ $(function(){
 		$('#filevalue').text(inputfile[inputfile.length-1]);
 		console.log("upfile function check"+check);
 	});
+	
+	
 	
 });

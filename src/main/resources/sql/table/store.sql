@@ -34,37 +34,40 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 1);
+values (1, 'Dummy Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'a.png',
+        '09:00', '21:00', '10:00', '20:00', 'friday', '126.961784254615', '37.3970119478972', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 1);
+values (2, 'Dummy Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'b.png',
+        '09:00', '20:00', '10:00', '20:00', 'monday', '126.99224096958', '37.5737887699783', 3, 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 1);
+values (3, 'Dummy Store3', '111-222-3333', '서울시', '사당동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'c.png',
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.961821544248', '37.4859370065553', 15, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 2);
+values (4, 'Dummy Store4', '111-222-3333', '서울시', '압구정동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'd.png',
+        '09:00', '20:00', '10:00', '20:00', 'thursday', '127.024454982256', '37.5267858196588', 3, 2);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (9, '엔젤리너스', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 1);
+values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/a.png', 'a.png',
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.937248465038', '37.5572967348437', 15, 3);
 
+
+select *
+from stores;
 
 commit;
 

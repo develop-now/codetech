@@ -14,38 +14,18 @@ create table store_report
     constraint fk_store_report_reported_store foreign key (reported_store) references stores (store_id)
 );
 
--- 유저가 유저 신고
-INSERT INTO USER_REPORT
-(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(1, '유저가 유저를 신고합니다.', '사실 구라에요', 1, 10, 15);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (1, '더미 가게 신고글', '5번 유저가 1번 가게 신고', 5, 1);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (2, '더미 가게 신고글', '5번 유저가 3번 가게 신고', 5, 3);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (3, '더미 가게 신고글', '5번 유저가 4번 가게 신고', 5, 4);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (4, '더미 가게 신고글', '7번 유저가 3번 가게 신고', 7, 3);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (5, '더미 가게 신고글', '8번 유저가 3번 가게 신고', 5, 3);
 
-INSERT INTO USER_REPORT
-(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(2, '유저가 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 11, 14);
-
-INSERT INTO USER_REPORT
-(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(3, '유저가 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 12, 13);
-
--- 가게가 유저 신고
-INSERT INTO USER_REPORT
-(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(4, '가게가 유저를 신고합니다.', '사실 구라에요', 1, 3, 15);
-
-INSERT INTO USER_REPORT
-(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(5, '가게가 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 3, 14);
-
-INSERT INTO USER_REPORT
-(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(6, '가게가 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 3, 13);
-
-select * from store_report;
+select *
+from store_report;
 
 commit;

@@ -7,9 +7,7 @@
     <!-- 해당 아이디의 신고내역을 보여준다. 포인트와 비슷한 레이아웃, 신고분류, 처리과정보여주기 -->
     <%@include file="../partial/head.jsp" %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
- <script>
- 
- </script>   
+ 	<script src="${pageContext.request.contextPath }/resources/js/user/mypage-report.js"></script>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -33,6 +31,7 @@
 	              		<h2 class="text-right">신고내역</h2>
 	              	</div>
 	              		<hr>
+	              	<input type="hidden" name="reportCount" id="reportCount" value="">
 	              	<div class="mypageReport__body">
 	              		<div class="mypageReport__body--radio">
 	              			<div class="form-check">
@@ -54,7 +53,7 @@
 							  </label>
 							</div>
 	              		</div>
-	              		<table class="table">
+	              		<table class="table report__table">
 	              			<thead class="mypageReport__table-head">
 	              				<tr>
 	              					<td>No.</td>
@@ -63,12 +62,12 @@
 	              					<td>처리상태</td>
 	              				</tr>
 	              			</thead>
-	              			<tbody>
+	              			<tbody >
 	              			<c:forEach var="list" items="${list}" varStatus="status">
 	              				<input type="hidden" value="${list.report_content}">
 	              				<tr>
 	              					<td>
-	              						${list.rownum}
+	              						${ataus.index}
 	              					</td>
 	              					<td>
 		              					<c:if test="${list.store_report_id ne 0 }">
@@ -76,8 +75,8 @@
 		              						${list.report_subject}
 		              					   </a>
 		              					</c:if>
-		              					<c:if test="${list.cmt_report_id ne 0 }">
-		              					   <a  href="../user/reportDetail?cmt_report_id=${list.cmt_report_id}">
+		              					<c:if test="${list.user_report_id ne 0 }">
+		              					   <a  href="../user/reportDetail?user_report_id=${list.user_report_id}">
 		              						${list.report_subject}
 		              					   </a>
 		              					</c:if>
@@ -99,6 +98,10 @@
 	              			</c:forEach>
 	              			</tbody>
 	              		</table>
+	              		<div class="center-block">
+	              			<ul class="reportPagination justify-content-center">
+							</ul>
+	              		</div>
 	              	</div>
                 </div>
             </div>

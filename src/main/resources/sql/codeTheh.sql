@@ -1,3 +1,13 @@
+drop table persistent_logins cascade constraints;
+create table persistent_logins
+(
+    username  varchar2(64) not null,
+    series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
+    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
+    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
+);
+
+
 drop table role cascade constraints;
 create table role
 (
@@ -54,7 +64,7 @@ values (1, 'site_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnx
 insert into users (user_id, user_email, user_password, role_id)
 values (2, 'admin@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 2);
 insert into users (user_id, user_email, user_password, role_id)
-values (3, 'sotre_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
+values (3, 'store_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
 insert into users (user_id, user_email, user_password, role_id)
 values (4, 'staff@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 4);
 insert into users (user_id, user_email, user_password, role_id)
@@ -62,23 +72,28 @@ values (5, 'user1@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.
 insert into users (user_id, user_email, user_password, role_id)
 values (6, 'user2@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (7, 'user_store_owner@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 3);
+values (7, 'user_3@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
+
 insert into users (user_id, user_email, user_password, role_id)
-values (8, 'user_3@test.com', '$2a$10$m8c1WRtWd.B7tEi8GC5CxeA9Xix.UkBrdtXqnxjBUR.suqE39DiYa', 5);
+values (8, 'dummy_user1@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (9, 'user9@test.com', '1111', 5);
+VALUES (9, 'dummy_user2@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (10, 'user10@test.com', '1111', 5);
+values (10, 'dummy_user3@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (11, 'user11@test.com', '1111', 5);
+values (11, 'dummy_user4@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (12, 'user12@test.com', '1111', 5);
+values (12, 'dummy_user5@test.com', '1234', 5);
 insert into users (user_id, user_email, user_password, role_id)
-values (13, 'user13@test.com', '1111', 5);
+values (13, 'dummy_user6@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (14, 'user14@test.com', '1111', 5);
+VALUES (14, 'dummy_user7@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (15, 'user15@test.com', '1111', 5);
+VALUES (15, 'dummy_user8@test.com', '1234', 5);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (16, 'dummy_store_owner8@test.com', '1234', 3);
+INSERT INTO users (user_id, user_email, user_password, role_id)
+VALUES (17, 'dummy_staff8@test.com', '1234', 4);
 
 
 drop table user_info cascade constraints;
@@ -88,9 +103,9 @@ create table user_info
     user_name     varchar2(20) not null,
     user_tel      varchar2(20) not null,
     user_address  varchar2(90) not null,
-    user_profile  varchar2(50),
-    original_file varchar2(30),
-    point         number(6) default 0,
+    user_profile  varchar2(200),
+    original_file varchar2(200) default '/profile.png',
+    point         number(6)     default 0,
     user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
 );
@@ -104,37 +119,34 @@ values (3, 'store_owner', '111-222-3333', 'korea', 3);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (4, 'staff', '111-222-3333', 'korea', 4);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (5, 'user5', '111-222-3333', 'korea', 5);
+values (5, 'user1', '111-222-3333', 'korea', 5);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (6, 'user6', '111-222-3333', 'korea', 6);
+values (6, 'user2', '111-222-3333', 'korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (7, 'user7', '111-222-3333', 'korea', 7);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (8, 'user8', '111-222-3333', 'korea', 8);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (9, 'user9', '111-222-3333', 'korea', 9);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (10, 'user10', '111-222-3333', 'korea', 10);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (11, 'user11', '111-222-3333', 'korea', 11);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (12, 'user12', '111-222-3333', 'korea', 12);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (13, 'user13', '111-222-3333', 'korea', 13);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (14, 'user14', '111-222-3333', 'korea', 14);
-insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (15, 'user15', '111-222-3333', 'korea', 15);
+values (7, 'user3', '111-222-3333', 'korea', 7);
 
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (8, 'dummy_user1', '111-222-3333', 'korea', 8);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (9, 'dummy_user2', '111-222-3333', 'korea', 9);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (10, 'dummy_user3', '111-222-3333', 'korea', 10);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (11, 'dummy_user4', '111-222-3333', 'korea', 11);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (12, 'dummy_user5', '111-222-3333', 'korea', 12);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (13, 'dummy_user6', '111-222-3333', 'korea', 13);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (14, 'dummy_user7', '111-222-3333', 'korea', 14);
 
-drop table persistent_logins cascade constraints;
-create table persistent_logins
-(
-    username  varchar2(64) not null,
-    series    varchar2(64) primary key, -- 기기, 브라우저별 쿠키글 구분할 고유 값
-    token     varchar2(64) not null,    -- 브라우저가 가지고 있는 쿠키의 값을 검증할 인증값
-    last_used timestamp    not null     -- 가장 최신 자동 로그인 시간
-);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (15, 'dummy_store_owner8', '111-222-3333', 'korea', 15);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (16, 'dummy_staff1', '111-222-3333', 'korea', 16);
+insert into user_info (info_id, user_name, user_tel, user_address, user_id)
+values (17, 'dummy_staff2', '111-222-3333', 'korea', 16);
+
 
 
 drop table store_status cascade constraints;
@@ -191,37 +203,36 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (1, 'Test Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 1);
+values (1, 'Dummy Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'a.png',
+        '09:00', '21:00', '10:00', '20:00', 'friday', '126.961784254615', '37.3970119478972', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (2, 'Test Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 1);
+values (2, 'Dummy Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'b.png',
+        '09:00', '20:00', '10:00', '20:00', 'monday', '126.99224096958', '37.5737887699783', 3, 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 2);
+values (3, 'Dummy Store3', '111-222-3333', '서울시', '사당동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'c.png',
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.961821544248', '37.4859370065553', 15, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 3);
+values (4, 'Dummy Store4', '111-222-3333', '서울시', '압구정동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'd.png',
+        '09:00', '20:00', '10:00', '20:00', 'thursday', '127.024454982256', '37.5267858196588', 3, 2);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (9, '엔젤리너스', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 3);
-
+values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/a.png', 'a.png',
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.937248465038', '37.5572967348437', 15, 3);
 
 
 drop table categories cascade constraints;
@@ -232,15 +243,19 @@ create table categories
 );
 
 insert into categories
-values (1, '양식');
+values (1, '한식');
 insert into categories
-values (2, '한식');
+values (2, '양식');
 insert into categories
 values (3, '일식');
 insert into categories
-values (4, '디저트');
+values (4, '중식');
 insert into categories
-values (5, '커피');
+values (5, '분식');
+insert into categories
+values (6, '커피');
+insert into categories
+values (7, '디저트');
 
 
 drop table menu_status cascade constraints;
@@ -281,68 +296,55 @@ create table menus
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (1, '테스트 메뉴1', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (1, '더미 메뉴 1-1', '가게 1의 1번 더미 메뉴', '12000',
+        '/default.png', '/default.png', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (2, '더미 메뉴 1-2', '가게 1의 2번 메뉴', '32000',
+        '/default.png', '/default.png', 1, 5);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (3, '더미 메뉴 1-3', '가게 1의 3번 메뉴', '7000',
+        '/default.png', '/default.png', 1, 7);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (4, '더미 메뉴 1-4', '가게 1의 4번 메뉴', '13000',
+        '/default.png', '/default.png', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (5, '더미 메뉴 1-5', '가게 1의 2번 메뉴', '29000',
+        '/default.png', '/default.png', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (2, '테스트 메뉴2', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (6, '더미 메뉴 2-1', '가게 2의 1번 메뉴', '12000',
+        '/default.png', '/default.png', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (3, '테스트 메뉴3', '이건 테스트 메뉴입니다', '47000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (7, '더미 메뉴 3-1', '가게 3의 1번 메뉴', '17000',
+        '/default.png', '/default.png', 3, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (8, '더미 메뉴 3-2', '가게 3의 2번 메뉴', '11000',
+        '/default.png', '/default.png', 3, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (9, '더미 메뉴 3-3', '가게 3의 3번 메뉴', '12000',
+        '/default.png', '/default.png', 3, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (4, '테스트 메뉴4', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (10, '더미 메뉴 4-1', '가게 4의 1번 메뉴', '16000',
+        '/default.png', '/default.png', 4, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (11, '더미 메뉴 4-2', '가게 4의 2번 메뉴', '18000',
+        '/default.png', '/default.png', 4, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '38000',
-        'image.jpg', 'image.jpg', 1, 2);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 3);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '48000',
-        'image.jpg', 'image.jpg', 2, 1);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (8, '테스트 메뉴8', '이건 테스트 메뉴입니다', '41000',
-        'image.jpg', 'image.jpg', 2, 1);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (9, '테스트 메뉴9', '이건 테스트 메뉴입니다', '13000',
-        'image.jpg', 'image.jpg', 2, 1);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (10, '테스트 메뉴10', '이건 테스트 메뉴입니다', '48000',
-        'image.jpg', 'image.jpg', 2, 2);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (11, '테스트 메뉴11', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 4, 1);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 4, 3);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 1);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
+<<<<<<< HEAD
 values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 9, 2);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
@@ -350,6 +352,14 @@ insert into menus (menu_id, menu_name, menu_desc, menu_price,
 values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
         'image.jpg', 'image.jpg', 9, 3);
 
+=======
+values (12, '더미 메뉴 5-1', '가게 5의 1번 메뉴', '4500',
+        '/default.png', '/default.png', 5, 6);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (13, '더미 메뉴 5-2', '가게 5의 2번 메뉴', '2200',
+        '/default.png', '/default.png', 5, 6);
+>>>>>>> e55d3cea12da10b3e8330877dc3d64d488c8980e
 
 drop table order_status cascade constraints;
 create table order_status
@@ -387,186 +397,104 @@ create table orders
     constraint fk_order_store foreign key (store_id) references stores (store_id)
 );
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (1, '30000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (1, '40000', 5, 1, 1, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (2, '70000', 6, 2, 1, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (3, '57000', 7, 3, 1, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (4, '129000', 8, 4, 1, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (5, '45000', 9, 5, 1, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (6, '78000', 10, 1, 1, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (7, '122000', 11, 2, 1, to_date('20210423', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (2, '80000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (8, '85000', 12, 3, 3, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (9, '46000', 13, 4, 3, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (10, '33000', 14, 5, 3, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (11, '50000', 5, 1, 3, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (12, '32000', 6, 2, 3, to_date('20210423', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (3, '99000', 10, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (13, '52000', 7, 3, 4, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (14, '32000', 8, 4, 4, to_date('20210423', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (15, '18000', 9, 5, 4, to_date('20210423', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (4, '132000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (16, '40000', 10, 1, 1, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (17, '70000', 11, 2, 1, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (18, '57000', 12, 3, 1, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (19, '129000', 13, 4, 1, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (20, '45000', 14, 5, 1, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (21, '78000', 5, 1, 1, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (22, '122000', 6, 2, 1, to_date('20210424', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (5, '96000', 10, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (23, '85000', 7, 3, 3, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (24, '46000', 8, 4, 3, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (25, '33000', 9, 5, 3, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (26, '50000', 10, 1, 3, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (27, '32000', 11, 2, 3, to_date('20210424', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (6, '71000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (28, '52000', 12, 3, 4, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (29, '32000', 13, 4, 4, to_date('20210424', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (30, '18000', 14, 5, 4, to_date('20210424', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (7, '165000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (31, '40000', 13, 1, 1, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (32, '70000', 12, 2, 1, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (33, '57000', 11, 3, 1, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (34, '129000', 10, 4, 1, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (35, '45000', 9, 5, 1, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (36, '78000', 8, 1, 1, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (37, '122000', 7, 2, 1, to_date('20210425', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (8, '76000', 10, 5, 1);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (38, '85000', 6, 3, 3, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (39, '46000', 5, 4, 3, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (40, '33000', 14, 5, 3, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (41, '50000', 13, 1, 3, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (42, '32000', 12, 2, 3, to_date('20210425', 'YYYYMMDD'));
 
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (9, '162000', 10, 5, 2);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (10, '96000', 10, 5, 2);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (11, '30000', 11, 5, 1);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (12, '80000', 11, 5, 1);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (13, '110000', 11, 5, 2);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (14, '430000', 11, 5, 1);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (15, '320000', 11, 5, 2);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (16, '830000', 11, 5, 1);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (17, '930000', 11, 5, 1);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (18, '1530000', 11, 5, 1);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (19, '830000', 11, 5, 2);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (20, '530000', 11, 5, 2);
-
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (21, '30000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (22, '80000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (23, '110000', 12, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (24, '430000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (25, '320000', 12, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (26, '830000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (27, '930000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (28, '1530000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (29, '830000', 12, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (30, '530000', 12, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (31, '30000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (32, '80000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (33, '110000', 13, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (34, '430000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (35, '320000', 13, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (36, '830000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (37, '930000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (38, '1530000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (39, '830000', 13, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (40, '530000', 13, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (41, '30000', 14, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (42, '80000', 15, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (43, '110000', 16, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (44, '430000', 17, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (45, '320000', 1, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (46, '830000', 2, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (47, '930000', 3, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (48, '1530000', 4, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (49, '830000', 5, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (50, '530000', 6, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (51, '30000', 7, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (52, '80000', 8, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (53, '110000', 9, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (54, '430000', 10, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (55, '320000', 11, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (56, '830000', 12, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (57, '930000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (58, '1530000', 14, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (59, '830000', 15, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (60, '530000', 16, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (61, '30000', 17, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (62, '80000', 1, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (63, '110000', 2, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (64, '430000', 3, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (65, '320000', 4, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (66, '830000', 5, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (67, '930000', 6, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (68, '1530000', 7, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (69, '830000', 8, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (70, '530000', 9, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (71, '30000', 10, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (72, '80000', 11, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (73, '110000', 12, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (74, '430000', 13, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (75, '320000', 14, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (76, '830000', 15, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (77, '930000', 16, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (78, '1530000', 7, 5, 1);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (79, '830000', 7, 5, 2);
-insert into orders (order_id, order_total_price, order_user, order_status, store_id)
-values (80, '530000', 7, 5, 2);
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (43, '52000', 11, 3, 4, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (44, '32000', 10, 4, 4, to_date('20210425', 'YYYYMMDD'));
+insert into orders (order_id, order_total_price, order_user, order_status, store_id, created_at)
+values (45, '18000', 9, 5, 4, to_date('20210425', 'YYYYMMDD'));
 
 
 drop table order_details cascade constraints;
@@ -583,44 +511,208 @@ create table order_details
     constraint fk_detail_menu foreign key (menu_id) references menus (menu_id)
 );
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (1, '33000', 1, 1);
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (2, '33000', 2, 2);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (1, 1, 2, 1, '12000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (2, 1, 3, 4, '28000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (3, 2, 4, 1, '13000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (4, 2, 5, 1, '29000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (5, 2, 3, 4, '28000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (6, 3, 1, 1, '12000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (7, 3, 2, 1, '32000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (8, 3, 4, 1, '13000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (9, 4, 2, 1, '32000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (10, 4, 4, 2, '26000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (11, 4, 5, 1, '29000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (12, 4, 3, 6, '42000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (13, 5, 4, 1, '13000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (14, 5, 2, 1, '32000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (15, 6, 5, 1, '29000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (16, 6, 3, 7, '49000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (17, 7, 4, 2, '26000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (18, 7, 2, 3, '96000', to_date('20210423', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (3, '47000', 2, 3);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (19, 8, 7, 2, '34000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (20, 8, 8, 1, '11000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (21, 8, 9, 5, '40000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (22, 9, 8, 2, '22000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (23, 9, 9, 3, '24000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (24, 10, 7, 1, '17000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (25, 10, 9, 2, '16000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (26, 11, 7, 1, '17000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (27, 11, 8, 3, '33000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (28, 12, 9, 4, '32000', to_date('20210423', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (4, '99000', 3, 8);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (29, 13, 10, 1, '16000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (30, 13, 11, 2, '36000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (31, 14, 10, 2, '32000', to_date('20210423', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (32, 15, 11, 1, '18000', to_date('20210423', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (5, '132000', 4, 6);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (33, 16, 2, 1, '12000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (34, 16, 3, 4, '28000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (35, 17, 4, 1, '13000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (36, 17, 5, 1, '29000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (37, 17, 3, 4, '28000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (38, 18, 1, 1, '12000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (39, 18, 2, 1, '32000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (40, 18, 4, 1, '13000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (41, 19, 2, 1, '32000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (42, 19, 4, 2, '26000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (43, 19, 5, 1, '29000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (44, 19, 3, 6, '42000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (45, 20, 4, 1, '13000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (46, 20, 2, 1, '32000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (47, 21, 5, 1, '29000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (48, 21, 3, 7, '49000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (49, 22, 4, 2, '26000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (50, 22, 2, 3, '96000', to_date('20210424', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (6, '96000', 5, 10);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (51, 23, 7, 2, '34000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (52, 23, 8, 1, '11000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (53, 23, 9, 5, '40000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (54, 24, 8, 2, '22000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (55, 24, 9, 3, '24000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (56, 25, 7, 1, '17000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (57, 25, 9, 2, '16000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (58, 26, 7, 1, '17000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (59, 26, 8, 3, '33000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (60, 27, 9, 4, '32000', to_date('20210424', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (7, '33000', 6, 4);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (61, 28, 10, 1, '16000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (62, 28, 11, 2, '36000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (63, 29, 10, 2, '32000', to_date('20210424', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (64, 30, 11, 1, '18000', to_date('20210424', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (8, '38000', 6, 5);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (65, 31, 2, 1, '12000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (66, 31, 3, 4, '28000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (67, 32, 4, 1, '13000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (68, 32, 5, 1, '29000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (69, 32, 3, 4, '28000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (70, 33, 1, 1, '12000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (71, 33, 2, 1, '32000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (72, 33, 4, 1, '13000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (73, 34, 2, 1, '32000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (74, 34, 4, 2, '26000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (75, 34, 5, 1, '29000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (76, 34, 3, 6, '42000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (77, 35, 4, 1, '13000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (78, 35, 2, 1, '32000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (79, 36, 5, 1, '29000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (80, 36, 3, 7, '49000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (81, 37, 4, 2, '26000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (82, 37, 2, 3, '96000', to_date('20210425', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (9, '165000', 7, 6);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (83, 38, 7, 2, '34000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (84, 38, 8, 1, '11000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (85, 38, 9, 5, '40000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (86, 39, 8, 2, '22000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (87, 39, 9, 3, '24000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (88, 40, 7, 1, '17000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (89, 40, 9, 2, '16000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (90, 41, 7, 1, '17000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (91, 41, 8, 3, '33000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (92, 42, 9, 4, '32000', to_date('20210425', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (10, '76000', 8, 5);
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (93, 43, 10, 1, '16000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (94, 43, 11, 2, '36000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (95, 44, 10, 2, '32000', to_date('20210425', 'YYYYMMDD'));
+insert into order_details (detail_id, order_id, menu_id, menu_quantity, detail_total_price, created_at)
+values (96, 45, 11, 1, '18000', to_date('20210425', 'YYYYMMDD'));
 
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (11, '123000', 9, 8);
-
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (12, '39000', 9, 9);
-
-insert into order_details (detail_id, detail_total_price, order_id, menu_id)
-values (13, '96000', 10, 7);
 
 drop table points cascade constraints;
 create table points
@@ -656,13 +748,13 @@ values (2, 4, 3);
 insert into staffs (staff_id, user_id, store_id)
 values (3, 4, 4);
 insert into staffs (staff_id, user_id, store_id)
-values (4, 12, 1);
+values (4, 16, 1);
 insert into staffs (staff_id, user_id, store_id)
-values (5, 12, 3);
+values (5, 16, 3);
 insert into staffs (staff_id, user_id, store_id)
-values (6, 13, 4);
+values (6, 17, 1);
 insert into staffs (staff_id, user_id, store_id)
-values (7, 12, 2);
+values (7, 17, 4);
 
 drop table likes cascade constraints;
 create table likes
@@ -675,7 +767,16 @@ create table likes
     constraint fk_like_user foreign key (user_id) references users (user_id)
 );
 
-
+insert into likes(like_id, store_id, user_id)
+values (1, 1, 5);
+insert into likes(like_id, store_id, user_id)
+values (2, 3, 5);
+insert into likes(like_id, store_id, user_id)
+values (3, 4, 7);
+insert into likes(like_id, store_id, user_id)
+values (4, 1, 6);
+insert into likes(like_id, store_id, user_id)
+values (5, 3, 10);
 
 drop table comment_status cascade constraints;
 create table comment_status
@@ -710,206 +811,310 @@ create table comments
     constraint fk_comment_status foreign key (comment_status) references comment_status (comment_status_id)
 );
 
-insert into comments
-values (1,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
-        0, 0, 1, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (2,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
-        0, 0, 2, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (3,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
-        0, 0, 3, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (4,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
-        0, 0, 4, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (5,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
-        0, 0, 5, sysdate, sysdate, 5, 3, 1);
-insert into comments
-values (6,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
-        0, 0, 6, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (7,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
-        0, 0, 7, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (8,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
-        0, 0, 8, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (9,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
-        0, 0, 9, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (10,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
-        0, 0, 10, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (11,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
-        0, 0, 11, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (12,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
-        0, 0, 12, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (13,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
-        0, 0, 13, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (14,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
-        0, 0, 14, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (15,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
-        0, 0, 15, sysdate, sysdate, 5, 3, 1);
-insert into comments
-values (16,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
-        0, 0, 16, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (17,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
-        0, 0, 17, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (18,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
-        0, 0, 18, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (19,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
-        0, 0, 19, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (20,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
-        0, 0, 20, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (21,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
-        0, 0, 21, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (22,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
-        0, 0, 22, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (23,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
-        0, 0, 23, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (24,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
-        0, 0, 24, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (25,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
-        0, 0, 25, sysdate, sysdate, 5, 3, 1);
-insert into comments
-values (26,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
-        0, 0, 26, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (27,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
-        0, 0, 27, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (28,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
-        0, 0, 28, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (29,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
-        0, 0, 29, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (30,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
-        0, 0, 30, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (31,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
-        0, 0, 31, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (32,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
-        0, 0, 32, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (33,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
-        0, 0, 33, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (34,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
-        0, 0, 34, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (35,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
-        0, 0, 35, sysdate, sysdate, 5, 3, 1);
-insert into comments
-values (36,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
-        0, 0, 36, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (37,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
-        0, 0, 37, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (38,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
-        0, 0, 38, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (39,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
-        0, 0, 39, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (40,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
-        0, 0, 40, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (41,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.11',
-        0, 0, 41, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (42,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.22',
-        0, 0, 42, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (43,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.33',
-        0, 0, 43, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (44,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.44',
-        0, 0, 44, sysdate, sysdate, 5, 2, 1);
-insert into comments
-values (45,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.55',
-        0, 0, 45, sysdate, sysdate, 5, 3, 1);
-insert into comments
-values (46,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.66',
-        0, 0, 46, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (47,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.77',
-        0, 0, 47, sysdate, sysdate, 4, 1, 1);
-insert into comments
-values (48,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.88',
-        0, 0, 48, sysdate, sysdate, 5, 1, 1);
-insert into comments
-values (49,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.99',
-        0, 0, 49, sysdate, sysdate, 4, 2, 1);
-insert into comments
-values (50,
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias harum incidunt ipsum, nesciunt odit officia quasi quidem quos ut voluptatibus.1010',
-        0, 0, 50, sysdate, sysdate, 5, 2, 1);
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (1, 1, 5, 1, to_date('20210423', 'YYYYMMDD'), '유저 5번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (2, 2, 6, 1, to_date('20210423', 'YYYYMMDD'), '유저 6번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (3, 3, 7, 3, to_date('20210423', 'YYYYMMDD'), '유저 7번이 3번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (4, 4, 8, 4, to_date('20210423', 'YYYYMMDD'), '유저 8번이 4번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (5, 5, 5, 4, to_date('20210423', 'YYYYMMDD'), '유저 5번이 4번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (6, 6, 9, 1, to_date('20210423', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (7, 7, 10, 1, to_date('20210423', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (8, 8, 11, 1, to_date('20210423', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (9, 9, 12, 1, to_date('20210423', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (10, 10, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (11, 11, 14, 1, to_date('20210423', 'YYYYMMDD'), '유저 14번 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (12, 12, 5, 1, to_date('20210423', 'YYYYMMDD'), '유저 5번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (13, 13, 6, 1, to_date('20210423', 'YYYYMMDD'), '유저 6번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (14, 14, 7, 1, to_date('20210423', 'YYYYMMDD'), '유저 7번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (15, 15, 8, 1, to_date('20210423', 'YYYYMMDD'), '유저 8번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (16, 16, 9, 1, to_date('20210423', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (17, 17, 10, 1, to_date('20210423', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (18, 18, 11, 1, to_date('20210423', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (19, 19, 12, 1, to_date('20210423', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (20, 20, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글');
+
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (21, 21, 5, 3, to_date('20210424', 'YYYYMMDD'), '유저 5번이 3번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (22, 22, 6, 3, to_date('20210424', 'YYYYMMDD'), '유저 6번이 3번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (23, 23, 7, 3, to_date('20210424', 'YYYYMMDD'), '유저 7번이 3번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (24, 24, 8, 4, to_date('20210424', 'YYYYMMDD'), '유저 8번이 4번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (25, 25, 5, 4, to_date('20210424', 'YYYYMMDD'), '유저 5번이 4번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (26, 26, 9, 1, to_date('20210424', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (27, 27, 10, 1, to_date('20210424', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (28, 28, 11, 1, to_date('20210424', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (29, 29, 12, 1, to_date('20210424', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (30, 30, 13, 1, to_date('20210424', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (31, 31, 14, 1, to_date('20210424', 'YYYYMMDD'), '유저 14번 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (32, 32, 5, 1, to_date('20210424', 'YYYYMMDD'), '유저 5번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (33, 33, 6, 1, to_date('20210424', 'YYYYMMDD'), '유저 6번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (34, 34, 7, 1, to_date('20210424', 'YYYYMMDD'), '유저 7번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (35, 35, 8, 1, to_date('20210424', 'YYYYMMDD'), '유저 8번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (36, 36, 9, 1, to_date('20210424', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (37, 37, 10, 1, to_date('20210424', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (38, 38, 11, 1, to_date('20210424', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (39, 39, 12, 1, to_date('20210424', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_2');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (40, 40, 13, 1, to_date('20210424', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_2');
+
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (41, 41, 5, 3, to_date('20210425', 'YYYYMMDD'), '유저 5번이 3번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (42, 42, 6, 3, to_date('20210425', 'YYYYMMDD'), '유저 6번이 3번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (43, 43, 7, 3, to_date('20210425', 'YYYYMMDD'), '유저 7번이 3번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (44, 44, 8, 4, to_date('20210425', 'YYYYMMDD'), '유저 8번이 4번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (45, 45, 5, 4, to_date('20210425', 'YYYYMMDD'), '유저 5번이 4번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (46, 46, 9, 1, to_date('20210425', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (47, 47, 10, 1, to_date('20210425', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (48, 48, 11, 1, to_date('20210425', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (49, 49, 12, 1, to_date('20210425', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (50, 50, 13, 1, to_date('20210425', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (51, 51, 14, 1, to_date('20210425', 'YYYYMMDD'), '유저 14번 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (52, 52, 5, 1, to_date('20210425', 'YYYYMMDD'), '유저 5번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (53, 53, 6, 1, to_date('20210425', 'YYYYMMDD'), '유저 6번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (54, 54, 7, 1, to_date('20210425', 'YYYYMMDD'), '유저 7번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (55, 55, 8, 1, to_date('20210425', 'YYYYMMDD'), '유저 8번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (56, 56, 9, 1, to_date('20210425', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (57, 57, 10, 1, to_date('20210425', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (58, 58, 11, 1, to_date('20210425', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (59, 59, 12, 1, to_date('20210425', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_3');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (60, 60, 13, 1, to_date('20210425', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_3');
+
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (61, 61, 5, 3, to_date('20210424', 'YYYYMMDD'), '유저 5번이 3번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (62, 62, 6, 3, to_date('20210424', 'YYYYMMDD'), '유저 6번이 3번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (63, 63, 7, 3, to_date('20210424', 'YYYYMMDD'), '유저 7번이 3번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (64, 64, 8, 4, to_date('20210424', 'YYYYMMDD'), '유저 8번이 4번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (65, 65, 5, 4, to_date('20210424', 'YYYYMMDD'), '유저 5번이 4번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (66, 66, 9, 1, to_date('20210424', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (67, 67, 10, 1, to_date('20210424', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (68, 68, 11, 1, to_date('20210424', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (69, 69, 12, 1, to_date('20210424', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (70, 70, 13, 1, to_date('20210424', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (71, 71, 14, 1, to_date('20210424', 'YYYYMMDD'), '유저 14번 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (72, 72, 5, 1, to_date('20210424', 'YYYYMMDD'), '유저 5번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (73, 73, 6, 1, to_date('20210424', 'YYYYMMDD'), '유저 6번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (74, 74, 7, 1, to_date('20210424', 'YYYYMMDD'), '유저 7번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (75, 75, 8, 1, to_date('20210424', 'YYYYMMDD'), '유저 8번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (76, 76, 9, 1, to_date('20210424', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (77, 77, 10, 1, to_date('20210424', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (78, 78, 11, 1, to_date('20210424', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (79, 79, 12, 1, to_date('20210424', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_4');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (80, 80, 13, 1, to_date('20210424', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_4');
+
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (81, 81, 5, 3, to_date('20210423', 'YYYYMMDD'), '유저 5번이 3번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (82, 828, 6, 3, to_date('20210423', 'YYYYMMDD'), '유저 6번이 3번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (83, 83, 7, 3, to_date('20210423', 'YYYYMMDD'), '유저 7번이 3번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (84, 84, 8, 4, to_date('20210423', 'YYYYMMDD'), '유저 8번이 4번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (85, 85, 5, 4, to_date('20210423', 'YYYYMMDD'), '유저 5번이 4번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (86, 86, 9, 1, to_date('20210423', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (87, 87, 10, 1, to_date('20210423', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (88, 88, 11, 1, to_date('20210423', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (89, 89, 12, 1, to_date('20210423', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (90, 90, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (91, 91, 14, 1, to_date('20210423', 'YYYYMMDD'), '유저 14번 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (92, 92, 5, 1, to_date('20210423', 'YYYYMMDD'), '유저 5번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (93, 93, 6, 1, to_date('20210423', 'YYYYMMDD'), '유저 6번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (94, 94, 7, 1, to_date('20210423', 'YYYYMMDD'), '유저 7번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (95, 95, 8, 1, to_date('20210423', 'YYYYMMDD'), '유저 8번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (96, 96, 9, 1, to_date('20210423', 'YYYYMMDD'), '유저 9번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (97, 97, 10, 1, to_date('20210423', 'YYYYMMDD'), '유저 10번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (98, 98, 11, 1, to_date('20210423', 'YYYYMMDD'), '유저 11번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (99, 99, 12, 1, to_date('20210423', 'YYYYMMDD'), '유저 12번이 1번 가게에 단 댓글_5');
+insert into comments(comment_id, comment_ref, comment_writer, comment_store,
+                     created_at, comment_content)
+VALUES (100, 100, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_5');
 
 drop table report_status cascade constraints;
 create table report_status
@@ -945,34 +1150,29 @@ create table user_report
 -- 유저가 유저 신고
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(1, '유저가 유저를 신고합니다.', '사실 구라에요', 1, 10, 15);
+VALUES (1, '유저가 유저를 신고합니다.', '사실 구라에요', 1, 10, 14);
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(2, '유저가 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 11, 14);
+VALUES (2, '유저가 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 11, 13);
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(3, '유저가 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 12, 13);
+VALUES (3, '유저가 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 12, 12);
 
 -- 가게가 유저 신고
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(4, '가게가 유저를 신고합니다.', '사실 구라에요', 1, 3, 15);
+VALUES (4, '가게가 유저를 신고합니다.', '사실 구라에요', 1, 3, 14);
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(5, '가게가 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 3, 14);
+VALUES (5, '가게가 유저를 신고합니다.', '사실 구라에요 무야~호!', 1, 3, 13);
 
 INSERT INTO USER_REPORT
 (user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES
-(6, '가게가 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 3, 13);
+VALUES (6, '가게가 유저를 신고합니다.', '사실 구라에요 라고 할 뻔ㅋ', 1, 3, 12);
+
 
 drop table store_report cascade constraints;
 create table store_report
@@ -990,6 +1190,17 @@ create table store_report
     constraint fk_store_report_reported_store foreign key (reported_store) references stores (store_id)
 );
 
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (1, '더미 가게 신고글', '5번 유저가 1번 가게 신고', 5, 1);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (2, '더미 가게 신고글', '5번 유저가 3번 가게 신고', 5, 3);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (3, '더미 가게 신고글', '5번 유저가 4번 가게 신고', 5, 4);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (4, '더미 가게 신고글', '7번 유저가 3번 가게 신고', 7, 3);
+insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
+VALUES (5, '더미 가게 신고글', '8번 유저가 3번 가게 신고', 5, 3);
+
 drop table carts cascade constraints;
 create table carts
 (
@@ -1002,25 +1213,6 @@ create table carts
     constraint fk_carts_user foreign key (user_id) references users (user_id),
     constraint fk_carts_menu foreign key (menu_id) references menus (menu_id)
 );
-
-drop table storemap cascade constraints;
-
-create table storemap
-(
-    storemap_id        number(6) primary key,
-    store_name         varchar2(50) not null,
-    store_address_si   varchar2(50) not null,
-    store_address_gu   varchar2(50),
-    store_address_dong varchar2(50) not null,
-    lat                varchar2(50) not null,
-    lon                varchar2(50) not null
-
-    --constraint fk_store_id foreign key (store_id) references stores(store_id)
-);
-
-
-insert into storemap
-values (1, '이마트24 카페', '서울시', '종로구', '종로3가', 37.572799, 126.991945);
 
 
 drop table notice_status cascade constraints;

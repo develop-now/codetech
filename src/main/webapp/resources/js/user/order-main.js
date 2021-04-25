@@ -113,7 +113,11 @@ Number.prototype.formatNumber = function() {
 
 $(function(){
 	$("store_oreder_main_table").hide();
+	$(".RVaddMessage").hide();
 	var store_id = $("#store_id").val();
+	var user_email = $("#navbarNav > ul > li:nth-child(2) > a").text();
+	var likeValue = $("#likeValue").val();
+	var user_id = 0;
 	console.log(store_id);
 	console.log("function");
 	var page = 1;
@@ -133,8 +137,64 @@ $(function(){
 	$(".RVaddMessage").click(function(){
 		getStoreCommentList(++page,store_id);
 	});
+	
+	//처음 order_main들어와서 즐겨찾기 클릭할경우
+	
+	$(".storeInfoView").on("click",".likeStoreStatus a",function(){
+		console.log("store_id "+store_id+"likeValue "+likeValue)
+		changeLikes(store_id,likeValue,user_id);
+	});
+	//ajax통신후 즐겨찾기 추가클릭할경우
+	$(".storeInfoView").on("click",".likeStoreStatusA a",function(){
+		likeValue = $(this).parent().prev().text();
+		console.log("store_id "+store_id+"likeValue실행됨 "+likeValue)
+		changeLikes(store_id,likeValue,user_id);
+	});
+	//ajax통신후 즐겨찾기 취소 클릭할 경우
+	$(".storeInfoView").on("click",".likeStoreStatusB a",function(){
+		likeValue = $(this).parent().prev().text();
+		console.log("store_id "+store_id+"likeValue "+likeValue)
+		changeLikes(store_id,likeValue,user_id);
+	});
 });//$(function() end
-
+function changeLikes(store_id,likeValue,user_id){
+	console.log("likeValue "+likeValue );
+	$(".likesForAjax").empty();
+	$.ajax({
+		type:"get",
+		url:"../user/favoriteChange",
+		data:{ "store_id" : store_id
+				,"likeValue" : likeValue
+			  },
+		dataType:"json",
+		success : function(data){
+			$(".likesForAjax").empty();
+			console.log("changeLikes result0은메서드실패  1은 각 로직 실패 2는 취소상태 3은 추가상태    result="+ data.likeValue);
+			console.log("changeLikes storeLikes"+ data.storeLike);
+			var output = "";
+			 output +="<img class='card-img-heart'" 
+	               +"src='/${pageContext.request.contextPath}/resources/upload/love.png'" 
+	               +"width='50' height='50' alt=''><span id='likeValue' style='visibility:hidden;'>"
+	         if(data.likeValue == 2){//취소된상태
+	            output +=data.likeValue+"</span>" 
+	                  + data.storeLike
+	                  +"<span class='likeStoreStatusA'><a>즐겨찾기추가 " 
+	                  +"</a>"
+	         }else if(data.likeValue == 3){//추가된 상태
+	            output +=data.likeValue+"</span>" 
+	                  + data.storeLike
+	                  +"<span class='likeStoreStatusB'><a>즐겨찾기취소 " 
+	         };
+	         output +="</a>"
+	         $(".likesForAjax").append(output);
+	      },
+		error:function(req, stataus, err){
+			console.log("changeLikes ajax ERROR",err);
+		}
+	})//ajax end,
+	
+	
+}
 function getStoreCommentList(currentPage,store_id){
 	console.log("getStoreCommentList");
 	$.ajax({

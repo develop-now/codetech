@@ -14,7 +14,6 @@ import com.codetech.www.dao.StoreDAO;
 import com.codetech.www.dao.UsersDAO;
 import com.codetech.www.domain.Point;
 import com.codetech.www.domain.Store;
-import com.codetech.www.domain.StoreMap;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
 import com.codetech.www.domain.UserPlusInfo;
@@ -97,7 +96,7 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 	@Override
-	public StoreMap getMap(String searchWord) {
+	public Store getMap(String searchWord) {
 		String searchWordLike = "%" + searchWord + "%";
 		return dao.getMap(searchWordLike);
 	}
@@ -162,8 +161,9 @@ public class OwnerServiceImpl implements OwnerService {
 				map.put("order_id", key);
 				map.put("m_num", m_num[i]);
 				logger.info("m_num = " + m_num[i]);
-				map.put("p_price", p_price[i]*p_num[i]);
-				logger.info("p_price = " + p_price[i]);
+				map.put("p_price", p_price[i] * p_num[i]);
+				logger.info("p_price = " + p_price[i] * p_num[i]);
+
 				map.put("p_num", p_num[i]);
 				logger.info("p_num = " + p_num[i]);
 
@@ -171,7 +171,6 @@ public class OwnerServiceImpl implements OwnerService {
 				if (detailInsert == 1) {
 				}
 				
-				/*HJE used points update 04.22.6pm 결제시 포인트를 사용했다면 points table 에 차감 후 user_info의 point update*/
 				HashMap<String, Object> umap = new HashMap<String, Object>();
 				UserPlusInfo ui = udao.user_total_info(user_id);
 				int prev_point = ui.getPoint();
@@ -191,15 +190,11 @@ public class OwnerServiceImpl implements OwnerService {
 		                umap.put("point", total_point);
 		        		int pointUpdateResult = udao.updatePoint(umap);
 						if (pointUpdateResult != 1) {
-			                logger.info("user_info의 point update 실패"); 
 			            } else {
-			                logger.info("user_info의 point update 성공");
 			            }
 		        	}else {
-		        		logger.info("points의 point 내역 insert 실패");
 		        	}
 				}else {
-					logger.info("사용자의 기존 포인트보다 사용하려는 포인트가 큽니다.");
 					
 				}
 				/*HJE used points update end*/
@@ -218,6 +213,12 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public int revoke(int user_id) {
 		return udao.revoke(user_id);
+	}
+
+	@Override
+	public int getOrderStore(int store_id) {
+		return udao.getOrderStore(store_id);
+
 	}
 
 }

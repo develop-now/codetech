@@ -9,7 +9,6 @@
 
     <typeAliases>
         <typeAlias alias="store" type="com.codetech.www.domain.Store"/>
-        <typeAlias alias="storemap" type="com.codetech.www.domain.StoreMap"/>
         <typeAlias alias="menu" type="com.codetech.www.domain.Menu"/>
         <typeAlias alias="order" type="com.codetech.www.domain.Order"/>
         <typeAlias alias="order-detail" type="com.codetech.www.domain.OrderDetail"/>

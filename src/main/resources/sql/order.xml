@@ -230,7 +230,9 @@
             parameterType="map">
         select * from (
         select row_number() over(order by updated_at desc) row_num, bb.* from (
-        select store_name, s.store_id, s.updated_at from stores s join
+        select store_name, s.store_id, s.updated_at
+        , s.store_address_si, s.store_address_gu, s.store_address_dong
+        , s.store_address_etc from stores s join
         (
         <include refid="forOrdered"/>
         ) b

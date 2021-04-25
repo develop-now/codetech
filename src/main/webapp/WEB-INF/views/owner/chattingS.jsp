@@ -39,12 +39,13 @@
     </style>
     <title>chatting for store</title>
 </head>
+
 <body>
 <div id="frame">
     <div class="content">
         <div class="contact-profile">
             <img
-                    src="${pageContext.request.contextPath}/resources/upload/${store.store_saved_image}"
+                    src="${pageContext.request.contextPath}/resources/upload${store.store_saved_image}"
                     alt="나의 아바타"/>
             <p>${store.store_name}</p>
             <div class="social-media">

@@ -52,5 +52,16 @@
     </websocket:handlers>
 
     <beans:bean id="orderCountHandler" class="com.codetech.www.task.OrderCountHandler"/>
+    
+    		<beans:bean id="ecHandler" class="com.codetech.www.task.ECHandler" />
+		        	<!-- websocket handler -->
+ 
+	<websocket:handlers>
+		<websocket:mapping handler="ecHandler" path="/echo" />
+		<websocket:handshake-interceptors>
+	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+	      </websocket:handshake-interceptors>
+	      <websocket:sockjs/>
+	 </websocket:handlers>
 
 </beans:beans>

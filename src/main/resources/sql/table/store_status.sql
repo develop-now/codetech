@@ -10,9 +10,10 @@ values (1, 'active');
 insert into store_status
 values (2, 'inactive');     -- 가게가 문을 닫을때
 insert into store_status
-values (3, 'pending');   -- 가게가 막 생성됐을때
+values (3, 'pending');      -- 가게가 막 생성됐을때
 insert into store_status
 values (4, 'suspending');   -- 활동 정지 상태
-values (5, 'termination'); -- 파트너 종료 상태
+insert into store_status
+values (5, 'termination');  -- 파트너 종료 상태
 
 commit;
