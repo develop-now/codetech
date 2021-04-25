@@ -51,10 +51,10 @@
 							 <c:otherwise>
 							  <div class="form-group row">
 								<label for="reported_cmt" class="col-sm-2 col-form-label">
-								<span>신고하는댓글</span>
-								</label>  
-								<textarea  class="form-control" id="reported_cmt"
-								 readOnly>${comment_content}</textarea>
+								<span>댓글작성자</span>
+								</label> 
+								<input type="text" class="form-control" id="reported_user"
+								value="${user_name}" readOnly> 
 							  </div>
 							 </c:otherwise>
 							</c:choose>  

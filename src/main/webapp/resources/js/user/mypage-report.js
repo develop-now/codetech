@@ -4,17 +4,26 @@ $(function(){
 	go(page)
 })
 function go(page){
+	console.log("이동할 페이지"+ page)
 	var data = "page=" + page;
 	ajax(data);
 }
 
-function setPaging(href, digit){
-	output += "<li class=page-item>";
-	gray="";
+function setPaging(href, digit, hrefN){
+	output += "<li class=reportPage-item>";
+	none="";
+	now="";
 	if(href=="") {
-		gray=" gray";// 한칸 띄기 조심
+		none=" style='background-color:white'";// 한칸 띄기 조심
+		anchor = "<a class='linkN'"+ none + ">" + digit + "</a></li>";
+	}else{
+		
+		if(hrefN==""){
+			now=" style='background-color:#6b9068ba; color:white;'";
+			anchor = "<a class='linkN'" + now + ">" + digit + "</a></li>";
+		}
+			anchor = "<a class='link'"+ href + ">" + digit + "</a></li>";
 	}
-	anchor = "<a class='page-link" + gray + "'" + href + ">" + digit + "</a></li>";
 	output += anchor;
 }
 
@@ -36,7 +45,7 @@ function ajax(sdata) {
 					function(index, item){
 						console.log(num);
 						output += '<tr><td>' + (num--) + '</td>'
-						output += "<td><div>" 
+						output += "<td><div class='reportListContent'>" 
 					if(item.store_report_id != 0){
 						output += ' <a href="../user/reportDetail?store_report_id='+ item.store_report_id + '">'
 					}else if(item.user_report_id != 0){
@@ -59,27 +68,32 @@ function ajax(sdata) {
 				$(".reportPagination").empty(); //페이징 처리 영역 내용 제거
 	            output = "";
 	            
-	            digit = '이전&nbsp;';
-	             href="";
+	            digit = '이전';
+	             href="";//이동하지않음
+	             hrefN="n";//현재페이지로 이동없음
 	            if(data.page>1){
 	               href = 'href=javascript:go('+(data.page -1)+')';
 	            }
-	            setPaging(href, digit);
-	            
+	            setPaging(href, digit, hrefN);
+	            console.log("data.startpage"+data.startpage+"data.endpage"+data.endpage)
 	            for(var i = data.startpage; i <= data.endpage; i++ ){
 	            	digit = i;
 	            	href="";
+	            	hrefN="";
 	            	if(i != data.page){
 	            		href = 'href=javascript:go(' + i +')';
+	            		hrefN="n";
 	            	}
-	            	setPaging( href, digit);
-	            }
-	            	digit = '&nbsp;다음&nbsp;';
+	            	console.log("안의 숫자" + digit)
+	            	setPaging( href, digit, hrefN);
+	            	}
+	            	 digit = '다음';
 		             href="";
+		             hrefN="n";
 		            if(data.page < data.maxpage) {
 		               href = 'href=javascript:go(' + (data.page + 1) + ')';
 		            }
-		            setPaging(href, digit);	
+		            setPaging(href, digit, hrefN);	
 		            
 		            $('.reportPagination').append(output)
 			}//if(data.list) end

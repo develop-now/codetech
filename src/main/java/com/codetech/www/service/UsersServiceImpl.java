@@ -341,6 +341,12 @@ public class UsersServiceImpl implements UsersService {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         int startrow = (page - 1) * limit + 1;
         int endrow = startrow + limit - 1;
+        int count = udao.getReportListCount(user_id);
+        logger.info("총 글수"+ count);
+        if(count/limit == 0) {
+        	
+        }
+        logger.info("시작글번호" + startrow + "끝나는번호"+ endrow);
         map.put("user_id", user_id);
         map.put("start", startrow);
         map.put("end", endrow);
@@ -351,5 +357,10 @@ public class UsersServiceImpl implements UsersService {
     public int getReportListCount(int user_id) {
         return udao.getReportListCount(user_id);
     }
+
+	@Override
+	public Report readUserReport(int user_report_id) {
+		return udao.readUserReport(user_report_id);
+	}
 
 }

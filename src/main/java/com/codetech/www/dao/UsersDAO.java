@@ -164,5 +164,9 @@ public class UsersDAO {
         return sqlSession.selectOne("users.reportCount", user_id);
     }
 
+	public Report readUserReport(int user_report_id) {
+		return sqlSession.selectOne("users.readUserReport",user_report_id);
+	}
+
 
 }

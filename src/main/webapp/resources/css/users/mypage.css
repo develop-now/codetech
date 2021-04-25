@@ -247,7 +247,46 @@ img.modifyModal__img-profile{
 	margin:10px;
 }
 .mypageReport__table-head{
-	background-color:#fbf9f7; 
+	background-color:#fbf9f7;
+	font-weight:bold; 
+}
+.mypageReport__table tbody tr td{
+	color:gray !important;
+}
+.reportPagination{
+	display: flex;
+    list-style: none;
+    padding: 10px 0;
+    
+}
+.reportPage-item{
+	text-align:center;
+}
+.reportPage-item .link,.reportPage-item .linkN{
+	border-radius:20px;
+	border:solid 2px #6b9068ba;
+	text-align:center;
+	text-decoration:none;
+	padding:2px 10px;
+	margin:0 5px;
+	color: #6b9068ba;
+	
+}
+.reportPage-item .link:hover{
+	background-color:#6b9068ba;
+	color:white;
+}
+.reportPage-item .linkN:hover{
+	background-color:white;
+	color:#6b9068ba;
+}
+.reportListContent a{
+	text-decoration:none;
+	color:gray;
+	font-weight:bold; 
+}
+.mypageReport__body > table > tbody > tr{
+	color:gray;
 }
 /*mypage-report end*/
 
@@ -300,11 +339,16 @@ img.modifyModal__img-profile{
 }
 .addMessage{
     width: 87%;
-    margin: 100px 0;
-    background-color:oldlace;
-    border: solid 1px #6b9068ba;
+    margin: 100px 0 100px 20px;
+    background-color:#fefefe;
+    border: solid 2px #cfcfcfba;
     border-radius:5px;
     color:#6b9068;
+    font-weight:bold;
+}
+.addMessage:hover{
+	background-color:#6b9068ba;
+	color:#fefefe;
 }
 #sum_p_num, #sum_p_price {
 	text-align:center;
@@ -393,6 +437,8 @@ img.modifyModal__img-profile{
 	background-color:#f7f7f7;
 	box-shadow: -7px 7px 9px darkgrey;
 	border-radius: 5px;
+	margin:20px 0;
+	width:460px;
 }
 .FavoirteList__btn button{
 	width:117px;

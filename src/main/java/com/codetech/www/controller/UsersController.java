@@ -488,19 +488,19 @@ public class UsersController {
     @RequestMapping(value = "/reportList", method = RequestMethod.GET)
     public Map<String, Object> reportList(@RequestParam(value = "page", defaultValue = "1", required = false) int page
     ) {
-        logger.info("reportListAjax도착" + page);
+        logger.info("============reportListAjax도착" + page);
         int user_id = (int) session.getAttribute("user_id");
         logger.info("접속한유저" + user_id);
 
         int limit = 5;
         List<Report> report = usersService.reportStoreAndUserList(user_id, page, limit);
         int reportCount = usersService.getReportListCount(user_id);
-
         int maxpage = (reportCount + limit - 1) / limit;
         int startpage = ((page - 1) / 10) * 10 + 1;
         int endpage = startpage + 10 - 1;
         if (endpage > maxpage)
             endpage = maxpage;
+        logger.info("reportCount" + reportCount + "startpage" + startpage +"endpage" + endpage + "maxpage" + maxpage);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", report);
         map.put("page", page);
@@ -515,12 +515,10 @@ public class UsersController {
 
     @RequestMapping(value = "/reportDetail", method = RequestMethod.GET)
     public ModelAndView reportDetail(
-            @RequestParam(value = "store_report_id", defaultValue = "0", required = false) String store_reported,
-            @RequestParam(value = "cmt_report_id", defaultValue = "0", required = false) String cmt_reported,
+            @RequestParam(value = "store_report_id", defaultValue = "0", required = false) int store_report_id,
+            @RequestParam(value = "user_report_id", defaultValue = "0", required = false) int user_report_id,
             ModelAndView mv) {
         logger.info("여기는 reportDetail");
-        int store_report_id = Integer.parseInt(store_reported);
-        int cmt_report_id = Integer.parseInt(cmt_reported);
         if (store_report_id != 0) {
             Report store_detail = storeService.readStoreReport(store_report_id);
             int store_id = store_detail.getReported_store();
@@ -530,15 +528,14 @@ public class UsersController {
             mv.setViewName("user/mypage-report_detail");
             mv.addObject("detail", store_detail);
             mv.addObject("store_name", store_name);
-        } else if (cmt_report_id != 0) {
-            Report cmt_detail = commentService.readCommentReport(cmt_report_id);
-            //int comment_id = cmt_detail.getReported_cmt();
-            //Comment comment = commentService.selectComment(comment_id);
-            //String comment_content = comment.getComment_content();
+        } else if (user_report_id != 0) {
+            Report user_detail = usersService.readUserReport(user_report_id);
+            int user_id = user_detail.getReported_user();
+            UserPlusInfo upi = usersService.user_info(user_id);
+            String user_name = upi.getUser_name();
             mv.setViewName("user/mypage-report_detail");
-            mv.addObject("detail", cmt_detail);
-            //mv.addObject("comment_content", comment_content);
-
+            mv.addObject("detail", user_detail);
+            mv.addObject("user_name", user_name);
         }
         return mv;
 
