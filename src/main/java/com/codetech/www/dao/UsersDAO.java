@@ -25,11 +25,13 @@ public class UsersDAO {
     private SqlSessionTemplate sqlSession;
 
 
-    public User isEmail(String user_email) {
+    public Integer isEmail(String user_email) {
         return sqlSession.selectOne("users.isEmail", user_email);
     }
-
-    public UserInfo isName(String user_name) {
+    public  User isUser(String user_email) {
+        return sqlSession.selectOne("users.isUser", user_email);
+    }
+    public Integer isName(String user_name) {
         return sqlSession.selectOne("users.isName", user_name);
     }
 
@@ -163,6 +165,10 @@ public class UsersDAO {
     public int getReportListCount(int user_id) {
         return sqlSession.selectOne("users.reportCount", user_id);
     }
+
+	public Report readUserReport(int user_report_id) {
+		return sqlSession.selectOne("users.readUserReport",user_report_id);
+	}
 
 
 }

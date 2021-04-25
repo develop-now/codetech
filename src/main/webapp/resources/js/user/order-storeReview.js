@@ -32,9 +32,9 @@ $(function(){
                 console.log("each 실행");
                 output="";
                 output += "<table><tbody><tr><input type='hidden' id='cmtCount' value='"+listCount+"'"
-                      +"<td>"+list.comment_writer+"</td><td>"+list.comment_content+"</td></tr>"
+                      +"<td>"+list.comment_writer+":&nbsp;&nbsp;</td><td>"+list.comment_content+"</td></tr>"
                 if(list.comment_lev == 1){
-                      +"<tr><td>사장"+list.comment_writer+"</td><td>"+list.comment_content+"</td></tr>"
+                      +"<tr><td>"+list.comment_writer+":&nbsp;&nbsp;</td><td>"+list.comment_content+"</td></tr>"
                 }
                 output + "</tbody></table>"   
                 $(".storeReviewModal").append(output);
@@ -45,7 +45,6 @@ $(function(){
                 $(".storeReviewModal__button").text("")
              }
           }else{
-             //모달창안에 아직 달린 리뷰가 없다고 띄우기
              $(".storeReviewModal-body").text("현재 달린 리뷰가 없습니다.");
           }
        },

@@ -7,16 +7,20 @@
 
 
     </select>
-    <select id="isEmail" parameterType="String" resultType="user">
-        select *
+    <select id="isEmail" parameterType="String" resultType="int">
+        select nvl(count(*), 0)
         from users
         where user_email = #{user_email}
     </select>
-    <select id="isName" parameterType="String"
-            resultType="user-info">
-        select *
+    <select id="isName" parameterType="String" resultType="int">
+        select nvl(count(*), 0)
         from user_info
-        where user_name = #{user_name}
+        where user_name = #{user_name} 
+    </select>
+    <select id="isUser" parameterType="String" resultType="user">
+        select *
+        from users
+        where user_email = #{user_email}
     </select>
     <insert id="userInsert" parameterType="user">
         insert into users(user_id, user_email, user_password)
@@ -111,7 +115,7 @@
 
     <select id="reportStoreAndUserList" parameterType="int" resultType="report">
         select *
-        from (select rownum, ruc.*
+        from (select rownum rnum, ruc.*
               from (select *
                     from (
                              select to_number(null) store_report_id,
@@ -143,7 +147,7 @@
                     order by uc.created_at desc
                    ) ruc
              )
-        where rownum between #{start} and #{end}
+        where rnum between #{start} and #{end}
     </select>
 
     <select id="reportCount" parameterType="int" resultType="int">
@@ -238,6 +242,12 @@
         from likes
         where user_id = #{user_id}
           and store_id = #{store_id}
+    </select>
+    
+    <select id="readUserReport" parameterType="int" resultType="report">
+    	select * 
+		from user_report
+		where  user_report_id = #{user_report_id} 
     </select>
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">
