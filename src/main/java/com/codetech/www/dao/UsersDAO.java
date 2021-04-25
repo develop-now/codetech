@@ -26,6 +26,7 @@ public class UsersDAO {
 
 
     public User isEmail(String user_email) {
+    	System.out.println("DAO에서 " + user_email);
         return sqlSession.selectOne("users.isEmail", user_email);
     }
 

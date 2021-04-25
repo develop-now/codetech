@@ -58,7 +58,8 @@ $(function () {
                 url: "user/emailcheck",
                 data: {"user_email": id},
                 success: function (isEmail) {
-                    if (isEmail == -1) {
+                	console.log("이메일 체크 테스트 입니다." + isEmail);
+                    if (isEmail) {
                         $("#message-id").css("color", "#BE9F7B").html("*사용가능한 이메일입니다.");
                         idpattern = true;
                     } else {

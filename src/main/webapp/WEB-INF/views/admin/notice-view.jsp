@@ -126,6 +126,13 @@
 	<!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
+        <div id="sideNav" class="col-12 col-sm-2">
+            <div><a href="${pageContext.request.contextPath}/admin/userList">회원 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/partnerList">파트너 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/noticeAll">공지사항 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/noticeWrite">공지사항 작성</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/reportUser">신고 관리</a></div>
+        </div>
             <div class="col-12 col-sm-10">
             	<!-- 넘어온 값 별 공지 제목 -->
             	<c:choose>

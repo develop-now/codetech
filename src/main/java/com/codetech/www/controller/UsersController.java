@@ -101,10 +101,11 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/emailcheck", method = RequestMethod.GET)
-    public void emailcheck(String user_email, HttpServletResponse response) throws IOException {
-        int result = usersService.isEmail(user_email);
+    public void emailcheck(@RequestParam("user_email") String user_email, HttpServletResponse response) throws IOException {
+        logger.info("Ajax 테스트");
+    	System.out.println("Ajax 테스트");
+    	int result = usersService.isEmail(user_email);
         response.setContentType("text/html;charset=utf-8");
-        logger.info("emailcheck 도착" + result);
         PrintWriter out = response.getWriter();
         out.println(result);
     }

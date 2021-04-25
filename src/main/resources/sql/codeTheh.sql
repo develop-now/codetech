@@ -206,21 +206,21 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
 values (3, 'Test Store3', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 1);
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 2);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
 values (4, 'Test Store9', '111-222-3333', '목포시', '용해동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 2);
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 3, 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
 values (9, '엔젤리너스', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'image_url',
-        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 1);
+        '09:00', '20:00', '10:00', '20:00', 'friday', '126.989671370346', '37.5700325947573', 7, 3);
 
 
 
@@ -344,11 +344,11 @@ values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 2);
+        'image.jpg', 'image.jpg', 9, 2);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 3);
+        'image.jpg', 'image.jpg', 9, 3);
 
 
 drop table order_status cascade constraints;
