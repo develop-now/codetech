@@ -1201,6 +1201,7 @@ create table carts
     updated_at    date      default sysdate,
     user_id       number(5) not null,
     menu_id       number(5) not null,
+    cart_status   number(3) default 0, --0이면 결제 미완료, 1이면 결제 완료
     constraint fk_carts_user foreign key (user_id) references users (user_id),
     constraint fk_carts_menu foreign key (menu_id) references menus (menu_id)
 );

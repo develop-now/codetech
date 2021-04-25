@@ -72,12 +72,10 @@
                     </li>
                 </sec:authorize>
 
-                <sec:authorize access="hasRole('ROLE_MEMBER')">
-                    <li class="nav-item">
-                        <a class="nav-link text-right"
-                           href="<c:url value="/user"/>">${pinfo.username}</a>
-                    </li>
-                </sec:authorize>
+                <li class="nav-item">
+                    <a class="nav-link text-right"
+                       href="<c:url value="/user"/>">${pinfo.username}</a>
+                </li>
 
 
                 <li class="nav-item">
