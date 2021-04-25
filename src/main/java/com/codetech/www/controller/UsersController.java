@@ -69,7 +69,7 @@ public class UsersController {
 
     @Autowired
     private OrderService orderService;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -99,21 +99,31 @@ public class UsersController {
             logger.info("remember id : " + cookie.getValue());
         }
     }
+
     @ResponseBody
     @RequestMapping(value = "/emailcheck", method = RequestMethod.GET)
-    public  int emailcheck(String user_email) throws IOException {
-    	logger.info("emailcheck 도착");
+    public Map<String, Object> emailcheck(String user_email) throws IOException {
+        logger.info("emailcheck 도착__" + user_email);
+
         int result = usersService.isEmail(user_email);
-        return result;
+
+        Map<String, Object> rtn = new HashMap<>();
+        rtn.put("result", result);
+
+        return rtn;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/nickcheck", method = RequestMethod.GET)
-    public void nickcheck(String user_name, HttpServletResponse response) throws IOException {
+    public Map<String, Object> nickcheck(String user_name) throws IOException {
+        logger.info("emailcheck 도착__" + user_name);
+
         int result = usersService.isName(user_name);
-        response.setContentType("text/html;charset=utf-8");
-        logger.info("emailcheck 도착" + result);
-        PrintWriter out = response.getWriter();
-        out.println(result);
+
+        Map<String, Object> rtn = new HashMap<>();
+        rtn.put("result", result);
+
+        return rtn;
     }
 
     @RequestMapping(value = "/joinProcess", method = RequestMethod.POST)
@@ -456,49 +466,49 @@ public class UsersController {
 
     }
 
-	/*
-	 * @RequestMapping(value = "/reportList", method = RequestMethod.GET) public
-	 * ModelAndView reportList(int page, ModelAndView mv) {
-	 * logger.info("reportList도착"); int user_id = (int)
-	 * session.getAttribute("user_id"); int limit = 5;
-	 * mv.setViewName("user/mypage-report"); mv.addObject("list", report); return
-	 * mv; }
-	 */
+    /*
+     * @RequestMapping(value = "/reportList", method = RequestMethod.GET) public
+     * ModelAndView reportList(int page, ModelAndView mv) {
+     * logger.info("reportList도착"); int user_id = (int)
+     * session.getAttribute("user_id"); int limit = 5;
+     * mv.setViewName("user/mypage-report"); mv.addObject("list", report); return
+     * mv; }
+     */
     @GetMapping("/reportListGo")
-    public String reportListGo(){
-    	logger.info("reportlistgo =================");
-    	return "user/mypage-report";
+    public String reportListGo() {
+        logger.info("reportlistgo =================");
+        return "user/mypage-report";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/reportList", method = RequestMethod.GET)
-    public Map<String, Object> reportList(@RequestParam(value="page", defaultValue="1", required = false)int page
-    							) {
-        logger.info("reportListAjax도착"+page);
+    public Map<String, Object> reportList(@RequestParam(value = "page", defaultValue = "1", required = false) int page
+    ) {
+        logger.info("reportListAjax도착" + page);
         int user_id = (int) session.getAttribute("user_id");
         logger.info("접속한유저" + user_id);
-        
+
         int limit = 5;
-        List<Report> report = usersService.reportStoreAndUserList(user_id,page,limit);
+        List<Report> report = usersService.reportStoreAndUserList(user_id, page, limit);
         int reportCount = usersService.getReportListCount(user_id);
-        
+
         int maxpage = (reportCount + limit - 1) / limit;
         int startpage = ((page - 1) / 10) * 10 + 1;
         int endpage = startpage + 10 - 1;
         if (endpage > maxpage)
             endpage = maxpage;
-        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", report);
-        map.put("page",page);
-        map.put("limit",limit);
+        map.put("page", page);
+        map.put("limit", limit);
         map.put("reportCount", reportCount);
         map.put("maxpage", maxpage);
         map.put("startpage", startpage);
         map.put("endpage", endpage);
-        
+
         return map;
     }
-    
+
     @RequestMapping(value = "/reportDetail", method = RequestMethod.GET)
     public ModelAndView reportDetail(
             @RequestParam(value = "store_report_id", defaultValue = "0", required = false) String store_reported,
@@ -538,7 +548,7 @@ public class UsersController {
         List<Comment> list = commentService.getUserCommentList(user_id, page);
         int listCount = commentService.getCommentCountByUser(user_id);
         // likes user_id로 가게 좋아요했는지 확인 =>xml에서  join으로 넣음 - 돌아가서 좋아요한 가게랑 일치할 경우 이미지 변경해주기
-        
+
         md.addAttribute("listCount", listCount);
         md.addAttribute("list", list);
         logger.info("comment도착");
@@ -555,28 +565,28 @@ public class UsersController {
 
     @RequestMapping(value = "/orderMain", method = RequestMethod.GET)
     public ModelAndView order(int store_id, ModelAndView mv) {
-    	logger.info("가게주문하기를선택했을경우 ======================"+store_id);
-    	Integer user_id = (Integer)session.getAttribute("user_id");
-    	String search_val = "";
-    	int Rresult = 1;//로그인 되지 않은 상태의 즐겨찾기버튼상태
+        logger.info("가게주문하기를선택했을경우 ======================" + store_id);
+        Integer user_id = (Integer) session.getAttribute("user_id");
+        String search_val = "";
+        int Rresult = 1;//로그인 되지 않은 상태의 즐겨찾기버튼상태
         Store store = usersService.getStore(store_id);
         int storeLike = usersService.getStoreLike(store_id);
         List<Menu> topMenu = usersService.getTopMenu(store_id);
         List<Menu> allMenu = usersService.getAllMenu(store_id);
         int menuCount = usersService.getMenuCount(store_id);
-        
+
         int count = commentService.getCommentCountByStore(store_id, search_val);
 
-        if(user_id != null){
-        	Integer result = usersService.checkStoreLikeAsUser(user_id, store_id);
-        	logger.info("아이디 널이아닐때 ======================"+result);
-        	if(result == 0) {
-        		Rresult = 2;//로그인 되어있지만 즐겨찾기추가 안되어있는 상태
-        		logger.info("아이디로그인됨, 즐겨찾기 추가 안됨2 ");
-        	}else {
-        		Rresult = 3;//로그인이 되어있고 즐겨찾기추가 되어있는 상태
-        		logger.info("아이디로그인됨, 즐겨찾기 추가 됨3 "+ Rresult);
-        	}
+        if (user_id != null) {
+            Integer result = usersService.checkStoreLikeAsUser(user_id, store_id);
+            logger.info("아이디 널이아닐때 ======================" + result);
+            if (result == 0) {
+                Rresult = 2;//로그인 되어있지만 즐겨찾기추가 안되어있는 상태
+                logger.info("아이디로그인됨, 즐겨찾기 추가 안됨2 ");
+            } else {
+                Rresult = 3;//로그인이 되어있고 즐겨찾기추가 되어있는 상태
+                logger.info("아이디로그인됨, 즐겨찾기 추가 됨3 " + Rresult);
+            }
         }
         logger.info("기본은 1담기직전 값" + Rresult);
         mv.setViewName("user/order-main");
@@ -635,10 +645,10 @@ public class UsersController {
         mv.addObject("menu", menu);
         return mv;
     }
-    
+
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     public ModelAndView favorite(ModelAndView mv) {
-        int user_id_o = (int)session.getAttribute("user_id");
+        int user_id_o = (int) session.getAttribute("user_id");
         List<Store> store = usersService.getStoreFavorite(user_id_o);
         int likesCount = usersService.likesCount(user_id_o);
         mv.setViewName("user/order-likes_list");
@@ -647,59 +657,59 @@ public class UsersController {
         mv.addObject("likesCount", likesCount);
         return mv;
     }
-    
+
     @RequestMapping(value = "/favoriteDelete", method = RequestMethod.GET)
-    public String favoriteAjax(int store_id,RedirectAttributes rattr) {
-    	int user_id_o = (int)session.getAttribute("user_id");
-    	int deleteresult = usersService.favoriteCancel(user_id_o, store_id);
-    	if(deleteresult == 1) {
-    		rattr.addFlashAttribute("info", "즐겨찾는 카페에서 제외되었습니다.");
-    		logger.info("즐겨찾는카페 삭제");
-    	}else {
-    		logger.info("favoriteAjax() ERROR");
-    	}
+    public String favoriteAjax(int store_id, RedirectAttributes rattr) {
+        int user_id_o = (int) session.getAttribute("user_id");
+        int deleteresult = usersService.favoriteCancel(user_id_o, store_id);
+        if (deleteresult == 1) {
+            rattr.addFlashAttribute("info", "즐겨찾는 카페에서 제외되었습니다.");
+            logger.info("즐겨찾는카페 삭제");
+        } else {
+            logger.info("favoriteAjax() ERROR");
+        }
         return "redirect:/user/favorite";
     }
 
     @ResponseBody
     @RequestMapping(value = "/favoriteChange", method = RequestMethod.GET)
     public Map<String, Integer> likesList(
-    					 int store_id
-    					,int likeValue) {
-    	logger.info("favoriteChange도착/store_id/"+store_id+" likeValue "+likeValue);
-    	int user_id = (int)session.getAttribute("user_id");
-    	int result =0;
-    	//접속한 유저가 주문하기 페이지의 store_id에 좋아요 여부
-    	int likeValueFromDB = usersService.checkStoreLikeAsUser(user_id, store_id);
-    	logger.info("likeValueFromDB"+likeValueFromDB);
-    	
-    	logger.info("좋아요상태likeValue="+likeValue + "좋아요유무likeValueFromDB="+likeValueFromDB);
-    	//likeValue 2는 취소상태, 3은 추가상태
-    	if(likeValue == 2&&likeValueFromDB==0) {//즐겨찾기에 추가
-    		logger.info("추가되는 로직likeValue" + likeValue+"추가되는 user_id" +user_id+"추가가가능한0likeValueFromDB" +likeValueFromDB);
-    		 result = usersService.favoriteAdd(user_id, store_id);
-    		 if(result == 0) {
-        		 logger.info("favoriteChange favoriteAdd ERROR");
-        		 result = 1;
-        	 }
-    		 result = 3;//추가완료
-    	}else if(likeValue==3 && likeValueFromDB!=0) {//즐겨찾기 취소
-    		logger.info("취소되는 로직likeValue" + likeValue+"취소되는 user_id" +user_id+"취소가능한1 likeValueFromDB" +likeValueFromDB);
-    		result = usersService.favoriteCancel(user_id, store_id);
-    		 if(result == 0) {
-        		 logger.info("favoriteChange favoriteAdd ERROR");
-        		 result = 1;
-        	 }
-    		 result =2;//취소완료
-    	}
-    	//store_id에 해당하는 좋아요 개수
-    	int storeLike = usersService.getStoreLike(store_id);
-    	
-    	Map<String, Integer> map = new HashMap<String, Integer>();
-    	map.put("likeValue",result);
-    	map.put("storeLike",storeLike);
-    	logger.info("result0은메서드실패  1은 각 로직 실패 2는 취소상태 3은 추가상태    result=" + result);
-    	return map;
+            int store_id
+            , int likeValue) {
+        logger.info("favoriteChange도착/store_id/" + store_id + " likeValue " + likeValue);
+        int user_id = (int) session.getAttribute("user_id");
+        int result = 0;
+        //접속한 유저가 주문하기 페이지의 store_id에 좋아요 여부
+        int likeValueFromDB = usersService.checkStoreLikeAsUser(user_id, store_id);
+        logger.info("likeValueFromDB" + likeValueFromDB);
+
+        logger.info("좋아요상태likeValue=" + likeValue + "좋아요유무likeValueFromDB=" + likeValueFromDB);
+        //likeValue 2는 취소상태, 3은 추가상태
+        if (likeValue == 2 && likeValueFromDB == 0) {//즐겨찾기에 추가
+            logger.info("추가되는 로직likeValue" + likeValue + "추가되는 user_id" + user_id + "추가가가능한0likeValueFromDB" + likeValueFromDB);
+            result = usersService.favoriteAdd(user_id, store_id);
+            if (result == 0) {
+                logger.info("favoriteChange favoriteAdd ERROR");
+                result = 1;
+            }
+            result = 3;//추가완료
+        } else if (likeValue == 3 && likeValueFromDB != 0) {//즐겨찾기 취소
+            logger.info("취소되는 로직likeValue" + likeValue + "취소되는 user_id" + user_id + "취소가능한1 likeValueFromDB" + likeValueFromDB);
+            result = usersService.favoriteCancel(user_id, store_id);
+            if (result == 0) {
+                logger.info("favoriteChange favoriteAdd ERROR");
+                result = 1;
+            }
+            result = 2;//취소완료
+        }
+        //store_id에 해당하는 좋아요 개수
+        int storeLike = usersService.getStoreLike(store_id);
+
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("likeValue", result);
+        map.put("storeLike", storeLike);
+        logger.info("result0은메서드실패  1은 각 로직 실패 2는 취소상태 3은 추가상태    result=" + result);
+        return map;
     }
 
     // for cart register
@@ -744,14 +754,14 @@ public class UsersController {
         Integer amount = usersService.getAmount(user_id);
         Integer totalPrice = usersService.getTotalPrice(user_id);
 
-        if(cart != null) {
-        mv.setViewName("user/order-cart");
-        mv.addObject("store", store);
-        mv.addObject("menu", menu);
-        mv.addObject("cart", cart);
-        mv.addObject("amount", amount);
-        mv.addObject("totalPrice", totalPrice);
-        return mv;
+        if (cart != null) {
+            mv.setViewName("user/order-cart");
+            mv.addObject("store", store);
+            mv.addObject("menu", menu);
+            mv.addObject("cart", cart);
+            mv.addObject("amount", amount);
+            mv.addObject("totalPrice", totalPrice);
+            return mv;
         } else {
             mv.setViewName("user");
         }
@@ -783,16 +793,16 @@ public class UsersController {
 
     @RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
     public ModelAndView orderDetail(int order_id, ModelAndView mv) {
-    	logger.info("orderDetail 이동완료" + order_id);
-    	int point_value = usersService.getPointValue(order_id);
-    	Order o = orderService.readOrder(order_id);
-    	List<DetailMenuJoin> dmj = orderService.getOrderDetailsWithStoreName(order_id);
-    	mv.addObject("point_value", point_value);
-    	mv.addObject("order", o);
-    	mv.addObject("detail", dmj);
-    	mv.setViewName("user/order-detail");
-    	
-    	return mv;
+        logger.info("orderDetail 이동완료" + order_id);
+        int point_value = usersService.getPointValue(order_id);
+        Order o = orderService.readOrder(order_id);
+        List<DetailMenuJoin> dmj = orderService.getOrderDetailsWithStoreName(order_id);
+        mv.addObject("point_value", point_value);
+        mv.addObject("order", o);
+        mv.addObject("detail", dmj);
+        mv.setViewName("user/order-detail");
+
+        return mv;
     }
 
 }
