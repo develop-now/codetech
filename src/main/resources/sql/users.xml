@@ -86,110 +86,159 @@
         where user_email = #{user_email}
     </select>
 
-    
+
     <select id="userInfo" parameterType="int" resultType="user">
-    	select * from users where user_id = #{user_id}
+        select *
+        from users
+        where user_id = #{user_id}
     </select>
-    
+
     <update id="updatePassword" parameterType="map">
-    	update users
-    	set user_password = #{user_password}
-    	where user_id = #{user_id}
-	</update>
-	
-	<update id="updateUserInfo" parameterType="upi">
-		update user_info
-		set user_name = #{user_name}
-			,user_tel = #{user_tel}
-			,user_address = #{user_address}
-			,user_profile = #{user_profile}
-			,original_file = #{original_file}
-		where user_id = #{user_id}
-	</update>
-	
-	 <select id="reportStoreAndUserList" parameterType="int" resultType="report">
-	    select *
-		from(select rownum , ruc.* 
-			from (	select * 
-					from (
-							select to_number(null) store_report_id, user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, reported_user, to_number(null)reported_store           
-							from user_report where reporter = #{user_id}
-							union all
-							select store_report_id, to_number(null) user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, to_number(null)reported_user, reported_store 
-							from STORE_REPORT where reporter = #{user_id}
-							)uc
-					order by uc.created_at desc
-				)ruc
-			)
-		where rownum between #{start} and #{end}
-    </select>
-    
-    <select id="reportCount" parameterType="int" resultType="int">
-    	select count(*)
-    	from (select *
-    			from(
-					select to_number(null) store_report_id, user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, reported_user, to_number(null)reported_store           
-					from user_report where reporter = #{user_id}
-					union all
-					select store_report_id, to_number(null) user_report_id, report_subject, report_content, created_at, updated_at, report_status, reporter, to_number(null)reported_user, reported_store 
-					from STORE_REPORT where reporter = #{user_id}
-					)
-    			)
-    </select>
-    
-    <insert id="addStoreReport" parameterType="report">
-    	insert into store_report
-    	values((select nvl(max(store_report_id),0)+1 from store_report)
-    			,#{report_subject},#{report_content},sysdate, sysdate,'1',#{reporter})
-    </insert>
-    
-    <insert id="addCmtReport" parameterType="report">
-    	insert into comment_report
-    	values(select nvl(max(cmt_report_id),0)+1 from COMMENT_REPORT)
-    	,#{report_subject},#{report_content},sysdate, sysdate,'1',#{reporter})
-    </insert>
-    
-    <update id="updatePoint" parameterType="map">
-    	update user_info
-    	set point = #{point} 
-		where user_id = #{user_id}
+        update users
+        set user_password = #{user_password}
+        where user_id = #{user_id}
     </update>
-    
+
+    <update id="updateUserInfo" parameterType="upi">
+        update user_info
+        set user_name     = #{user_name}
+          , user_tel      = #{user_tel}
+          , user_address  = #{user_address}
+          , user_profile  = #{user_profile}
+          , original_file = #{original_file}
+        where user_id = #{user_id}
+    </update>
+
+    <select id="reportStoreAndUserList" parameterType="int" resultType="report">
+        select *
+        from (select rownum, ruc.*
+              from (select *
+                    from (
+                             select to_number(null) store_report_id,
+                                    user_report_id,
+                                    report_subject,
+                                    report_content,
+                                    created_at,
+                                    updated_at,
+                                    report_status,
+                                    reporter,
+                                    reported_user,
+                                    to_number(null) reported_store
+                             from user_report
+                             where reporter = #{user_id}
+                             union all
+                             select store_report_id,
+                                    to_number(null) user_report_id,
+                                    report_subject,
+                                    report_content,
+                                    created_at,
+                                    updated_at,
+                                    report_status,
+                                    reporter,
+                                    to_number(null) reported_user,
+                                    reported_store
+                             from STORE_REPORT
+                             where reporter = #{user_id}
+                         ) uc
+                    order by uc.created_at desc
+                   ) ruc
+             )
+        where rownum between #{start} and #{end}
+    </select>
+
+    <select id="reportCount" parameterType="int" resultType="int">
+        select count(*)
+        from (select *
+              from (
+                       select to_number(null) store_report_id,
+                              user_report_id,
+                              report_subject,
+                              report_content,
+                              created_at,
+                              updated_at,
+                              report_status,
+                              reporter,
+                              reported_user,
+                              to_number(null) reported_store
+                       from user_report
+                       where reporter = #{user_id}
+                       union all
+                       select store_report_id,
+                              to_number(null) user_report_id,
+                              report_subject,
+                              report_content,
+                              created_at,
+                              updated_at,
+                              report_status,
+                              reporter,
+                              to_number(null) reported_user,
+                              reported_store
+                       from STORE_REPORT
+                       where reporter = #{user_id}
+                   )
+             )
+    </select>
+
+    <insert id="addStoreReport" parameterType="report">
+        insert into store_report
+        values ( (select nvl(max(store_report_id), 0) + 1 from store_report)
+               , #{report_subject}, #{report_content}, sysdate, sysdate, '1', #{reporter})
+    </insert>
+
+    <insert id="addCmtReport" parameterType="report">
+        insert into comment_report
+        values (select nvl(max (cmt_report_id), 0)+1 from COMMENT_REPORT)
+            ,#{report_subject}
+             , #{report_content}
+             , sysdate
+             , sysdate
+             , '1'
+             , #{reporter})
+    </insert>
+
+    <update id="updatePoint" parameterType="map">
+        update user_info
+        set point = #{point}
+        where user_id = #{user_id}
+    </update>
+
     <select id="pointListCount" parameterType="int" resultType="int">
-    	select count(*)
-    	from points
-    	where user_id = #{user_id}
-    </select> 
-    
-	<select id="getPointList" parameterType="map" resultType="point">
-	select * 
-	from(select rownum rnum ,pso.* 
-			from(select ps.*, o.order_total_price
-				from(select p.*, s.store_name 
-					from points p 
-					left join (select store_name, store_id 
-								from stores) s
-					on p.store_id = s.store_id
-					)ps
-				left join (select order_id,order_total_price from ORDERS)o
-				on ps.order_id = o.order_id
-				where ps.user_id = #{user_id} 
-				order by ps.created_at desc) pso
-			)
-	where rnum between #{start} and #{end}
-	</select>
-	
-	<select id="pointValue" parameterType="int" resultType="int">
-		select point_value 
-		from points 
-		where order_id = #{order_id} and point_type = 'use'
-	</select>
-	
-	<select id="checkLike" parameterType="map" resultType="Integer">
-		select like_id
-		from likes
-		where user_id = #{user_id} and store_id = #{store_id}
-	</select> 
+        select count(*)
+        from points
+        where user_id = #{user_id}
+    </select>
+
+    <select id="getPointList" parameterType="map" resultType="point">
+        select *
+        from (select rownum rnum, pso.*
+              from (select ps.*, o.order_total_price
+                    from (select p.*, s.store_name
+                          from points p
+                                   left join (select store_name, store_id
+                                              from stores) s
+                                             on p.store_id = s.store_id
+                         ) ps
+                             left join (select order_id, order_total_price from ORDERS) o
+                                       on ps.order_id = o.order_id
+                    where ps.user_id = #{user_id}
+                    order by ps.created_at desc) pso
+             )
+        where rnum between #{start} and #{end}
+    </select>
+
+    <select id="pointValue" parameterType="int" resultType="int">
+        select point_value
+        from points
+        where order_id = #{order_id}
+          and point_type = 'use'
+    </select>
+
+    <select id="checkLike" parameterType="map" resultType="Integer">
+        select like_id
+        from likes
+        where user_id = #{user_id}
+          and store_id = #{store_id}
+    </select>
     <!-- for store store staff -->
     <update id="updateStaffUserStatus" parameterType="Map">
         update users
@@ -197,35 +246,43 @@
             updated_at = sysdate
         where user_id = #{user_id}
     </update>
-    
-    <select id="getUserRP" resultType="user-info" parameterType="String">
-    select * from user_info where user_name = #{reported}
-    </select>
-    
-    <insert id="userReport" parameterType="map">
-    insert into user_report values(
-		(select nvl(max(user_report_id), 0) +1 from user_report), #{subject}, #{content},
-		sysdate, sysdate, 1, #{reporter}, #{reported})
-    </insert>
-    
-    <select id="getUser" resultType="user" parameterType="int">
-    select * from users where user_id = #{user_id}
-    </select>
-    
-    <update id="revoke" parameterType="int">
-    update users users set role_id = 5 where user_id = #{user_id}
-    </update>
-    
 
-       <select id="getOrderStore" parameterType="int" resultType="int">
-    select owner_id from stores where store_id = #{store_id}
-      </select>
+    <select id="getUserRP" resultType="user-info" parameterType="String">
+        select *
+        from user_info
+        where user_name = #{reported}
+    </select>
+
+    <insert id="userReport" parameterType="map">
+        insert into user_report
+        values ((select nvl(max(user_report_id), 0) + 1 from user_report), #{subject}, #{content},
+                sysdate, sysdate, 1, #{reporter}, #{reported})
+    </insert>
+
+    <select id="getUser" resultType="user" parameterType="int">
+        select *
+        from users
+        where user_id = #{user_id}
+    </select>
+
+    <update id="revoke" parameterType="int">
+        update users users
+        set role_id = 5
+        where user_id = #{user_id}
+    </update>
+
+
+    <select id="getOrderStore" parameterType="int" resultType="int">
+        select owner_id
+        from stores
+        where store_id = #{store_id}
+    </select>
+
 
     <select id="likesCount" parameterType="int" resultType="int">
-    select count(*)
-    from likes
-    where user_id=#{user_id}
-
+        select count(*)
+        from likes
+        where user_id = #{user_id}
     </select>
-    
+
 </mapper>

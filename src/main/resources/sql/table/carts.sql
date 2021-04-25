@@ -12,6 +12,8 @@ create table carts
     constraint fk_carts_menu foreign key (menu_id) references menus (menu_id)
 );
 
-select * from carts where user_id = 17;
+select *
+from carts
+where user_id = 17;
 
 commit;

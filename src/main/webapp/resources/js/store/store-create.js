@@ -301,17 +301,35 @@ function resetForm(e) {
 }
 
 function searchAddress() {
-
     new daum.Postcode({
         oncomplete: function (data) {
             const addr = data.address;
 
             const addrArr = addr.split(" ");
 
-            const siData = addrArr[1];
-            const guData = addrArr[2];
-            const dongData = data.bname;
-            const etcData = [addrArr[3], addrArr[4]].join(" ")
+            let siData = ""
+            let guData = ""
+            let dongData = ""
+            let etcData = ""
+
+            siData = addrArr[0];
+            dongData = data.bname;
+            let lastIndex = 1;
+
+            for (let i = 1; i < addrArr.length; i++) {
+                switch (addrArr[i].slice(-1)) {
+                    case "시":
+                        siData += ` ${addrArr[i]} `
+                        break;
+                    case "구":
+                        guData += ` ${addrArr[i]} `
+                        lastIndex = i
+                        break;
+                }
+            }
+
+            let etc_addr_arr = addrArr.slice(lastIndex + 1, addrArr.length)
+            etcData = etc_addr_arr.join(" ");
 
             $("#store_address_si").val(siData).removeClass("is-invalid");
             $("#store_address_gu").val(guData).removeClass("is-invalid");
