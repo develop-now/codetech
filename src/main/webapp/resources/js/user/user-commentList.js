@@ -89,9 +89,9 @@ $(".mypageReview-content").on("click","#deleteReview",function(){
 		method:"post",
 		url:"../comment/user/deleteUserComment",
 		data:{"comment_id":comment_id},
-		beforeSend: function (xhr) {
+		/*beforeSend: function (xhr) {
             xhr.setRequestHeader(header, token);
-        },
+        },*/
 		dataType:"json",
 		success:function(data){
 			console.log('ajax success');

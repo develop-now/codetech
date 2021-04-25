@@ -46,12 +46,12 @@
 
                     <label for="user_address"><strong>주소</strong></label><span id="message-add"></span><br>
                     <div class="modifyModal-body-postcode">
-                        <input type="text" name="user_postcode_m" placeholder="예)13566" id="user_postcode_m" required
+                        <input type="text" name="user_postcode_m" id="user_postcode_m" required
                                readonly>
                         <input type="button" class="modifyModal-body__button-code" onclick="DaumPostcode()" value="우편검색">
                     </div>
                     <input type="text" name="user_address_m" id="user_address_m" class="modifyModal-body__addressinput"
-                          value="${userPlusInfo.user_address}" required readonly>
+                          required readonly>
 
                 </div>
                 <div class="modal-footer modifyModal-footer">
@@ -61,4 +61,12 @@
         </div>
     </form>
 </div>
+<script>
+var DBaddress = "${userPlusInfo.user_address}";
+var code = DBaddress.substring(0,5);
+var address = DBaddress.substring(5);
 
+$("#user_postcode_m").val(code);
+$("#user_address_m").val(address);
+
+</script>

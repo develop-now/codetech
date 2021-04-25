@@ -6,14 +6,18 @@ create table categories
 );
 
 insert into categories
-values (1, '양식');
+values (1, '한식');
 insert into categories
-values (2, '한식');
+values (2, '양식');
 insert into categories
 values (3, '일식');
 insert into categories
-values (4, '디저트');
+values (4, '중식');
 insert into categories
-values (5, '커피');
+values (5, '분식');
+insert into categories
+values (6, '커피');
+insert into categories
+values (7, '디저트');
 
 commit;
