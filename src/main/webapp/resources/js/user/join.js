@@ -53,24 +53,28 @@ $(function () {
             $("#message-id").css('color', '#B63629').html('*수신 가능한 이메일을 입력하세요.');
             idpattern = false;
         } else {
+            console.log({id})
             //user_email 중복체크
             $.ajax({
-                url: 'user/emailcheck?user_email='+id,
-                success: function (isEmail) {
-                    if (isEmail == -1) {
+                url: '/user/emailcheck',
+                data: {user_email: id},
+                method: "get",
+                cache: false,
+                success: function (jsonData) {
+                    console.log("jsonData : ", jsonData)
+                    if (jsonData.result == -1) {
                         $("#message-id").css("color", "#BE9F7B").html("*사용가능한 이메일입니다.");
                         idpattern = true;
                     } else {
-                    	console.log('${pageContext.request.contextPath}')
                         $("#message-id").css("color", "#B63629").html("*사용중인  이메일입니다.다른 이메일을 입력하세요.b");
                         idpattern = false;
                     }
                 },
-                error: function (req,status,err) {
-                    console.log("emailcheck Ajex ERROR"+err);
+                error: function (req, status, err) {
+                    console.log("emailcheck Ajex ERROR" + err);
                 }
-
             }); //user_email ajax end
+
             idpattern = true;
         }
         if ($('#user_email').val() == ('')) {
@@ -91,17 +95,20 @@ $(function () {
             nickpattern = false;
         } else {
             //user_name 중복체크
-        	console.log('닉네임 체크 작동');
+            console.log('닉네임 체크 작동');
             $.ajax({
-                url: "../user/nickcheck?user_name="+nick,
-                success: function (isName) {
-                    if (isName == -1) {
+                url: "/user/nickcheck",
+                data: {user_name: nick},
+                method: "get",
+                cache: false,
+                success: function (jsonData) {
+                    console.log("jsonData : ", jsonData)
+                    if (jsonData.result == -1) {
                         $("#message-nick").css("color", "#BE9F7B").html("*사용가능한 닉네임입니다.");
                         nickpattern = true;
                     } else {
                         $("#message-nick").css("color", "#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.a");
                         nickpattern = false;
-
                     }
                 },
                 error: function () {
@@ -204,30 +211,35 @@ $(function () {
             return false;
         }
         ;
+
         if ($.trim($('#user_name').val()) == '') {
             $("#message-nick").css('color', '#B63629').html('*닉네임을 입력하세요');
             $("#user_name").val('').focus();
             return false;
         }
         ;
+
         if ($.trim($('#user_password').val()) == '') {
             $("#message-pass").css('color', '#B63629').html('*비밀번호를 입력하세요');
             $("#user_password").val('').focus();
             return false;
         }
         ;
+
         if ($.trim($('#user_password_check').val()) == '') {
             $("#message-passcheck").css('color', '#B63629').html('*비밀번호 재확인을 입력하세요');
             $("#user_password_check").val('').focus();
             return false;
         }
         ;
+
         if ($.trim($('#user_tel').val()) == '') {
             $("#message-tel").css('color', '#B63629').html('*연락처를 입력하세요');
             $("#user_tel").val('').focus();
             return false;
         }
         ;
+
         if ($.trim($('#user_postcode').val()) == '') {
             $("#message-add").css('color', '#B63629').html('*주소를 입력하세요');
             $("#user_postcode").val('').focus();
