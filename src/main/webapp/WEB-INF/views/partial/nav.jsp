@@ -77,7 +77,7 @@
                 <sec:authorize access="hasRole('ROLE_MEMBER')">
                     <li class="nav-item">
                         <a class="nav-link text-right"
-                           href="<c:url value="/user"/>">유저정보</a>
+                           href="<c:url value="/user/infoMain"/>">유저정보</a>
                     </li>
                 </sec:authorize>
 

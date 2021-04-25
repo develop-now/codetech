@@ -217,11 +217,15 @@ public class UsersController {
         Integer user_id = (Integer) session.getAttribute("user_id");
         logger.info("=============세션에서 가져온  id=================" + user_id);
         UserPlusInfo upi = usersService.user_info(user_id);
-        // UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로
-        // 가져오기(조인사용)
-        // 좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
+        //카페지점수
+        int likes = usersService.likesCount(user_id);
+        int comments = commentService.getCommentCountByUser(user_id);
+        logger.info("likes"+likes+"comments"+comments);
+        
         mv.setViewName("user/mypage-infomain");
         mv.addObject("userPlusInfo", upi);
+        mv.addObject("likes", likes);
+        mv.addObject("comments", comments);
         // mv.addAttribute("userinfo", upi);
         return mv;
         // }
