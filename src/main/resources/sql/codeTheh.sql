@@ -145,7 +145,7 @@ values (15, 'dummy_store_owner8', '111-222-3333', 'korea', 15);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (16, 'dummy_staff1', '111-222-3333', 'korea', 16);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (17, 'dummy_staff2', '111-222-3333', 'korea', 16);
+values (17, 'dummy_staff2', '111-222-3333', 'korea', 17);
 
 
 
@@ -1210,6 +1210,7 @@ create table carts
     updated_at    date      default sysdate,
     user_id       number(5) not null,
     menu_id       number(5) not null,
+    cart_status   number(3) default 0, --0이면 결제 미완료, 1이면 결제 완료
     constraint fk_carts_user foreign key (user_id) references users (user_id),
     constraint fk_carts_menu foreign key (menu_id) references menus (menu_id)
 );

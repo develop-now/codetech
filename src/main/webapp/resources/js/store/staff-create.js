@@ -173,7 +173,6 @@ function submitForm(e) {
 
 function resetForm(e) {
     e.preventDefault();
-    formIsValid = true;
 
     nameInputEl.val("")
     nameInputEl.removeClass("is-invalid")
