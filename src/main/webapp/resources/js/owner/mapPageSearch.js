@@ -11,50 +11,27 @@ $(function() {
 /*<!-- 불러온 좌표 --> */
 	var rlat = $('#lat').val();
 	var rlon = $('#lon').val();
-	
+	console.log(rlat);
+	console.log(rlon);
 	if(rlat == "" ) {
 		rlat == 37.572799;
 		rlon == 126.991945;
 	}
 /*<!-- 지도를 띄우는 코드 -->*/
+	
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var options = { //지도를 생성할 때 필요한 기본 옵션
+
 			center : new kakao.maps.LatLng(rlat, rlon), //지도의 중심좌표.
 			level : 4 //지도의 레벨(확대, 축소 정도)
 		};
 
 		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
-
-		// 지도에 마커와 인포윈도우를 표시하는 함수입니다
-		function displayMarker(locPosition, message) {
-
-		    // 마커를 생성합니다
-		    var marker = new kakao.maps.Marker({  
-		        map: map, 
-		        position: locPosition
-		    }); 
-		    
-		    var iwContent = message, // 인포윈도우에 표시할 내용
-		        iwRemoveable = true;
-
-		    // 인포윈도우를 생성합니다
-		    var infowindow = new kakao.maps.InfoWindow({
-		        content : iwContent,
-		        removable : iwRemoveable
-		    });
-		    
-		    // 인포윈도우를 마커위에 표시합니다 
-		    infowindow.open(map, marker);
-		    
-		    // 지도 중심좌표를 접속위치로 변경합니다
-		    map.setCenter(locPosition);      
-		}    
+		map.relayout();
 		
 		// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
 		var zoomControl = new kakao.maps.ZoomControl();
 		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-		
 		
 		// TEST 
 		// 마커를 표시할 위치와 title 객체 배열입니다 
@@ -227,6 +204,7 @@ $(function() {
 			}
 		} // for
 	
-		
+
 });
 		
+

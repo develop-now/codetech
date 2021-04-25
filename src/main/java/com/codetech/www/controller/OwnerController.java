@@ -105,8 +105,11 @@ public class OwnerController {
 
 	@RequestMapping(value = "/searchListMap")
 	public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
-		logger.info("search 도착");
 		Store store = ownerService.getMap(searchWord);
+		if(store != null) {
+		store.setStore_address_lat(store.getStore_address_lat().substring(0, 10));
+		store.setStore_address_lon(store.getStore_address_lon().substring(0, 9));
+		}
 		mv.addObject("store", store);
 		mv.setViewName("owner/mapPageSearch");
 		return mv;
@@ -288,7 +291,8 @@ public class OwnerController {
 				list.add(cart);
 			}
 		}
-		int orderedStore = ownerService.getOrderStore(store_id);
+		//int orderedStore = ownerService.getOrderStore(store_id);
+		int orderedStore = store_id;
 		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
 		String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
 		mv.addObject("amount", amount);
