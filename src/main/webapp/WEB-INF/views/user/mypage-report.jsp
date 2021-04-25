@@ -33,6 +33,7 @@
 	              		<hr>
 	              	<input type="hidden" name="reportCount" id="reportCount" value="">
 	              	<div class="mypageReport__body">
+	              		<div><img src="${pageContext.request.contextPath }/resources/image/user/report.png" style="width: 200px"></div>
 	              		<table class="table report__table">
 	              			<thead class="mypageReport__table-head">
 	              				<tr>

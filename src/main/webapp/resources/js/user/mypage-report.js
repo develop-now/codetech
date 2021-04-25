@@ -19,7 +19,7 @@ function setPaging(href, digit, hrefN){
 	}else{
 		
 		if(hrefN==""){
-			now=" style='background-color:#6b9068ba; color:white;'";
+			now=" style='background-color:#848fd1ba; color:white;'";
 			anchor = "<a class='linkN'" + now + ">" + digit + "</a></li>";
 		}
 			anchor = "<a class='link'"+ href + ">" + digit + "</a></li>";

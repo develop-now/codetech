@@ -111,39 +111,39 @@ create table user_info
 );
 
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (1, 'site_owner', '01022223333', '00000korea', 1);
+values (1, '사이트오너', '01022223333', '00000서울시 종로구 중앙로길 5', 1);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (2, 'site_admin', '01022223333', '00000korea', 2);
+values (2, '관리자', '01022223333', '00000서울시 관악구 중앙로길 5', 2);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (3, 'store_owner', '01022223333', '00000korea', 3);
+values (3, '가게오너', '01022223333', '00000서울시 도봉구 중앙로길 5', 3);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (4, 'staff', '01022223333', '00000korea', 4);
+values (4, '스태프', '01022223333', '00000서울시 중랑구 중앙로길 5', 4);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (5, 'user1', '01022223333', '00000korea', 5);
+values (5, '유저일', '01022223333', '00000서울시 강동구 중앙로길 5', 5);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (6, 'user2', '01022223333', '00000korea', 6);
+values (6, '유저이', '01022223333', '00000서울시  금천구 중앙로길 5', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (7, 'user3', '01022223333', '00000korea', 7);
+values (7, '유저삼', '01022223333', '00000서울시 송파구 중앙로길 5', 7);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (8, 'dummy_user1', '01022223333', '00000korea', 8);
+values (8, '더미유저일', '01022223333', '00000서울시 강서구 중앙로길 5', 8);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (9, 'dummy_user2', '01022223333', '00000korea', 9);
+values (9, '더미유저이', '01022223333', '00000서울시 서대문구 중앙로길 5', 9);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (10, 'dummy_user3', '01022223333', '00000korea', 10);
+values (10, '더미유저삼', '01022223333', '00000서울시 서초구 중앙로길 5', 10);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (11, 'dummy_user4', '01022223333', '00000korea', 11);
+values (11, '더미유저사', '01022223333', '00000서울시 강남구 중앙로길 5', 11);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (12, 'dummy_user5', '01022223333', '00000korea', 12);
+values (12, '더미유저오', '01022223333', '00000서울시 마포구 중앙로길 5', 12);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (13, 'dummy_user6', '01022223333', '00000korea', 13);
+values (13, '더미유저육', '01022223333', '00000서울시 양천구 중앙로길 5', 13);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (14, 'dummy_user7', '01022223333', '00000korea', 14);
+values (14, '더미유저칠', '01022223333', '00000서울시 종로구 중앙로길 5', 14);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (15, 'dummy_store_owner8', '01022223333', '00000korea', 15);
+values (15, 'dummy_store_owner8', '01022223333', '00000서울시 종로구 중앙로길 5', 15);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (16, 'dummy_staff1', '01022223333', '00000korea', 16);
+values (16, '더미스태프일', '01022223333', '00000서울시 종로구 중앙로길 5', 16);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (17, 'dummy_staff2', '01022223333', '00000korea', 17);
+values (17, '더미스태프이', '01022223333', '00000서울시 마포구 중앙로길 5', 17);
 
 
 
@@ -1104,6 +1104,27 @@ VALUES (99, 99, 12, 1, to_date('20210423', 'YYYYMMDD'), '유저 12번이 1번 �
 insert into comments(comment_id, comment_ref, comment_writer, comment_store,
                      created_at, comment_content)
 VALUES (100, 100, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_5');
+
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, sysdate, sysdate, 4, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, sysdate, sysdate, 4, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, sysdate, sysdate, 4, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, sysdate, sysdate, 4, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, sysdate, sysdate, 17, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, sysdate, sysdate, 17, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, sysdate, sysdate, 17, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, sysdate, sysdate, 17, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, sysdate, sysdate, 4, 1, 1);
+insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
+'스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, sysdate, sysdate, 4, 1, 1);
 
 drop table report_status cascade constraints;
 create table report_status

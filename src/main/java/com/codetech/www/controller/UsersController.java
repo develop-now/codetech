@@ -106,10 +106,9 @@ public class UsersController {
         logger.info("emailcheck 도착__" + user_email);
 
         int result = usersService.isEmail(user_email);
-
+        logger.info("emailcheck result" + result);
         Map<String, Object> rtn = new HashMap<>();
         rtn.put("result", result);
-
         return rtn;
     }
 
@@ -552,7 +551,8 @@ public class UsersController {
 
         md.addAttribute("listCount", listCount);
         md.addAttribute("list", list);
-        logger.info("comment도착");
+        md.addAttribute("user_id", user_id);
+        logger.info("comment도착"+listCount);
         return "user/mypage-review";
 
     }
@@ -615,6 +615,8 @@ public class UsersController {
         List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
         if (listCount > orders.size()) {
             mv.addObject("more", 1);
+        }else {
+        	mv.addObject("Nodata", 1);
         }
 
         mv.setViewName("user/order-list");
@@ -784,12 +786,6 @@ public class UsersController {
         /// *메뉴에대한 옵션 테이블 빈*/사용
         // 메뉴아이디에따른 옵션화면에 보여주기, 가게 정보도 보여줘야함
         // ajax로 리턴값알려줄 거니까 httpResponse또는 map으로 싸서 oreder-main.jsp의 모달로 보내주기
-    }
-
-    @RequestMapping(value = "/orderList", method = RequestMethod.GET)
-    public void orderList(String user_id) {
-        // order조회후 order-list.jsp로 이동
-        // 더보기로 내용 추가조회 가능하도록 페이지 처리
     }
 
     @RequestMapping(value = "/orderDetail", method = RequestMethod.GET)

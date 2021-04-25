@@ -7,16 +7,20 @@
 
 
     </select>
-    <select id="isEmail" parameterType="String" resultType="user">
-        select *
+    <select id="isEmail" parameterType="String" resultType="int">
+        select nvl(count(*), 0)
         from users
         where user_email = #{user_email}
     </select>
-    <select id="isName" parameterType="String"
-            resultType="user-info">
-        select *
+    <select id="isName" parameterType="String" resultType="int">
+        select nvl(count(*), 0)
         from user_info
-        where user_name = #{user_name}
+        where user_name = #{user_name} 
+    </select>
+    <select id="isUser" parameterType="String" resultType="user">
+        select *
+        from users
+        where user_email = #{user_email}
     </select>
     <insert id="userInsert" parameterType="user">
         insert into users(user_id, user_email, user_password)

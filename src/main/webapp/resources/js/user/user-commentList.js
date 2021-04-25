@@ -1,5 +1,6 @@
 $(function(){
 	$(".mypageReview-content").hide();
+	$(".addMessage").hide();
 	var page = 1;
 	count = $("#listCount").val();
 	if(count != 0){
@@ -17,11 +18,13 @@ function getUserCommentList(currentPage){
 		data:{"page":currentPage},
 		dataType:"json",
 		success:function(data){
-			console.log(data.listCount)
-			console.log(data.list.length)
-			if(data.listCount > 0){
+			console.log("listcount"+data.listCount)
+			console.log("listlength"+data.list.length)
+			if(data.list.length > 0){
 				$(".mypageReview-content").show();
+				$(".addMessage").show();
 				$(".mypageReview-content").empty();
+				$(".addMessage").empty();
 				//가지고온 data의 객체들을 하나씩 반복해서 보여준다.
 				$(data.list).each(function(){
 					console.log("each 실행")
@@ -48,14 +51,15 @@ function getUserCommentList(currentPage){
 	              		
 	              		$(".mypageReview-content").append(output);
 				});
-				if(data.listCount>data.list.length){
-					$(".addMessage").text("더보기")
-				}else{
-					$(".addMessage").text("첫 댓글입니다.")
-				}
+					if(data.list.length>data.list.length){
+						$(".addMessage").text("더보기")
+					}else if(data.list.length<=data.list.length){
+						$(".addMessage").text("첫 댓글입니다.")
+					}
 			}
-			else{
-				$(".addMessage").hide()
+			else if(data.list.length == 0){
+				console.log("Nodata")
+				$(".addMessage").hide();
 			}
 		},
 		error:function(){
