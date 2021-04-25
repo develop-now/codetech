@@ -188,41 +188,68 @@ let rNumIsValid = false
 
 function numInputChangeHandler(e) {
     let splitVal = $(e.target).val().split("")
+    console.log({splitVal})
 
-    if (e.which !== 8 && e.which !== 9 && e.which !== 37 && e.which !== 39 && (e.which < 48 || e.which > 57)) {
-        $("#alertModal__msg").text("숫자만 입력 가능합니다");
-        alertModal.modal("show");
-        splitVal.pop()
-        return $(e.target).val("")
-    }
+    const inputPattern = RegExp("[0-9.-]+$", "g")
+    const telNumPattern = RegExp("[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}")
+    const rNumPattern = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/g;
 
     if (e.target.id === "store_tel") {
-        if (splitVal.length > 3 && splitVal[3] !== '-') {
-            splitVal.splice(3, 0, '-')
-        } else if (splitVal.length > 8 && splitVal[8] !== '-') {
-            splitVal.splice(8, 0, '-')
-        }
-
-        if (splitVal.length > 13) {
-            $(e.target).next().text("전화번호는 11자리 이상 넘어갈수 없습니다.")
-            $(e.target).addClass("is-invalid")
+        if (!inputPattern.test(e.target.value)) {
+            $("#alertModal__msg").text("숫자만 입력 가능합니다");
+            alertModal.modal("show");
+            splitVal.pop()
+            $(e.target).addClass("is-invalid").removeClass("is-valid").val(splitVal.join("")).focus()
         } else {
-            telNumIsValid = true;
-            $(e.target).val(splitVal.join(""))
+            if (splitVal.length > 3 && splitVal[3] !== '-') {
+                splitVal.splice(3, 0, '-')
+            } else if (splitVal.length > 8 && splitVal[8] !== '-') {
+                splitVal.splice(8, 0, '-')
+            }
+
+            if (splitVal.length > 13) {
+                $(e.target).next().text("전화번호는 13자리 이상 넘어갈수 없습니다.")
+                $(e.target).addClass("is-invalid").removeClass("is-valid")
+            } else {
+                if (!telNumPattern.test(e.target.value.trim())) {
+                    $(e.target).next().text("전화번호 형식에 맞지 않습니다.")
+                    $(e.target).addClass("is-invalid").removeClass("is-valid")
+                } else {
+                    $(e.target).next().text("전화번호를 입력하세요.")
+                    $(e.target).removeClass("is-invalid").addClass("is-valid")
+                    telNumIsValid = true;
+                }
+                $(e.target).val(splitVal.join(""))
+            }
         }
     } else if (e.target.id === "store_rnum") {
-        if (splitVal.length > 3 && splitVal[3] !== '-') {
-            splitVal.splice(3, 0, '-')
-        } else if (splitVal.length > 6 && splitVal[6] !== '-') {
-            splitVal.splice(6, 0, '-')
-        }
 
-        if (splitVal.length > 12) {
-            $(e.target).next().text("사업자번호는 12자리 이상 넘어갈수 없습니다.")
-            $(e.target).addClass("is-invalid")
+        if (!inputPattern.test(e.target.value)) {
+            $("#alertModal__msg").text("숫자만 입력 가능합니다");
+            alertModal.modal("show");
+            splitVal.pop()
+            $(e.target).addClass("is-invalid").removeClass("is-valid").val(splitVal.join("")).focus()
         } else {
-            rNumIsValid = true
-            $(e.target).val(splitVal.join(""))
+            if (splitVal.length > 3 && splitVal[3] !== '-') {
+                splitVal.splice(3, 0, '-')
+            } else if (splitVal.length > 6 && splitVal[6] !== '-') {
+                splitVal.splice(6, 0, '-')
+            }
+
+            if (splitVal.length > 12) {
+                $(e.target).next().text("사업자번호는 12자리 이상 넘어갈수 없습니다.")
+                $(e.target).addClass("is-invalid").removeClass("is-valid")
+            } else {
+                if (!rNumPattern.test(e.target.value.trim())) {
+                    $(e.target).next().text("사업자번호 형식에 맞지 않습니다.")
+                    $(e.target).addClass("is-invalid").removeClass("is-valid")
+                } else {
+                    $(e.target).next().text("사업자번호를 입력하세요.")
+                    $(e.target).removeClass("is-invalid").addClass("is-valid")
+                    rNumIsValid = true;
+                }
+                $(e.target).val(splitVal.join(""))
+            }
         }
     }
 }
