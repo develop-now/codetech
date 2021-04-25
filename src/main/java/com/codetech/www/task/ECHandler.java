@@ -15,41 +15,41 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class ECHandler extends TextWebSocketHandler {
 
-	//·Î±×ÀÎ ÇÑ ÀüÃ¼
+	//ë¡œê·¸ì¸ í•œ ì „ì²´
 		List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
 		
-	//·Î±×ÀÎÁßÀÎ °³º°À¯Àú
+	//ë¡œê·¸ì¸ì¤‘ì¸ ê°œë³„ìœ ì €
 	Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
 
-	// Å¬¶óÀÌ¾ğÆ®°¡ ¼­¹ö·Î ¿¬°á½Ã
+	// í´ë¼ì´ì–¸íŠ¸ê°€ ì„œë²„ë¡œ ì—°ê²°ì‹œ
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		String senderId = getMemberId(session); // Á¢¼ÓÇÑ À¯ÀúÀÇ http¼¼¼ÇÀ» Á¶È¸ÇÏ¿© id¸¦ ¾ò´Â ÇÔ¼ö
-		if (senderId != null) { // ·Î±×ÀÎ °ªÀÌ ÀÖ´Â °æ¿ì¸¸
-			System.out.println(senderId + " ¿¬°á µÊ");
-			users.put(senderId, session); // ·Î±×ÀÎÁß °³º°À¯Àú ÀúÀå
+		String senderId = getMemberId(session); // ì ‘ì†í•œ ìœ ì €ì˜ httpì„¸ì…˜ì„ ì¡°íšŒí•˜ì—¬ idë¥¼ ì–»ëŠ” í•¨ìˆ˜
+		if (senderId != null) { // ë¡œê·¸ì¸ ê°’ì´ ìˆëŠ” ê²½ìš°ë§Œ
+			System.out.println(senderId + " ì—°ê²° ë¨");
+			users.put(senderId, session); // ë¡œê·¸ì¸ì¤‘ ê°œë³„ìœ ì € ì €ì¥
 		}
 	}
 
-	// Å¬¶óÀÌ¾ğÆ®°¡ Data Àü¼Û ½Ã
+	// í´ë¼ì´ì–¸íŠ¸ê°€ Data ì „ì†¡ ì‹œ
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String senderId = getMemberId(session);
-		// Æ¯Á¤ À¯Àú¿¡°Ô º¸³»±â
+		// íŠ¹ì • ìœ ì €ì—ê²Œ ë³´ë‚´ê¸°
 		String msg = message.getPayload();
 		if (msg != null) {
 			String[] strs = msg.split(",");
 			log(strs.toString());
 			if (strs != null && strs.length == 4) {
 				String type = strs[0];
-				String target = strs[1]; // m_id ÀúÀå
+				String target = strs[1]; // m_id ì €ì¥
 				String content = strs[2];
 				String url = strs[3];
-				WebSocketSession targetSession = users.get(target); // ¸Ş½ÃÁö¸¦ ¹ŞÀ» ¼¼¼Ç Á¶È¸
+				WebSocketSession targetSession = users.get(target); // ë©”ì‹œì§€ë¥¼ ë°›ì„ ì„¸ì…˜ ì¡°íšŒ
 
-				// ½Ç½Ã°£ Á¢¼Ó½Ã
+				// ì‹¤ì‹œê°„ ì ‘ì†ì‹œ
 				if (targetSession != null) {
-					// ex: [&ºĞÀÇÀÏ] ½ÅÃ»ÀÌ µé¾î¿Ô½À´Ï´Ù.
+					// ex: [&ë¶„ì˜ì¼] ì‹ ì²­ì´ ë“¤ì–´ì™”ìŠµë‹ˆë‹¤.
 					TextMessage tmpMsg = new TextMessage(
 							"<a target='_blank' href='" + url + "'>[<b>" + type + "</b>] " + content + "</a>");
 					targetSession.sendMessage(tmpMsg);
@@ -58,34 +58,34 @@ public class ECHandler extends TextWebSocketHandler {
 		}
 	}
 
-	// ¿¬°á ÇØÁ¦µÉ ¶§
+	// ì—°ê²° í•´ì œë  ë•Œ
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		String senderId = getMemberId(session);
-		if (senderId != null) { // ·Î±×ÀÎ °ªÀÌ ÀÖ´Â °æ¿ì¸¸
-			log(senderId + " ¿¬°á Á¾·áµÊ");
+		if (senderId != null) { // ë¡œê·¸ì¸ ê°’ì´ ìˆëŠ” ê²½ìš°ë§Œ
+			log(senderId + " ì—°ê²° ì¢…ë£Œë¨");
 			users.remove(senderId);
 			sessions.remove(session);
 		}
 	}
 
-	// ¿¡·¯ ¹ß»ı½Ã
+	// ì—ëŸ¬ ë°œìƒì‹œ
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-		log(session.getId() + " ÀÍ¼Á¼Ç ¹ß»ı: " + exception.getMessage());
+		log(session.getId() + " ìµì…‰ì…˜ ë°œìƒ: " + exception.getMessage());
 
 	}
 
-	// ·Î±× ¸Ş½ÃÁö
+	// ë¡œê·¸ ë©”ì‹œì§€
 	private void log(String logmsg) {
 		System.out.println(new Date() + " : " + logmsg);
 	}
 
-	// À¥¼ÒÄÏ¿¡ id °¡Á®¿À±â
-	// Á¢¼ÓÇÑ À¯ÀúÀÇ http¼¼¼ÇÀ» Á¶È¸ÇÏ¿© id¸¦ ¾ò´Â ÇÔ¼ö
+	// ì›¹ì†Œì¼“ì— id ê°€ì ¸ì˜¤ê¸°
+	// ì ‘ì†í•œ ìœ ì €ì˜ httpì„¸ì…˜ì„ ì¡°íšŒí•˜ì—¬ idë¥¼ ì–»ëŠ” í•¨ìˆ˜
 	private String getMemberId(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
-		String m_id = (String) httpSession.get("user_idS"); // ¼¼¼Ç¿¡ ÀúÀåµÈ m_id ±âÁØ Á¶È¸
+		String m_id = (String) httpSession.get("user_idS"); // ì„¸ì…˜ì— ì €ì¥ëœ m_id ê¸°ì¤€ ì¡°íšŒ
 		return m_id == null ? null : m_id;
 	}
 }

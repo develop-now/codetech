@@ -27,6 +27,10 @@
 				value="${pageContext.request.contextPath}"> <input
 				type="hidden" name="ordered_store" id="ordered_store"
 				class="ordered_store" value="${orderedStore}">
+				<input
+				type="hidden" name="store_owner" id="store_owner"
+				class="store_owner" value="${store_owner}">
+				
 		</div>
 		<br><br>
 		<div class="img" style="text-align:center; ">
@@ -45,7 +49,7 @@
 			$(document).ready(function() {
 
 				socket.onopen = function() {
-					var target = $('#ordered_store').val();
+					var target = $('#store_owner').val();
 					var content = '주문이 접수되었습니다.';
 					var url = $('#url').val() + '/store/order-list';
 					socket.send("관리자," + target + "," + content + "," + url); // 소켓에 전달

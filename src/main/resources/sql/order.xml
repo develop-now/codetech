@@ -230,7 +230,7 @@
             parameterType="map">
         select * from (
         select row_number() over(order by updated_at desc) row_num, bb.* from (
-        select store_name, s.store_id, s.updated_at
+        select store_name, s.store_id, b.updated_at
         , s.store_address_si, s.store_address_gu, s.store_address_dong
         , s.store_address_etc from stores s join
         (
@@ -296,5 +296,9 @@
         ) ms
                            on od.menu_id = ms.menu_id
         where od.order_id = #{order_id}
+    </select>
+    
+    <select id="getStore_owner" parameterType="int" resultType="int">
+    select owner_id from stores where store_id = #{ordered_store}
     </select>
 </mapper>
