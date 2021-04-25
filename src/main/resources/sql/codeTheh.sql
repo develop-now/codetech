@@ -124,7 +124,6 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (6, 'user2', '01022223333', '00000korea', 6);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (7, 'user3', '01022223333', '00000korea', 7);
-
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (8, 'dummy_user1', '01022223333', '00000korea', 8);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
@@ -139,13 +138,12 @@ insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (13, 'dummy_user6', '01022223333', '00000korea', 13);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (14, 'dummy_user7', '01022223333', '00000korea', 14);
-
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (15, 'dummy_store_owner8', '01022223333', '00000korea', 15);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (16, 'dummy_staff1', '01022223333', '00000korea', 16);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
-values (17, 'dummy_staff2', '01022223333', '00000korea', 16);
+values (17, 'dummy_staff2', '01022223333', '00000korea', 17);
 
 
 
@@ -1191,7 +1189,7 @@ VALUES (3, '더미 가게 신고글', '5번 유저가 4번 가게 신고', 5, 4)
 INSERT INTO USER_REPORT(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
 VALUES (7, '더미 유저 댓글 신고', '5번 유저가 8번 유저 댓글 신고', 1, 5, 8);
 INSERT INTO USER_REPORT(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES (8, '더미 유저 댓글 신고', '5번 유저가 9번 유저 댓글 신고', 1, 5, 9);
+VALUES (8, '더미 유저 댓글 신고', '5번 유저가 9번 유저 댓글 신고', 2, 5, 9);
 
 insert into store_report (store_report_id, report_subject, report_content, reporter, reported_store)
 VALUES (4, '더미 가게 신고글', '7번 유저가 3번 가게 신고', 7, 3);
@@ -1199,11 +1197,11 @@ insert into store_report (store_report_id, report_subject, report_content, repor
 VALUES (5, '더미 가게 신고글', '8번 유저가 3번 가게 신고', 5, 3);
 
 INSERT INTO USER_REPORT(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES (9, '더미 유저 댓글 신고', '5번 유저가 10번 유저 댓글 신고', 1, 5, 10);
+VALUES (9, '더미 유저 댓글 신고', '5번 유저가 10번 유저 댓글 신고', 2, 5, 10);
 INSERT INTO USER_REPORT(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES (10, '더미 유저 댓글 신고', '5번 유저가 11번 유저 댓글 신고', 1, 5, 11);
+VALUES (10, '더미 유저 댓글 신고', '5번 유저가 11번 유저 댓글 신고', 3, 5, 11);
 INSERT INTO USER_REPORT(user_report_id, report_subject, report_content, report_status, reporter, reported_user)
-VALUES (11, '더미 유저 댓글 신고', '5번 유저가 12번 유저 댓글 신고', 1, 5, 12);
+VALUES (11, '더미 유저 댓글 신고', '5번 유저가 12번 유저 댓글 신고', 3, 5, 12);
 
 
 drop table carts cascade constraints;
@@ -1215,6 +1213,7 @@ create table carts
     updated_at    date      default sysdate,
     user_id       number(5) not null,
     menu_id       number(5) not null,
+    cart_status   number(3) default 0, --0이면 결제 미완료, 1이면 결제 완료
     constraint fk_carts_user foreign key (user_id) references users (user_id),
     constraint fk_carts_menu foreign key (menu_id) references menus (menu_id)
 );

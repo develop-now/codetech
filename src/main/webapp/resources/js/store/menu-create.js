@@ -169,6 +169,9 @@ function submitForm(e) {
         console.log("메뉴 이미지가 입력되지 않았습니다")
     }
 
+    console.log({formIsValid});
+
+
     if (formIsValid) {
         formEl.submit();
     } else {
@@ -179,7 +182,6 @@ function submitForm(e) {
 
 function resetForm(e) {
     e.preventDefault();
-    formIsValid = true;
 
     let resetEls = [textEls, menuImgEl]
 

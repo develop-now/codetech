@@ -116,7 +116,7 @@ public class UsersController {
     @ResponseBody
     @RequestMapping(value = "/nickcheck", method = RequestMethod.GET)
     public Map<String, Object> nickcheck(String user_name) throws IOException {
-        logger.info("emailcheck 도착__" + user_name);
+        logger.info("nickcheck 도착__" + user_name);
 
         int result = usersService.isName(user_name);
 

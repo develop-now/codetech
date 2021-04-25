@@ -22,21 +22,19 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end"
          id="navbarNav">
-        <ul class="navbar-nav">
-            <sec:authorize access="isAuthenticated()">
-                <li class="nav-item">
-                    <a class="nav-link text-right" href="#"
-                       data-toggle="modal" data-target="#reportModal">
-                        <img class="card-img-heart"
-                             src="${pageContext.request.contextPath}/resources/image/common/siren.png"
-                             width="30" height="30"
-                             alt="siren_icon">
-                    </a>
-                </li>
+        <ul class="navbar-nav align-items-center">
+            <sec:authentication property="principal" var="pinfo"/>
+            <li class="nav-item">
+                <a class="nav-link text-right"
+                   href="<c:url value="/owner/mainList"/>">주문하러가기</a>
+            </li>
 
-                <sec:authentication property="principal" var="pinfo"/>
+
+            <sec:authorize access="isAuthenticated()">
+
                 <li class="nav-item">
-                    <a class="nav-link text-right" href="#">${pinfo.username}</a>
+                    <a class="nav-link text-right"
+                       href="<c:url value="/store/store-create"/>">내 가게 만들기</a>
                 </li>
 
                 <sec:authorize access="hasRole('ROLE_SITE_OWNER')">
@@ -74,13 +72,10 @@
                     </li>
                 </sec:authorize>
 
-                <sec:authorize access="hasRole('ROLE_MEMBER')">
-                    <li class="nav-item">
-                        <a class="nav-link text-right"
-                           href="<c:url value="/user/infoMain"/>">유저정보</a>
-                    </li>
-                </sec:authorize>
-
+                <li class="nav-item">
+                    <a class="nav-link text-right"
+                       href="<c:url value="/user/infoMain"/>">${pinfo.username}</a>
+                </li>
 
                 <li class="nav-item">
                     <form action="<c:url value="/auth/logout"/>" method="post"
@@ -90,6 +85,17 @@
                             value="${_csrf.token}">
                     </form>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-right" href="#"
+                       data-toggle="modal" data-target="#reportModal">
+                        <img class="card-img-heart"
+                             src="${pageContext.request.contextPath}/resources/image/common/siren.png"
+                             width="30" height="30"
+                             alt="siren_icon">
+                    </a>
+                </li>
+
             </sec:authorize>
 
             <sec:authorize access="isAnonymous()">

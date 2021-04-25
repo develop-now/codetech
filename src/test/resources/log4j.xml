@@ -9,6 +9,22 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
+
+	<!--    sql logger      -->
+	<logger name="users">
+		<level value="trace"/>
+	</logger>
+	<logger name="Stores">
+		<level value="trace"/>
+	</logger>
+
+	<logger name="Menus">
+		<level value="trace"/>
+	</logger>
+
+	<logger name="Comments">
+		<level value="trace"/>
+	</logger>
 	
 	<!-- Application Loggers -->
 	<logger name="com.codetech.www">
