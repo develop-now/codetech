@@ -9,8 +9,19 @@ create table likes
     constraint fk_like_user foreign key (user_id) references users (user_id)
 );
 
-select * from likes;
+select *
+from likes;
 
-insert into likes values(23, sysdate, 3, 17);
-            
+
+insert into likes(like_id, store_id, user_id)
+values (1, 1, 5);
+insert into likes(like_id, store_id, user_id)
+values (2, 3, 5);
+insert into likes(like_id, store_id, user_id)
+values (3, 4, 7);
+insert into likes(like_id, store_id, user_id)
+values (4, 1, 6);
+insert into likes(like_id, store_id, user_id)
+values (5, 3, 10);
+
 commit;

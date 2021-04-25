@@ -16,12 +16,12 @@ values (2, 4, 3);
 insert into staffs (staff_id, user_id, store_id)
 values (3, 4, 4);
 insert into staffs (staff_id, user_id, store_id)
-values (4, 12, 1);
+values (4, 16, 1);
 insert into staffs (staff_id, user_id, store_id)
-values (5, 12, 3);
+values (5, 16, 3);
 insert into staffs (staff_id, user_id, store_id)
-values (6, 13, 4);
+values (6, 17, 1);
 insert into staffs (staff_id, user_id, store_id)
-values (7, 12, 2);
+values (7, 17, 4);
 
 commit;

@@ -21,76 +21,62 @@ create table menus
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (1, '테스트 메뉴1', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (1, '더미 메뉴 1-1', '가게 1의 1번 더미 메뉴', '12000',
+        '/default.png', '/default.png', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (2, '더미 메뉴 1-2', '가게 1의 2번 메뉴', '32000',
+        '/default.png', '/default.png', 1, 5);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (3, '더미 메뉴 1-3', '가게 1의 3번 메뉴', '7000',
+        '/default.png', '/default.png', 1, 7);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (4, '더미 메뉴 1-4', '가게 1의 4번 메뉴', '13000',
+        '/default.png', '/default.png', 1, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (5, '더미 메뉴 1-5', '가게 1의 2번 메뉴', '29000',
+        '/default.png', '/default.png', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (2, '테스트 메뉴2', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (6, '더미 메뉴 2-1', '가게 2의 1번 메뉴', '12000',
+        '/default.png', '/default.png', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (3, '테스트 메뉴3', '이건 테스트 메뉴입니다', '47000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (7, '더미 메뉴 3-1', '가게 3의 1번 메뉴', '17000',
+        '/default.png', '/default.png', 3, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (8, '더미 메뉴 3-2', '가게 3의 2번 메뉴', '11000',
+        '/default.png', '/default.png', 3, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (9, '더미 메뉴 3-3', '가게 3의 3번 메뉴', '12000',
+        '/default.png', '/default.png', 3, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (4, '테스트 메뉴4', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 1);
+values (10, '더미 메뉴 4-1', '가게 4의 1번 메뉴', '16000',
+        '/default.png', '/default.png', 4, 1);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (11, '더미 메뉴 4-2', '가게 4의 2번 메뉴', '18000',
+        '/default.png', '/default.png', 4, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-values (5, '테스트 메뉴5', '이건 테스트 메뉴입니다', '38000',
-        'image.jpg', 'image.jpg', 1, 2);
+values (12, '더미 메뉴 5-1', '가게 5의 1번 메뉴', '4500',
+        '/default.png', '/default.png', 5, 6);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (13, '더미 메뉴 5-2', '가게 5의 2번 메뉴', '2200',
+        '/default.png', '/default.png', 5, 6);
 
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (6, '테스트 메뉴6', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 1, 3);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (7, '테스트 메뉴7', '이건 테스트 메뉴입니다', '48000',
-        'image.jpg', 'image.jpg', 2, 1);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (8, '테스트 메뉴8', '이건 테스트 메뉴입니다', '41000',
-        'image.jpg', 'image.jpg', 2, 1);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (9, '테스트 메뉴9', '이건 테스트 메뉴입니다', '13000',
-        'image.jpg', 'image.jpg', 2, 1);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (10, '테스트 메뉴10', '이건 테스트 메뉴입니다', '48000',
-        'image.jpg', 'image.jpg', 2, 2);
-
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (11, '테스트 메뉴11', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 4, 1);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (12, '테스트 메뉴12', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 4, 3);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (13, '테스트 메뉴13', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 3);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 2);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 5, 3);
-
-select * from menus;
-
+select *
+from menus;
 
 commit;

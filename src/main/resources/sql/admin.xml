@@ -1,598 +1,616 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
+
 <mapper namespace="Admin">
-	<!-- 유저 리스트 쿼리 -->
-	<select id="getUsersSearchList" parameterType="map" resultType="upi">
-		SELECT *
-		FROM (SELECT ROWNUM RNUM, U.USER_ID, U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT, U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS, U.USER_STATUS
-			  FROM (SELECT USERS.*, USER_INFO.USER_NAME, USER_INFO.USER_TEL, USER_INFO.USER_ADDRESS, USER_INFO.POINT
-			 	    FROM USERS, USER_INFO
-			  		WHERE USERS.USER_ID = USER_INFO.USER_ID AND USERS.ROLE_ID = 5  
-			  		<if test="search_field == null and check_state == null">
-				    	AND USERS.USER_STATUS = 1
-			   		</if>
-			   		
-			  		<if test="search_field != null and check_state != null">
-			  		AND USERS.USER_STATUS =
-			  		<choose>
-			  			<when test="check_state == 0">1</when>
-			  			<when test="check_state == 1">2</when>
-			  			<when test="check_state == 2">3</when>
-			  			<when test="check_state == 3">4</when>
-			  		</choose>
-			  		
-			  		AND
-			  		<choose>
-			  			<!-- user_info 테이블 참조 -->
-			  			<when test="search_field == 'user_email'">USERS.USER_EMAIL</when>
-			  			<when test="search_field == 'user_name'">USER_INFO.USER_NAME</when>
-			  			<when test="search_field == 'user_tel'">USER_INFO.USER_TEL</when>
-			  		</choose>
-			  		LIKE #{search_word}
-			  		</if>
-			  		ORDER BY USER_INFO.USER_NAME
-			  ) U
-		)
-		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}	
-	</select>
-	
-	<select id="getSearchListCount" parameterType="map" resultType="int">
-		SELECT COUNT(*)
-		FROM (SELECT U.USER_ID, U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT,
-			 		 U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS, U.USER_STATUS
-			  FROM (SELECT USERS.*, USER_INFO.USER_NAME, USER_INFO.USER_TEL, USER_INFO.USER_ADDRESS, USER_INFO.POINT
-			 	    FROM USERS, USER_INFO
-			  		WHERE USERS.USER_ID = USER_INFO.USER_ID AND USERS.ROLE_ID = 5
-			  		<if test="search_field == null and check_state == null">
-				    	AND USERS.USER_STATUS = 1 
-			   		</if>
-			   		
-			  		<if test="search_field != null and check_state != null">
-			  			AND USERS.USER_STATUS =
-			  		<choose>
-			  			<when test="check_state == 0">1</when>
-			  			<when test="check_state == 1">2</when>
-			  			<when test="check_state == 2">3</when>
-			  			<when test="check_state == 3">4</when>
-			  		</choose> 		
-			  		
-			  		AND
-			  		<choose>
-			  			<!-- user_info 테이블 참조 -->
-			  			<when test="search_field == 'user_email'">USERS.USER_EMAIL</when>
-			  			<when test="search_field == 'user_name'">USER_INFO.USER_NAME</when>
-			  			<when test="search_field == 'user_tel'">USER_INFO.USER_TEL</when>
-			  		</choose>
-			  		LIKE #{search_word}
-			  		</if>
-			  		ORDER BY USER_INFO.USER_NAME
-			  ) U
-		)
-	</select>
-	
-	<!-- 회원 정지 -->
-	<update id="susp" parameterType="String">
-		UPDATE USERS
-		SET USER_STATUS = 3
-		WHERE USER_ID = #{user_id}
-	</update>
-	
-	<!-- 정지 해제 -->
-	<update id="reac" parameterType="String">
-		UPDATE USERS
-		SET USER_STATUS = 1
-		WHERE USER_ID = #{user_id}
-	</update>
-	
-	<!-- 탈퇴 취소 -->
-	<update id="inac" parameterType="String">
-		UPDATE USERS
-		SET USER_STATUS = 1
-		WHERE USER_ID = #{user_id}
-	</update>
-	
-	<!-- 강제 탈퇴 -->
-	<update id="banned" parameterType="String">
-		UPDATE USERS
-		SET USER_STATUS = 4
-		WHERE USER_ID = #{user_id}
-	</update>
-	
-	<select id="count" resultType="int">
-		SELECT COUNT(*) FROM NOTICE_BOARD
-	</select>
-	<!-- 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End-->
-	
-	<select id="getPartnerSearchList" parameterType="map" resultType="sil">
-		SELECT *
-		FROM (SELECT ROWNUM RNUM, UIS.*
-   		  	  FROM (SELECT
-         			U.USER_ID, U.USER_EMAIL, U.ROLE_ID,
-                    
-         			UI.USER_NAME, UI.USER_TEL,
-                    
-         			S.STORE_STATUS, S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE,
-         			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC,
-         			S.OPENING_H_W_OPEN, S.OPENING_H_W_CLOSE, S.OPENING_H_H_OPEN, S.OPENING_H_H_CLOSE, S.HOLIDAY
-                    
-         			FROM
-                    
-          			USERS U INNER JOIN USER_INFO UI ON U.USER_ID = UI.USER_ID
-                   			INNER JOIN STORES S ON UI.USER_ID = S.OWNER_ID
-                    
-          			WHERE U.ROLE_ID = 3
-					<if test="search_field == null and check_state == null">
-						AND S.STORE_STATUS = 1
-					</if>
-					
-					<if test="search_field != null and check_state != null">
-						AND S.STORE_STATUS = 
-							<choose>
-								<when test="check_state == 0">1</when> <!-- 파트너 가게 -->
-								<when test="check_state == 1">3</when> <!-- 파트너 승인 대기 -->
-								<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
-								<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
-							</choose>
-						AND 		
-							<choose>
-								<when test="search_field == 'store_name'">S.STORE_NAME</when>
-								<when test="search_field == 'user_name'">UI.USER_NAME</when>
-								<when test="search_field == 'store_tel'">S.STORE_TEL</when>
-							</choose>
-						LIKE #{search_word}
-					</if>
-					ORDER BY S.STORE_NAME
-			 ) UIS
-		)
-		WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	</select>
-	
-	<select id="getPartnerSearchListCount" parameterType="map" resultType="int">
-		SELECT COUNT(*)
-		FROM (SELECT ROWNUM RNUM, UIS.*
-   		  	  FROM (SELECT
-         			U.USER_ID, U.USER_EMAIL, U.ROLE_ID,
-                    
-         			UI.USER_NAME, UI.USER_TEL,
-                    
-         			S.STORE_STATUS, S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE,
-         			S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC,
-         			S.OPENING_H_W_OPEN, S.OPENING_H_W_CLOSE, S.OPENING_H_H_OPEN, S.OPENING_H_H_CLOSE, S.HOLIDAY
-                    
-         			FROM
-                    
-          			USERS U INNER JOIN USER_INFO UI ON U.USER_ID = UI.USER_ID
-                   			INNER JOIN STORES S ON UI.USER_ID = S.OWNER_ID
-                    
-          			WHERE U.ROLE_ID = 3
-					<if test="search_field == null and check_state == null">
-						AND S.STORE_STATUS = 1
-					</if>
-					
-					<if test="search_field != null and check_state != null">
-						AND S.STORE_STATUS = 
-							<choose>
-								<when test="check_state == 0">1</when> <!-- 파트너 가게 -->
-								<when test="check_state == 1">3</when> <!-- 파트너 승인 대기 -->
-								<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
-								<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
-							</choose>
-						AND 		
-							<choose>
-								<when test="search_field == 'store_name'">S.STORE_NAME</when>
-								<when test="search_field == 'user_name'">UI.USER_NAME</when>
-								<when test="search_field == 'store_tel'">S.STORE_TEL</when>
-							</choose>
-						LIKE #{search_word}
-					</if>
-					ORDER BY S.STORE_NAME
-			 ) UIS
-		)
-	</select>	
-	
-	<update id="storeAct" parameterType="String">
-		UPDATE STORES
-		SET STORE_STATUS = 1
-		WHERE STORE_ID = #{store_id}
-	</update>
-	
-	<update id="storeSusp" parameterType="String">
-		UPDATE STORES
-		SET STORE_STATUS = 4
-		WHERE STORE_ID = #{store_id}
-	</update>
-	
-	<update id="storeTermi" parameterType="String">
-		UPDATE STORES
-		SET STORE_STATUS = 5
-		WHERE STORE_ID = #{store_id}
-	</update>
-	
-	<select id="getStoreMenuList" parameterType="map" resultType="menu">
-		SELECT MENU_NAME, MENU_PRICE, MENU_DESC, STORE_ID
-		FROM MENUS
-		WHERE STORE_ID = #{store_id}
-	</select>
-	
-	<select id="getNoticeList" parameterType="map" resultType="notice">
-	 SELECT *
- 	 FROM (SELECT ROWNUM RNUM, N.*
-       	   FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
-       	   		 		NOTICE_READCOUNT, NOTICE_DATE
-             	 FROM NOTICE   	 
-				<if test="search_text != null and notice_status != null">
-				 WHERE NOTICE_STATUS = 
-					<choose>
-						<when test="notice_status == 1">1</when> <!-- 공지사항 -->
-						<when test="notice_status == 2">2</when> <!-- 이벤트 -->
-						<when test="notice_status == 3">3</when> <!-- 점검사항 -->
-					</choose>
-				 AND NOTICE_SUBJECT LIKE #{search_text}	
-				</if>
-           		) N
-      	   )
-     WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	</select>
-	
-	<select id="getNoticeListCount" parameterType="map" resultType="int">
-	 SELECT COUNT(*)
- 	 FROM (SELECT ROWNUM RNUM, N.*
-       	   FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
-       	   		 		NOTICE_READCOUNT, NOTICE_DATE
-             	 FROM NOTICE   	 
-				<if test="search_text != null and notice_status != null">
-				 WHERE NOTICE_STATUS = 
-					<choose>
-						<when test="notice_status == 1">1</when> <!-- 공지사항 -->
-						<when test="notice_status == 2">2</when> <!-- 이벤트 -->
-						<when test="notice_status == 3">3</when> <!-- 점검사항 -->
-					</choose> 
-				 AND NOTICE_SUBJECT LIKE #{search_text}	
-				</if>
-           		) N
-      	   )
-	</select>
-	
-	<insert id="insertNotice" parameterType="notice">
-		<selectKey resultType="int" order="BEFORE" keyProperty="notice_id">
-			SELECT NVL(MAX(NOTICE_ID), 0) + 1 FROM NOTICE		
-		</selectKey>
-		
-		INSERT INTO NOTICE
-		(NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT, NOTICE_DATE)
-		VALUES
-		(#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, SYSDATE)
-	</insert>
-	
-	<update id="readCountUpdate" parameterType="int">
-		UPDATE NOTICE
-		SET NOTICE_READCOUNT = NOTICE_READCOUNT + 1
-		<!-- 인자값이 하나만 넘어오면 파라미터 명을 아무거나 적어줘도 되지만
-			  여러가지가 넘어올 경우(board 등등) 파라미터 명을 맞춰줘야 한다. -->
-		WHERE NOTICE_ID = #{notice_id}
-	</update>
-	
-	<select id="noticeView" parameterType="int" resultType="notice">
-		SELECT * FROM NOTICE
-		WHERE NOTICE_ID = #{notice_id}
-	</select>
-	
-	<update id="modifyAction" parameterType="notice">
-		UPDATE NOTICE
-		SET
-			NOTICE_SUBJECT = #{notice_subject},
-			NOTICE_CONTENT = #{notice_content},
-			NOTICE_STATUS = #{notice_status}
-		WHERE NOTICE_ID = #{notice_id}
-	</update>
-	
-	<delete id="noticeDelete" parameterType="notice">
-		DELETE FROM NOTICE
-		WHERE NOTICE_ID = #{notice_id}
-	</delete>
-	
-	<select id="getRUL" parameterType="map" resultType="rul">
-		SELECT * 
-		FROM (SELECT ROWNUM RNUM,
-		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
-		      
-          R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
-          
-		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+    <!-- 유저 리스트 쿼리 -->
+    <select id="getUsersSearchList" parameterType="map" resultType="upi">
+        SELECT *
+        FROM (SELECT ROWNUM RNUM, U.USER_ID, U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT, U.USER_NAME, U.USER_TEL, U.POINT,
+        U.USER_ADDRESS, U.USER_STATUS
+        FROM (SELECT USERS.*, USER_INFO.USER_NAME, USER_INFO.USER_TEL, USER_INFO.USER_ADDRESS, USER_INFO.POINT
+        FROM USERS, USER_INFO
+        WHERE USERS.USER_ID = USER_INFO.USER_ID AND USERS.ROLE_ID = 5
+        <if test="search_field == null and check_state == null">
+            AND USERS.USER_STATUS = 1
+        </if>
 
-		      FROM (SELECT
-		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
-		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
-		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
-		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
-		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,    
-		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
-		                    
-		            FROM
-		            USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
-		                           INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
-		                                   
-		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
-		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		                           
-		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 5
-		            <if test="select_field != null">
-		            AND
-		            	<choose>
-		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
-		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
-		            		<when test="select_field == 'created_at'">UR.CREATED_AT</when>
-		            	</choose>
-		            LIKE #{search_word}
-		            </if>
-		            ORDER BY U.REPORT_COUNT
-              ) R
-       )
-       WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	</select>
-	
-	<select id="getRULcount" parameterType="map" resultType="int">
-		SELECT COUNT(*) 
-		FROM (SELECT ROWNUM RNUM,
-		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
-		      
-          	  R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
-          
-		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+        <if test="search_field != null and check_state != null">
+            AND USERS.USER_STATUS =
+            <choose>
+                <when test="check_state == 0">1</when>
+                <when test="check_state == 1">2</when>
+                <when test="check_state == 2">3</when>
+                <when test="check_state == 3">4</when>
+            </choose>
 
-		      FROM (SELECT
-		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
-		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
-		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
-		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
-		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,  U2.ROLE_ID AS REPORTER_ROLE_ID,    
-		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
-		                    
-		            FROM
-		            USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
-		                           INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
-		                                   
-		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
-		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		                           
-		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 5
-		            <if test="select_field != null">
-		            AND
-		            	<choose>
-		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
-		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
-		            		<when test="select_field == 'created_at'">UR.CREATED_AT</when>
-		            	</choose>
-		            LIKE #{search_word}
-		            </if>
-		            ORDER BY U.REPORT_COUNT
-              ) R
-       )
-	</select>
-	
-	<update id="RULstatusChange" parameterType="int">
-		UPDATE USER_REPORT
-		SET	REPORT_STATUS = 2
-		WHERE USER_REPORT_ID =  #{user_report_id}
-	</update>
-	
-	<update id="RULstatusCompleted" parameterType="int">
-		UPDATE USER_REPORT
-		SET	REPORT_STATUS = 3, UPDATED_AT = SYSDATE
-		WHERE USER_REPORT_ID =  #{user_report_id}
-	</update>
-	
-	<select id="getRSL" parameterType="map" resultType="rul">
-		SELECT * 
-		FROM (SELECT ROWNUM RNUM,
-		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
-		      
-          	  R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
-          
-		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+            AND
+            <choose>
+                <!-- user_info 테이블 참조 -->
+                <when test="search_field == 'user_email'">USERS.USER_EMAIL</when>
+                <when test="search_field == 'user_name'">USER_INFO.USER_NAME</when>
+                <when test="search_field == 'user_tel'">USER_INFO.USER_TEL</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY USER_INFO.USER_NAME
+        ) U
+        )
+        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    </select>
 
-		      FROM (SELECT
-		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
-		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
-		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
-		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
-		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,    
-		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
-		                    
-		            FROM
-		            USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
-		                           INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
-		                                   
-		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
-		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		                           
-		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 3
-		            <if test="select_field != null">
-		            AND
-		            	<choose>
-		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
-		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
-		            		<when test="select_field == 'created_at'">UR.CREATED_AT</when>
-		            	</choose>
-		            LIKE #{search_word}
-		            </if>
-		            ORDER BY U.REPORT_COUNT
-              ) R
-       )
-       WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	</select>
-	
-	<select id="getRSLcount" parameterType="map" resultType="int">
-		SELECT COUNT(*) 
-		FROM (SELECT ROWNUM RNUM,
-		      R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
-		      
-          	  R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
-          
-		      R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE, 
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+    <select id="getSearchListCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT U.USER_ID, U.USER_EMAIL, U.CREATED_AT, U.UPDATED_AT,
+        U.USER_NAME, U.USER_TEL, U.POINT, U.USER_ADDRESS, U.USER_STATUS
+        FROM (SELECT USERS.*, USER_INFO.USER_NAME, USER_INFO.USER_TEL, USER_INFO.USER_ADDRESS, USER_INFO.POINT
+        FROM USERS, USER_INFO
+        WHERE USERS.USER_ID = USER_INFO.USER_ID AND USERS.ROLE_ID = 5
+        <if test="search_field == null and check_state == null">
+            AND USERS.USER_STATUS = 1
+        </if>
 
-		      FROM (SELECT
-		            UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
-		            UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
-		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
-		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
-		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,  U2.ROLE_ID AS REPORTER_ROLE_ID,    
-		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
-		                    
-		            FROM
-		            USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
-		                           INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
-		                                   
-		                           INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
-		                           INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		                           
-		            WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 3
-		            <if test="select_field != null">
-		            AND
-		            	<choose>
-		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
-		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
-		            		<when test="select_field == 'created_at'">UR.CREATED_AT</when>
-		            	</choose>
-		            LIKE #{search_word}
-		            </if>
-		            ORDER BY U.REPORT_COUNT
-              ) R
-       )
-	</select>
-	
-	<update id="RSLstatusChange" parameterType="int">
-		UPDATE USER_REPORT
-		SET	REPORT_STATUS = 2
-		WHERE USER_REPORT_ID =  #{user_report_id}
-	</update>
-	
-	<update id="RSLstatusCompleted" parameterType="int">
-		UPDATE USER_REPORT
-		SET	REPORT_STATUS = 3, UPDATED_AT = SYSDATE
-		WHERE USER_REPORT_ID =  #{user_report_id}
-	</update>
-	
-	<select id="getRUS" parameterType="map" resultType="rsl">
-		SELECT * 
-		FROM (SELECT ROWNUM RNUM,
-		      R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
-		      
-		      R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
-		      
-		      R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
-		      
-		      FROM (SELECT
-		            SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
-		            SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
-		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE,
-		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
-		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,    
-		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
-		                    
-		            FROM
-		            STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
-		                            INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
-		                                   
-		                            INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
-		                            INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		                           
-		            WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
-		            <if test="select_field != null">
-		            AND
-		            	<choose>
-		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
-		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
-		            		<when test="select_field == 'created_at'">SR.CREATED_AT</when>
-		            	</choose>
-		            LIKE #{search_word}
-		            </if>
-		            ORDER BY U.REPORT_COUNT
-              ) R
-       )
-       WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
-	</select>
-	
-	<select id="getRUScount" parameterType="map" resultType="int">
-		SELECT COUNT(*) 
-		FROM (SELECT ROWNUM RNUM,
-		      R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-		      R.REPORT_SUBJECT, R.REPORT_CONTENT,
-		      
-		      R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
-		      R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
-		      
-		      R.REPORTER_USER_EMAIL,
-		      R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
-		      
-		      FROM (SELECT
-		            SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
-		            SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
-		                    
-		            U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS REPORTED_USER_PROFILE,
-		            UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
-		                    
-		            U2.USER_EMAIL AS REPORTER_USER_EMAIL,    
-		            UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
-		                    
-		            FROM
-		            STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
-		                            INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
-		                                   
-		                            INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
-		                            INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		                           
-		            WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
-		            <if test="select_field != null">
-		            AND
-		            	<choose>
-		            		<when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
-		            		<when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
-		            		<when test="select_field == 'created_at'">SR.CREATED_AT</when>
-		            	</choose>
-		            LIKE #{search_word}
-		            </if>
-		            ORDER BY U.REPORT_COUNT
-              ) R
-       )
-	</select>
-	
-	<update id="RUSstatusChange" parameterType="int">
-		UPDATE STORE_REPORT
-		SET	REPORT_STATUS = 2
-		WHERE STORE_REPORT_ID =  #{store_report_id}
-	</update>
-	
-	<update id="RUSstatusCompleted" parameterType="int">
-		UPDATE STORE_REPORT
-		SET	REPORT_STATUS = 3, UPDATED_AT = SYSDATE
-		WHERE STORE_REPORT_ID =  #{store_report_id}
-	</update>
+        <if test="search_field != null and check_state != null">
+            AND USERS.USER_STATUS =
+            <choose>
+                <when test="check_state == 0">1</when>
+                <when test="check_state == 1">2</when>
+                <when test="check_state == 2">3</when>
+                <when test="check_state == 3">4</when>
+            </choose>
+
+            AND
+            <choose>
+                <!-- user_info 테이블 참조 -->
+                <when test="search_field == 'user_email'">USERS.USER_EMAIL</when>
+                <when test="search_field == 'user_name'">USER_INFO.USER_NAME</when>
+                <when test="search_field == 'user_tel'">USER_INFO.USER_TEL</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY USER_INFO.USER_NAME
+        ) U
+        )
+    </select>
+
+    <!-- 회원 정지 -->
+    <update id="susp" parameterType="String">
+        UPDATE USERS
+        SET USER_STATUS = 3
+        WHERE USER_ID = #{user_id}
+    </update>
+
+    <!-- 정지 해제 -->
+    <update id="reac" parameterType="String">
+        UPDATE USERS
+        SET USER_STATUS = 1
+        WHERE USER_ID = #{user_id}
+    </update>
+
+    <!-- 탈퇴 취소 -->
+    <update id="inac" parameterType="String">
+        UPDATE USERS
+        SET USER_STATUS = 1
+        WHERE USER_ID = #{user_id}
+    </update>
+
+    <!-- 강제 탈퇴 -->
+    <update id="banned" parameterType="String">
+        UPDATE USERS
+        SET USER_STATUS = 4
+        WHERE USER_ID = #{user_id}
+    </update>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM NOTICE_BOARD
+    </select>
+    <!-- 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End 유저 리스트 쿼리 End-->
+
+    <select id="getPartnerSearchList" parameterType="map" resultType="sil">
+        SELECT *
+        FROM (SELECT ROWNUM RNUM, UIS.*
+        FROM (SELECT
+        U.USER_ID, U.USER_EMAIL, U.ROLE_ID,
+
+        UI.USER_NAME, UI.USER_TEL,
+
+        S.STORE_STATUS, S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE,
+        S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC,
+        S.OPENING_H_W_OPEN, S.OPENING_H_W_CLOSE, S.OPENING_H_H_OPEN, S.OPENING_H_H_CLOSE, S.HOLIDAY
+
+        FROM
+
+        USERS U INNER JOIN USER_INFO UI ON U.USER_ID = UI.USER_ID
+        INNER JOIN STORES S ON UI.USER_ID = S.OWNER_ID
+
+        WHERE U.ROLE_ID = 3
+        <if test="search_field == null and check_state == null">
+            AND S.STORE_STATUS = 1
+        </if>
+
+        <if test="search_field != null and check_state != null">
+            AND S.STORE_STATUS =
+            <choose>
+                <when test="check_state == 0">1</when> <!-- 파트너 가게 -->
+                <when test="check_state == 1">3</when> <!-- 파트너 승인 대기 -->
+                <when test="check_state == 2">5</when> <!-- 파트너 종료 -->
+                <when test="check_state == 3">4</when> <!-- 파트너 정지 -->
+            </choose>
+            AND
+            <choose>
+                <when test="search_field == 'store_name'">S.STORE_NAME</when>
+                <when test="search_field == 'user_name'">UI.USER_NAME</when>
+                <when test="search_field == 'store_tel'">S.STORE_TEL</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY S.STORE_NAME
+        ) UIS
+        )
+        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    </select>
+
+    <select id="getPartnerSearchListCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT ROWNUM RNUM, UIS.*
+        FROM (SELECT
+        U.USER_ID, U.USER_EMAIL, U.ROLE_ID,
+
+        UI.USER_NAME, UI.USER_TEL,
+
+        S.STORE_STATUS, S.OWNER_ID, S.STORE_ID, S.STORE_NAME, S.STORE_TEL, S.STORE_SAVED_IMAGE,
+        S.STORE_ADDRESS_SI, S.STORE_ADDRESS_GU, S.STORE_ADDRESS_DONG, S.STORE_ADDRESS_ETC,
+        S.OPENING_H_W_OPEN, S.OPENING_H_W_CLOSE, S.OPENING_H_H_OPEN, S.OPENING_H_H_CLOSE, S.HOLIDAY
+
+        FROM
+
+        USERS U INNER JOIN USER_INFO UI ON U.USER_ID = UI.USER_ID
+        INNER JOIN STORES S ON UI.USER_ID = S.OWNER_ID
+
+        WHERE U.ROLE_ID = 3
+        <if test="search_field == null and check_state == null">
+            AND S.STORE_STATUS = 1
+        </if>
+
+        <if test="search_field != null and check_state != null">
+            AND S.STORE_STATUS =
+            <choose>
+                <when test="check_state == 0">1</when> <!-- 파트너 가게 -->
+                <when test="check_state == 1">3</when> <!-- 파트너 승인 대기 -->
+                <when test="check_state == 2">5</when> <!-- 파트너 종료 -->
+                <when test="check_state == 3">4</when> <!-- 파트너 정지 -->
+            </choose>
+            AND
+            <choose>
+                <when test="search_field == 'store_name'">S.STORE_NAME</when>
+                <when test="search_field == 'user_name'">UI.USER_NAME</when>
+                <when test="search_field == 'store_tel'">S.STORE_TEL</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY S.STORE_NAME
+        ) UIS
+        )
+    </select>
+
+    <update id="storeAct" parameterType="String">
+        UPDATE STORES
+        SET STORE_STATUS = 1
+        WHERE STORE_ID = #{store_id}
+    </update>
+
+    <update id="storeSusp" parameterType="String">
+        UPDATE STORES
+        SET STORE_STATUS = 4
+        WHERE STORE_ID = #{store_id}
+    </update>
+
+    <update id="storeTermi" parameterType="String">
+        UPDATE STORES
+        SET STORE_STATUS = 5
+        WHERE STORE_ID = #{store_id}
+    </update>
+
+    <select id="getStoreMenuList" parameterType="map" resultType="menu">
+        SELECT MENU_NAME, MENU_PRICE, MENU_DESC, STORE_ID
+        FROM MENUS
+        WHERE STORE_ID = #{store_id}
+    </select>
+
+    <select id="getNoticeList" parameterType="map" resultType="notice">
+        SELECT *
+        FROM (SELECT ROWNUM RNUM, N.*
+        FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
+        NOTICE_READCOUNT, NOTICE_DATE
+        FROM NOTICE
+        <if test="search_text != null and notice_status != null">
+            WHERE NOTICE_STATUS =
+            <choose>
+                <when test="notice_status == 1">1</when> <!-- 공지사항 -->
+                <when test="notice_status == 2">2</when> <!-- 이벤트 -->
+                <when test="notice_status == 3">3</when> <!-- 점검사항 -->
+            </choose>
+            AND NOTICE_SUBJECT LIKE #{search_text}
+        </if>
+        ) N
+        )
+        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    </select>
+
+    <select id="getNoticeListCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT ROWNUM RNUM, N.*
+        FROM (SELECT NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT,
+        NOTICE_READCOUNT, NOTICE_DATE
+        FROM NOTICE
+        <if test="search_text != null and notice_status != null">
+            WHERE NOTICE_STATUS =
+            <choose>
+                <when test="notice_status == 1">1</when> <!-- 공지사항 -->
+                <when test="notice_status == 2">2</when> <!-- 이벤트 -->
+                <when test="notice_status == 3">3</when> <!-- 점검사항 -->
+            </choose>
+            AND NOTICE_SUBJECT LIKE #{search_text}
+        </if>
+        ) N
+        )
+    </select>
+
+    <insert id="insertNotice" parameterType="notice">
+        <selectKey resultType="int" order="BEFORE" keyProperty="notice_id">
+            SELECT NVL(MAX(NOTICE_ID), 0) + 1 FROM NOTICE
+        </selectKey>
+
+        INSERT INTO NOTICE
+        (NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT, NOTICE_DATE)
+        VALUES
+        (#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, SYSDATE)
+    </insert>
+
+    <update id="readCountUpdate" parameterType="int">
+        UPDATE NOTICE
+        SET NOTICE_READCOUNT = NOTICE_READCOUNT + 1
+        <!-- 인자값이 하나만 넘어오면 파라미터 명을 아무거나 적어줘도 되지만
+              여러가지가 넘어올 경우(board 등등) 파라미터 명을 맞춰줘야 한다. -->
+        WHERE NOTICE_ID = #{notice_id}
+    </update>
+
+    <select id="noticeView" parameterType="int" resultType="notice">
+        SELECT *
+        FROM NOTICE
+        WHERE NOTICE_ID = #{notice_id}
+    </select>
+
+    <update id="modifyAction" parameterType="notice">
+        UPDATE NOTICE
+        SET NOTICE_SUBJECT = #{notice_subject},
+            NOTICE_CONTENT = #{notice_content},
+            NOTICE_STATUS  = #{notice_status}
+        WHERE NOTICE_ID = #{notice_id}
+    </update>
+
+    <delete id="noticeDelete" parameterType="notice">
+        DELETE
+        FROM NOTICE
+        WHERE NOTICE_ID = #{notice_id}
+    </delete>
+
+    <select id="getRUL" parameterType="map" resultType="rul">
+        SELECT *
+        FROM (SELECT ROWNUM RNUM,
+        R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+
+        R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+        R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+
+        R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+        R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
+        FROM (SELECT
+        UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
+        UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
+
+        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
+        REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
+        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+
+        U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
+        REPORTER_USER_ADDRESS
+
+        FROM
+        USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
+        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+
+        INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
+        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+        WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 5
+        <if test="select_field != null">
+            AND
+            <choose>
+                <when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+                <when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+                <when test="select_field == 'created_at'">UR.CREATED_AT</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY U.REPORT_COUNT
+        ) R
+        )
+        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    </select>
+
+    <select id="getRULcount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT ROWNUM RNUM,
+        R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+
+        R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+        R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+
+        R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+        R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
+        FROM (SELECT
+        UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
+        UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
+
+        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
+        REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
+        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+
+        U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
+        REPORTER_USER_ADDRESS
+
+        FROM
+        USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
+        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+
+        INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
+        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+        WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 5
+        <if test="select_field != null">
+            AND
+            <choose>
+                <when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+                <when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+                <when test="select_field == 'created_at'">UR.CREATED_AT</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY U.REPORT_COUNT
+        ) R
+        )
+    </select>
+
+    <update id="RULstatusChange" parameterType="int">
+        UPDATE USER_REPORT
+        SET REPORT_STATUS = 2
+        WHERE USER_REPORT_ID = #{user_report_id}
+    </update>
+
+    <update id="RULstatusCompleted" parameterType="int">
+        UPDATE USER_REPORT
+        SET REPORT_STATUS = 3,
+            UPDATED_AT    = SYSDATE
+        WHERE USER_REPORT_ID = #{user_report_id}
+    </update>
+
+    <select id="getRSL" parameterType="map" resultType="rul">
+        SELECT *
+        FROM (SELECT ROWNUM RNUM,
+        R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+
+        R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+        R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+
+        R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+        R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
+        FROM (SELECT
+        UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
+        UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
+
+        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
+        REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
+        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+
+        U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
+        REPORTER_USER_ADDRESS
+
+        FROM
+        USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
+        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+
+        INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
+        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+        WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 3
+        <if test="select_field != null">
+            AND
+            <choose>
+                <when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+                <when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+                <when test="select_field == 'created_at'">UR.CREATED_AT</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY U.REPORT_COUNT
+        ) R
+        )
+        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    </select>
+
+    <select id="getRSLcount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT ROWNUM RNUM,
+        R.USER_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+
+        R.REPORTER_ROLE_ID, R.REPORTER_USER_EMAIL,
+        R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS,
+
+        R.REPORTED_ROLE_ID, R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+        R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS
+
+        FROM (SELECT
+        UR.USER_REPORT_ID, UR.CREATED_AT, UR.UPDATED_AT, UR.REPORT_STATUS,
+        UR.REPORTER, UR.REPORTED_USER, UR.REPORT_SUBJECT, UR.REPORT_CONTENT,
+
+        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
+        REPORTED_USER_PROFILE, U.ROLE_ID AS REPORTED_ROLE_ID,
+        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+
+        U2.USER_EMAIL AS REPORTER_USER_EMAIL, U2.ROLE_ID AS REPORTER_ROLE_ID,
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
+        REPORTER_USER_ADDRESS
+
+        FROM
+        USER_REPORT UR INNER JOIN USERS U ON (UR.REPORTED_USER = U.USER_ID)
+        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+
+        INNER JOIN USERS U2 ON (UR.REPORTER = U2.USER_ID)
+        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+        WHERE UR.REPORT_STATUS <![CDATA[ <= ]]> 2 AND U2.ROLE_ID = 3
+        <if test="select_field != null">
+            AND
+            <choose>
+                <when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+                <when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+                <when test="select_field == 'created_at'">UR.CREATED_AT</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY U.REPORT_COUNT
+        ) R
+        )
+    </select>
+
+    <update id="RSLstatusChange" parameterType="int">
+        UPDATE USER_REPORT
+        SET REPORT_STATUS = 2
+        WHERE USER_REPORT_ID = #{user_report_id}
+    </update>
+
+    <update id="RSLstatusCompleted" parameterType="int">
+        UPDATE USER_REPORT
+        SET REPORT_STATUS = 3,
+            UPDATED_AT    = SYSDATE
+        WHERE USER_REPORT_ID = #{user_report_id}
+    </update>
+
+    <select id="getRUS" parameterType="map" resultType="rsl">
+        SELECT *
+        FROM (SELECT ROWNUM RNUM,
+        R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+
+        R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+        R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
+
+        R.REPORTER_USER_EMAIL,
+        R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
+
+        FROM (SELECT
+        SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
+        SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
+
+        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
+        REPORTED_USER_PROFILE,
+        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+
+        U2.USER_EMAIL AS REPORTER_USER_EMAIL,
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
+        REPORTER_USER_ADDRESS
+
+        FROM
+        STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
+        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+
+        INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
+        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+        WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
+        <if test="select_field != null">
+            AND
+            <choose>
+                <when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+                <when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+                <when test="select_field == 'created_at'">SR.CREATED_AT</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY U.REPORT_COUNT
+        ) R
+        )
+        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    </select>
+
+    <select id="getRUScount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT ROWNUM RNUM,
+        R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+
+        R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
+        R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
+
+        R.REPORTER_USER_EMAIL,
+        R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
+
+        FROM (SELECT
+        SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
+        SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
+
+        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
+        REPORTED_USER_PROFILE,
+        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+
+        U2.USER_EMAIL AS REPORTER_USER_EMAIL,
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
+        REPORTER_USER_ADDRESS
+
+        FROM
+        STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
+        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+
+        INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
+        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+        WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
+        <if test="select_field != null">
+            AND
+            <choose>
+                <when test="select_field == 'reporter_user_name'">UI2.USER_NAME</when>
+                <when test="select_field == 'reported_user_name'">UI.USER_NAME</when>
+                <when test="select_field == 'created_at'">SR.CREATED_AT</when>
+            </choose>
+            LIKE #{search_word}
+        </if>
+        ORDER BY U.REPORT_COUNT
+        ) R
+        )
+    </select>
+
+    <update id="RUSstatusChange" parameterType="int">
+        UPDATE STORE_REPORT
+        SET REPORT_STATUS = 2
+        WHERE STORE_REPORT_ID = #{store_report_id}
+    </update>
+
+    <update id="RUSstatusCompleted" parameterType="int">
+        UPDATE STORE_REPORT
+        SET REPORT_STATUS = 3,
+            UPDATED_AT    = SYSDATE
+        WHERE STORE_REPORT_ID = #{store_report_id}
+    </update>
 </mapper>

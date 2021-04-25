@@ -14,6 +14,7 @@ create table points
     constraint point_type_ck check (point_type in ('get', 'use'))
 );
 
-select * from points
+select *
+from points commit;
 
 commit;
