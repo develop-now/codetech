@@ -67,7 +67,7 @@ public interface UsersService {
 
 	public int reportStore(String subject, String content, int user_id, int store_id);
 
-	public UserInfo getUser(String reported);
+	public UserInfo getUserReported(String reported);
 
 	public int reportUser(String subject, String content, int user_id, int user_id2);
 
