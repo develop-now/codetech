@@ -45,9 +45,9 @@ function expireStaff(staff_id) {
 
     $.ajax({
         url: "/staff/deleteAction",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-        },
+        // beforeSend: function (xhr) {
+        //     xhr.setRequestHeader(header, token);
+        // },
         method: "post",
         data: {store_id: store_id_val, user_id: staff_id},
         dataType: "json",

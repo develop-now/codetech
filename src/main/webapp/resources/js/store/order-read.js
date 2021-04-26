@@ -109,9 +109,9 @@ function statusChange(status_id) {
     $.ajax({
         url: "/order/updateAction",
         method: "post",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-        },
+        // beforeSend: function (xhr) {
+        //     xhr.setRequestHeader(header, token);
+        // },
         data: {order_id, status_id: status_id},
         dataType: "json",
         success: (jsonData) => {
