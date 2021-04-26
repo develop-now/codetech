@@ -118,6 +118,7 @@
 							<!-- mypageReview__body d-inline-flex -->
 						</c:forEach>
 						<br> <br>
+					<div class="payMentViewContent">
 						<div class="payMentView"></div>
 						<div class="bigtext right-align sumcount" id="sum_p_num">총 :
 							${amount} 개</div>
@@ -142,6 +143,7 @@
 							type="hidden" name="cartTh" value="1"> 
 							</form>
 							</div>
+						</div><!--paymentcontent-->	
 					</div>
 					<!-- container mypageReview -->
 				</div>

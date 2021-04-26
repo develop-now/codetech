@@ -18,7 +18,7 @@ function getUserCommentList(currentPage){
 		data:{"page":currentPage},
 		dataType:"json",
 		success:function(data){
-			console.log("listcount"+data.listCount)
+			console.log("listcount"+data.activeCount)
 			console.log("listlength"+data.list.length)
 			if(data.list.length > 0){
 				$(".mypageReview-content").show();
@@ -51,10 +51,11 @@ function getUserCommentList(currentPage){
 	              		
 	              		$(".mypageReview-content").append(output);
 				});
-					if(data.list.length>data.list.length){
+					if(data.activeCount>data.list.length){
 						$(".addMessage").text("더보기")
-					}else if(data.list.length<=data.list.length){
-						$(".addMessage").text("첫 댓글입니다.")
+					}else if(data.activeCount<=data.list.length){
+						$(".addMessage").text("첫 댓글입니다.").css({"background-color":"lightgray","color":"white"});
+						
 					}
 			}
 			else if(data.list.length == 0){

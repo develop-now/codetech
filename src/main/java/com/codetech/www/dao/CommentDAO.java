@@ -69,6 +69,10 @@ public class CommentDAO {
 		return sqlSession.insert("Comments.addCommentByUser", cmt);
 	}
 
+	public int getcommentCountByUserActive(int user_id) {
+		return sqlSession.selectOne("Comments.cmtCountByUserActive", user_id);
+	}
+
 
 
 
