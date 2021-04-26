@@ -26,7 +26,7 @@ import java.util.*;
 public class MenuController {
     private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @Value("${saveFolderName}")
+    @Value("${saveFolderName2}")
     private String saveFolder;
 
     @Autowired

@@ -132,7 +132,10 @@
                                     <input type="hidden" name="store_address_lon" id="store_address_lon">
                                 </div>
                                 <div class="form-group row">
-                                    <label for="store_desc" class="col-sm-2 col-form-label">가게 소개*</label>
+                                    <label for="store_desc" class="col-sm-2 col-form-label">
+                                        가게 소개*
+                                        <span class="font-weight-light float-right" id="store_desc_length">(0/200)</span>
+                                    </label>
                                     <div class="col-sm-10">
                                         <textarea name="store_desc" id="store_desc" class="form-control"
                                                   placeholder="가게소개를 입력하세요" data-valid="required"></textarea>

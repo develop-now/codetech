@@ -43,7 +43,7 @@ function makeMenuTable(data, store_name) {
                                                 ${menu.menu_name}
                                             </a>`)
         clonedTr.find(".menu_price").text(menu.menu_price);
-        clonedTr.find(".menu_image").append(`<img src="/resources/upload${menu.menu_saved_image}"
+        clonedTr.find(".menu_image").append(`<img src="/upload${menu.menu_saved_image}"
                                         class="img-thumbnail" alt="${menu.menu_original_image}"/>`)
 
         let td = ""
