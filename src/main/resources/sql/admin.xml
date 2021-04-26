@@ -146,7 +146,7 @@
 			        	<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
 			        	<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
 			        </choose>
-			        AND (U.ROLE_ID = 2 OR U.ROLE_ID = 3 OR U.ROLE_ID = 5)
+			        AND (U.ROLE_ID = 3 OR U.ROLE_ID = 5)
 			        
 			        AND
 			        <choose>
@@ -201,7 +201,7 @@
 			        	<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
 			        	<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
 			        </choose>
-			        AND (U.ROLE_ID = 2 OR U.ROLE_ID = 3 OR U.ROLE_ID = 5)
+			        AND (U.ROLE_ID = 3 OR U.ROLE_ID = 5)
 			        
 			        AND
 			        <choose>
@@ -216,24 +216,14 @@
 			    )
     </select>
 
-	<select id="isWorker" resultType="int" parameterType="Map">
-        select nvl(count(*), 0)
-        from stores
-        where owner_id = #{owner_id}
-        and (store_status = 1 or store_status = 3 or store_status = 4)
-    </select>
-
-	<update id="updateOwnerUserStatus" parameterType="Map">
-        update users
-        set role_id    = (select role_id from role where role_value = #{role_value}),
-            updated_at = sysdate
-        where user_id = #{owner_id}
-    </update>
-
     <update id="storeAct" parameterType="String">
-        UPDATE STORES
-        SET STORE_STATUS = 1
-        WHERE STORE_ID = #{store_id}
+        UPDATE
+		(SELECT S.STORE_STATUS, U.ROLE_ID
+		 FROM STORES S INNER JOIN USERS U
+		 ON
+		 S.STORE_ID = #{store_id} AND S.OWNER_ID = U.USER_ID
+		 )
+		SET STORE_STATUS = 1, ROLE_ID = 3;
     </update>
 
     <update id="storeSusp" parameterType="String">
@@ -249,7 +239,7 @@
     </update>
 
     <select id="getStoreMenuList" parameterType="map" resultType="menu">
-        SELECT MENU_NAME, MENU_PRICE, MENU_DESC, STORE_ID
+        SELECT MENU_NAME, MENU_PRICE, MENU_DESC, STORE_ID, MENU_SAVED_IMAGE
         FROM MENUS
         WHERE STORE_ID = #{store_id}
     </select>
@@ -301,7 +291,7 @@
         INSERT INTO NOTICE
         (NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT, NOTICE_DATE)
         VALUES
-        (#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, localtimestamp)
+        (#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, SYSDATE)
     </insert>
 
     <update id="readCountUpdate" parameterType="int">
@@ -375,8 +365,8 @@
         </if>
         ORDER BY U.REPORT_COUNT
         ) R
-        )
-        WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
+    )
+    WHERE RNUM &gt;=#{start} and RNUM &lt;=#{end}
     </select>
 
     <select id="getRULcount" parameterType="map" resultType="int">
@@ -422,7 +412,7 @@
         </if>
         ORDER BY U.REPORT_COUNT
         ) R
-        )
+    )
     </select>
 
     <update id="RULstatusChange" parameterType="int">
@@ -434,7 +424,7 @@
     <update id="RULstatusCompleted" parameterType="int">
         UPDATE USER_REPORT
         SET REPORT_STATUS = 3,
-            UPDATED_AT    = localtimestamp
+            UPDATED_AT    = SYSDATE
         WHERE USER_REPORT_ID = #{user_report_id}
     </update>
 
@@ -540,7 +530,7 @@
     <update id="RSLstatusCompleted" parameterType="int">
         UPDATE USER_REPORT
         SET REPORT_STATUS = 3,
-            UPDATED_AT    = localtimestamp
+            UPDATED_AT    = SYSDATE
         WHERE USER_REPORT_ID = #{user_report_id}
     </update>
 
@@ -559,27 +549,28 @@
         R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
 
         FROM (SELECT
-        S.STORE_NAME,
+        S.STORE_NAME, S.REPORT_COUNT AS REPORTED_REPORT_COUNT,
         
         SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
         SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
 
-        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
-        REPORTED_USER_PROFILE,
-        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+        U.USER_EMAIL AS REPORTED_USER_EMAIL,
+        
+        UI.USER_PROFILE AS REPORTED_USER_PROFILE, UI.USER_NAME AS REPORTED_USER_NAME, 
+        UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
 
         U2.USER_EMAIL AS REPORTER_USER_EMAIL,
-        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
-        REPORTER_USER_ADDRESS
+        
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, 
+        UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
 
         FROM
-        STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
-        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+        STORE_REPORT SR INNER JOIN STORES S ON (SR.REPORTED_STORE = S.STORE_ID)
+                        INNER JOIN USERS U ON (S.OWNER_ID = U.USER_ID)
+                        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
 
-        INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
-        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-
-		INNER JOIN STORES S ON (SR.REPORTED_STORE = S.STORE_ID)
+                        INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
+                        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
 
         WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
         <if test="select_field != null">
@@ -612,28 +603,29 @@
         R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
 
         FROM (SELECT
-        S.STORE_NAME,
+        S.STORE_NAME, S.REPORT_COUNT AS REPORTED_REPORT_COUNT,
         
         SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
         SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
 
-        U.USER_EMAIL AS REPORTED_USER_EMAIL, U.REPORT_COUNT AS REPORTED_REPORT_COUNT, UI.USER_PROFILE AS
-        REPORTED_USER_PROFILE,
-        UI.USER_NAME AS REPORTED_USER_NAME, UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
+        U.USER_EMAIL AS REPORTED_USER_EMAIL,
+        
+        UI.USER_PROFILE AS REPORTED_USER_PROFILE, UI.USER_NAME AS REPORTED_USER_NAME, 
+        UI.USER_TEL AS REPORTED_USER_TEL, UI.USER_ADDRESS AS REPORTED_USER_ADDRESS,
 
         U2.USER_EMAIL AS REPORTER_USER_EMAIL,
-        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, UI2.USER_ADDRESS AS
-        REPORTER_USER_ADDRESS
+        
+        UI2.USER_NAME AS REPORTER_USER_NAME, UI2.USER_TEL AS REPORTER_USER_TEL, 
+        UI2.USER_ADDRESS AS REPORTER_USER_ADDRESS
 
         FROM
-        STORE_REPORT SR INNER JOIN USERS U ON (SR.REPORTED_STORE = U.USER_ID)
-        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
+        STORE_REPORT SR INNER JOIN STORES S ON (SR.REPORTED_STORE = S.STORE_ID)
+                        INNER JOIN USERS U ON (S.OWNER_ID = U.USER_ID)
+                        INNER JOIN USER_INFO UI ON (U.USER_ID = UI.INFO_ID)
 
-        INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
-        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-		
-		INNER JOIN STORES S ON (SR.REPORTED_STORE = S.STORE_ID)
-		
+                        INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
+                        INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
         WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
         <if test="select_field != null">
             AND
@@ -658,7 +650,7 @@
     <update id="RUSstatusCompleted" parameterType="int">
         UPDATE STORE_REPORT
         SET REPORT_STATUS = 3,
-            UPDATED_AT    = localtimestamp
+            UPDATED_AT    = SYSDATE
         WHERE STORE_REPORT_ID = #{store_report_id}
     </update>
 </mapper>
