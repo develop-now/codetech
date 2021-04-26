@@ -72,7 +72,7 @@
 									<c:forEach var="topMenu" items="${topMenu}" varStatus="status">
 										<div class="topMenus">
 											<img class="card-img-heart"
-												src="${pageContext.request.contextPath}/resources/upload/${topMenu.menu_saved_image}"
+												src="${pageContext.request.contextPath}/resources/upload${topMenu.menu_saved_image}"
 												width="100" height="100" alt="">&nbsp;&nbsp;
 											<div class="menuName">
 												<input type="hidden" name="o_menu"
@@ -146,7 +146,7 @@
 										</c:choose>
 
 										<img class="card-img-heart"
-											src="${pageContext.request.contextPath}/resources/upload/${allMenu.menu_saved_image}"
+											src="${pageContext.request.contextPath}/resources/upload${allMenu.menu_saved_image}"
 											width="100" height="100" alt=""> &nbsp;&nbsp;<h5>${allMenu.menu_name }</h5>&nbsp;&nbsp;
 																						<input type="hidden" name="o_menuA"
 											id="o_menu${status.count}" class="o_menu"
