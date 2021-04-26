@@ -225,7 +225,7 @@
 
     <sql id="forSearch">
         (store_name || store_address_si || store_address_gu ||
-            store_address_dong)
+            store_address_dong || store_address_etc)
         like
         #{searchWord}
     </sql>
@@ -241,7 +241,7 @@
             select s2.store_id      as store_id,
                    nvl(count(*), 0) as comment_count
             from stores s2
-                     join comments c on c.comment_ref = s2.store_id
+                     join comments c on c.comment_store = s2.store_id
             group by s2.store_id
         ) j1 on j1.store_id = s1.store_id
                  left join (
@@ -257,7 +257,7 @@
     </sql>
 
     <select id="getMap" resultType="store" parameterType="String">
-        select * from store where
+        select * from stores where
         <include refid="forSearch"/>
         and rownum &lt;= 1
     </select>

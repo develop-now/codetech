@@ -30,7 +30,7 @@
             <%@include file="owner-nav.jsp"%>
 
             <div class="col-12 col-sm-10">
-                <p>User Main Content</p>
+                <p></p>
             </div>
         </div>
     </div>

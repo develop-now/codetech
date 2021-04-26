@@ -12,22 +12,29 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>ManagerList Page</title>
-<%@include file="indexCommon.jsp"%>
+    <%@include file="../partial/head.jsp" %>
 </head>
 <body>
+<div class="container-fluid px-0">
+    <%-- main nav --%>
+    <%@include file="../partial/nav.jsp" %>
 
+    <%-- info Modal --%>
+    <%@include file="../partial/infoModal.jsp" %>
+
+    <%-- alert Modal --%>
+    <%@include file="../partial/alertModal.jsp" %>
 	<!-- Page Content -->
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 col-sm-10">
-				<div class="container">
-					<div class="row mt-5">
-						<div class="ml-auto mr-2">
+            <%@include file="owner-nav.jsp"%>
+            
+			            <div class="col-12 col-sm-10">
+			            <br>
 							<h3 class="text-right">관리자 리스트</h3>
-						</div>
-						<div class="w-100">
-							<hr>
-						</div>
+							<br>
+						
+						
 						<div class="col-12">
 							<table class="table table-hover text-center">
 								<thead>
@@ -49,18 +56,17 @@
 								</tbody>
 							</table>
 
-						
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-	</div>
-	<!-- /.container -->
+
 
 
 	<%-- footer --%>
 	<%@include file="../partial/footer.jsp"%>
-	</div>
+		</div>
+	<!-- /.container -->
 </body>
 </html>

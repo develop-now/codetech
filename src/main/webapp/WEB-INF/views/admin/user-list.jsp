@@ -180,6 +180,10 @@
 		cursor: pointer
 	}
 	
+	a:link { color: black; text-decoration-line: none;}
+ 	a:visited { color: black; text-decoration-line: none;}
+ 	a:hover { color: black; text-decoration-line: none;}
+	
 </style>
 
 <head>
@@ -279,10 +283,20 @@
 
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
-    
+
+
     <!-- Page Content -->
     <div class="container-fluid">
-		<h3 class="user_h3">회원 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
+        <div class="row">
+            <div id="sideNav" class="col-12 col-sm-2">
+            	<div><a href="${pageContext.request.contextPath}/admin/userList">회원 관리</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/partnerList">파트너 관리</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/noticeAll">공지사항 관리</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/noticeWrite">공지사항 작성</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/reportUser">신고 관리</a></div>
+            </div>
+            <div class="col-12 col-sm-10">
+                <h3 class="user_h3">회원 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
  		<hr style="border: solid 1px #4e3418;">
 			<form action="userList">
 				<div class=search_div>
@@ -432,7 +446,7 @@
 		                     href="userList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">&nbsp;다음</a></li>
 		               </c:if>
-		         </ul>
+		         	</ul>
 		         </div>
 			</c:if>
 			<%-- <c:if test="${listcount > 0}"> end --%>
@@ -446,9 +460,12 @@
 			<c:if test="${listcount == 0 && !empty search_word}">
 			    <h1>검색 결과가 없습니다.</h1>
 			</c:if>
-		</form>
-	</div>
+			</form>
+            </div>
+        </div>
+    </div>
     <!-- /.container -->
+
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
 </div>

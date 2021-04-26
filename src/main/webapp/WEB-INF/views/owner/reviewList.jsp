@@ -84,7 +84,7 @@
                                     <a href="${pageContext.request.contextPath}/user/orderMain?store_id=${store.store_id}"
                                        class="btn btn-primary">주문하기 &rarr;</a>
                                 </div>
-                                <div class="card-footer text-muted">
+                                <div class="card-footer text-muted" style="text-align:center;">
                                     <img class="card-img-heart"
                                          src="${pageContext.request.contextPath}/resources/image/common/like.png"
                                          width="30" height="30" alt="">
@@ -97,7 +97,7 @@
                             </div>
                         </c:if>
 
-                        <c:if test="${store.store_status == 2}">
+                        <c:if test="${store.store_status == 2 || store.store_status == 3}">
 
                             <div class="card mb-4" style="width:555px">
                                 <img class="card-img-top"
@@ -110,7 +110,7 @@
                                     <a href="#" class="btn btn-primary"
                                        style="background-color: gray">준비중 &rarr;</a>
                                 </div>
-                                <div class="card-footer text-muted">
+                                <div class="card-footer text-muted" style="text-align:center;">
                                     <img class="card-img-heart"
                                          src="${pageContext.request.contextPath}/resources/image/common/like.png"
                                          width="30" height="30" alt="">

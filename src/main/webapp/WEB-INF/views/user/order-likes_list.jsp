@@ -38,6 +38,7 @@
 							<h2 class="text-right">즐겨찾기 카페</h2>
 						</div>
 						<hr>
+						<c:if test="${likesCount >0 }">
 						<c:forEach var="store" items="${store}" varStatus="status">
 							<div class="mypageFavoirteList__body d-inline-flex text-center">
 							<input type="hidden" name="likesCount" value="${likesCount}">
@@ -65,6 +66,28 @@
 								</div>
 							</div>
 						</c:forEach>
+						</c:if>
+						<c:if test="${likesCount == 0 }">
+							 <div class="Nodata">
+			           		 	<div class="card bg-dark text-white">
+			           		 		<div class="d-flex justify-content-center">
+								   		<img class="card-img" src="${pageContext.request.contextPath}/resources/image/user/notice.jpg"" alt="Card image">
+									 	<div class="card-img-overlay Nodata-content ">
+										    <h1 class="card-title text-center">"즐겨찾기에 추가된 카페가 </h1>
+										    <h1 class="card-title text-right">없습니다."</h1>
+										    <p class="card-text text-right">*즐겨찾는 카페를 등록하여 편하게 주문해 보세요</p>
+									   	
+										   	<div class="text-right">
+										   	<button id="coffeebtn" onclick="location.href='${pageContext.request.contextPath}/owner/mainList'">
+										   	 <img id="coffeebtnImg"src="${pageContext.request.contextPath}/resources/image/user/coffeebtn.png" >
+										   	&nbsp;&nbsp;카페보러가기
+										   	 </button>
+									   	</div>
+			           		 			</div>
+								    </div>
+								</div>
+				           </div>
+						</c:if>
 					</div>
 				</div>
 			</div>

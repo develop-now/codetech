@@ -129,6 +129,7 @@
 	.ajax_menu li {
 		text-align: left;
 	}
+	
 	a:link { color: black; text-decoration-line: none;}
  	a:visited { color: black; text-decoration-line: none;}
  	a:hover { color: black; text-decoration-line: none;}
@@ -184,11 +185,14 @@ $(function() {
 		alert("해당 가게 정지를 실패 했습니다.");
 	}
 	
-	$('#storeIf_btn').click(function() {
+	$('.getStoreIf').click(function() {
+		console.log("글 번호: " + $(this).closest('tr').find("input").val());
+		var store_id = $(this).closest('tr').find("input").val()
+		
 		$.ajax({
 			method : "get",
-			url : "${pageContext.request.contextPath}/admin/PartnerPend",
-			data : { "store_id" : $('#store_id').val() },
+			url : "PartnerPend",
+			data : { "store_id" : store_id },
 			dataType : "json",
 			cache : false,
 			success : function(data) {
@@ -197,19 +201,16 @@ $(function() {
 				$('.modal-footer').empty();
 				
 				var output = "";
-				output += '<ul>';
 				$(data).each(function(index, item) {
-					output += '	  <li>' + item.menu_name + '</li>';
-					output += '	  <li>' + item.menu_price + '</li>';
-					output += '	  <li>' + item.menu_desc + '</li>';
+					output += '	  <div> Menu Name: ' + item.menu_name + '</div>';
+					output += '	  <div> Menu Price: ' + item.menu_price + '</div>';
+					output += '	  <div> Menu Description: ' + item.menu_desc + '</div>';
 				})
 				
-				output += '</ul>';
-				$('.ajax_menu').append(output);	
+				$('.ajax_menu').append(output);
 				
 				output = '<button type="button" class="btn btn-submit" onClick="storeApprove()">승인</button>'
 				output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>'
-				
 				$('.modal-footer').append(output);
 			},
 			error : function() {
@@ -231,10 +232,19 @@ $(function() {
     <%-- alert Modal --%>
     <%@include file="../partial/alertModal.jsp" %>
     
-    <!-- Page Content -->
+<!-- Page Content -->
     <div class="container-fluid">
-		<h3 class="partner_h3">파트너 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
- 		<hr style="border: solid 1px #e2e2d0;">
+        <div class="row">
+            <div id="sideNav" class="col-12 col-sm-2">
+            	<div><a href="${pageContext.request.contextPath}/admin/userList">회원 관리</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/partnerList">파트너 관리</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/noticeAll">공지사항 관리</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/noticeWrite">공지사항 작성</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/reportUser">신고 관리</a></div>
+            </div>
+            <div class="col-12 col-sm-10">
+                <h3 class="partner_h3">파트너 관리</h3> <!-- 왼쪽 상단 회원관리 글씨 css -->
+ 		<hr style="border: solid 1px #4e3418;">
 			<form action="partnerList">
 				<div class=search_div>
 					<b>파트너 검색</b><br>
@@ -266,7 +276,7 @@ $(function() {
 					<div class="submit_btn">
 						<button type="submit" id="search_btn">검색</button>
 					</div>
-					<hr style="border: solid 1px #e2e2d0;">
+					<hr style="border: solid 1px #4e3418;">
 
 					<%-- 파트너가 있는 경우 --%>
       				<c:if test="${listcount > 0}">
@@ -292,13 +302,13 @@ $(function() {
 			                  <th>관리</th>
 			               </tr>
 			               	               
-			               <c:forEach var="sil" items="${Storelist}">
+			               <c:forEach var="sil" items="${Storelist}" varStatus="status">
 			               		<!-- 정상 영업중인 가게 리스트 -->
 			               		<!-- 파트너 승인 대기 리스트 -->
 			               		<!-- 활동 정지를 당한 가게 리스트 -->
 			               		<!-- 계약 관계 종료로 인한 가게 리스트 -->
 			               <c:choose>
-			               		<c:when test="${sil.store_status == 1}">
+			               		<c:when test="${sil.store_status == 1 or sil.store_status == 2}">
 			               		<tr>
 			            			<td>${sil.user_email}</td>
 			         				<td>${sil.store_name}</td>
@@ -314,20 +324,19 @@ $(function() {
 			               		
 			               		<c:when test="${sil.store_status == 3}">
 			               		<tr>
+			               			<input type="hidden" value="${sil.store_id}" id="store_id">
 			            			<td>${sil.user_email}</td>
 			         				<td>${sil.store_name}</td>
 			         				<td>${sil.user_name}</td>
 			         				<td>${sil.user_tel}</td>
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
-			         				<td>
-			         					<input type="hidden" value="${sil.store_id}" id="store_id">
-		
+			         				<td>			
 										<!-- Large modal -->
-										<button type="button" id="storeIf_btn" class="btn btn-primary" data-toggle="modal"
-												data-target=".bd-example-modal-lg">가게 정보</button>
+										<div class="btn btn-primary" data-toggle="modal"
+														data-target=".bd-example-modal-lg${status.index}"><div class="getStoreIf">가게 정보</div></div>
 										
-										<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+										<div class="modal fade bd-example-modal-lg${status.index}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 										  <div class="modal-dialog modal-lg">
 										    <div class="modal-content">
 										      <div class="modal-header">
@@ -336,30 +345,27 @@ $(function() {
 										      <div class="modal-body">
 										        <div class="PartnerStoreIf_gird">
 										        	<div>${sil.store_saved_image}</div>
-										        	<div>
-										        		<ul>
-										        			<li>상호명: ${sil.store_name}</li>
-										        			<li>대표명: ${sil.user_name}</li>
-										        			
-										        			<li>가게 주소: ${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</li>
-										        			<li>가게 전화번호: ${sil.store_tel}</li>
-										        			
-										        			<li>평일 영업 시간: ${sil.opening_h_w_open} ~ ${sil.opening_h_w_close}</li>
-										        			<li>휴일 영업 시간: ${sil.opening_h_h_open} ~ ${sil.opening_h_h_close}</li>
-										        			<li>휴일: ${sil.holiday}</li>
-										        		</ul>
-										        	</div>
+										        	<div style="text-align: left;">
+											        	<div>상호명: ${sil.store_name}</div>
+											        	<div>대표명: ${sil.user_name}</div>		
+											        	<div>가게 주소: ${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</div>		
+														<div>가게 전화번호: ${sil.store_tel}</div>
+											        	<div>평일 영업 시간: ${sil.opening_h_w_open} ~ ${sil.opening_h_w_close}</div>		
+											        	<div>휴일 영업 시간: ${sil.opening_h_h_open} ~ ${sil.opening_h_h_close}</div>		
+											        	<div>휴일: ${sil.holiday}</div>	
+										        	</div>	
 										        </div>
 											     	<!-- ajax 처리 -->
-											        <div class="ajax_menu">
+											        <div class="ajax_menu" style="text-align: left; padding: 10px 0px;">
 											        	
 											        </div>
 										        </div>
 										      <div class="modal-footer">
-	      											<!-- ajax 처리 -->
+	      											
 	      											<script>
 		      											function storeApprove() {
 		      												location.href="${pageContext.request.contextPath}/admin/PartnerAct?store_id=${sil.store_id}";
+		      												
 		      											}
 	      											</script>
 										      </div>
@@ -458,6 +464,12 @@ $(function() {
     <!-- /.container -->
     <%-- footer --%>
     <%@include file="../partial/footer.jsp" %>
-</div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <%-- footer --%>
+    <%@include file="../partial/footer.jsp" %>
 </body>
 </html>

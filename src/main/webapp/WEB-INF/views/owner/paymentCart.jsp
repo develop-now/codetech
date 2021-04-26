@@ -44,7 +44,7 @@
     <input type="hidden" id="cartTh" name="cartTh"
            value="${cartTh}">
     	<input type="hidden" name="ordered_store" id="ordered_store"
-		class="ordered_store" value="${orderedStore} ">
+		class="ordered_store" value="${store_id} ">
 		
 </form>
 

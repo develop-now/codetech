@@ -48,12 +48,7 @@ public class AdminController {
 
 	@Value("${saveFolderName}")
 	private String saveFolder;
-
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
-		return "admin/index";
-	}
-
+	
 	@RequestMapping(value = "/userList")
 	public ModelAndView userList(@RequestParam(value = "page", defaultValue = "1", required = false) int page,
 			ModelAndView mv, @RequestParam(value = "search_field", defaultValue = "-1") int index,
@@ -437,7 +432,7 @@ public class AdminController {
 	public String noticeAdd(Notice notice, RedirectAttributes rattr) throws Exception {
 		adminService.insertNotice(notice);
 		
-		return "redirect:noticeList";
+		return "redirect:noticeAll";
 	}
 	
 	@RequestMapping(value = "/noticeView", method = RequestMethod.GET)

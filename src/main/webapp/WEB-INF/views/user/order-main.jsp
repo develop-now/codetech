@@ -68,15 +68,15 @@
                                 <div class="likesForAjax">
                                 <img class="card-img-heart"
                                      src="${pageContext.request.contextPath}/resources/upload/love.png"
-                                     width="50" height="50" alt=""> ${storeLike}
+                                     width="35" height="35" alt="likeStoreImage"><span class='likes'>${storeLike}</span>
                                 <span class="likeStoreStatus">
                                 	<span id="likeValue"style="visibility:hidden;">${likeValue }</span>
                                 	<c:choose>
 										<c:when test="${likeValue eq 2}">
-	                                	<a >즐겨찾기추가</a>
+	                                	<a class="yeslikebtn">즐겨찾기추가</a>
 									  </c:when>  
 									    <c:when test="${likeValue eq 3}">
-									    <a >즐겨찾기취소</a>
+									    <a class="nolikebtn">즐겨찾기취소</a>
 									  </c:when>                              	
                                 	</c:choose>
                                 </span>
@@ -90,7 +90,7 @@
                             <div class="topMenu">
                                 <input type="hidden" id="menuCount" value="${menuCount }">
                                 <br>
-                                <h4>인기메뉴</h4>
+                                <h4 style='font-weight: bold;'>인기메뉴</h4>
                                 <hr>
                                 <c:forEach var="topMenu" items="${topMenu}" varStatus="status">
                                     <div class="topMenus">

@@ -38,14 +38,26 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public int isEmail(String user_email) {
-        User user = udao.isEmail(user_email);
-        return (user == null) ? -1 : 1;
+    	int result = 0;
+    	int DBresult = udao.isEmail(user_email);
+    	if(DBresult == 0) {
+    		result = -1; 
+    	}else{
+    		result = 1;
+    	}
+    	return result;
     }
 
     @Override
     public int isName(String user_name) {
-        UserInfo user = udao.isName(user_name);
-        return (user == null) ? -1 : 1;
+    	int result = 0;
+    	int DBresult = udao.isEmail(user_name);
+    	if(DBresult == 0) {
+    		result = -1; 
+    	}else{
+    		result = 1;
+    	}
+    	return result;
     }
 
     @Override
@@ -61,7 +73,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public int isUser(String user_email, String user_password) {
-        User user = udao.isEmail(user_email);
+        User user = udao.isUser(user_email);
         int result = -1;
         logger.info("dao.isEmail result : " + result);
         if (user != null) {
@@ -341,6 +353,12 @@ public class UsersServiceImpl implements UsersService {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         int startrow = (page - 1) * limit + 1;
         int endrow = startrow + limit - 1;
+        int count = udao.getReportListCount(user_id);
+        logger.info("총 글수"+ count);
+        if(count/limit == 0) {
+        	
+        }
+        logger.info("시작글번호" + startrow + "끝나는번호"+ endrow);
         map.put("user_id", user_id);
         map.put("start", startrow);
         map.put("end", endrow);
@@ -351,5 +369,11 @@ public class UsersServiceImpl implements UsersService {
     public int getReportListCount(int user_id) {
         return udao.getReportListCount(user_id);
     }
+
+
+	@Override
+	public Report readUserReport(int user_report_id) {
+		return udao.readUserReport(user_report_id);
+	}
 
 }

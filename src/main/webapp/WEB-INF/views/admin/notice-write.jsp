@@ -33,7 +33,7 @@
 		padding-top: 30px;
 	}
 	
-	#Notice_subject {
+	#notice_subject {
 		margin: 10px 0px;
 		padding: 5px;
 		width: 100%;
@@ -107,7 +107,7 @@
 				if ($.trim($('input[name="notice_subject"]').val()) == "") {
 					alert ("작성할 게시글의 제목을 입력해 주세요.");
 					
-					$('input[name="notice_subject"]').focus();
+					$('input[#Notice_subject').focus();
 					return false;
 				}
 				
@@ -141,6 +141,13 @@
 	<!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
+        <div id="sideNav" class="col-12 col-sm-2">
+            <div><a href="${pageContext.request.contextPath}/admin/userList">회원 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/partnerList">파트너 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/noticeAll">공지사항 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/noticeWrite">공지사항 작성</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/reportUser">신고 관리</a></div>
+        </div>
             <div class="col-12 col-sm-10">
 	    		<form action="noticeAdd" method="post">
                 <h3 class="notice_h3">공지 사항 작성</h3> <!-- style="border: solid 1px #e2e2d0; -->
@@ -150,7 +157,7 @@
 		    				<b><span style="font-size:1.2em">제목</span></b>
 		    			</div>
 			    		<div style="padding: 30px 0px">
-			    			<input type="text" name="notice_subject" id="Notice_subject" placeholder="제목을 입력하세요." required>
+			    			<input type="text" name="notice_subject" id="notice_subject" placeholder="제목을 입력하세요." required>
 			    		</div>  		
 		    		</div>
 		    		
@@ -159,9 +166,9 @@
 		    				<b><span style="font-size:1.2em">카테고리</span></b>
 		    			</div>
 		    			<div style="margin:auto 0px; height: 28px">
-				    		<input type="radio" name="notice_status" id="noticeNews" value="1"/><label for="noticeNews">&nbsp;공지사항 &nbsp;</label>
-				    		<input type="radio" name="notice_status" id="noticeEvent" value="2"/><label for="noticeEvent">&nbsp;이벤트 &nbsp;</label>
-				    		<input type="radio" name="notice_status" id="noticeInspect" value="3"/><label for="noticeInspect">&nbsp;점검사항 &nbsp;</label>
+				    		<input class= "notice_status" type="radio" name="notice_status" id="noticeNews" value="1"/><label for="noticeNews">&nbsp;공지사항 &nbsp;</label>
+				    		<input class= "notice_status" type="radio" name="notice_status" id="noticeEvent" value="2"/><label for="noticeEvent">&nbsp;이벤트 &nbsp;</label>
+				    		<input class= "notice_status" type="radio" name="notice_status" id="noticeInspect" value="3"/><label for="noticeInspect">&nbsp;점검사항 &nbsp;</label>
 		    			</div>
 		    			<div></div>
 		    		</div>    			    		
@@ -188,7 +195,6 @@
             </div>
         </div>
     </div>
-    
     <!-- /.container -->
 
 
