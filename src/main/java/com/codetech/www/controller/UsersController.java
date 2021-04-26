@@ -187,9 +187,9 @@ public class UsersController {
             /* 바뀐 파일명으로 저장 */
             info.setUser_profile(fileDBName);
         }
-
+        
         int result1 = usersService.userinsert(user, info);
-
+        
         if (result1 == 1) {
             rattr.addFlashAttribute("info", "회원가입을 축하드립니다.");
             return "redirect:/home";
