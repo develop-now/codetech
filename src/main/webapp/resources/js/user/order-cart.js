@@ -93,3 +93,4 @@ Number.prototype.formatNumber = function() {
 		nstr = nstr.replace(regex, '$1' + ',' + '$2');
 	return nstr;
 };
+
