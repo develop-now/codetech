@@ -44,6 +44,7 @@
 	            </div>
 	           <div class="addMessage text-center">
 	           </div>
+	           <c:if test="${listCount eq 0 }">
 	           <div class="Nodata">
            		 	<div class="card bg-dark text-white">
            		 		<div class="d-flex justify-content-center">
@@ -63,6 +64,7 @@
 					    </div>
 					</div>
 	           </div>
+	           </c:if>
             </div>
         </div>
     </div>

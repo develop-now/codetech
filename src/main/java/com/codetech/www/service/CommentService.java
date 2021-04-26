@@ -34,5 +34,7 @@ public interface CommentService {
 
 	public int addCommentByUser(Comment cmt);
 
+	public int getcommentCountByUserActive(int user_id);
+
 
 }

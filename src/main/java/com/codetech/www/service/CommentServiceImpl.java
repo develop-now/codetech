@@ -146,4 +146,9 @@ public class CommentServiceImpl implements CommentService {
 		return comment_dao.addCommentByUser(cmt);
 	}
 
+	@Override
+	public int getcommentCountByUserActive(int user_id) {
+		return comment_dao.getcommentCountByUserActive(user_id);
+	}
+
 }
