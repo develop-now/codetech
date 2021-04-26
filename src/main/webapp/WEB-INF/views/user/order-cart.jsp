@@ -48,7 +48,7 @@
 						<hr>
 						<c:forEach var="store" items="${store}" varStatus="status">
 						<form action="${pageContext.request.contextPath}/owner/payCart"
-					method="get">
+					method="post">
 							<div class="mypageReview__body d-inline-flex"
 								id="cart_num${status.count}">
 								<div class="mypageReview__content-left">

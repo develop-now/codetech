@@ -370,6 +370,7 @@ public class UsersServiceImpl implements UsersService {
         return udao.getReportListCount(user_id);
     }
 
+
 	@Override
 	public Report readUserReport(int user_report_id) {
 		return udao.readUserReport(user_report_id);

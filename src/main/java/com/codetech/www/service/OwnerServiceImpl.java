@@ -221,4 +221,9 @@ public class OwnerServiceImpl implements OwnerService {
 
 	}
 
+	@Override
+	public int getStore_owner(int ordered_store) {
+		return odao.getStore_owner(ordered_store);
+	}
+
 }

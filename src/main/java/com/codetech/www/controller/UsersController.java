@@ -437,6 +437,11 @@ public class UsersController {
         User reporter = usersService.getUser(user_id);
         Store store = usersService.getStore(reported);
         UserInfo user = usersService.getUser(reported);
+        
+        if(store == null || user == null) {
+            rattr.addFlashAttribute("alert", "대상자를 다시 확인해주세요");
+            return "redirect:/home";
+        }
 
         if (store != null) {
             int result = usersService.reportStore(subject, content, user_id, store.getStore_id());
@@ -445,7 +450,6 @@ public class UsersController {
                 vo.setTo(reporter.getUser_email());
                 vo.setContent(user.getUser_name() + "님 신고 접수가 완료되었습니다. <br> 사실 관계를 빠르게 확인하여 조치를 취하도록 하겠습니다. 감사합니다. ");
                 sendMail.sendMail(vo);
-                rattr.addFlashAttribute("info", "신고가 접수되었습니다.");
                 logger.info("가게신고성공");
             } else {
                 rattr.addFlashAttribute("alert", "죄송합니다. 다시 시도해 주세요.");

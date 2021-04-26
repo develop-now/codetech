@@ -105,8 +105,11 @@ public class OwnerController {
 
 	@RequestMapping(value = "/searchListMap")
 	public ModelAndView searchListMap(ModelAndView mv, String searchWord) {
-		logger.info("search 도착");
 		Store store = ownerService.getMap(searchWord);
+		if (store != null) {
+			store.setStore_address_lat(store.getStore_address_lat().substring(0, 10));
+			store.setStore_address_lon(store.getStore_address_lon().substring(0, 9));
+		}
 		mv.addObject("store", store);
 		mv.setViewName("owner/mapPageSearch");
 		return mv;
@@ -288,7 +291,8 @@ public class OwnerController {
 				list.add(cart);
 			}
 		}
-		int orderedStore = ownerService.getOrderStore(store_id);
+		// int orderedStore = ownerService.getOrderStore(store_id);
+		int orderedStore = store_id;
 		UserPlusInfo user = ownerService.getOwnerInfo(user_id);
 		String newtotalPrice = totalPrice.replace("%2C", "").replace(",", "");
 		mv.addObject("amount", amount);
@@ -305,7 +309,8 @@ public class OwnerController {
 	public ModelAndView payCart(@RequestParam(value = "p_num") int[] p_num, @RequestParam(value = "m_num") int[] m_num,
 			@RequestParam(value = "p_price") int[] p_price, @RequestParam(value = "o_menu") String[] o_menu,
 			@RequestParam(value = "cart_id") int[] cart_id, int user_id, String totalPrice, int amount,
-			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh, ModelAndView mv) {
+			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh, int store_id,
+			ModelAndView mv) {
 
 		List<MiniCart> list = new ArrayList<MiniCart>();
 
@@ -330,7 +335,8 @@ public class OwnerController {
 		mv.addObject("user", user);
 		mv.addObject("cartCount", list.size());
 		mv.addObject("cartTh", cartTh);
-		mv.setViewName("owner/payment");
+		mv.addObject("store_id", store_id);
+		mv.setViewName("owner/paymentCart");
 		return mv;
 	}
 
@@ -342,37 +348,38 @@ public class OwnerController {
 	}
 
 	@RequestMapping(value = "/payment_complete")
-    public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
-                                         @RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
-                                         @RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh,
-                                         @RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount, ModelAndView mv,
-                                         @RequestParam(value = "usedPoint", defaultValue = "0", required = false) int point,  int ordered_store)
-   {
+	public ModelAndView payment_complete(@RequestParam(value = "p_num") int[] p_num,
+			@RequestParam(value = "o_menu") String[] o_menu, @RequestParam(value = "m_num") int[] m_num,
+			@RequestParam(value = "cartTh", defaultValue = "0", required = false) int cartTh,
+			@RequestParam(value = "p_price") int[] p_price, int user_id, int cartCount, int price, int amount,
+			ModelAndView mv, @RequestParam(value = "usedPoint", defaultValue = "0", required = false) int point,
+			int ordered_store) {
 
-        int cartStatus = 0;
-        for (int i = 0; i < m_num.length; i++) {
-            int result = ownerService.plusOrderCount(m_num[i]);
-            logger.info("주문수 증가 완료");
-            if (result != 1) {
-                logger.info("에러");
-            }
-        }
+		int cartStatus = 0;
+		for (int i = 0; i < m_num.length; i++) {
+			int result = ownerService.plusOrderCount(m_num[i]);
+			logger.info("주문수 증가 완료");
+			if (result != 1) {
+				logger.info("에러");
+			}
+		}
 
-        for (int i = 0; i < m_num.length; i++) {
-            int store_id = ownerService.getStoreId(m_num[i]);
-            int order = ownerService.order(price, user_id, store_id, m_num, p_price, p_num, point);
-            if (cartTh == 1) {
-                cartStatus = ownerService.delCartList(m_num[i]);
-            }
-            if (order == 1) {
-                logger.info("order + detail 성공");
-            }
-        }
+		int order = ownerService.order(price, user_id, ordered_store, m_num, p_price, p_num, point);
+
+		if (cartTh == 1) {
+			for (int i = 0; i < m_num.length; i++) {
+				cartStatus = ownerService.delCartList(m_num[i]);
+			}
+		}
+		
+		int store_owner = ownerService.getStore_owner(ordered_store);
+
 		mv.addObject("amount", amount);
 		mv.addObject("orderedStore", ordered_store);
-        mv.setViewName("owner/paySuccess");
-        return mv;
-    }
+		mv.addObject("store_owner", store_owner);
+		mv.setViewName("owner/paySuccess");
+		return mv;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/revoke", method = RequestMethod.GET)

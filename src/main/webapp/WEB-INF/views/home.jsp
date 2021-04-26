@@ -66,7 +66,7 @@
                     </div>
                 </c:if>
 
-                <c:if test="${store.store_status == 2}">
+                <c:if test="${store.store_status == 2 || store.store_status == 3}">
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card h-100">
                             <img class="card-img-top"
