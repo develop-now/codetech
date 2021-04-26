@@ -276,7 +276,8 @@
 										      	</div>
 										      	<div class="modal-body">
 										        	<div class="reported_user_if">
-											        	<div class="reported_user_img">${rus.reported_user_profile}</div>
+											        	<div class="reported_user_img">
+											        	<img src="${pageContext.request.contextPath}/resources/upload${rus.reported_user_profile}"></div>
 											        	<div style="text-align: left">
 											        		<div>상호명: ${rus.store_name} </div>
 											        		<div>아이디: ${rus.reported_user_email}</div>

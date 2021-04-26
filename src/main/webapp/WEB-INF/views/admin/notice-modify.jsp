@@ -101,24 +101,10 @@
 		
 		$(function() {	
 			$("form").submit(function() {
-				if ($.trim($('input[name="notice_subject"]').val()) == "") {
-					alert ("작성할 게시글의 제목을 입력해 주세요.");
-					
-					$('input[name="notice_subject"]').focus();
-					return false;
-				}
-				
 				if ($('input:radio(name="notice_status"):checked').length < 1) {
 					alert("작성할 게시글의 카테고리를 선택 해주세요.");
 					
 					event.preventDefault();
-				}
-				
-				if ($.trim($('input[name="notice_content"]').val()) == "") {
-					alert ("작성할 게시글의 내용을 입력해 주세요.");
-					
-					$('input[name="notice_content"]').focus();
-					return false;
 				}
 			});
 		});
