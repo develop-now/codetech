@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.codetech.www.domain.Menu;
 import com.codetech.www.domain.MiniCart;
+import com.codetech.www.domain.Staff;
 import com.codetech.www.domain.Store;
 import com.codetech.www.domain.User;
 import com.codetech.www.domain.UserInfo;
@@ -388,5 +389,36 @@ public class OwnerController {
 		return result;
 
 	}
+	
+	// Sort of distance
+	@RequestMapping(value = "/grantAdmin")
+	public String grantAdmin() {
+		return "owner/grantAdmin";
+	}
+	
+    @RequestMapping(value = "/searchAction")
+    public ModelAndView searchStaffAction(@RequestParam(value = "search_val") String search_val,
+                                                 HttpSession session, ModelAndView mv) {
+        List<UserPlusInfo> list = ownerService.getAdminSearchList(search_val);
+    	mv.addObject("list", list);
+		mv.setViewName("owner/grantAdminList");
+		return mv;
+    }
+    
+	@RequestMapping(value = "/grantAdminConfirm", method = RequestMethod.GET)
+	public String grantAdminConfirm(String user_email, RedirectAttributes rattr) {
+		int result = ownerService.grantAdminConfirm(user_email);
+		if(result == 1) {
+		rattr.addFlashAttribute("info", "관리자로 임명되었습니다.");
+		return "redirect:/owner";
+		} else {
+			rattr.addFlashAttribute("alert", "관리자 임명 실패.");
+			return "redirect:/owner";
+		}
+
+	}
+	
+	
+	
 
 }

@@ -74,7 +74,7 @@
         set store_status =(select store_status_id
                            from store_status
                            where status_value = #{status_value}),
-            updated_at   = sysdate
+            updated_at   = localtimestamp
         where store_id =
               #{store_id}
     </update>
@@ -98,7 +98,7 @@
         opening_h_h_open=#{opening_h_h_open},
         opening_h_h_close=#{opening_h_h_open},
         holiday=#{holiday},
-        updated_at=sysdate
+        updated_at=localtimestamp
         where store_id = #{store_id}
     </update>
 
@@ -313,7 +313,7 @@
         insert into store_report
         values ((select nvl(max(store_report_id), 0) + 1 from store_report),
                 #{subject}, #{content},
-                sysdate, sysdate, 1, #{user_id}, #{store_id})
+                localtimestamp, localtimestamp, 1, #{user_id}, #{store_id})
     </insert>
 
     <select id="readStoreReport" parameterType="int" resultType="report">
@@ -324,6 +324,10 @@
 
     <insert id="favoriteAdd" parameterType="map">
         insert into likes
-        values ((select nvl(max(like_id), 0) + 1 from likes), sysdate, #{store_id}, #{user_id})
+        values ((select nvl(max(like_id), 0) + 1 from likes), localtimestamp, #{store_id}, #{user_id})
     </insert>
+    
+    <update id="storeReportUp" parameterType="int">
+    update stores set report_count = report_count + 1 where store_id = #{store_id}
+    </update>
 </mapper>

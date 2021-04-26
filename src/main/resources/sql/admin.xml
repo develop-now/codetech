@@ -301,7 +301,7 @@
         INSERT INTO NOTICE
         (NOTICE_ID, NOTICE_STATUS, NOTICE_SUBJECT, NOTICE_CONTENT, NOTICE_DATE)
         VALUES
-        (#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, SYSDATE)
+        (#{notice_id}, #{notice_status}, #{notice_subject}, #{notice_content}, localtimestamp)
     </insert>
 
     <update id="readCountUpdate" parameterType="int">
@@ -434,7 +434,7 @@
     <update id="RULstatusCompleted" parameterType="int">
         UPDATE USER_REPORT
         SET REPORT_STATUS = 3,
-            UPDATED_AT    = SYSDATE
+            UPDATED_AT    = localtimestamp
         WHERE USER_REPORT_ID = #{user_report_id}
     </update>
 
@@ -540,7 +540,7 @@
     <update id="RSLstatusCompleted" parameterType="int">
         UPDATE USER_REPORT
         SET REPORT_STATUS = 3,
-            UPDATED_AT    = SYSDATE
+            UPDATED_AT    = localtimestamp
         WHERE USER_REPORT_ID = #{user_report_id}
     </update>
 
@@ -658,7 +658,7 @@
     <update id="RUSstatusCompleted" parameterType="int">
         UPDATE STORE_REPORT
         SET REPORT_STATUS = 3,
-            UPDATED_AT    = SYSDATE
+            UPDATED_AT    = localtimestamp
         WHERE STORE_REPORT_ID = #{store_report_id}
     </update>
 </mapper>

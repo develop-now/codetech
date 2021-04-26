@@ -118,5 +118,7 @@
 <jsp:include page="/WEB-INF/views/user/join.jsp"/>
 <!-- report Modal -->
 <jsp:include page="/WEB-INF/views/owner/report.jsp"/>
-<%-- order count --%>
+<%-- order receieve --%>
 <jsp:include page="/WEB-INF/views/partial/socket.jsp"/>
+<%-- order receieve --%>
+<jsp:include page="/WEB-INF/views/store/order-count.jsp"/>

@@ -5,8 +5,8 @@ create table user_info
     user_name     varchar2(20) not null,
     user_tel      varchar2(20) not null,
     user_address  varchar2(90) not null,
-    user_profile  varchar2(200),
-    original_file varchar2(200) default '/profile.png',
+    user_profile  varchar2(200) default '/sample/profile.png',
+    original_file varchar2(200) default 'profile.png',
     point         number(6)     default 0,
     user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
@@ -49,7 +49,5 @@ values (16, 'dummy_staff1', '111-222-3333', 'korea', 16);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (17, 'dummy_staff2', '111-222-3333', 'korea', 17);
 
-select *
-from user_info;
 
 commit;

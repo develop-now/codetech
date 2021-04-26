@@ -50,8 +50,8 @@ create table users
     user_email    varchar2(50) unique not null,
     user_password varchar2(70)        not null,
     report_count  number(5) default 0,
-    created_at    date      default sysdate,
-    updated_at    date      default sysdate,
+    created_at    date      default localtimestamp,
+    updated_at    date      default localtimestamp,
     user_auth     number(1) default 0 not null,
     role_id       number(1) default 5 not null,
     user_status   number(1) default 1 not null,
@@ -88,12 +88,13 @@ insert into users (user_id, user_email, user_password, role_id)
 values (13, 'dummy_user6@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (14, 'dummy_user7@test.com', '1234', 5);
+
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (15, 'dummy_user8@test.com', '1234', 5);
+VALUES (15, 'dummy_store_owner8@test.com', '1234', 3);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (16, 'dummy_store_owner8@test.com', '1234', 3);
+VALUES (16, 'dummy_staff1@test.com', '1234', 4);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (17, 'dummy_staff8@test.com', '1234', 4);
+VALUES (17, 'dummy_staff2@test.com', '1234', 4);
 
 
 drop table user_info cascade constraints;
@@ -103,8 +104,8 @@ create table user_info
     user_name     varchar2(20) not null,
     user_tel      varchar2(20) not null,
     user_address  varchar2(90) not null,
-    user_profile  varchar2(200),
-    original_file varchar2(200) default '/profile.png',
+    user_profile  varchar2(200) default '/sample/profile.png',
+    original_file varchar2(200) default 'profile.png',
     point         number(6)     default 0,
     user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
@@ -180,8 +181,8 @@ create table stores
     store_saved_image    varchar2(200) not null,
     store_original_image varchar2(200) not null,
     report_count         number(5) default 0,
-    created_at           date      default sysdate,
-    updated_at           date      default sysdate,
+    created_at           date      default localtimestamp,
+    updated_at           date      default localtimestamp,
     opening_h_w_open     varchar2(20)  not null, -- 평일 영업 시작 시간
     opening_h_w_close    varchar2(20)  not null, -- 평일 영업 종료 시간
     opening_h_h_open     varchar2(20)  not null, -- 휴일 영업 시작 시간
@@ -201,35 +202,35 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (1, 'Dummy Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'a.png',
+values (1, 'Dummy Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/sample/a.png', 'a.png',
         '09:00', '21:00', '10:00', '20:00', 'friday', '126.961784254615', '37.3970119478972', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (2, 'Dummy Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'b.png',
+values (2, 'Dummy Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/sample/b.png', 'b.png',
         '09:00', '20:00', '10:00', '20:00', 'monday', '126.99224096958', '37.5737887699783', 3, 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (3, 'Dummy Store3', '111-222-3333', '서울시', '사당동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'c.png',
+values (3, 'Dummy Store3', '111-222-3333', '서울시', '사당동', '가게 3 설명입니다', '123-56-12325', '/sample/c.png', 'c.png',
         '09:00', '20:00', '10:00', '20:00', 'friday', '126.961821544248', '37.4859370065553', 15, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (4, 'Dummy Store4', '111-222-3333', '서울시', '압구정동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'd.png',
+values (4, 'Dummy Store4', '111-222-3333', '서울시', '압구정동', '가게 3 설명입니다', '123-56-12325', '/sample/d.png', 'd.png',
         '09:00', '20:00', '10:00', '20:00', 'thursday', '127.024454982256', '37.5267858196588', 3, 2);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/a.png', 'a.png',
+values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/sample/a.png', 'a.png',
         '09:00', '20:00', '10:00', '20:00', 'friday', '126.937248465038', '37.5572967348437', 15, 3);
 
 
@@ -282,8 +283,8 @@ create table menus
     menu_original_image varchar2(200)       not null,
     menu_read_count     number(6) default 0,
     menu_order_count    number(6) default 0,
-    created_at          date      default sysdate,
-    updated_at          date      default sysdate,
+    created_at          date      default localtimestamp,
+    updated_at          date      default localtimestamp,
     store_id            number(6)           not null,
     category_id         number(6)           not null,
     menu_status         number(6) default 1 not null,
@@ -295,69 +296,59 @@ create table menus
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (1, '더미 메뉴 1-1', '가게 1의 1번 더미 메뉴', '12000',
-        '/default.png', '/default.png', 1, 1);
+        '/sample/default.png', 'default.png', 1, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (2, '더미 메뉴 1-2', '가게 1의 2번 메뉴', '32000',
-        '/default.png', '/default.png', 1, 5);
+        '/sample/default.png', 'default.png', 1, 5);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (3, '더미 메뉴 1-3', '가게 1의 3번 메뉴', '7000',
-        '/default.png', '/default.png', 1, 7);
+        '/sample/default.png', 'default.png', 1, 7);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (4, '더미 메뉴 1-4', '가게 1의 4번 메뉴', '13000',
-        '/default.png', '/default.png', 1, 1);
+        '/sample/default.png', 'default.png', 1, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (5, '더미 메뉴 1-5', '가게 1의 2번 메뉴', '29000',
-        '/default.png', '/default.png', 1, 1);
+        '/sample/default.png', 'default.png', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (6, '더미 메뉴 2-1', '가게 2의 1번 메뉴', '12000',
-        '/default.png', '/default.png', 2, 1);
+        '/sample/default.png', 'default.png', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (7, '더미 메뉴 3-1', '가게 3의 1번 메뉴', '17000',
-        '/default.png', '/default.png', 3, 1);
+        '/sample/default.png', 'default.png', 3, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (8, '더미 메뉴 3-2', '가게 3의 2번 메뉴', '11000',
-        '/default.png', '/default.png', 3, 2);
+        '/sample/default.png', 'default.png', 3, 2);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (9, '더미 메뉴 3-3', '가게 3의 3번 메뉴', '12000',
-        '/default.png', '/default.png', 3, 4);
+        '/sample/default.png', 'default.png', 3, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (10, '더미 메뉴 4-1', '가게 4의 1번 메뉴', '16000',
-        '/default.png', '/default.png', 4, 1);
+        '/sample/default.png', 'default.png', 4, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (11, '더미 메뉴 4-2', '가게 4의 2번 메뉴', '18000',
-        '/default.png', '/default.png', 4, 4);
+        '/sample/default.png', 'default.png', 4, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-<<<<<<< HEAD
-values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 9, 2);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 9, 3);
-
-=======
 values (12, '더미 메뉴 5-1', '가게 5의 1번 메뉴', '4500',
-        '/default.png', '/default.png', 5, 6);
+        '/sample/default.png', 'default.png', 5, 6);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (13, '더미 메뉴 5-2', '가게 5의 2번 메뉴', '2200',
-        '/default.png', '/default.png', 5, 6);
->>>>>>> e55d3cea12da10b3e8330877dc3d64d488c8980e
+        '/sample/default.png', 'default.png', 5, 6);
 
 drop table order_status cascade constraints;
 create table order_status
@@ -382,8 +373,8 @@ drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date      default sysdate,
-    updated_at        date      default sysdate,
+    created_at        date      default localtimestamp,
+    updated_at        date      default localtimestamp,
     order_total_price varchar2(10),
     comment_writable  char(5)   default 'false' check (comment_writable in ('true', 'false')),
     comment_wrote     char(5)   default 'false' check (comment_wrote in ('true', 'false')),
@@ -501,8 +492,8 @@ create table order_details
     detail_id          number(5) primary key,
     menu_quantity      number(3) default 1,
     detail_total_price varchar2(10),
-    created_at         date      default sysdate,
-    updated_at         date      default sysdate,
+    created_at         date      default localtimestamp,
+    updated_at         date      default localtimestamp,
     order_id           number(5) not null,
     menu_id            number(5) not null,
     constraint fk_detail_order foreign key (order_id) references orders (order_id),
@@ -717,7 +708,7 @@ create table points
 (
     point_id    number(5) primary key,
     point_value number(3) default 0,
-    created_at  date      default sysdate,
+    created_at  date      default localtimestamp,
     order_id    number(5)   not null,
     store_id    number(5)   not null,
     user_id     number(5)   not null,
@@ -734,7 +725,7 @@ create table staffs
     staff_id   number(6) primary key,
     user_id    number(6) not null,
     store_id   number(6) not null,
-    created_at date default sysdate,
+    created_at date default localtimestamp,
     constraint fk_staff_user foreign key (user_id) references users (user_id),
     constraint fk_staff_store foreign key (store_id) references stores (store_id)
 );
@@ -758,7 +749,7 @@ drop table likes cascade constraints;
 create table likes
 (
     like_id    number(5) primary key,
-    created_at date default sysdate,
+    created_at date default localtimestamp,
     store_id   number(5) not null,
     user_id    number(5) not null,
     constraint fk_like_store foreign key (store_id) references stores (store_id),
@@ -799,8 +790,8 @@ create table comments
     comment_lev     number(1) default 0,
     comment_seq     number(1) default 0,
     comment_ref     number(5)           not null,
-    created_at      date      default sysdate,
-    updated_at      date      default sysdate,
+    created_at      date      default localtimestamp,
+    updated_at      date      default localtimestamp,
     comment_writer  number(5)           not null,
     comment_store   number(5)           not null,
     comment_status  number(1) default 1 not null,
@@ -1114,26 +1105,36 @@ insert into comments(comment_id, comment_ref, comment_writer, comment_store,
                      created_at, comment_content)
 VALUES (100, 100, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_5');
 
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, localtimestamp, localtimestamp, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, localtimestamp, localtimestamp, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, localtimestamp, localtimestamp, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, localtimestamp, localtimestamp, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, localtimestamp, localtimestamp, 4, 1, 1);
 
 drop table report_status cascade constraints;
 create table report_status
@@ -1156,8 +1157,8 @@ create table user_report
     user_report_id number(6) primary key,
     report_subject varchar2(50)        not null,
     report_content varchar2(200)       not null,
-    created_at     date      default sysdate,
-    updated_at     date      default sysdate,
+    created_at     date      default localtimestamp,
+    updated_at     date      default localtimestamp,
     report_status  number(1) default 1 not null,
     reporter       number(6)           not null,
     reported_user  number(6)           not null,
@@ -1199,8 +1200,8 @@ create table store_report
     store_report_id number(6) primary key,
     report_subject  varchar2(50)        not null,
     report_content  varchar2(200)       not null,
-    created_at      date      default sysdate,
-    updated_at      date      default sysdate,
+    created_at      date      default localtimestamp,
+    updated_at      date      default localtimestamp,
     report_status   number(1) default 1 not null,
     reporter        number(6)           not null,
     reported_store  number(6)           not null,
@@ -1239,8 +1240,8 @@ create table carts
 (
     cart_id       number(5) primary key,
     menu_quantity number(3) default 0,
-    created_at    date      default sysdate,
-    updated_at    date      default sysdate,
+    created_at    date      default localtimestamp,
+    updated_at    date      default localtimestamp,
     user_id       number(5) not null,
     menu_id       number(5) not null,
     cart_status   number(3) default 0, --0이면 결제 미완료, 1이면 결제 완료
@@ -1271,7 +1272,7 @@ create table notice
     notice_subject   varchar2(100) not null,
     notice_content   varchar2(400) not null,
     notice_readcount number(6) default 0,
-    notice_date      date      default sysdate,
+    notice_date      date      default localtimestamp,
 
     -- notice_top				number(1)		default 0,	-- 공지 최상단 고정
     constraint fk_notice_status foreign key (notice_status) references notice_status (notice_status_id)

@@ -99,7 +99,7 @@ public class UsersDAO {
         return sqlSession.selectList("users.getUserName");
     }
 
-    public UserInfo getUser(String reported) {
+    public UserInfo getUserReported(String reported) {
         return sqlSession.selectOne("users.getUserRP", reported);
     }
 
@@ -167,6 +167,15 @@ public class UsersDAO {
 
 	public Report readUserReport(int user_report_id) {
 		return sqlSession.selectOne("users.readUserReport",user_report_id);
+	}
+	public int reportCountUp(int user_id2) {
+		return sqlSession.update("users.reportCountUp", user_id2);
+	}
+	public List<UserPlusInfo> getAdminSearchList(String searchWordLike) {
+		return sqlSession.selectList("users.getAdminSearchList", searchWordLike);
+	}
+	public int grantAdminConfirm(String user_name) {
+		return sqlSession.update("users.grantAdminConfirm", user_name);
 	}
 
 

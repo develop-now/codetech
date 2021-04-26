@@ -39,6 +39,7 @@
         }
 
         order_count_ws.onmessage = function (e) {
+            console.log("오더 카운트 소켓 데이터 받음")
             $("#order_count_badge").text(e.data)
         }
 
@@ -48,6 +49,8 @@
     }
 
     function sendOrderNotification(owner_id) {
+        console.log("가게 주인용 소켓 발송!!!")
+
         order_count_ws.send(owner_id);
     }
 </script>

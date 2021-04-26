@@ -7,9 +7,9 @@ public class UserPlusInfo {
 	private String user_name;
 	private String user_tel;
 	private String user_address;
-	private String user_profile="/default.png";
+	private String user_profile="/sample/profile.png";
 	private int point;
-	private String original_file="/default.png";
+	private String original_file="profile.png";
 	private MultipartFile uploadfile;
 	
 	// User Bean 내용

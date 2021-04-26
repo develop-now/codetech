@@ -216,9 +216,9 @@ function updateAction() {
         $.ajax({
             url: "/order/updateAction",
             method: "post",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
+            // beforeSend: function (xhr) {
+            //     xhr.setRequestHeader(header, token);
+            // },
             data: {order_id, status_id: selected_val},
             dataType: "json",
             success: (jsonData) => {
