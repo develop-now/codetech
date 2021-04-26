@@ -4,6 +4,7 @@ public class ReportStoreList {
 	// STORE_REPORT	
 	int store_report_id;
 	int report_status;
+	int reported_store;
 	
 	String created_at;
 	String updated_at;
@@ -24,6 +25,8 @@ public class ReportStoreList {
 	String reporter_user_name;
 	String reporter_user_tel;
 	String reporter_user_address;
+	
+	String store_name;
 	
 	public int getStore_report_id() {
 		return store_report_id;
@@ -120,5 +123,17 @@ public class ReportStoreList {
 	}
 	public void setReported_user_profile(String reported_user_profile) {
 		this.reported_user_profile = reported_user_profile;
+	}
+	public int getReported_store() {
+		return reported_store;
+	}
+	public void setReported_store(int reported_store) {
+		this.reported_store = reported_store;
+	}
+	public String getStore_name() {
+		return store_name;
+	}
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
 	}
 }

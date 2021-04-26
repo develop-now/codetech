@@ -216,9 +216,10 @@ public class AdminController {
 
 	// 가게 활성화
 	@RequestMapping(value = "/PartnerAct", method = RequestMethod.GET)
-	public String partnerAct(@RequestParam("store_id") String store_id, RedirectAttributes rattr,
+	public String partnerAct(@RequestParam("store_id") String store_id,
+							 @RequestParam("owner_id") String owner_id, RedirectAttributes rattr,
 			HttpServletRequest request) {
-		int result = adminService.store_act(store_id);
+		int result = adminService.store_act(store_id, owner_id);
 
 		if (result == 1) {
 			logger.info("가게 정지 해지!");
@@ -260,9 +261,10 @@ public class AdminController {
 
 	// 계약 종료
 	@RequestMapping(value = "/PartnerTermi", method = RequestMethod.GET)
-	public String partnerTermi(@RequestParam("store_id") String store_id, RedirectAttributes rattr,
-			HttpServletRequest request) {
-		int result = adminService.store_termi(store_id);
+	public String partnerTermi(@RequestParam("store_id") String store_id,
+							   @RequestParam("owner_id") String owner_id, RedirectAttributes rattr, 
+							   HttpServletRequest request) {
+		int result = adminService.store_termi(store_id, owner_id);
 
 		if (result == 1) {
 			logger.info("계약 해지!");

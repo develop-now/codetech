@@ -28,14 +28,14 @@
         console.log("order count socket running...");
 
         const url = $("#url_value").val();
-        const ws_url = "ws://" + url + "/order-count"
-        order_count_ws = new WebSocket(ws_url);
+        // const ws_url = "ws://" + url + "/order-count"
+        order_count_ws = new SockJS("<c:url value="/order-count"/>");
 
         order_count_ws.onopen = function () {
             const role = "${role_value_for_ws}";
             const id = "${login_id_for_ws}"
             if (role === "ROLE_STORE_OWNER")
-                sendOrderNotification(id)
+                order_count_ws.send(id);
         }
 
         order_count_ws.onmessage = function (e) {
@@ -43,14 +43,9 @@
             $("#order_count_badge").text(e.data)
         }
 
-        order_count_ws.onerror = function () {
-
+        order_count_ws.onerror = function (err) {
+            console.log("order counter socket error : " + err)
         }
     }
 
-    function sendOrderNotification(owner_id) {
-        console.log("가게 주인용 소켓 발송!!!")
-
-        order_count_ws.send(owner_id);
-    }
 </script>
