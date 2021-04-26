@@ -123,5 +123,11 @@ public class OrderDAO {
 		return sqlSession.selectList("Orders.orderDetailStoreName",order_id);
 	}
 
+	public int getStore_owner(int ordered_store) {
+		return sqlSession.selectOne("Orders.getStore_owner", ordered_store);
+	}
+
+
+
 
 }

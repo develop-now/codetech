@@ -14,6 +14,6 @@ create table carts
 
 select *
 from carts
-where user_id = 17;
+where user_id = 5;
 
 commit;

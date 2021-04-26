@@ -1,32 +1,35 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link
+            href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            rel="stylesheet" id="bootstrap-css">
+    <script
+            src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script
+            src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<meta charset='UTF-8'>
+    <meta charset='UTF-8'>
 
-<title>Pay Success</title>
-<%@include file="../partial/head.jsp"%>
+    <title>Pay Success</title>
+    <%@include file="../partial/head.jsp" %>
 
 
 </head>
 <body>
-	<%@include file="../partial/nav.jsp"%>
-	<div class="container">
-		<div class="dark">
-
+<%@include file="../partial/nav.jsp" %>
+<div class="container">
+    <div class="dark">
 			<input type="hidden" class="amount" name="amount" value="${amount }"
 				id="amount"> <input type="hidden" id="url"
 				value="${pageContext.request.contextPath}"> <input
 				type="hidden" name="ordered_store" id="ordered_store"
 				class="ordered_store" value="${orderedStore}">
+				<input
+				type="hidden" name="store_owner" id="store_owner"
+				class="store_owner" value="${store_owner}">
+				
 		</div>
 		<br><br>
 		<div class="img" style="text-align:center; ">
@@ -45,7 +48,7 @@
 			$(document).ready(function() {
 
 				socket.onopen = function() {
-					var target = $('#ordered_store').val();
+					var target = $('#store_owner').val();
 					var content = '주문이 접수되었습니다.';
 					var url = $('#url').val() + '/store/order-list';
 					socket.send("관리자," + target + "," + content + "," + url); // 소켓에 전달

@@ -33,7 +33,7 @@
 		padding-top: 30px;
 	}
 	
-	#Notice_subject {
+	#notice_subject {
 		margin: 10px 0px;
 		padding: 5px;
 		width: 100%;
@@ -140,6 +140,13 @@
 	<!-- Page Content -->
     <div class="container-fluid">
         <div class="row">
+        <div id="sideNav" class="col-12 col-sm-2">
+            <div><a href="${pageContext.request.contextPath}/admin/userList">회원 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/partnerList">파트너 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/noticeAll">공지사항 관리</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/noticeWrite">공지사항 작성</a></div>
+            <div><a href="${pageContext.request.contextPath}/admin/reportUser">신고 관리</a></div>
+        </div>
             <div class="col-12 col-sm-10">
 	    		<form action="noticeAction" method="post">
                 <h3 class="notice_h3">공지 사항 수정</h3>
@@ -150,7 +157,7 @@
 		    				<b><span style="font-size:1.2em">제목</span></b>
 		    			</div>
 			    		<div style="padding: 30px 0px">
-			    			<input type="text" name="notice_subject" id="Notice_subject"
+			    			<input type="text" name="notice_subject" id="notice_subject"
 			    				placeholder="제목을 입력하세요." value="${noticeModify.notice_subject}" required>
 			    		</div>  		
 		    		</div>

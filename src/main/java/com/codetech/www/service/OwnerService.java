@@ -52,4 +52,6 @@ public interface OwnerService {
 
 	public int getOrderStore(int store_id);
 
+	public int getStore_owner(int ordered_store);
+
 }

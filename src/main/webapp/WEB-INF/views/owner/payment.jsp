@@ -5,8 +5,8 @@
 
 <html>
 <head>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <%-- <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript"
             src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -18,7 +18,7 @@
     <%@include file="../partial/nav.jsp" %>
 
 <form action="${pageContext.request.contextPath}/owner/payment_complete"
-      method="get" id="test" style="display:none;">
+      method="post" id="test" style="display:none;">
     <input type="hidden" class="cartCount" name="cartCount" value="${cartCount }">
     <input type="hidden" class="amount" name="amount" value="${amount }">
     <input type="hidden" class="price" name="price" value="${newtotalPrice }">
@@ -43,20 +43,20 @@
     <div class="order"></div>
     <input type="hidden" id="cartTh" name="cartTh"
            value="${cartTh}">
-    <div class="order" ></div>
     	<input type="hidden" name="ordered_store" id="ordered_store"
-		class="ordered_store" value="${orderedStore}">
+		class="ordered_store" value="${orderedStore} ">
+		
 </form>
 
 <script>
     $(document).ready(function () {
 
-        var token = $("meta[name='_csrf']").attr("content");
+        /* var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
         $(document).ajaxSend(function (e, xhr, options) {
             xhr.setRequestHeader(header, token);
-        });
+        }); */
 
         var url = $('#url').val() + '/owner/verifyIamport/'
 
@@ -92,13 +92,13 @@
                     //alert("결제 및 결제검증완료");
                     $('#test').submit();
                 } else {
-                    alert("결제 실패");
+                    alert("결제 실패 - 금액 불일치");
                     location.href = "${pageContext.request.contextPath}/home";
                 }
             })
                 .fail(function (request, status, error) {
                     //alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
-                                        alert("결제 실패");
+                                        alert("결제 실패 - AJAX 통신 불가");
                     location.href = "${pageContext.request.contextPath}/home";
                 })
         });
