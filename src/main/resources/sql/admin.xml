@@ -146,7 +146,7 @@
 			        	<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
 			        	<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
 			        </choose>
-			        AND (U.ROLE_ID = 3 OR U.ROLE_ID = 5)
+			        AND (U.ROLE_ID = 2 OR U.ROLE_ID = 3 OR U.ROLE_ID = 5)
 			        
 			        AND
 			        <choose>
@@ -201,7 +201,7 @@
 			        	<when test="check_state == 2">5</when> <!-- 파트너 종료 -->
 			        	<when test="check_state == 3">4</when> <!-- 파트너 정지 -->
 			        </choose>
-			        AND (U.ROLE_ID = 3 OR U.ROLE_ID = 5)
+			        AND (U.ROLE_ID = 2 OR U.ROLE_ID = 3 OR U.ROLE_ID = 5)
 			        
 			        AND
 			        <choose>

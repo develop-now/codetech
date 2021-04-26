@@ -344,7 +344,7 @@ $(function() {
 										      </div>
 										      <div class="modal-body">
 										        <div class="PartnerStoreIf_gird">
-										        	<div>${sil.store_saved_image}</div>
+										        	<div><img src="${pageContext.request.contextPath}/resources/upload${sil.store_saved_image}"></div>
 										        	<div style="text-align: left;">
 											        	<div>상호명: ${sil.store_name}</div>
 											        	<div>대표명: ${sil.user_name}</div>		
