@@ -344,7 +344,7 @@ $(function() {
 										      </div>
 										      <div class="modal-body">
 										        <div class="PartnerStoreIf_gird">
-										        	<div>${sil.store_saved_image}</div>
+										        	<div><img src="${pageContext.request.contextPath}/resources/upload${sil.store_saved_image}"></div>
 										        	<div style="text-align: left;">
 											        	<div>상호명: ${sil.store_name}</div>
 											        	<div>대표명: ${sil.user_name}</div>		
@@ -364,7 +364,7 @@ $(function() {
 	      											
 	      											<script>
 		      											function storeApprove() {
-		      												location.href="${pageContext.request.contextPath}/admin/PartnerAct?store_id=${sil.store_id}";
+		      												location.href="PartnerAct?store_id=${sil.store_id}&owner_id=${sil.owner_id}";
 		      												
 		      											}
 	      											</script>
@@ -385,7 +385,8 @@ $(function() {
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
 			         				<td>
-			         					<a href="PartnerAct?store_id=${sil.store_id}" class="PartnerActive">가게 정지 해제</a>&nbsp;
+			         					<a href="PartnerAct?store_id=${sil.store_id}&owner_id=${sil.owner_id}" class="PartnerActive">정지 해제</a>&nbsp;
+			         					<a href="PartnerTermi?store_id=${sil.store_id}&owner_id=${sil.owner_id}" class="PartnerActive">파트너 종료</a>&nbsp;
 			         				</td>
 			            		</tr>
 			               		</c:when>	
@@ -399,7 +400,7 @@ $(function() {
 			         				<td>${sil.store_tel}</td>
 			         				<td>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</td>
 			         				<td>
-			         					<a href="#" class="PartnerTermi">재계약</a>&nbsp;
+			         					<a href="PartnerAct?store_id=${sil.store_id}&owner_id=${sil.owner_id}" class="PartnerTermi"></a>&nbsp;
 			         				</td>
 			            		</tr>
 			               		</c:when>

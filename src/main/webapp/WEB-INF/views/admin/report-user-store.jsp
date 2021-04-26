@@ -166,6 +166,32 @@
 					});	
 				} 
     		});
+    		
+    		$('.Supending').click(function() { 
+    			console.log("가게 번호: " + $(this).closest('tr').find('.store_id').val());
+    			console.log("글번호: [" + $(this).closest('tr').find('input').val() + "] 신고 글을 처리 상태로 변경합니다.");
+				var answer = confirm("해당 신고 글의 가게를 정지 상태로 변경 하시겠습니까?");
+				
+				if (!answer) {
+					event.preventDefault();
+				} else {
+	    			$.ajax({
+						method 	 : "get",
+						url	   	 : "PartnerSusp",
+						data   	 : { "store_id" : $(this).closest('tr').find('.store_id').val() },
+						dataType : "json",
+						cache	 : false,
+						success	 : function(data) {
+							console.log("가게 신고글 정지 상태로 변경 성공");
+							alert("신고 글에 대한 가게의 상태를 정지로 변경 처리가 완료 되었습니다.");
+						},
+						
+						error 	 : function() {
+							console.log("가게 신고 글 처리 실패");
+						}
+					});	
+				} 
+    		});
     	});
     </script>
 </head>
@@ -237,9 +263,8 @@
 	            			
 	            			<c:forEach var="rus" items="${ReportStoreList}" varStatus="status">
 	            			<tr>
-		            			<c:if test="">
-		            			</c:if>
 					            <input type="hidden" value="${rus.store_report_id}" id="cmt_report_id"/>
+					            <input type="hidden" value="${rus.reported_store}" class="store_id"/>
 	            				<td><div>${rus.reporter_user_name}</div></td>
 	            				<td>
 	            					<div class="changeStatus" data-toggle="modal" data-target=".bd-example-modal-lg${status.index}">${rus.report_subject}</div>
@@ -251,8 +276,10 @@
 										      	</div>
 										      	<div class="modal-body">
 										        	<div class="reported_user_if">
-											        	<div class="reported_user_img">${rus.reported_user_profile}</div>
+											        	<div class="reported_user_img">
+											        	<img src="${pageContext.request.contextPath}/resources/upload${rus.reported_user_profile}"></div>
 											        	<div style="text-align: left">
+											        		<div>상호명: ${rus.store_name} </div>
 											        		<div>아이디: ${rus.reported_user_email}</div>
 											        		<div>사용자: ${rus.reported_user_name}</div>
 											        		<div>전화번호: ${rus.reported_user_tel}</div>
@@ -263,6 +290,7 @@
 										        	<div style="text-align: left; margin: 30px 0px">${rus.report_content}</div>
 										        </div>
 										        <div class="modal-footer">
+										        	<button type="button" class="btn btn-submit" name="susp_btn"><div class="Supending">가게 정지</div></button>
 										        	<button type="button" class="btn btn-submit" name="cld_btn"><div class="Completed">신고 처리</div></button>
 													<button type="reset" class="btn btn-default" data-dismiss="modal">취소</button>
 										        </div>

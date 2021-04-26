@@ -216,9 +216,10 @@ public class AdminController {
 
 	// 가게 활성화
 	@RequestMapping(value = "/PartnerAct", method = RequestMethod.GET)
-	public String partnerAct(@RequestParam("store_id") String store_id, RedirectAttributes rattr,
+	public String partnerAct(@RequestParam("store_id") String store_id,
+							 @RequestParam("owner_id") String owner_id, RedirectAttributes rattr,
 			HttpServletRequest request) {
-		int result = adminService.store_act(store_id);
+		int result = adminService.store_act(store_id, owner_id);
 
 		if (result == 1) {
 			logger.info("가게 정지 해지!");
@@ -260,9 +261,10 @@ public class AdminController {
 
 	// 계약 종료
 	@RequestMapping(value = "/PartnerTermi", method = RequestMethod.GET)
-	public String partnerTermi(@RequestParam("store_id") String store_id, RedirectAttributes rattr,
-			HttpServletRequest request) {
-		int result = adminService.store_termi(store_id);
+	public String partnerTermi(@RequestParam("store_id") String store_id,
+							   @RequestParam("owner_id") String owner_id, RedirectAttributes rattr, 
+							   HttpServletRequest request) {
+		int result = adminService.store_termi(store_id, owner_id);
 
 		if (result == 1) {
 			logger.info("계약 해지!");
@@ -571,7 +573,7 @@ public class AdminController {
 			out.flush(); // outputStram에 저장된 데이터를 전송하고 초기화
 
 			printWriter = response.getWriter();
-			String fileUrl = "/www/admin/noticeImageSub?uid=" + uid + "&fileName=" + fileName; // 작성화면
+			String fileUrl = "noticeImageSub?uid=" + uid + "&fileName=" + fileName; // 작성화면
 
 			// 업로드시 메시지 출력
 			printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
@@ -595,7 +597,7 @@ public class AdminController {
 		return;
 	}
 
-	@RequestMapping(value = "/noticeImageSub")
+	@RequestMapping(value = "/noticeImageSub", method = RequestMethod.GET)
 	public void ckSubmit(@RequestParam(value = "uid") String uid,
 						 @RequestParam(value = "fileName") String fileName,
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

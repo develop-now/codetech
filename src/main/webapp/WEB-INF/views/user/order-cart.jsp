@@ -19,7 +19,6 @@
 
 <script
 	src="${pageContext.request.contextPath}/resources/js/user/order-cart.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/users/mypage.css">
