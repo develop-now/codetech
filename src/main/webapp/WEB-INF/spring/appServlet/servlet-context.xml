@@ -47,11 +47,17 @@
     <!-- 트랜잭션 처리 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <websocket:handlers>
-        <websocket:mapping path="/order-count" handler="orderCountHandler"/>
-    </websocket:handlers>
 
     <beans:bean id="orderCountHandler" class="com.codetech.www.task.OrderCountHandler"/>
+
+    <websocket:handlers>
+        <websocket:mapping path="/order-count" handler="orderCountHandler"/>
+        <websocket:handshake-interceptors>
+            <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+        <websocket:sockjs/>
+    </websocket:handlers>
+
 
     <beans:bean id="ecHandler" class="com.codetech.www.task.ECHandler"/>
     <!-- websocket handler -->
