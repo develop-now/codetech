@@ -274,28 +274,43 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public int reportStore(String subject, String content, int user_id, int store_id) {
+    	int rtn = -1;
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("subject", subject);
         map.put("content", content);
         map.put("user_id", user_id);
         map.put("store_id", store_id);
-        return sdao.reportStore(map);
+        int result = sdao.reportStore(map);
+        
+        if (result == 1) {
+        	return sdao.reportCountUP(store_id);
+        } else {
+        	return rtn;
+        }
+        
     }
 
     @Override
-    public UserInfo getUser(String reported) {
-        return udao.getUser(reported);
+    public UserInfo getUserReported(String reported) {
+        return udao.getUserReported(reported);
 
     }
 
     @Override
     public int reportUser(String subject, String content, int user_id, int user_id2) {
+    	int rtn = 1;
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("subject", subject);
         map.put("content", content);
         map.put("reporter", user_id);
         map.put("reported", user_id2);
-        return udao.reportUser(map);
+        
+        int result = udao.reportUser(map);
+        if(result == 1) {
+        	return udao.reportCountUp(user_id2);
+        } else {
+        	return rtn;
+        }
 
     }
 

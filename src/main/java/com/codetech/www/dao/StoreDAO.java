@@ -168,6 +168,10 @@ public class StoreDAO {
 		return sqlSession.insert("Stores.favoriteAdd", map);
 	}
 
+	public int reportCountUP(int store_id) {
+		return sqlSession.update("Stores.storeReportUp", store_id);
+	}
+
 
 
 

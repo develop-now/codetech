@@ -49,7 +49,5 @@ values (16, 'dummy_staff1', '111-222-3333', 'korea', 16);
 insert into user_info (info_id, user_name, user_tel, user_address, user_id)
 values (17, 'dummy_staff2', '111-222-3333', 'korea', 17);
 
-select *
-from user_info;
 
 commit;
