@@ -216,14 +216,24 @@
 			    )
     </select>
 
+	<select id="isWorker" resultType="int" parameterType="Map">
+        select nvl(count(*), 0)
+        from stores
+        where owner_id = #{owner_id}
+        and (store_status = 1 or store_status = 3 or store_status = 4)
+    </select>
+
+	<update id="updateOwnerUserStatus" parameterType="Map">
+        update users
+        set role_id    = (select role_id from role where role_value = #{role_value}),
+            updated_at = sysdate
+        where user_id = #{owner_id}
+    </update>
+
     <update id="storeAct" parameterType="String">
-        UPDATE
-		(SELECT S.STORE_STATUS, U.ROLE_ID
-		 FROM STORES S INNER JOIN USERS U
-		 ON
-		 S.STORE_ID = #{store_id} AND S.OWNER_ID = U.USER_ID
-		 )
-		SET STORE_STATUS = 1, ROLE_ID = 3;
+        UPDATE STORES
+        SET STORE_STATUS = 1
+        WHERE STORE_ID = #{store_id}
     </update>
 
     <update id="storeSusp" parameterType="String">
@@ -537,8 +547,10 @@
     <select id="getRUS" parameterType="map" resultType="rsl">
         SELECT *
         FROM (SELECT ROWNUM RNUM,
+        R.STORE_NAME,
+        
         R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT, R.REPORTED_STORE,
 
         R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
         R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
@@ -547,6 +559,8 @@
         R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
 
         FROM (SELECT
+        S.STORE_NAME,
+        
         SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
         SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
 
@@ -564,6 +578,8 @@
 
         INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
         INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
+
+		INNER JOIN STORES S ON (SR.REPORTED_STORE = S.STORE_ID)
 
         WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
         <if test="select_field != null">
@@ -584,8 +600,10 @@
     <select id="getRUScount" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM (SELECT ROWNUM RNUM,
+        R.STORE_NAME,
+        
         R.STORE_REPORT_ID, R.CREATED_AT, R.UPDATED_AT, R.REPORT_STATUS,
-        R.REPORT_SUBJECT, R.REPORT_CONTENT,
+        R.REPORT_SUBJECT, R.REPORT_CONTENT, R.REPORTED_STORE,
 
         R.REPORTED_USER_EMAIL, R.REPORTED_REPORT_COUNT, R.REPORTED_USER_PROFILE,
         R.REPORTED_USER_NAME, R.REPORTED_USER_TEL, R.REPORTED_USER_ADDRESS,
@@ -594,6 +612,8 @@
         R.REPORTER_USER_NAME, R.REPORTER_USER_TEL, R.REPORTER_USER_ADDRESS
 
         FROM (SELECT
+        S.STORE_NAME,
+        
         SR.STORE_REPORT_ID, SR.CREATED_AT, SR.UPDATED_AT, SR.REPORT_STATUS,
         SR.REPORTER, SR.REPORTED_STORE, SR.REPORT_SUBJECT, SR.REPORT_CONTENT,
 
@@ -611,7 +631,9 @@
 
         INNER JOIN USERS U2 ON (SR.REPORTER = U2.USER_ID)
         INNER JOIN USER_INFO UI2 ON (U2.USER_ID = UI2.INFO_ID)
-
+		
+		INNER JOIN STORES S ON (SR.REPORTED_STORE = S.STORE_ID)
+		
         WHERE SR.REPORT_STATUS <![CDATA[ <= ]]> 2
         <if test="select_field != null">
             AND
@@ -624,7 +646,7 @@
         </if>
         ORDER BY U.REPORT_COUNT
         ) R
-        )
+    )
     </select>
 
     <update id="RUSstatusChange" parameterType="int">

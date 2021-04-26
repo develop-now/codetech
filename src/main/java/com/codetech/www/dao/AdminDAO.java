@@ -63,6 +63,14 @@ public class AdminDAO {
 		return sqlSession.update("Admin.storeSusp", store_id);
 	}
 
+	public int updateOwnerUserStatus(Map<String, Object> store_user) {
+		return sqlSession.update("Admin.updateOwnerUserStatus", store_user);
+	}
+
+	public int isWorker(Map<String, Object> partner_param) {
+		return sqlSession.selectOne("Admin.isWorker", partner_param);
+	}
+	
 	public int store_act(String store_id) {
 		return sqlSession.update("Admin.storeAct", store_id);
 	}
