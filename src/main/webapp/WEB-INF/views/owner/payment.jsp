@@ -7,7 +7,6 @@
 <head>
     <%-- <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript"
             src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <title>Insert title here</title>
