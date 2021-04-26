@@ -13,7 +13,7 @@
 
     <security:http>
         <security:intercept-url pattern="/resources/**/**" access="permitAll"/>
-        <security:intercept-url pattern="/home" access="permitAll"/>
+
         <security:intercept-url pattern="/auth/login" access="permitAll"/>
         <security:intercept-url pattern="/auth/loginAction" access="permitAll"/>
         <security:intercept-url pattern="/user/join" access="permitAll"/>
@@ -28,9 +28,9 @@
         <security:intercept-url pattern="/owner/mapPageSearch" access="permitAll"/>
 
         <security:intercept-url pattern="/store/store-create" access="isAuthenticated()"/>
-        <security:intercept-url pattern="/store/store-list" access="isAuthenticated()"/>
         <security:intercept-url pattern="/store/storeNameCheck" access="isAuthenticated()"/>
         <security:intercept-url pattern="/store/createAction" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/store/store-list" access="isAuthenticated()"/>
         <security:intercept-url pattern="/store/**" access="hasRole('ROLE_STORE_OWNER')"/>
 
         <security:intercept-url pattern="/order/order-read"
@@ -55,9 +55,10 @@
 
         <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 
-        <security:csrf disabled="true"/>
-
+        <security:intercept-url pattern="/home" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
+
+        <security:csrf disabled="true"/>
 
         <security:form-login
                 login-page="/"

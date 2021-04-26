@@ -224,7 +224,7 @@ public class StoreController {
             redirectAttributes.addFlashAttribute("alert", "가게 생성에 실패했습니다");
         }
 
-        return "redirect:/store/index";
+        return "redirect:/store/store-list";
     }
 
     private String fileDBName(String fileName, String saveFolder) {

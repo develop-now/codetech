@@ -88,12 +88,13 @@ insert into users (user_id, user_email, user_password, role_id)
 values (13, 'dummy_user6@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (14, 'dummy_user7@test.com', '1234', 5);
+
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (15, 'dummy_user8@test.com', '1234', 5);
+VALUES (15, 'dummy_store_owner8@test.com', '1234', 3);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (16, 'dummy_store_owner8@test.com', '1234', 3);
+VALUES (16, 'dummy_staff1@test.com', '1234', 4);
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (17, 'dummy_staff8@test.com', '1234', 4);
+VALUES (17, 'dummy_staff2@test.com', '1234', 4);
 
 
 drop table user_info cascade constraints;
