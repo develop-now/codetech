@@ -22,9 +22,9 @@ public interface AdminService {
 	public int getPartnerSearchListCount(int index, int state, String search_word);
 	public List<StoreInfoList> getPartnerSearchList(int index, int state, String search_word, int page, int limit);
 
-	public int store_act(String store_id); 		// 가게 재활동
+	public int store_act(String store_id, String owner_id); 		// 가게 재활동
 	public int store_susp(String store_id); 	// 가게 정지
-	public int store_termi(String store_id);	// 가게 재계약 (보류)
+	public int store_termi(String store_id, String owner_id);	// 가게 재계약 (보류)
 	
 	public List<Menu> getStoreMenuList(String store_id);
 	

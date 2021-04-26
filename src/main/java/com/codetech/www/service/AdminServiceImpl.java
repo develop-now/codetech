@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codetech.www.dao.AdminDAO;
 import com.codetech.www.domain.Menu;
@@ -18,6 +21,12 @@ import com.codetech.www.domain.UserPlusInfo;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+	private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
+
+	
+	private final String role_member = "ROLE_MEMBER";
+    private final String role_owner = "ROLE_STORE_OWNER";
+	
 	@Autowired
 	private AdminDAO dao;
 	
@@ -128,23 +137,73 @@ public class AdminServiceImpl implements AdminService {
 	public List<Menu> getStoreMenuList(String store_id) {
 		return dao.getStoreMenuList(store_id);
 	}
-	
-	@Override
-	public int store_termi(String store_id) {
-		return dao.store_termi(store_id);
-	}
 
+	@Transactional
+	@Override
+	public int store_termi(String store_id, String owner_id) {
+		logger.info("스토어: " + store_id + " 오너: " + owner_id);
+		int result = -2;
+		
+		Map<String, Object> partner_param = new HashMap<String, Object>();
+		
+		partner_param.put("store_id", store_id);
+		partner_param.put("owner_id", owner_id);
+		
+		int checkResult = dao.isWorker(partner_param);
+		
+		logger.info("checkResult: " + checkResult);
+		 
+		if (checkResult >= 1) { 
+			logger.info("1개 이상 가게 보유 중"); 
+			
+			result = dao.store_termi(store_id); 
+		}
+		
+		checkResult = dao.isWorker(partner_param);
+		logger.info("상태 변경 후: " + checkResult);
+		if (checkResult <= 0) {
+			logger.info("변경된 값: " + checkResult);
+				
+			Map<String, Object> store_user = new HashMap<String, Object>();
+				
+			store_user.put("owner_id", owner_id);
+			store_user.put("role_value", role_member);
+				
+			result = dao.updateOwnerUserStatus(store_user);
+				
+			logger.info("리절트 값: " + result);
+		}
+		return result;
+	}
 
 	@Override
 	public int store_susp(String store_id) {
 		return dao.store_susp(store_id);
 	}
 
-
+	@Transactional
 	@Override
-	public int store_act(String store_id) {
-		return dao.store_act(store_id);
+	public int store_act(String store_id, String owner_id) {
+		logger.info("스토어: " + store_id + " 오너: " + owner_id);
+		int result = -2;
+		
+		if(dao.store_act(store_id) > 0) {
+			int test = dao.store_act(store_id);
+			logger.info("스테이터스 값 변경: " + test);
+			
+			Map<String, Object> store_user = new HashMap<String, Object>();
+			
+			store_user.put("owner_id", owner_id);
+			store_user.put("role_value", role_owner);
+			
+			result = dao.updateOwnerUserStatus(store_user);
+			
+			logger.info("리절트 값: " + result);
+		}
+		
+		return result;
 	}
+	
 	
 	
 	@Override
