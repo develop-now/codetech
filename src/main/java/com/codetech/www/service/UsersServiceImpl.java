@@ -51,11 +51,11 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public int isName(String user_name) {
     	int result = 0;
-    	int DBresult = udao.isEmail(user_name);
+    	int DBresult = udao.isName(user_name);
     	if(DBresult == 0) {
     		result = -1; 
     	}else{
-    		result = 1;
+    		result = 1; 
     	}
     	return result;
     }
@@ -67,7 +67,9 @@ public class UsersServiceImpl implements UsersService {
             int user_id = udao.userId(user);
             info.setUser_id(user_id);
             udao.infoinsert(info);
+            logger.info("값다 집어넣음");
         }
+        	logger.info("result" + result);
         return result;
     }
 

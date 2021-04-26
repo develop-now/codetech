@@ -7,8 +7,8 @@ public class UserInfo {
 	private String user_name;
 	private String user_tel;
 	private String user_address;
-	private String user_profile;
-	private String original_file;
+	private String user_profile="/sample/profile.png";
+	private String original_file="profile.png";
 	private MultipartFile  uploadfile;
 	private int point;
 	private int user_id;

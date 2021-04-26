@@ -107,7 +107,7 @@ $(function () {
                         $("#message-nick").css("color", "#BE9F7B").html("*사용가능한 닉네임입니다.");
                         nickpattern = true;
                     } else {
-                        $("#message-nick").css("color", "#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.a");
+                        $("#message-nick").css("color", "#B63629").html("*사용중인  닉네임입니다.다른 닉네임을 입력하세요.");
                         nickpattern = false;
                     }
                 },
@@ -127,6 +127,7 @@ $(function () {
     $("#user_password").on("keyup", function () {
         $("#message-pass").empty();
         var pass = $("#user_password").val();
+        var passcheck = $("#user_password_check").val();
         var pattern = /[a-zA-Z0-9]{6,30}/g;
         var space = checkSpace(pass);
         if (space) {
@@ -135,9 +136,18 @@ $(function () {
         } else if (!pattern.test(pass)) {
             $("#message-pass").css("color", '#B63629').html("*영문,숫자를 이용하여 최소 6자 이상 입력해주세요.");
             passpattern = false;
-        } else {
-            passpattern = true;
+        } 
+        
+        if(passcheck!=""&&pass!=passcheck){
+        	$("#message-passcheck").css("color", '#B63629').html("*위의 비밀번호와 일치하지 않습니다.");
+            passcheckpattern = false;
+        } else if(pass==passcheck){
+        	$("#message-passcheck").empty();
+        	$("#message-passcheck").css("color", '#BE9F7B').html("*위의 비밀번호와 일치합니다.");
+        	passcheckpattern = true;
         }
+        
+        passpattern = true;
         if ($('#user_password').val() == ('')) {
             $("#message-pass").empty();
         }

@@ -24,7 +24,7 @@
                                class="loginModal__img-profile"
                                accept="image/gif, image/jpeg,image/jpg, image/png"
                                style="display:none">
-                        <img src="${pageContext.request.contextPath}/resources/image/common/default.png" alt="profile"
+                        <img src="${pageContext.request.contextPath}/resources/image/common/profile.png" alt="profile"
                              class="loginModal__img-profile" title="프로필사진 변경"><br>
                         <span class="loginModal-imgcontainer-dis">*profile사진 변경 가능</span><br>
                         <span id="message-profile"></span>
