@@ -53,6 +53,7 @@ public class OrderCountHandler extends TextWebSocketHandler {
             }
 
             session.sendMessage(new TextMessage(Integer.toString(store_total_order)));
+            logger.info("## ORDER COUNT MESSAGE SEND!");
         }
     }
 }

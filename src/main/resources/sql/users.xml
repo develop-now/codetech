@@ -186,7 +186,7 @@
     <insert id="addStoreReport" parameterType="report">
         insert into store_report
         values ( (select nvl(max(store_report_id), 0) + 1 from store_report)
-               , #{report_subject}, #{report_content}, sysdate, sysdate, '1', #{reporter})
+               , #{report_subject}, #{report_content}, localtimestamp, localtimestamp, '1', #{reporter})
     </insert>
 
     <insert id="addCmtReport" parameterType="report">
@@ -194,8 +194,8 @@
         values (select nvl(max (cmt_report_id), 0)+1 from COMMENT_REPORT)
             ,#{report_subject}
              , #{report_content}
-             , sysdate
-             , sysdate
+             , localtimestamp
+             , localtimestamp
              , '1'
              , #{reporter})
     </insert>
@@ -253,7 +253,7 @@
     <update id="updateStaffUserStatus" parameterType="Map">
         update users
         set role_id    = (select role_id from role where role_value = #{role_value}),
-            updated_at = sysdate
+            updated_at = localtimestamp
         where user_id = #{user_id}
     </update>
 
@@ -266,7 +266,7 @@
     <insert id="userReport" parameterType="map">
         insert into user_report
         values ((select nvl(max(user_report_id), 0) + 1 from user_report), #{subject}, #{content},
-                sysdate, sysdate, 1, #{reporter}, #{reported})
+                localtimestamp, localtimestamp, 1, #{reporter}, #{reported})
     </insert>
 
     <select id="getUser" resultType="user" parameterType="int">

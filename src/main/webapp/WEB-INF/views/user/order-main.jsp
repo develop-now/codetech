@@ -67,7 +67,7 @@
                                 <h2>${store.store_name}</h2>
                                 <div class="likesForAjax">
                                 <img class="card-img-heart"
-                                     src="${pageContext.request.contextPath}/resources/upload/love.png"
+                                     src="${pageContext.request.contextPath}/resources/image/common/like.png"
                                      width="35" height="35" alt="likeStoreImage"><span class='likes'>${storeLike}</span>
                                 <span class="likeStoreStatus">
                                 	<span id="likeValue"style="visibility:hidden;">${likeValue }</span>
