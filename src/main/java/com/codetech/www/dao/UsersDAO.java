@@ -24,7 +24,6 @@ public class UsersDAO {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
-
     public Integer isEmail(String user_email) {
         return sqlSession.selectOne("users.isEmail", user_email);
     }

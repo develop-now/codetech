@@ -233,7 +233,6 @@ values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 �
         '09:00', '20:00', '10:00', '20:00', 'friday', '126.937248465038', '37.5572967348437', 15, 3);
 
 
-
 drop table categories cascade constraints;
 create table categories
 (
@@ -343,12 +342,22 @@ values (11, '더미 메뉴 4-2', '가게 4의 2번 메뉴', '18000',
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
+<<<<<<< HEAD
+values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 9, 2);
+insert into menus (menu_id, menu_name, menu_desc, menu_price,
+                   menu_saved_image, menu_original_image, store_id, category_id)
+values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
+        'image.jpg', 'image.jpg', 9, 3);
+
+=======
 values (12, '더미 메뉴 5-1', '가게 5의 1번 메뉴', '4500',
         '/default.png', '/default.png', 5, 6);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (13, '더미 메뉴 5-2', '가게 5의 2번 메뉴', '2200',
         '/default.png', '/default.png', 5, 6);
+>>>>>>> e55d3cea12da10b3e8330877dc3d64d488c8980e
 
 drop table order_status cascade constraints;
 create table order_status
