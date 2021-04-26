@@ -299,4 +299,13 @@
     update users set report_count = report_count + 1 where user_id = #{user_id2}
     </update>
 
+<select id="getAdminSearchList" parameterType="String" resultType="upi">
+select user_name, user_email, created_at from (
+select * from users a join user_info b on a.user_id = b.user_id and role_id != 2
+) where user_email like #{searchWordLike} or user_name like #{searchWordLike}
+</select>
+
+<update id="grantAdminConfirm" parameterType="String">
+update users set role_id = 2 where user_email = #{user_email}
+</update>
 </mapper>

@@ -54,4 +54,10 @@ VALUES (17, 'dummy_staff2@test.com', '1234', 4);
 select *
 from users;
 
+
+select user_name, user_email, created_at from (
+select * from users a join user_info b on a.user_id = b.user_id and role_id != 2
+) where user_email like '%필%' or user_name like '%필%'
+
+
 commit;

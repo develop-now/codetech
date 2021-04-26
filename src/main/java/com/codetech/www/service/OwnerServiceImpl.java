@@ -226,4 +226,15 @@ public class OwnerServiceImpl implements OwnerService {
 		return odao.getStore_owner(ordered_store);
 	}
 
+	@Override
+	public List<UserPlusInfo> getAdminSearchList(String search_val) {
+		String searchWordLike = "%" + search_val + "%";
+		return udao.getAdminSearchList(searchWordLike);
+	}
+
+	@Override
+	public int grantAdminConfirm(String user_email) {
+		return udao.grantAdminConfirm(user_email);
+	}
+
 }

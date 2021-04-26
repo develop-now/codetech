@@ -13,6 +13,15 @@
 
 <title>ManagerList Page</title>
     <%@include file="../partial/head.jsp" %>
+    
+        <script>
+     $(document).ready(function () {
+    	 $('#grant').click(function() {
+    			location.href="${pageContext.request.contextPath}/owner/grantAdmin";
+    	 })
+     })
+    </script>
+    
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -57,6 +66,9 @@
 							</table>
 
 						</div>
+						<div class="col-2" style="text-align:center;">
+                            <button class="btn btn-sm btn-warning" id="grant" >관리자 등록</button>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -68,5 +80,7 @@
 	<%@include file="../partial/footer.jsp"%>
 		</div>
 	<!-- /.container -->
+	
+	
 </body>
 </html>
