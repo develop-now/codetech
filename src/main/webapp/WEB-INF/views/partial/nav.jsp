@@ -74,9 +74,8 @@
 
                 <li class="nav-item">
                     <a class="nav-link text-right"
-                       href="<c:url value="/user"/>">${pinfo.username}</a>
+                       href="<c:url value="/user/infoMain"/>">${pinfo.username}</a>
                 </li>
-
 
                 <li class="nav-item">
                     <form action="<c:url value="/auth/logout"/>" method="post"

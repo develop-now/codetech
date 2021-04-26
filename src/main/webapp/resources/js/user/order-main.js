@@ -139,20 +139,19 @@ $(function(){
 	});
 	
 	//처음 order_main들어와서 즐겨찾기 클릭할경우
-	
 	$(".storeInfoView").on("click",".likeStoreStatus a",function(){
 		console.log("store_id "+store_id+"likeValue "+likeValue)
 		changeLikes(store_id,likeValue,user_id);
 	});
 	//ajax통신후 즐겨찾기 추가클릭할경우
 	$(".storeInfoView").on("click",".likeStoreStatusA a",function(){
-		likeValue = $(this).parent().prev().text();
+		likeValue = $(this).parent().prev().prev().text();
 		console.log("store_id "+store_id+"likeValue실행됨 "+likeValue)
 		changeLikes(store_id,likeValue,user_id);
 	});
 	//ajax통신후 즐겨찾기 취소 클릭할 경우
 	$(".storeInfoView").on("click",".likeStoreStatusB a",function(){
-		likeValue = $(this).parent().prev().text();
+		likeValue = $(this).parent().prev().prev().text();
 		console.log("store_id "+store_id+"likeValue "+likeValue)
 		changeLikes(store_id,likeValue,user_id);
 	});
@@ -173,17 +172,17 @@ function changeLikes(store_id,likeValue,user_id){
 			console.log("changeLikes storeLikes"+ data.storeLike);
 			var output = "";
 			 output +="<img class='card-img-heart'" 
-	               +"src='/${pageContext.request.contextPath}/resources/upload/love.png'" 
-	               +"width='50' height='50' alt=''><span id='likeValue' style='visibility:hidden;'>"
+	               +"src='${pageContext.request.contextPath}/resources/upload/love.png'" 
+	               +"width='35' height='35' alt='likeStoreImage'><span id='likeValue' style='visibility:hidden;'>"
 	         if(data.likeValue == 2){//취소된상태
 	            output +=data.likeValue+"</span>" 
-	                  + data.storeLike
-	                  +"<span class='likeStoreStatusA'><a>즐겨찾기추가 " 
+	                  +"<span class='likes'>"+ data.storeLike +"</span>"
+	                  +"<span class='likeStoreStatusA'><a class='yeslikebtn'>즐겨찾기추가 " 
 	                  +"</a>"
 	         }else if(data.likeValue == 3){//추가된 상태
 	            output +=data.likeValue+"</span>" 
-	                  + data.storeLike
-	                  +"<span class='likeStoreStatusB'><a>즐겨찾기취소 " 
+	                  + "<span class='likes'>"+data.storeLike+"</span>"
+	                  +"<span class='likeStoreStatusB'><a class='nolikebtn'>즐겨찾기취소 " 
 	         };
 	         output +="</a>"
 	         $(".likesForAjax").append(output);

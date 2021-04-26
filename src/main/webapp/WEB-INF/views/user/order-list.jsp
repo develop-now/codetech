@@ -115,6 +115,25 @@
 							</div>
 						</c:forEach>
 					</div>
+					<c:if test="${Nodata eq 1}">
+					<div class="card bg-dark text-white">
+	           		 		<div class="d-flex justify-content-center">
+						   		<img class="card-img" src="${pageContext.request.contextPath}/resources/image/user/notice.jpg" alt="Card image">
+							 	<div class="card-img-overlay Nodata-content ">
+								    <h1 class="card-title text-center">"주문내역이 </h1>
+								    <h1 class="card-title text-right">아직 없습니다."</h1>
+								    <p class="card-text text-right">*미리 주문하여 대기시간없이 픽업하세요</p>
+							   	
+								   	<div class="text-right">
+								   	<button id="coffeebtn" onclick="location.href='${pageContext.request.contextPath}/owner/mainList'">
+								   	 <img id="coffeebtnImg"src="${pageContext.request.contextPath}/resources/image/user/coffeebtn.png" >
+								   	 주문하기&nbsp;&nbsp;
+								   	 </button>
+						   		</div>
+           		 			</div>
+					    </div>
+					</div>
+			</c:if>
 				</div>
 			</div>
 			<!-- /.container -->
@@ -127,6 +146,7 @@
 				<input type="hidden" class="hid" value="${user_id }">
 			</div>
 			</c:if>
+			
 			<%-- footer --%>
 			<%@include file="../partial/footer.jsp"%>
 		</div>

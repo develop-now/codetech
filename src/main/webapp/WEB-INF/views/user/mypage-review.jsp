@@ -40,38 +40,29 @@
 	              		<hr>
 	              	<input type="hidden" id="listCount" value="${listCount}">
 	              	<div class="mypageReview-content">
-	              	<c:if test="${!empty list}">
-	              	<c:forEach var="list" items="${list}">
-	              	<div class="mypageReview__body d-inline-flex">
-	              		<div class="mypageReview__content-left">
-	              			<div>
-	              				<c:if test="${list.like_id ne null}">
-	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/like.png" alt="likecheck" width="30px"></span>
-	              				</c:if>
-	              				<c:if test="${list.like_id eq null}">
-	              				<span><img src="${pageContext.request.contextPath}/resources/image/common/unlike.png" alt="unlikecheck" width="30px"></span>
-	              				</c:if>
-	              				<span>${list.comment_store_value}</span>
-	              			</div>
-	              			<div class="text-center">
-	              				<button>가게보기</button>
-	              				<button>리뷰삭제</button>
-	              			</div>
-	              		</div>
-	              		<div class="mypageReview__content-right">
-	              			<div class="mypageReview__content-right--rivew">
-	              			${ list.comment_content}<br>
-	              			<span>(${list.created_at})</span>
-	              			</div>
-	              		</div >
-	              	</div>
-	              	</c:forEach>
-	              	</c:if>
-	              	<c:if test="${empty list} ">
-	              	 등록된 댓글이 없습니다~ 주문을 해보시겠어요?
-	              	</c:if>
+	              	
 	            </div>
-	           <div class="addMessage text-center">더보기자리</div>
+	           <div class="addMessage text-center">
+	           </div>
+	           <div class="Nodata">
+           		 	<div class="card bg-dark text-white">
+           		 		<div class="d-flex justify-content-center">
+					   		<img class="card-img" src="${pageContext.request.contextPath}/resources/image/user/notice.jpg" alt="Card image">
+						 	<div class="card-img-overlay Nodata-content ">
+							    <h1 class="card-title text-center">"작성된 리뷰가 </h1>
+							    <h1 class="card-title text-right">없습니다."</h1>
+							    <p class="card-text text-right">*주문내역에서 리뷰작성 가능한 리스트를 확인해보세요</p>
+						   	
+							   	<div class="text-right">
+							   	<button id="coffeebtn" onclick="location.href='${pageContext.request.contextPath}/user/orderView?user_id=${user_id}'">
+							   	 <img id="coffeebtnImg"src="${pageContext.request.contextPath}/resources/image/user/coffeebtn.png" >
+							   	 주문내역확인&nbsp;&nbsp;
+							   	 </button>
+						   	</div>
+           		 			</div>
+					    </div>
+					</div>
+	           </div>
             </div>
         </div>
     </div>
