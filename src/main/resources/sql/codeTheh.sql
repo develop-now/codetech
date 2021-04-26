@@ -105,7 +105,7 @@ create table user_info
     user_tel      varchar2(20) not null,
     user_address  varchar2(90) not null,
     user_profile  varchar2(200),
-    original_file varchar2(200) default '/profile.png',
+    original_file varchar2(200) default '/sample/profile.png',
     point         number(6)     default 0,
     user_id       number(6)    not null,
     constraint fk_userInfo_user foreign key (user_id) references users (user_id)
@@ -202,35 +202,35 @@ insert into stores(store_id, store_name, store_tel, store_address_si, store_addr
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (1, 'Dummy Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/a.png', 'a.png',
+values (1, 'Dummy Store', '111-222-3333', '안양시', '부림동', '가게 1 설명입니다', '123-56-12325', '/sample/a.png', 'a.png',
         '09:00', '21:00', '10:00', '20:00', 'friday', '126.961784254615', '37.3970119478972', 3, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (2, 'Dummy Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/b.png', 'b.png',
+values (2, 'Dummy Store2', '111-222-3333', '서울시', '종로3가동', '가게 2 설명입니다', '123-56-12325', '/sample/b.png', 'b.png',
         '09:00', '20:00', '10:00', '20:00', 'monday', '126.99224096958', '37.5737887699783', 3, 3);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (3, 'Dummy Store3', '111-222-3333', '서울시', '사당동', '가게 3 설명입니다', '123-56-12325', '/c.png', 'c.png',
+values (3, 'Dummy Store3', '111-222-3333', '서울시', '사당동', '가게 3 설명입니다', '123-56-12325', '/sample/c.png', 'c.png',
         '09:00', '20:00', '10:00', '20:00', 'friday', '126.961821544248', '37.4859370065553', 15, 1);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (4, 'Dummy Store4', '111-222-3333', '서울시', '압구정동', '가게 3 설명입니다', '123-56-12325', '/d.png', 'd.png',
+values (4, 'Dummy Store4', '111-222-3333', '서울시', '압구정동', '가게 3 설명입니다', '123-56-12325', '/sample/d.png', 'd.png',
         '09:00', '20:00', '10:00', '20:00', 'thursday', '127.024454982256', '37.5267858196588', 3, 2);
 
 insert into stores(store_id, store_name, store_tel, store_address_si, store_address_dong, store_desc, store_rnum,
                    store_saved_image, store_original_image, opening_h_w_open, opening_h_w_close,
                    opening_h_h_open, opening_h_h_close, holiday,
                    store_address_lat, store_address_lon, owner_id, store_status)
-values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/a.png', 'a.png',
+values (5, 'Dummy Store5', '111-222-3333', '서울시', '창신동', '가게 3 설명입니다', '123-56-12325', '/sample/a.png', 'a.png',
         '09:00', '20:00', '10:00', '20:00', 'friday', '126.937248465038', '37.5572967348437', 15, 3);
 
 
@@ -296,69 +296,59 @@ create table menus
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (1, '더미 메뉴 1-1', '가게 1의 1번 더미 메뉴', '12000',
-        '/default.png', '/default.png', 1, 1);
+        '/sample/default.png', 'default.png', 1, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (2, '더미 메뉴 1-2', '가게 1의 2번 메뉴', '32000',
-        '/default.png', '/default.png', 1, 5);
+        '/sample/default.png', 'default.png', 1, 5);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (3, '더미 메뉴 1-3', '가게 1의 3번 메뉴', '7000',
-        '/default.png', '/default.png', 1, 7);
+        '/sample/default.png', 'default.png', 1, 7);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (4, '더미 메뉴 1-4', '가게 1의 4번 메뉴', '13000',
-        '/default.png', '/default.png', 1, 1);
+        '/sample/default.png', 'default.png', 1, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (5, '더미 메뉴 1-5', '가게 1의 2번 메뉴', '29000',
-        '/default.png', '/default.png', 1, 1);
+        '/sample/default.png', 'default.png', 1, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (6, '더미 메뉴 2-1', '가게 2의 1번 메뉴', '12000',
-        '/default.png', '/default.png', 2, 1);
+        '/sample/default.png', 'default.png', 2, 1);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (7, '더미 메뉴 3-1', '가게 3의 1번 메뉴', '17000',
-        '/default.png', '/default.png', 3, 1);
+        '/sample/default.png', 'default.png', 3, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (8, '더미 메뉴 3-2', '가게 3의 2번 메뉴', '11000',
-        '/default.png', '/default.png', 3, 2);
+        '/sample/default.png', 'default.png', 3, 2);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (9, '더미 메뉴 3-3', '가게 3의 3번 메뉴', '12000',
-        '/default.png', '/default.png', 3, 4);
+        '/sample/default.png', 'default.png', 3, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (10, '더미 메뉴 4-1', '가게 4의 1번 메뉴', '16000',
-        '/default.png', '/default.png', 4, 1);
+        '/sample/default.png', 'default.png', 4, 1);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (11, '더미 메뉴 4-2', '가게 4의 2번 메뉴', '18000',
-        '/default.png', '/default.png', 4, 4);
+        '/sample/default.png', 'default.png', 4, 4);
 
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
-<<<<<<< HEAD
-values (14, '테스트 메뉴14', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 9, 2);
-insert into menus (menu_id, menu_name, menu_desc, menu_price,
-                   menu_saved_image, menu_original_image, store_id, category_id)
-values (15, '테스트 메뉴15', '이건 테스트 메뉴입니다', '33000',
-        'image.jpg', 'image.jpg', 9, 3);
-
-=======
 values (12, '더미 메뉴 5-1', '가게 5의 1번 메뉴', '4500',
-        '/default.png', '/default.png', 5, 6);
+        '/sample/default.png', 'default.png', 5, 6);
 insert into menus (menu_id, menu_name, menu_desc, menu_price,
                    menu_saved_image, menu_original_image, store_id, category_id)
 values (13, '더미 메뉴 5-2', '가게 5의 2번 메뉴', '2200',
-        '/default.png', '/default.png', 5, 6);
->>>>>>> e55d3cea12da10b3e8330877dc3d64d488c8980e
+        '/sample/default.png', 'default.png', 5, 6);
 
 drop table order_status cascade constraints;
 create table order_status
@@ -1115,26 +1105,36 @@ insert into comments(comment_id, comment_ref, comment_writer, comment_store,
                      created_at, comment_content)
 VALUES (100, 100, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 가게에 단 댓글_5');
 
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, sysdate, sysdate, 17, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, sysdate, sysdate, 4, 1, 1);
-insert into comments values ((select nvl(max(comment_id),0)+1 from COMMENTS),
-'스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, sysdate, sysdate, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, sysdate, sysdate, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, sysdate, sysdate, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, sysdate, sysdate, 17, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, sysdate, sysdate, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, sysdate, sysdate, 4, 1, 1);
 
 drop table report_status cascade constraints;
 create table report_status
