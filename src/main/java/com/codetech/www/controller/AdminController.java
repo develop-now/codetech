@@ -573,7 +573,7 @@ public class AdminController {
 			out.flush(); // outputStram에 저장된 데이터를 전송하고 초기화
 
 			printWriter = response.getWriter();
-			String fileUrl = "/www/admin/noticeImageSub?uid=" + uid + "&fileName=" + fileName; // 작성화면
+			String fileUrl = "noticeImageSub?uid=" + uid + "&fileName=" + fileName; // 작성화면
 
 			// 업로드시 메시지 출력
 			printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
@@ -597,7 +597,7 @@ public class AdminController {
 		return;
 	}
 
-	@RequestMapping(value = "/noticeImageSub")
+	@RequestMapping(value = "/noticeImageSub", method = RequestMethod.GET)
 	public void ckSubmit(@RequestParam(value = "uid") String uid,
 						 @RequestParam(value = "fileName") String fileName,
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

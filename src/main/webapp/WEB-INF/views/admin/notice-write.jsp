@@ -99,29 +99,15 @@
     <script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script> 
 	<script>
 		window.onload = function() {
-			ck = CKEDITOR.replace("Notice_content");
+			ck = CKEDITOR.replace("notice_content");
 		};
 		
 		$(function() {	
 			$("form").submit(function() {
-				if ($.trim($('input[name="notice_subject"]').val()) == "") {
-					alert ("작성할 게시글의 제목을 입력해 주세요.");
-					
-					$('input[#Notice_subject').focus();
-					return false;
-				}
-				
 				if ($('input:radio(name="notice_status"):checked').length < 1) {
 					alert("작성할 게시글의 카테고리를 선택 해주세요.");
 					
 					event.preventDefault();
-				}
-				
-				if ($.trim($('input[name="notice_content"]').val()) == "") {
-					alert ("작성할 게시글의 내용을 입력해 주세요.");
-					
-					$('input[name="notice_content"]').focus();
-					return false;
 				}
 			});
 		});
@@ -183,7 +169,7 @@
 			    		</div>
     				</div>
 			    	<div>
-				    	<textarea name="notice_content" id="Notice_content" placeholder="내용을 입력하세요." required></textarea>
+				    	<textarea name="notice_content" id="notice_content" placeholder="내용을 입력하세요."></textarea>
 			    	</div>
 		    	</div>    		
     			
