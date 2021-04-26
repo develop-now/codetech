@@ -53,6 +53,7 @@
                             href="${pageContext.request.contextPath}/owner/reviewListPage">리뷰순</a>
                         <div class="search-container">
                             <form action="${pageContext.request.contextPath}/owner/searchList"
+                                  id="mainList_search_form"
                                   method="post">
                                 <input type="text" placeholder="Search.." name="searchWord"
                                        id="search">

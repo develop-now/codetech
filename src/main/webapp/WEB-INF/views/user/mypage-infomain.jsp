@@ -35,38 +35,40 @@
 	              		<h2 class="text-right">정보관리</h2>
 	              	</div>
 	              		<hr>
-	              	<div class="infomain__img">
-	              		<img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.user_profile}" alt="profile">
+	              	<div class="infomain__body">
+		              	<div class="infomain__img">
+		              		<img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.user_profile}" alt="profile">
+		              	</div>
+		              	<div class="infomain__count">
+		              		<span>포인트&nbsp;:&nbsp;${userPlusInfo.point}P</span>
+		              		<span>즐겨찾는카페수&nbsp;:&nbsp;${likes}지점</span>
+		              		<span>리뷰개수&nbsp;:&nbsp;${comments}개</span>
+		              	</div>
+		              	<div class="infomain__list">
+		              	<table class="infomain__list-table">
+		              		<tr>
+		              			<td><span>아이디</span></td>
+		              			<td>${userPlusInfo.user_email}</td>
+		              		</tr>
+		              		<tr>
+		              			<td><span>닉네임</span></td>
+		              			<td>${userPlusInfo.user_name}</td>
+		              		</tr>
+		              		<tr>
+		              			<td><span>연락처</span></td>
+		              			<td>${userPlusInfo.user_tel}</td>
+		              		</tr>
+		              		<tr>
+		              			<td><span>주소</span></td>
+		              			<td>${userPlusInfo.user_address}</td>
+		              		</tr>
+		              	</table>
+	              		</div>
+		                <div class="infomain__link">
+		                <span><button type="button" data-toggle="modal" data-target="#pwdModal">비밀번호수정</button></span>
+			            <span><button type="button" data-toggle="modal" data-target="#modifyModal">정보수정</button></span>
+		                </div>
 	              	</div>
-	              	<div class="infomain__count">
-	              		<span>포인트&nbsp;:&nbsp;${userPlusInfo.point}P</span>
-	              		<span>즐겨찾는카페수&nbsp;:&nbsp;지점</span>
-	              		<span>리뷰개수&nbsp;:&nbsp;개</span>
-	              	</div>
-	              	<div class="infomain__list">
-	              	<table class="infomain__list-table">
-	              		<tr>
-	              			<td><span>아이디</span></td>
-	              			<td>${userPlusInfo.user_email}</td>
-	              		</tr>
-	              		<tr>
-	              			<td><span>닉네임</span></td>
-	              			<td>${userPlusInfo.user_name}</td>
-	              		</tr>
-	              		<tr>
-	              			<td><span>연락처</span></td>
-	              			<td>${userPlusInfo.user_tel}</td>
-	              		</tr>
-	              		<tr>
-	              			<td><span>주소</span></td>
-	              			<td>${userPlusInfo.user_address}</td>
-	              		</tr>
-	              	</table>
-              		</div>
-	                <div class="infomain__link">
-	                <span><button type="button" data-toggle="modal" data-target="#pwdModal">비밀번호수정</button></span>
-		            <span><button type="button" data-toggle="modal" data-target="#modifyModal">정보수정</button></span>
-	                </div>
                 </div>
             </div>
         </div>

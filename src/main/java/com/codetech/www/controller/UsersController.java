@@ -106,17 +106,16 @@ public class UsersController {
         logger.info("emailcheck 도착__" + user_email);
 
         int result = usersService.isEmail(user_email);
-
+        logger.info("emailcheck result" + result);
         Map<String, Object> rtn = new HashMap<>();
         rtn.put("result", result);
-
         return rtn;
     }
 
     @ResponseBody
     @RequestMapping(value = "/nickcheck", method = RequestMethod.GET)
     public Map<String, Object> nickcheck(String user_name) throws IOException {
-        logger.info("emailcheck 도착__" + user_name);
+        logger.info("nickcheck 도착__" + user_name);
 
         int result = usersService.isName(user_name);
 
@@ -227,11 +226,15 @@ public class UsersController {
         Integer user_id = (Integer) session.getAttribute("user_id");
         logger.info("=============세션에서 가져온  id=================" + user_id);
         UserPlusInfo upi = usersService.user_info(user_id);
-        // UserPlusInfo upi = usersService.user_info(user_id); //리뷰수, 즐겨찾기한 가게 수 맵으로
-        // 가져오기(조인사용)
-        // 좋아요 한 카페수를 전역으로 선언하고 map으로 반환해준다.
+        //카페지점수
+        int likes = usersService.likesCount(user_id);
+        int comments = commentService.getCommentCountByUser(user_id);
+        logger.info("likes"+likes+"comments"+comments);
+        
         mv.setViewName("user/mypage-infomain");
         mv.addObject("userPlusInfo", upi);
+        mv.addObject("likes", likes);
+        mv.addObject("comments", comments);
         // mv.addAttribute("userinfo", upi);
         return mv;
         // }
@@ -434,6 +437,11 @@ public class UsersController {
         User reporter = usersService.getUser(user_id);
         Store store = usersService.getStore(reported);
         UserInfo user = usersService.getUser(reported);
+        
+        if(store == null || user == null) {
+            rattr.addFlashAttribute("alert", "대상자를 다시 확인해주세요");
+            return "redirect:/home";
+        }
 
         if (store != null) {
             int result = usersService.reportStore(subject, content, user_id, store.getStore_id());
@@ -442,7 +450,6 @@ public class UsersController {
                 vo.setTo(reporter.getUser_email());
                 vo.setContent(user.getUser_name() + "님 신고 접수가 완료되었습니다. <br> 사실 관계를 빠르게 확인하여 조치를 취하도록 하겠습니다. 감사합니다. ");
                 sendMail.sendMail(vo);
-                rattr.addFlashAttribute("info", "신고가 접수되었습니다.");
                 logger.info("가게신고성공");
             } else {
                 rattr.addFlashAttribute("alert", "죄송합니다. 다시 시도해 주세요.");
@@ -484,19 +491,19 @@ public class UsersController {
     @RequestMapping(value = "/reportList", method = RequestMethod.GET)
     public Map<String, Object> reportList(@RequestParam(value = "page", defaultValue = "1", required = false) int page
     ) {
-        logger.info("reportListAjax도착" + page);
+        logger.info("============reportListAjax도착" + page);
         int user_id = (int) session.getAttribute("user_id");
         logger.info("접속한유저" + user_id);
 
         int limit = 5;
         List<Report> report = usersService.reportStoreAndUserList(user_id, page, limit);
         int reportCount = usersService.getReportListCount(user_id);
-
         int maxpage = (reportCount + limit - 1) / limit;
         int startpage = ((page - 1) / 10) * 10 + 1;
         int endpage = startpage + 10 - 1;
         if (endpage > maxpage)
             endpage = maxpage;
+        logger.info("reportCount" + reportCount + "startpage" + startpage +"endpage" + endpage + "maxpage" + maxpage);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", report);
         map.put("page", page);
@@ -511,12 +518,10 @@ public class UsersController {
 
     @RequestMapping(value = "/reportDetail", method = RequestMethod.GET)
     public ModelAndView reportDetail(
-            @RequestParam(value = "store_report_id", defaultValue = "0", required = false) String store_reported,
-            @RequestParam(value = "cmt_report_id", defaultValue = "0", required = false) String cmt_reported,
+            @RequestParam(value = "store_report_id", defaultValue = "0", required = false) int store_report_id,
+            @RequestParam(value = "user_report_id", defaultValue = "0", required = false) int user_report_id,
             ModelAndView mv) {
         logger.info("여기는 reportDetail");
-        int store_report_id = Integer.parseInt(store_reported);
-        int cmt_report_id = Integer.parseInt(cmt_reported);
         if (store_report_id != 0) {
             Report store_detail = storeService.readStoreReport(store_report_id);
             int store_id = store_detail.getReported_store();
@@ -526,15 +531,14 @@ public class UsersController {
             mv.setViewName("user/mypage-report_detail");
             mv.addObject("detail", store_detail);
             mv.addObject("store_name", store_name);
-        } else if (cmt_report_id != 0) {
-            Report cmt_detail = commentService.readCommentReport(cmt_report_id);
-            //int comment_id = cmt_detail.getReported_cmt();
-            //Comment comment = commentService.selectComment(comment_id);
-            //String comment_content = comment.getComment_content();
+        } else if (user_report_id != 0) {
+            Report user_detail = usersService.readUserReport(user_report_id);
+            int user_id = user_detail.getReported_user();
+            UserPlusInfo upi = usersService.user_info(user_id);
+            String user_name = upi.getUser_name();
             mv.setViewName("user/mypage-report_detail");
-            mv.addObject("detail", cmt_detail);
-            //mv.addObject("comment_content", comment_content);
-
+            mv.addObject("detail", user_detail);
+            mv.addObject("user_name", user_name);
         }
         return mv;
 
@@ -551,7 +555,8 @@ public class UsersController {
 
         md.addAttribute("listCount", listCount);
         md.addAttribute("list", list);
-        logger.info("comment도착");
+        md.addAttribute("user_id", user_id);
+        logger.info("comment도착"+listCount);
         return "user/mypage-review";
 
     }
@@ -614,6 +619,8 @@ public class UsersController {
         List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
         if (listCount > orders.size()) {
             mv.addObject("more", 1);
+        }else {
+        	mv.addObject("Nodata", 1);
         }
 
         mv.setViewName("user/order-list");
@@ -783,12 +790,6 @@ public class UsersController {
         /// *메뉴에대한 옵션 테이블 빈*/사용
         // 메뉴아이디에따른 옵션화면에 보여주기, 가게 정보도 보여줘야함
         // ajax로 리턴값알려줄 거니까 httpResponse또는 map으로 싸서 oreder-main.jsp의 모달로 보내주기
-    }
-
-    @RequestMapping(value = "/orderList", method = RequestMethod.GET)
-    public void orderList(String user_id) {
-        // order조회후 order-list.jsp로 이동
-        // 더보기로 내용 추가조회 가능하도록 페이지 처리
     }
 
     @RequestMapping(value = "/orderDetail", method = RequestMethod.GET)

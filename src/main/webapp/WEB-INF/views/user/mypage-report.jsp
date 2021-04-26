@@ -33,26 +33,7 @@
 	              		<hr>
 	              	<input type="hidden" name="reportCount" id="reportCount" value="">
 	              	<div class="mypageReport__body">
-	              		<div class="mypageReport__body--radio">
-	              			<div class="form-check">
-							  <input class="form-check-input" type="radio" name="searchAll" id="searchAll" value="option1" checked>
-							  <label class="form-check-label" for="searchAll">
-							    전체보기
-							  </label>
-							</div>
-							<div class="form-check">
-							  <input class="form-check-input" type="radio" name="searchDone" id="SearchDone" value="option2">
-							  <label class="form-check-label" for="exampleRadios2">
-							   처리완료
-							  </label>
-							</div>
-							<div class="form-check">
-							  <input class="form-check-input" type="radio" name="searchPro" id="SearchPro" value="option3">
-							  <label class="form-check-label" for="exampleRadios2">
-							   처리중
-							  </label>
-							</div>
-	              		</div>
+	              		<div><img src="${pageContext.request.contextPath }/resources/image/user/report.png" style="width: 200px"></div>
 	              		<table class="table report__table">
 	              			<thead class="mypageReport__table-head">
 	              				<tr>

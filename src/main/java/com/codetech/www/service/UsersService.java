@@ -89,5 +89,6 @@ public interface UsersService {
 
 	int getReportListCount(int user_id);
 
+	Report readUserReport(int user_report_id);
 
 }
