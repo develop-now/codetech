@@ -47,6 +47,8 @@
     <script>
         $(document).ready(function () {
 
+            console.log("success page loaded!")
+
             socket.onopen = function () {
                 var target = $('#store_owner').val();
                 var content = '주문이 접수되었습니다.';

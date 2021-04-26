@@ -15,7 +15,7 @@
         order_user, order_status, store_id)
         values(
         (select
-        nvl(max(order_id), 0) + 1 from orders), sysdate, sysdate, #{price},
+        nvl(max(order_id), 0) + 1 from orders), localtimestamp, localtimestamp, #{price},
         #{user_id}, 1, #{store_id}
         )
     </insert>
@@ -24,7 +24,7 @@
         insert into order_details
         values ((select nvl(max(detail_id), 0) + 1 from order_details),
                 #{p_num},
-                #{p_price}, sysdate, sysdate, #{order_id}, #{m_num})
+                #{p_price}, localtimestamp, localtimestamp, #{order_id}, #{m_num})
     </insert>
 
     <!-- start for order controller -->
@@ -109,7 +109,7 @@
     <update id="updateStatus" parameterType="map">
         update orders
         set order_status = #{status_id},
-        updated_at = sysdate
+        updated_at = localtimestamp
         <if test="comment_writable != null">
             , comment_writable = #{comment_writable}
         </if>
@@ -175,8 +175,8 @@
 
     <insert id="cart" parameterType="map">
         insert into carts
-        values ((select nvl(max(cart_id), 0) + 1 from carts), #{amount}, sysdate,
-                sysdate,
+        values ((select nvl(max(cart_id), 0) + 1 from carts), #{amount}, localtimestamp,
+                localtimestamp,
                 #{user_id}, #{menu_id}, 0)
     </insert>
 
@@ -271,7 +271,7 @@
 
     <insert id="insertPoint" parameterType="point">
         insert into points
-        values ( (select nvl(max(point_id), 0) + 1 from points), #{point_value}, sysdate
+        values ( (select nvl(max(point_id), 0) + 1 from points), #{point_value}, localtimestamp
         , #{order_id}, #{store_id}, #{user_id},
         <choose>
             <when test='point_type.equals("get")'>

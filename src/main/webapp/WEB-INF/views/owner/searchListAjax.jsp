@@ -37,7 +37,7 @@
             </div>
             <div class="card-footer text-muted">
                 <img class="card-img-heart"
-                     src="${pageContext.request.contextPath}/resources/upload/love.png"
+                     src="${pageContext.request.contextPath}/resources/image/common/like.png"
                      width="30" height="30" alt="">
                     ${store.store_like}&nbsp;&nbsp; <img class="card-img-comments"
                                                          src="${pageContext.request.contextPath}/resources/upload/message.png"
@@ -61,7 +61,7 @@
             </div>
             <div class="card-footer text-muted">
                 <img class="card-img-heart"
-                     src="${pageContext.request.contextPath}/resources/upload/love.png"
+                     src="${pageContext.request.contextPath}/resources/image/common/like.png"
                      width="30" height="30" alt="">
                     ${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
                                                         src="${pageContext.request.contextPath}/resources/upload/message.png"

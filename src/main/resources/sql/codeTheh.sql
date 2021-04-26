@@ -50,8 +50,8 @@ create table users
     user_email    varchar2(50) unique not null,
     user_password varchar2(70)        not null,
     report_count  number(5) default 0,
-    created_at    date      default sysdate,
-    updated_at    date      default sysdate,
+    created_at    date      default localtimestamp,
+    updated_at    date      default localtimestamp,
     user_auth     number(1) default 0 not null,
     role_id       number(1) default 5 not null,
     user_status   number(1) default 1 not null,
@@ -181,8 +181,8 @@ create table stores
     store_saved_image    varchar2(200) not null,
     store_original_image varchar2(200) not null,
     report_count         number(5) default 0,
-    created_at           date      default sysdate,
-    updated_at           date      default sysdate,
+    created_at           date      default localtimestamp,
+    updated_at           date      default localtimestamp,
     opening_h_w_open     varchar2(20)  not null, -- 평일 영업 시작 시간
     opening_h_w_close    varchar2(20)  not null, -- 평일 영업 종료 시간
     opening_h_h_open     varchar2(20)  not null, -- 휴일 영업 시작 시간
@@ -283,8 +283,8 @@ create table menus
     menu_original_image varchar2(200)       not null,
     menu_read_count     number(6) default 0,
     menu_order_count    number(6) default 0,
-    created_at          date      default sysdate,
-    updated_at          date      default sysdate,
+    created_at          date      default localtimestamp,
+    updated_at          date      default localtimestamp,
     store_id            number(6)           not null,
     category_id         number(6)           not null,
     menu_status         number(6) default 1 not null,
@@ -373,8 +373,8 @@ drop table orders cascade constraints;
 create table orders
 (
     order_id          number(6) primary key,
-    created_at        date      default sysdate,
-    updated_at        date      default sysdate,
+    created_at        date      default localtimestamp,
+    updated_at        date      default localtimestamp,
     order_total_price varchar2(10),
     comment_writable  char(5)   default 'false' check (comment_writable in ('true', 'false')),
     comment_wrote     char(5)   default 'false' check (comment_wrote in ('true', 'false')),
@@ -492,8 +492,8 @@ create table order_details
     detail_id          number(5) primary key,
     menu_quantity      number(3) default 1,
     detail_total_price varchar2(10),
-    created_at         date      default sysdate,
-    updated_at         date      default sysdate,
+    created_at         date      default localtimestamp,
+    updated_at         date      default localtimestamp,
     order_id           number(5) not null,
     menu_id            number(5) not null,
     constraint fk_detail_order foreign key (order_id) references orders (order_id),
@@ -708,7 +708,7 @@ create table points
 (
     point_id    number(5) primary key,
     point_value number(3) default 0,
-    created_at  date      default sysdate,
+    created_at  date      default localtimestamp,
     order_id    number(5)   not null,
     store_id    number(5)   not null,
     user_id     number(5)   not null,
@@ -725,7 +725,7 @@ create table staffs
     staff_id   number(6) primary key,
     user_id    number(6) not null,
     store_id   number(6) not null,
-    created_at date default sysdate,
+    created_at date default localtimestamp,
     constraint fk_staff_user foreign key (user_id) references users (user_id),
     constraint fk_staff_store foreign key (store_id) references stores (store_id)
 );
@@ -749,7 +749,7 @@ drop table likes cascade constraints;
 create table likes
 (
     like_id    number(5) primary key,
-    created_at date default sysdate,
+    created_at date default localtimestamp,
     store_id   number(5) not null,
     user_id    number(5) not null,
     constraint fk_like_store foreign key (store_id) references stores (store_id),
@@ -790,8 +790,8 @@ create table comments
     comment_lev     number(1) default 0,
     comment_seq     number(1) default 0,
     comment_ref     number(5)           not null,
-    created_at      date      default sysdate,
-    updated_at      date      default sysdate,
+    created_at      date      default localtimestamp,
+    updated_at      date      default localtimestamp,
     comment_writer  number(5)           not null,
     comment_store   number(5)           not null,
     comment_status  number(1) default 1 not null,
@@ -1107,34 +1107,34 @@ VALUES (100, 100, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 
 
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, sysdate, sysdate, 4, 1, 1);
+        '스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, localtimestamp, localtimestamp, 4, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, sysdate, sysdate, 4, 1, 1);
+        '스토어 리뷰 74번에대해 가게1번 스태프 1번의 답변', 1, 1, 74, localtimestamp, localtimestamp, 4, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, sysdate, sysdate, 4, 1, 1);
+        '스토어 리뷰 79번에대해 가게1번 스태프 1번의 답변', 1, 1, 79, localtimestamp, localtimestamp, 4, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, sysdate, sysdate, 4, 1, 1);
+        '스토어 리뷰 80번에대해 가게1번 스태프 1번의 답변', 1, 1, 80, localtimestamp, localtimestamp, 4, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, sysdate, sysdate, 17, 1, 1);
+        '스토어 리뷰 46번에대해 가게1번 오너 17번의 답변', 1, 1, 46, localtimestamp, localtimestamp, 17, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, sysdate, sysdate, 17, 1, 1);
+        '스토어 리뷰 52번에대해 가게1번 오너 17번의 답변', 1, 1, 52, localtimestamp, localtimestamp, 17, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, sysdate, sysdate, 17, 1, 1);
+        '스토어 리뷰 55번에대해 가게1번 오너 17번의 답변', 1, 1, 55, localtimestamp, localtimestamp, 17, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, sysdate, sysdate, 17, 1, 1);
+        '스토어 리뷰 10번에대해 가게1번 오너 17번의 답변', 1, 1, 10, localtimestamp, localtimestamp, 17, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, sysdate, sysdate, 4, 1, 1);
+        '스토어 리뷰 58번에대해 가게1번 스태프 1번의 답변', 1, 1, 58, localtimestamp, localtimestamp, 4, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
-        '스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, sysdate, sysdate, 4, 1, 1);
+        '스토어 리뷰 60번에대해 가게1번 스태프 1번의 답변', 1, 1, 60, localtimestamp, localtimestamp, 4, 1, 1);
 
 drop table report_status cascade constraints;
 create table report_status
@@ -1157,8 +1157,8 @@ create table user_report
     user_report_id number(6) primary key,
     report_subject varchar2(50)        not null,
     report_content varchar2(200)       not null,
-    created_at     date      default sysdate,
-    updated_at     date      default sysdate,
+    created_at     date      default localtimestamp,
+    updated_at     date      default localtimestamp,
     report_status  number(1) default 1 not null,
     reporter       number(6)           not null,
     reported_user  number(6)           not null,
@@ -1200,8 +1200,8 @@ create table store_report
     store_report_id number(6) primary key,
     report_subject  varchar2(50)        not null,
     report_content  varchar2(200)       not null,
-    created_at      date      default sysdate,
-    updated_at      date      default sysdate,
+    created_at      date      default localtimestamp,
+    updated_at      date      default localtimestamp,
     report_status   number(1) default 1 not null,
     reporter        number(6)           not null,
     reported_store  number(6)           not null,
@@ -1240,8 +1240,8 @@ create table carts
 (
     cart_id       number(5) primary key,
     menu_quantity number(3) default 0,
-    created_at    date      default sysdate,
-    updated_at    date      default sysdate,
+    created_at    date      default localtimestamp,
+    updated_at    date      default localtimestamp,
     user_id       number(5) not null,
     menu_id       number(5) not null,
     cart_status   number(3) default 0, --0이면 결제 미완료, 1이면 결제 완료
@@ -1272,7 +1272,7 @@ create table notice
     notice_subject   varchar2(100) not null,
     notice_content   varchar2(400) not null,
     notice_readcount number(6) default 0,
-    notice_date      date      default sysdate,
+    notice_date      date      default localtimestamp,
 
     -- notice_top				number(1)		default 0,	-- 공지 최상단 고정
     constraint fk_notice_status foreign key (notice_status) references notice_status (notice_status_id)

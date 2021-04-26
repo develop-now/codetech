@@ -53,7 +53,7 @@
 		menu_status=(select menu_status_id from
 		menu_status where
 		status_value=#{menu_status_value}),
-		updated_at=sysdate
+		updated_at=localtimestamp
 		where menu_id = #{menu_id}
 	</update>
 

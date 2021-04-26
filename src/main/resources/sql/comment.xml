@@ -96,7 +96,7 @@
 
     <update id="update" parameterType="comment">
         update comments
-        set updated_at = sysdate,
+        set updated_at = localtimestamp,
         <if test="comment_content != null">
             comment_content = #{comment_content}
         </if>
