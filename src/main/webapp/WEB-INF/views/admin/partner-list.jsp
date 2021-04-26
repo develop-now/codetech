@@ -308,7 +308,7 @@ $(function() {
 			               		<!-- 활동 정지를 당한 가게 리스트 -->
 			               		<!-- 계약 관계 종료로 인한 가게 리스트 -->
 			               <c:choose>
-			               		<c:when test="${sil.store_status == 1}">
+			               		<c:when test="${sil.store_status == 1 or sil.store_status == 2}">
 			               		<tr>
 			            			<td>${sil.user_email}</td>
 			         				<td>${sil.store_name}</td>

@@ -45,7 +45,7 @@ INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (14, 'dummy_user7@test.com', '1234', 5);
 
 INSERT INTO users (user_id, user_email, user_password, role_id)
-VALUES (15, 'dummy_store_owner8@test.com', '1234', 3);
+VALUES (15, 'dummy_store_owner8@test.com', '1234', 5);
 INSERT INTO users (user_id, user_email, user_password, role_id)
 VALUES (16, 'dummy_staff1@test.com', '1234', 4);
 INSERT INTO users (user_id, user_email, user_password, role_id)
