@@ -326,4 +326,8 @@
         insert into likes
         values ((select nvl(max(like_id), 0) + 1 from likes), sysdate, #{store_id}, #{user_id})
     </insert>
+    
+    <update id="storeReportUp" parameterType="int">
+    update stores set report_count = report_count + 1 where store_id = #{store_id}
+    </update>
 </mapper>

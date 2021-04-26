@@ -294,5 +294,9 @@
         from likes
         where user_id = #{user_id}
     </select>
+    
+    <update id="reportCountUp" parameterType="int">
+    update users set report_count = report_count + 1 where user_id = #{user_id2}
+    </update>
 
 </mapper>
