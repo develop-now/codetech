@@ -82,7 +82,7 @@
     			data: {user_id:'${userInfo.user_id}'},
     			success:function(rdata){
     				if(rdata == 1){
-    					location.href = "history.back();";
+    					location.href = "/home";
     				}
     			}
     		})

@@ -54,4 +54,8 @@ public interface OwnerService {
 
 	public int getStore_owner(int ordered_store);
 
+	public List<UserPlusInfo> getAdminSearchList(String search_val);
+
+	public int grantAdminConfirm(String user_email);
+
 }
