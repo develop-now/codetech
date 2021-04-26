@@ -172,7 +172,7 @@ function changeLikes(store_id,likeValue,user_id){
 			console.log("changeLikes storeLikes"+ data.storeLike);
 			var output = "";
 			 output +="<img class='card-img-heart'" 
-	               +"src='${pageContext.request.contextPath}/resources/upload/love.png'" 
+	               +"src='../resources/image/common/like.png'" 
 	               +"width='35' height='35' alt='likeStoreImage'><span id='likeValue' style='visibility:hidden;'>"
 	         if(data.likeValue == 2){//취소된상태
 	            output +=data.likeValue+"</span>" 

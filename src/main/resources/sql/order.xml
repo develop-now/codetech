@@ -167,7 +167,7 @@
 
 
     <select id="orderCount" resultType="int">
-        select count(*)
+        select nvl(count(*),0)
         from orders
         where order_user = #{user_id}
     </select>

@@ -118,6 +118,11 @@
         where comment_writer = #{user_id}
     </select>
 
+	<select id="cmtCountByUserActive" resultType="int" parameterType="int">
+		select nvl(count(*), 0)
+        from comments
+        where comment_writer = #{user_id} and comment_status = 1
+	</select>
     <select id="userCommentList" parameterType="int" resultType="comment">
         select *
         from (select rownum rnum, cs.*

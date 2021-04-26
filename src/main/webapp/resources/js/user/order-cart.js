@@ -73,7 +73,9 @@ let basket = {
 				if(rdata == 1) {
 				$("#cart_num"+$(".cart_id")).remove();
 				}
-				
+				if(rdata == null){
+				$(".buttonGroup").hide();
+				}
 			} // success;
 		}) // ajax
 		this.reCalc();
@@ -91,14 +93,3 @@ Number.prototype.formatNumber = function() {
 		nstr = nstr.replace(regex, '$1' + ',' + '$2');
 	return nstr;
 };
-
-
-	
-
-
-
-
-
-	
-
-

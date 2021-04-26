@@ -137,7 +137,10 @@ public class CommentController {
     	int user_id = (Integer)session.getAttribute("user_id");
     	List<Comment> list= commentService.getUserCommentList(user_id, page);
     	int listCount = commentService.getCommentCountByUser(user_id);
+		int activeCount = commentService.getcommentCountByUserActive(user_id);
+
     	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("activeCount", activeCount);
     	map.put("listCount", listCount);
     	map.put("list", list);
     	return map;

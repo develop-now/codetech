@@ -548,11 +548,13 @@ public class UsersController {
 		int listCount = commentService.getCommentCountByUser(user_id);
 		// likes user_id로 가게 좋아요했는지 확인 =>xml에서 join으로 넣음 - 돌아가서 좋아요한 가게랑 일치할 경우 이미지
 		// 변경해주기
-
+		int activeCount = commentService.getcommentCountByUserActive(user_id);
+		logger.info("active commetns Count" + activeCount);
+		md.addAttribute("activeCount", activeCount);
 		md.addAttribute("listCount", listCount);
 		md.addAttribute("list", list);
 		md.addAttribute("user_id", user_id);
-		logger.info("comment도착" + listCount);
+		logger.info("comment도착" + listCount + "list length"+ list.size());
 		return "user/mypage-review";
 
 	}
@@ -615,7 +617,7 @@ public class UsersController {
 		List<Menu> menu = usersService.getMenuForOrder(user_id, page, limit);
 		if (listCount > orders.size()) {
 			mv.addObject("more", 1);
-		} else {
+		} else if(listCount == 0){
 			mv.addObject("Nodata", 1);
 		}
 
