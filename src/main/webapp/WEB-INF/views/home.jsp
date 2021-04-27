@@ -43,7 +43,7 @@
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card h-100">
                             <img class="card-img-top"
-                                 src="resources/upload${store.store_saved_image}" alt=""
+                                 src="/upload${store.store_saved_image}" alt=""
                                  style="height: 50% !important;">
                             <div class="card-body">
                                 <h4 class="card-title">${store.store_name}</h4>
@@ -70,7 +70,7 @@
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card h-100">
                             <img class="card-img-top"
-                                 src="resources/upload${store.store_saved_image}" alt=""
+                                 src="/upload${store.store_saved_image}" alt=""
                                  style="filter: blur(5px); height: 50% !important;">
                             <div class="card-body">
                                 <h4 class="card-title">${store.store_name}</h4>
