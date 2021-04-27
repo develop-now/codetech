@@ -46,7 +46,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
-	@Value("${saveFolderName}")
+	@Value("${saveFolderName2}")
 	private String saveFolder;
 	
 	@RequestMapping(value = "/userList")

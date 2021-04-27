@@ -74,7 +74,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <img src="/resources/upload${store.store_saved_image}"
+                                            <img src="/upload${store.store_saved_image}"
                                                  class="img-thumbnail" alt="${store.store_original_image}"/>
                                         </td>
                                         <td class="store_status_value"
