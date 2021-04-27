@@ -1,4 +1,4 @@
-<%@ page language="java" 
+<%@ page language="java"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -7,15 +7,14 @@
 <head>
     <%-- <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <title>Insert title here</title>
+    <%@include file="../partial/head.jsp" %>
     <script type="text/javascript"
             src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-    <title>Insert title here</title>
-        <%@include file="../partial/head.jsp" %>
-    
 </head>
 <body>
-    <%@include file="../partial/nav.jsp" %>
+<%@include file="../partial/nav.jsp" %>
 
 <form action="${pageContext.request.contextPath}/owner/payment_complete"
       method="post" id="test" style="display:none;">
@@ -43,9 +42,9 @@
     <div class="order"></div>
     <input type="hidden" id="cartTh" name="cartTh"
            value="${cartTh}">
-    	<input type="hidden" name="ordered_store" id="ordered_store"
-		class="ordered_store" value="${store_id} ">
-		
+    <input type="hidden" name="ordered_store" id="ordered_store"
+           class="ordered_store" value="${store_id} ">
+
 </form>
 
 <script>
@@ -98,7 +97,7 @@
             })
                 .fail(function (request, status, error) {
                     //alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
-                                        alert("결제 실패 - AJAX 통신 불가");
+                    alert("결제 실패 - AJAX 통신 불가");
                     location.href = "${pageContext.request.contextPath}/home";
                 })
         });

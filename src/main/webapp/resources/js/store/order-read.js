@@ -126,7 +126,7 @@ function statusChange(status_id) {
         complete:()=>{
             setTimeout(function(){
                 location.reload();
-            },2000);
+            },3000);
         }
     })
 }
