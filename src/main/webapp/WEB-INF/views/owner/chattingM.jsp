@@ -109,7 +109,7 @@
             let $div = $("[data-key='" + node.key + "']");
 
             output = '<li class="replies">'
-                + '<img src="resources/upload${filename}" alt="" />'
+                + '<img src="/upload${filename}" alt="" />'
                 + '<p></p></li>'
             $(output).appendTo($('.messages ul'));
 
@@ -147,7 +147,7 @@
                 let key = $div.data("key");
 
                 output = '<li class="sent">'
-                    + '<img src="resources/upload${filename}" alt="" />'
+                    + '<img src="/upload${filename}" alt="" />'
                     + '<p></p></li>'
                 $(output).appendTo($('.messages ul'));
 

@@ -206,7 +206,7 @@ $(function() {
 				$(data).each(function(index, item) {
 					output += '<div class="ajax_menu_content">'
 					output += '	  <div style="margin: auto"><img style="height: 80px; width: 80px;"'
-					output += '				src="${pageContext.request.contextPath}/resources/upload' + item.menu_saved_image + '">'
+					output += '				src="${pageContext.request.contextPath}/upload' + item.menu_saved_image + '">'
 					output += '	  </div>'
 					output += '   <div style="margin: auto 5px">'
 					output += '	  	<div> 메뉴 이름			: ' + item.menu_name + '</div>'

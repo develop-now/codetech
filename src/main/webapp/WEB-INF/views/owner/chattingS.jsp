@@ -84,7 +84,7 @@
     webSocket.onmessage = function (message) {
 
         output = '<li class="replies">'
-            + '<img src="resources/upload${filename}" alt="" />'
+            + '<img src="/upload${filename}" alt="" />'
             + '<p></p></li>'
         $(output).appendTo($('.messages ul'));
 
@@ -100,7 +100,7 @@
         let message = document.getElementById("textMessage");
 
         output = '<li class="sent">'
-            + '<img src="resources/upload${filename}" alt="" />'
+            + '<img src="/upload${filename}" alt="" />'
             + '<p></p></li>'
         $(output).appendTo($('.messages ul'));
 
