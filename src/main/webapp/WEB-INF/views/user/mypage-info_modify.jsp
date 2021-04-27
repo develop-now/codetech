@@ -26,7 +26,7 @@
             <%@include file="user-nav-mypage.jsp"%>
             <div class="col-12 col-sm-10">
          			 <div class="ml-auto mr-2">
-             			<h2 class="text-right">정보 수정</h2>
+             			<h2 class="text-right">dd정보 수정</h2>
                      </div>
                      <div class="w-100">
                          <hr>

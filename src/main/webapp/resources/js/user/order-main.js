@@ -234,7 +234,7 @@ function getStoreCommentList(currentPage,store_id){
 			}else if(data.count == 0){
 				console.log("noreview")
 				$(".payMentView").hide();
-				$(".noReivew").show();
+				$(".noReview").show();
 			}
 		},error:function(req, stataus, err){
 	         console.log("storeReviewAjax ERROR", status,err)
