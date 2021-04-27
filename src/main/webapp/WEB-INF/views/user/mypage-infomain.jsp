@@ -40,7 +40,6 @@
 		              		<img src="${pageContext.request.contextPath}/upload${userPlusInfo.user_profile}" alt="profile">
 		              	</div>
 		              	<div class="infomain__count">
-		              		<span>포인트&nbsp;:&nbsp;${userPlusInfo.point}P</span>
 		              		<span>즐겨찾는카페수&nbsp;:&nbsp;${likes}지점</span>
 		              		<span>리뷰개수&nbsp;:&nbsp;${comments}개</span>
 		              	</div>
