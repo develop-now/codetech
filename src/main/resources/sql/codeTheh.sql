@@ -1108,6 +1108,15 @@ VALUES (100, 100, 13, 1, to_date('20210423', 'YYYYMMDD'), '유저 13번이 1번 
 
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 100번에대해 가게1번 스태프 1번의 답변', 1, 1, 100, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 82번에대해 가게1번 스태프 1번의 답변', 1, 1, 82, localtimestamp, localtimestamp, 4, 3, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
+        '스토어 리뷰 90번에대해 가게1번 스태프 1번의 답변', 1, 1, 90, localtimestamp, localtimestamp, 4, 1, 1);
+insert into comments
+values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),
         '스토어 리뷰 37번에대해 가게1번 스태프 1번의 답변', 1, 1, 37, localtimestamp, localtimestamp, 4, 1, 1);
 insert into comments
 values ((select nvl(max(comment_id), 0) + 1 from COMMENTS),

@@ -15,10 +15,6 @@
                class="nav-link">정보관리</a>
         </li>
         <li class="nav-item">
-            <a href="${pageContext.request.contextPath}/user/pointList"
-               class="nav-link">포인트내역</a>
-        </li>
-        <li class="nav-item">
             <a href="${pageContext.request.contextPath}/user/reportListGo"
                class="nav-link">신고관리</a>
         </li>

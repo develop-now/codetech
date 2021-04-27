@@ -159,6 +159,7 @@
                              select *
                              from comments
                              where comment_store = #{store_id} and comment_status = 1
+                             order by created_at desc
                          ) c
                              left join (select user_id as comment_writer, user_name as comment_writer_value
                                         from USER_INFO) i
@@ -166,8 +167,8 @@
                     order by c.comment_ref desc, c.comment_lev
                    ) ci
              )
-        where rnum between #{start} and #{end}
-    </select>
+        where rnum between #{start} and #{end}    </select>
+
 
     <insert id="addCommentByUser" parameterType="comment">
         <selectKey resultType="int" order="BEFORE"

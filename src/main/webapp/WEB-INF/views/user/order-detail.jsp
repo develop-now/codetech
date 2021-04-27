@@ -12,6 +12,23 @@
 <head>
     <title>User Index</title>
     <%@include file="../partial/head.jsp" %>
+<style>
+	.userOrderDetail__body{
+		display:flex;
+		justify-content:center;
+		border-radius:10px;
+		background-color:#eeeeee;
+		padding: 100px 0;
+	}
+	.userOrderDetail__body table tbody>tr>td{
+		padding: 0 20px;
+	} 
+	#orderDetailbtn{
+		background-color: rgb(132 143 209);
+		border-radius:5px;
+		margin:30px;
+	}
+</style>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -39,7 +56,7 @@
 						<table>
 							<thead>
 								<tr class="text-center">
-								<td colspan='2'>${detail[0].store_name}</td>
+								<td colspan='2'  style="font-weight:bold">${detail[0].store_name}</td>
 									
 								</tr>
 							</thead>
@@ -74,12 +91,12 @@
 									<td>주문일</td>
 									<td>${order.created_at}</td>
 								</tr>
-								<tr>
 								<c:forEach var="detail" items="${detail}">
+								<tr>
 									<td>${detail.menu_name}&nbsp;X&nbsp;${detail.menu_quantity}</td>
 									<td>${detail.detail_total_price}원</td>
-								</c:forEach>
 								</tr>
+								</c:forEach>
 								<tr>
 									<td>사용한포인트</td>
 									<td>${point}P</td>
@@ -90,8 +107,7 @@
 								</tr>
 								<tr>
 									<td colspan='2' class="text-center">
-										<button onclick='location.href="../user/orderMain?store_id=${order.store_id}"'>주문취소</button>
-										<button onclick='location.href="../user/orderMain?store_id=${order.store_id}"'>가게보기</button>
+										<button id="orderDetailbtn"onclick='location.href="../user/orderMain?store_id=${order.store_id}"'>가게보기</button>
 									</td>
 								</tr>
 							</tbody>
