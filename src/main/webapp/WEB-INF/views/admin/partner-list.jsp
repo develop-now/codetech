@@ -417,7 +417,7 @@ $(function() {
 		
 		               <c:if test="${page > 1}">
 		                  <li class="page-item"><a
-		                     href="PartnerList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     href="partnerList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">이전</a> &nbsp;</li>
 		               </c:if>
 		
@@ -430,7 +430,7 @@ $(function() {
 		
 		                  <c:if test="${a != page }">
 		                     <li class="page-item"><a
-		                        href="PartnerList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                        href="partnerList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                        class="page-link">${a}</a></li>
 		                  </c:if>
 		               </c:forEach>
@@ -443,7 +443,7 @@ $(function() {
 		
 		               <c:if test="${page < maxpage }">
 		                  <li class="page-item"><a
-		                     href="PartnerList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     href="partnerList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">&nbsp;다음</a></li>
 		               </c:if>
 		         </ul>

@@ -181,7 +181,7 @@ public class CommentController {
     	int count = commentService.getCommentCountByStore(store_id, search_val);
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("list",list);
-    	map.put("listCount", count); //필요없으면 삭제
+    	map.put("listCount", count); 
     	logger.info("=================storeAllReview ajax로 들어옴===========================+"+count);
     	return map;
 	}
