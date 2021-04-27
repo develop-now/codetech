@@ -73,7 +73,7 @@
 
                             <div class="card mb-4" style="width:555px">
                                 <img class="card-img-top"
-                                     src="${pageContext.request.contextPath}/resources/upload${store.store_saved_image}"
+                                     src="${pageContext.request.contextPath}/upload${store.store_saved_image}"
                                      alt="Card image cap" style="height: 50% !important;">
                                 <div class="card-body">
                                     <h2 class="card-title">${store.store_name}</h2>
@@ -99,7 +99,7 @@
 
                             <div class="card mb-4" style="width:555px">
                                 <img class="card-img-top"
-                                     src="${pageContext.request.contextPath}/resources/upload${store.store_saved_image}"
+                                     src="${pageContext.request.contextPath}/upload${store.store_saved_image}"
                                      alt="Card image cap" style="filter: blur(5px)" style="height: 50% !important;">
                                 <div class="card-body">
                                     <h2 class="card-title">${store.store_name}</h2>
