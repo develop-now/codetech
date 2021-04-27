@@ -5,7 +5,7 @@
 <div class="modal fade loginModal" id="joinModal" tabindex="-1" role="dialog" aria-labelledby="joinModalTitle"
      aria-hidden="true">
     <form name="joinform" id="joinModalForm"
-          action="<c:url value="/user/joinProcess"/>"
+          action="<c:url value="${pageContext.request.contextPath}/user/joinProcess"/>"
           method="post" enctype="multipart/form-data"
           class="border-light p-5">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

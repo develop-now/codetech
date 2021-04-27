@@ -114,6 +114,7 @@ Number.prototype.formatNumber = function() {
 $(function(){
 	$("store_oreder_main_table").hide();
 	$(".RVaddMessage").hide();
+	$(".noReview").hide();
 	var store_id = $("#store_id").val();
 	var user_email = $("#navbarNav > ul > li:nth-child(2) > a").text();
 	var likeValue = $("#likeValue").val();
@@ -203,7 +204,7 @@ function getStoreCommentList(currentPage,store_id){
 		dataType:"json",
 		success:function(data){
 			if(data.listCount > 0){
-				$(".store_oreder_main_table>table>tbody,.store_oreder_main, .payMentView").empty();
+				$(".store_oreder_main_table>table>tbody,.store_oreder_main, .payMentView").hide();
 				$(".store_oreder_main_table").show();
 				var output =""
 					$(data.list).each(function(){
@@ -229,6 +230,10 @@ function getStoreCommentList(currentPage,store_id){
 				}else{
 					$(".RVaddMessage").text("첫 댓글입니다.")
 				}
+			}else if(data.listCount == 0){
+				console.log("noreview")
+				$(".payMentView").hide();
+				$(".noReivew").show();
 			}
 		},error:function(req, stataus, err){
 	         console.log("storeReviewAjax ERROR", status,err)

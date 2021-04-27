@@ -116,18 +116,17 @@
 	
 	.PartnerStoreIf_gird {
 		text-align: center;
-		display: grid;
-		grid-template-columns: 1fr 4fr; 
-		margin: 20px 0px;
+		margin-bottom: 30px;
 	}
 	
 	.PartnerStoreIf_gird li {
 		text-align: left;
 	}
 	
-	
-	.ajax_menu li {
-		text-align: left;
+	.ajax_menu_content {
+		display: grid;
+		grid-template-columns: 0.5fr 3fr; 
+		margin: 20px 0px;
 	}
 	
 	a:link { color: black; text-decoration-line: none;}
@@ -200,11 +199,21 @@ $(function() {
 				$('.ajax_menu').empty();
 				$('.modal-footer').empty();
 				
+				$('.ajax_menu').empty();
+				$('.modal-footer').empty();
+				
 				var output = "";
 				$(data).each(function(index, item) {
-					output += '	  <div> Menu Name: ' + item.menu_name + '</div>';
-					output += '	  <div> Menu Price: ' + item.menu_price + '</div>';
-					output += '	  <div> Menu Description: ' + item.menu_desc + '</div>';
+					output += '<div class="ajax_menu_content">'
+					output += '	  <div style="margin: auto"><img style="height: 80px; width: 80px;"'
+					output += '				src="${pageContext.request.contextPath}/resources/upload' + item.menu_saved_image + '">'
+					output += '	  </div>'
+					output += '   <div style="margin: auto 5px">'
+					output += '	  	<div> 메뉴 이름			: ' + item.menu_name + '</div>'
+					output += '	  	<div> Price 			: ' + item.menu_price + '</div>'
+					output += '	  	<div> Menu Description: ' + item.menu_desc + '</div>'
+					output += '   </div>'
+					output += '</div>';
 				})
 				
 				$('.ajax_menu').append(output);
@@ -344,22 +353,29 @@ $(function() {
 										      </div>
 										      <div class="modal-body">
 										        <div class="PartnerStoreIf_gird">
-										        	<div><img src="${pageContext.request.contextPath}/upload${sil.store_saved_image}"></div>
-										        	<div style="text-align: left;">
-											        	<div>상호명: ${sil.store_name}</div>
-											        	<div>대표명: ${sil.user_name}</div>		
-											        	<div>가게 주소: ${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</div>		
-														<div>가게 전화번호: ${sil.store_tel}</div>
-											        	<div>평일 영업 시간: ${sil.opening_h_w_open} ~ ${sil.opening_h_w_close}</div>		
-											        	<div>휴일 영업 시간: ${sil.opening_h_h_open} ~ ${sil.opening_h_h_close}</div>		
-											        	<div>휴일: ${sil.holiday}</div>	
-										        	</div>	
+
+										        	<img src="${pageContext.request.contextPath}/resources/upload${sil.store_saved_image}"
+										        		 style="height: 300px; width: 400px">
+
 										        </div>
-											     	<!-- ajax 처리 -->
-											        <div class="ajax_menu" style="text-align: left; padding: 10px 0px;">
-											        	
+										        <div style="text-align: center;">
+											        <div style="padding: 10px; border-top: 1px solid #C6C6C6; border-bottom: 1px solid #C6C6C6">
+											        	<span style="font-size:1.7em">${sil.store_name}</span>
+											        	<div>[ 대표명: ${sil.user_name} ]</div>
+											        	<div>${sil.store_address_si} ${sil.store_address_gu} ${sil.store_address_dong} ${sil.store_address_etc}</div>
+											        	<div>TEL :  ${sil.store_tel} (<font size="1.8em" color="green"><b>휴업 일: ${sil.holiday}</b></font>)</div>
 											        </div>
 										        </div>
+										        	
+										        <div style="text-align: center; padding: 20px 0px; border-bottom: 1px solid #C6C6C6">
+											        <div><b>[ 평일 영업 시간 ] ${sil.opening_h_w_open} - ${sil.opening_h_w_close}</b></div>		
+											        <div><b>[ 휴일 영업 시간 ] ${sil.opening_h_h_open} - ${sil.opening_h_h_close}</b></div>		
+										        </div>			
+											    	<!-- ajax 처리 -->
+											    <div class="ajax_menu" style="text-align: left; padding: 10px 0px;">
+											        	
+											    </div>
+										      </div>
 										      <div class="modal-footer">
 	      											
 	      											<script>
@@ -417,7 +433,7 @@ $(function() {
 		
 		               <c:if test="${page > 1}">
 		                  <li class="page-item"><a
-		                     href="PartnerList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     href="partnerList?page=${page-1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">이전</a> &nbsp;</li>
 		               </c:if>
 		
@@ -430,7 +446,7 @@ $(function() {
 		
 		                  <c:if test="${a != page }">
 		                     <li class="page-item"><a
-		                        href="PartnerList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                        href="partnerList?page=${a}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                        class="page-link">${a}</a></li>
 		                  </c:if>
 		               </c:forEach>
@@ -443,7 +459,7 @@ $(function() {
 		
 		               <c:if test="${page < maxpage }">
 		                  <li class="page-item"><a
-		                     href="PartnerList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
+		                     href="partnerList?page=${page+1}&search_field=${search_field}&search_word=${search_word}&check_state=${check_state}"
 		                     class="page-link">&nbsp;다음</a></li>
 		               </c:if>
 		         </ul>

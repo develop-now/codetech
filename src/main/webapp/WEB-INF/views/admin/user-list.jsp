@@ -93,14 +93,14 @@
 	/* 표의 헤더 부분 */
 	.Users_tb tbody > tr:nth-child(1) > th {
 		background: #f5f5ef;
-		font-size: 20px;
+		font-size: 18px;
 		border-top: 2px solid #e2e2d0;
-		padding: 10px 25px;
+		padding: 5px 15px;
 	}
 	
 	/* 표의 td 부분 */
 	.Users_tb td {
-		padding: 10px 20px;
+		padding: 5px 15px;
 		border-top: 2px solid #e2e2d0;
 		border-bottom: 2px solid #e2e2d0;
 	}
@@ -108,7 +108,7 @@
 	/* row에 마우스 가져다 놓으면 색깔 변경 */
 	.Users_tb tr:hover {
 		background: #f2f2f2;
-		padding: 10px 20px;
+		padding: 5px 15px;
 		border-top: 2px solid #e2e2d0;
 		border-bottom: 2px solid #e2e2d0;
 	}

@@ -59,6 +59,9 @@
                      </tbody>
                   </table>
                </div>
+                 <div class="noReview">
+					<h2>"등록된 댓글이 아직 없습니다."</h2>
+				 </div>
                <div class="RVaddMessage text-center"></div>
                 <div class="col-12 store_oreder_main">
                     <div class="order">
