@@ -30,6 +30,7 @@ public class OrderController {
     @Autowired
     private SendMail sendMail;
 
+    @Autowired
     private UsersService userService;
 
     @ResponseBody
@@ -86,21 +87,30 @@ public class OrderController {
 
         int result = orderService.updateOrderStatus(order_id, status_id);
 
-        // 고객에게 메일 발송
-        if (status_id == 4 || status_id == 5) {
-            int user_id = orderService.readOrder(order_id).getOrder_user();
-            String user_email = userService.getUser(user_id).getUser_email();
+        if (result > 0) {
+            // 고객에게 메일 발송
+            if (status_id == 4 || status_id == 5) {
+                logger.info("이메일 보내는 로직 시작");
 
-            MailVO vo = new MailVO();
-            vo.setTo(user_email);
+                int user_id = orderService.readOrder(order_id).getOrder_user();
+                logger.info("이메일 받는 ID" + user_id);
 
-            if (status_id == 4) {
-                vo.setContent("오더가 준비완료 되었습니다. <br> 주문하신 매장에서 픽업하세요! ");
-            } else {
-                vo.setContent("오더 픽업 완료되었습니다. <br> 이용해주셔셔 감사합니다! ");
+                String user_email = userService.getUser(user_id).getUser_email();
+                logger.info("이메일 받는 사람" + user_email);
+
+                MailVO vo = new MailVO();
+                vo.setTo(user_email);
+
+                if (status_id == 4) {
+                    vo.setContent("오더가 준비완료 되었습니다. <br> 주문하신 매장에서 픽업하세요! ");
+                } else {
+                    vo.setContent("오더 픽업 완료되었습니다. <br> 이용해주셔셔 감사합니다! ");
+                }
+
+                sendMail.sendMail(vo);
+
+                logger.info("이메일 보내는 로직 끝");
             }
-
-            sendMail.sendMail(vo);
         }
 
         /*HJE points insert start 04.21.4pm 픽업완료로 status_id = 6으로 update 성공시 points에 내역 추가*/
