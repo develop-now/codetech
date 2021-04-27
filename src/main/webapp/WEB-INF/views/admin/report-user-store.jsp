@@ -112,7 +112,6 @@
 	}
 	
 	.reported_user_img {
-		border: 1px solid #392714;
 		height: 100px;
 		width: 100px;
 	}
@@ -182,12 +181,12 @@
 						dataType : "json",
 						cache	 : false,
 						success	 : function(data) {
-							console.log("가게 신고글 정지 상태로 변경 성공");
-							alert("신고 글에 대한 가게의 상태를 정지로 변경 처리가 완료 되었습니다.");
+							console.log("이리 이동하면 안된다.");
 						},
 						
 						error 	 : function() {
-							console.log("가게 신고 글 처리 실패");
+							console.log("가게 정지 처리 실패");
+							alert("신고 글에 대한 가게의 상태를 정지로 변경 처리가 완료 되었습니다.");
 						}
 					});	
 				} 
@@ -277,11 +276,14 @@
 										      	<div class="modal-body">
 										        	<div class="reported_user_if">
 											        	<div class="reported_user_img">
-											        	<img src="${pageContext.request.contextPath}/resources/upload${rus.reported_user_profile}"></div>
+
+											        	<img src="${pageContext.request.contextPath}/upload${rus.reported_user_profile}" style="height: 100px; width: 100px;">
+														</div>
+
 											        	<div style="text-align: left">
 											        		<div>상호명: ${rus.store_name} </div>
 											        		<div>아이디: ${rus.reported_user_email}</div>
-											        		<div>사용자: ${rus.reported_user_name}</div>
+											        		<div>대표자: ${rus.reported_user_name}</div>
 											        		<div>전화번호: ${rus.reported_user_tel}</div>
 											        		<div>주소: ${rus.reported_user_address}</div>
 											        	</div>

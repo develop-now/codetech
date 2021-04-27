@@ -136,6 +136,8 @@ function imageUploadHandler(input, preview) {
     }
 }
 
+let descIsValid = false;
+
 function textInputChangeHandler(e) {
     $(e.target).removeClass("is-invalid")
     if (e.target.id === "store_name") {
@@ -144,6 +146,18 @@ function textInputChangeHandler(e) {
         e.target.id === "store_rnum" ||
         e.target.id === "menu_price") {
         numInputChangeHandler(e)
+    } else if (e.target.id === 'store_desc') {
+        const finalTextLength = 200;
+        let length = e.target.value.length
+        $("#store_desc_length").text(`${length}/${finalTextLength}`)
+        if (length > 200) {
+            $(e.target).addClass("is-invalid")
+            $(e.target).next().text(`글자수는 ${finalTextLength}자를 넘을수 없습니다`)
+        } else {
+            descIsValid = true;
+            $(e.target).removeClass("is-invalid")
+            $(e.target).next().text(` 가게소개를 입력하세요`)
+        }
     }
 }
 
@@ -184,7 +198,8 @@ function storeNameValidation() {
 }
 
 let telNumIsValid = false;
-let rNumIsValid = false
+let rNumIsValid = false;
+let menuPriceValid = false;
 
 function numInputChangeHandler(e) {
     let splitVal = $(e.target).val().split("")
@@ -195,11 +210,12 @@ function numInputChangeHandler(e) {
     const rNumPattern = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/g;
 
     if (e.target.id === "store_tel") {
-        if (!inputPattern.test(e.target.value)) {
+        if (e.target.value && !inputPattern.test(e.target.value)) {
             $("#alertModal__msg").text("숫자만 입력 가능합니다");
             alertModal.modal("show");
             splitVal.pop()
             $(e.target).addClass("is-invalid").removeClass("is-valid").val(splitVal.join("")).focus()
+            telNumIsValid = false;
         } else {
             if (splitVal.length > 3 && splitVal[3] !== '-') {
                 splitVal.splice(3, 0, '-')
@@ -210,10 +226,12 @@ function numInputChangeHandler(e) {
             if (splitVal.length > 13) {
                 $(e.target).next().text("전화번호는 13자리 이상 넘어갈수 없습니다.")
                 $(e.target).addClass("is-invalid").removeClass("is-valid")
+                telNumIsValid = false;
             } else {
                 if (!telNumPattern.test(e.target.value.trim())) {
                     $(e.target).next().text("전화번호 형식에 맞지 않습니다.")
                     $(e.target).addClass("is-invalid").removeClass("is-valid")
+                    telNumIsValid = false;
                 } else {
                     $(e.target).next().text("전화번호를 입력하세요.")
                     $(e.target).removeClass("is-invalid").addClass("is-valid")
@@ -223,12 +241,12 @@ function numInputChangeHandler(e) {
             }
         }
     } else if (e.target.id === "store_rnum") {
-
-        if (!inputPattern.test(e.target.value)) {
+        if (e.target.value && !inputPattern.test(e.target.value)) {
             $("#alertModal__msg").text("숫자만 입력 가능합니다");
             alertModal.modal("show");
             splitVal.pop()
             $(e.target).addClass("is-invalid").removeClass("is-valid").val(splitVal.join("")).focus()
+            rNumIsValid = false;
         } else {
             if (splitVal.length > 3 && splitVal[3] !== '-') {
                 splitVal.splice(3, 0, '-')
@@ -239,10 +257,12 @@ function numInputChangeHandler(e) {
             if (splitVal.length > 12) {
                 $(e.target).next().text("사업자번호는 12자리 이상 넘어갈수 없습니다.")
                 $(e.target).addClass("is-invalid").removeClass("is-valid")
+                rNumIsValid = false;
             } else {
                 if (!rNumPattern.test(e.target.value.trim())) {
                     $(e.target).next().text("사업자번호 형식에 맞지 않습니다.")
                     $(e.target).addClass("is-invalid").removeClass("is-valid")
+                    rNumIsValid = false;
                 } else {
                     $(e.target).next().text("사업자번호를 입력하세요.")
                     $(e.target).removeClass("is-invalid").addClass("is-valid")
@@ -250,6 +270,17 @@ function numInputChangeHandler(e) {
                 }
                 $(e.target).val(splitVal.join(""))
             }
+        }
+    } else if (e.target.id === "menu_price") {
+        if (e.target.value && !inputPattern.test(e.target.value)) {
+            $("#alertModal__msg").text("숫자만 입력 가능합니다");
+            alertModal.modal("show");
+            splitVal.pop()
+            $(e.target).addClass("is-invalid").removeClass("is-valid").val(splitVal.join("")).focus()
+            menuPriceValid = false;
+        } else {
+            $(e.target).removeClass("is-invalid").addClass("is-valid")
+            menuPriceValid = true;
         }
     }
 }
@@ -276,7 +307,17 @@ function submitForm(e) {
         formIsValid = false;
 
         console.log("휴일이 입력되지 않았습니다")
+    } else if ($("input:checkbox[name='holiday']:checked").length > 2) {
+        $("#holidayCheckFeedback").text("휴일은 2일 이상 입력할수 없습니다").css({display: 'block'})
+        checkBoxes.addClass("is-invalid");
+
+        formIsValid = false;
+
+        console.log("휴일이 2일 이상입니다")
+    } else {
+        $("#holidayCheckFeedback").text("쉬는날을 선택하세요")
     }
+
 
     if (!$("input:radio[name='category_id']:checked").val()) {
         $("input:radio[name='category_id']").addClass("is-invalid");
@@ -304,9 +345,11 @@ function submitForm(e) {
     console.log({telNumIsValid});
     console.log({rNumIsValid});
     console.log({nameIsValid});
+    console.log({descIsValid});
+    console.log({menuPriceValid});
 
 
-    if (formIsValid && telNumIsValid && rNumIsValid && nameIsValid) {
+    if (formIsValid && telNumIsValid && rNumIsValid && menuPriceValid && nameIsValid && descIsValid) {
         formEl.submit();
     } else {
         $("#alertModal__msg").text("폼 전송에 실패했습니다. ")

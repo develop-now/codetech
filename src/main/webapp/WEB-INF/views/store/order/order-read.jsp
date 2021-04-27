@@ -128,7 +128,7 @@
                                                     메뉴내역 &nbsp;<span
                                                         class="badge badge-light">${status.count}</span>
                                                 </div>
-                                                <img src="/resources/upload${detail.menu_saved_image}"
+                                                <img src="/upload${detail.menu_saved_image}"
                                                      class="card-img-top" alt="${detail.menu_original_image}">
                                                 <div class="card-body bg-light">
                                                     <h5 class="card-title">메뉴별 주문 가격</h5>

@@ -122,6 +122,11 @@ function statusChange(status_id) {
         },
         error: (req, status, err) => {
             console.log("order update action err : ", err)
+        },
+        complete:()=>{
+            setTimeout(function(){
+                location.reload();
+            },2000);
         }
     })
 }

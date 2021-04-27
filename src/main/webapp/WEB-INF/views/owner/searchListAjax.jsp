@@ -27,7 +27,7 @@
 
         <div class="card mb-4">
             <img class="card-img-top"
-                 src="${pageContext.request.contextPath}/resources/upload${store.store_saved_image}"
+                 src="${pageContext.request.contextPath}/upload${store.store_saved_image}"
                  alt="Card image cap">
             <div class="card-body">
                 <h2 class="card-title">${store.store_name}</h2>
@@ -40,7 +40,7 @@
                      src="${pageContext.request.contextPath}/resources/image/common/like.png"
                      width="30" height="30" alt="">
                     ${store.store_like}&nbsp;&nbsp; <img class="card-img-comments"
-                                                         src="${pageContext.request.contextPath}/resources/upload/message.png"
+                                                         src="${pageContext.request.contextPath}/resources/image/common/message.png"
                                                          width="30" height="30" alt="">&nbsp;${store.store_comment}
             </div>
         </div>
@@ -50,7 +50,7 @@
 
         <div class="card mb-4">
             <img class="card-img-top"
-                 src="${pageContext.request.contextPath}/resources/upload${store.store_saved_image}"
+                 src="${pageContext.request.contextPath}/upload${store.store_saved_image}"
                  alt="Card image cap" style="filter: blur(5px)">
             <div class="card-body">
                 <h2 class="card-title">${store.store_name}</h2>
@@ -64,7 +64,7 @@
                      src="${pageContext.request.contextPath}/resources/image/common/like.png"
                      width="30" height="30" alt="">
                     ${store.store_like}&nbsp;&nbsp;<img class="card-img-comments"
-                                                        src="${pageContext.request.contextPath}/resources/upload/message.png"
+                                                        src="${pageContext.request.contextPath}/resources/image/common/message.png"
                                                         width="30" height="30" alt="">&nbsp;${store.store_comment}
             </div>
         </div>

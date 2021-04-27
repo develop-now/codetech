@@ -112,7 +112,6 @@
 	}
 	
 	.reported_user_img {
-		border: 1px solid #392714;
 		height: 100px;
 		width: 100px;
 	}
@@ -129,7 +128,7 @@
 				$.ajax({
 					method 	 : "post",
 					url	   	 : "RSLstatusProcessing",
-					data   	 : { "user_status_id" : $(this).parent().parent().find("input").val() },
+					data   	 : { "user_report_id" : $(this).parent().parent().find("input").val() },
 					dataType : "json",
 					cache	 : false,
 					success	 : function(data) {
@@ -152,7 +151,7 @@
 	    			$.ajax({
 						method 	 : "post",
 						url	   	 : "RSLstatusCompleted",
-						data   	 : { "user_status_id" :$(this).closest('tr').find('input').val() },
+						data   	 : { "user_report_id" :$(this).closest('tr').find('input').val() },
 						dataType : "json",
 						cache	 : false,
 						success	 : function(data) {
@@ -250,7 +249,11 @@
 										      	<div class="modal-body">
 										        	<div class="reported_user_if">
 											        	<div class="reported_user_img">
-											        	<img src="${pageContext.request.contextPath}/resources/upload${rul.reported_user_profile}"></div>
+
+											        		<img src="${pageContext.request.contextPath}/upload${rul.reported_user_profile}"
+											        			style="height: 100px; width: 100px;">
+											        	</div>
+
 											        	<div style="text-align: left">
 											        		<div>아이디: ${rul.reported_user_email}</div>
 											        		<div>사용자: ${rul.reported_user_name}</div>

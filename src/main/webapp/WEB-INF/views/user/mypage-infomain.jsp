@@ -37,7 +37,7 @@
 	              		<hr>
 	              	<div class="infomain__body">
 		              	<div class="infomain__img">
-		              		<img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.user_profile}" alt="profile">
+		              		<img src="${pageContext.request.contextPath}/upload${userPlusInfo.user_profile}" alt="profile">
 		              	</div>
 		              	<div class="infomain__count">
 		              		<span>포인트&nbsp;:&nbsp;${userPlusInfo.point}P</span>

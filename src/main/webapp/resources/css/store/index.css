@@ -1,3 +1,7 @@
+#store_desc_length {
+    font-size: 0.75rem;
+}
+
 .store-summary--container .summary__box {
     min-height: 300px;
     display: flex;

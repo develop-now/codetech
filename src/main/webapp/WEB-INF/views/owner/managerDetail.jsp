@@ -31,7 +31,7 @@
 	              	</div>
 	              		<hr>
 	              	<div class="infomain__img">
-	              		<img src="${pageContext.request.contextPath}/resources/upload${userInfo.user_profile}" alt="profile">
+	              		<img src="${pageContext.request.contextPath}/upload${userInfo.user_profile}" alt="profile">
 	              	</div>
 	          
 	              	<div class="infomain__list">
