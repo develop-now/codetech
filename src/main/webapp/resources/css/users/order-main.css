@@ -37,6 +37,15 @@ h2{
 	 display: flex;
     justify-content: center;
 }
+#reviewImg{
+	padding-bottom:10px;
+}
+.store_oreder_main_table>table>tbody>tr>td{
+	padding : 0 20px;
+}
+.store_oreder_main_table>table>tbody>tr>td:nth-child(2){
+	width: 4
+}
 .likeStoreStatus{
 	padding:0
 }
