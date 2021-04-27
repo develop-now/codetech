@@ -50,8 +50,9 @@
 									</div>
 									<div class="mypageOrderList__content-left--img">
 										<img
-											src="${pageContext.request.contextPath}resources/upload${store.store_saved_image}"
-											alt="test">
+											src="/upload${store.store_saved_image}"
+											alt="test"
+											style="width:120px;height:80px">
 									</div>
 								</div>
 								<div class="mypageOrderList__content-right">
