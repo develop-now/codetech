@@ -54,7 +54,7 @@
 								<div class="storeName">
 									<h2>${store.store_name}</h2>
 									<img class="card-img-heart"
-										src="${pageContext.request.contextPath}/resources/upload/love.png"
+										src="${pageContext.request.contextPath}/resources/image/common/like.png"
 										width="50" height="50" alt=""> ${storeLike }
 								</div>
 								<div class="storeAddress">${store.store_address_si }
@@ -72,7 +72,7 @@
 									<c:forEach var="topMenu" items="${topMenu}" varStatus="status">
 										<div class="topMenus">
 											<img class="card-img-heart"
-												src="${pageContext.request.contextPath}/resources/upload${topMenu.menu_saved_image}"
+												src="${pageContext.request.contextPath}/upload${topMenu.menu_saved_image}"
 												width="100" height="100" alt="">&nbsp;&nbsp;
 											<div class="menuName">
 												<input type="hidden" name="o_menu"
@@ -146,7 +146,7 @@
 										</c:choose>
 
 										<img class="card-img-heart"
-											src="${pageContext.request.contextPath}/resources/upload${allMenu.menu_saved_image}"
+											src="${pageContext.request.contextPath}/upload${allMenu.menu_saved_image}"
 											width="100" height="100" alt=""> &nbsp;&nbsp;<h5>${allMenu.menu_name }</h5>&nbsp;&nbsp;
 																						<input type="hidden" name="o_menuA"
 											id="o_menu${status.count}" class="o_menu"

@@ -59,7 +59,7 @@
 									</div>
 									<div class="mypageReview__content-left--img">
 										<img
-											src="${pageContext.request.contextPath}/resources/upload${menu[status.index].menu_saved_image}"
+											src="${pageContext.request.contextPath}/upload${menu[status.index].menu_saved_image}"
 											alt="test">
 									</div>
 								</div>

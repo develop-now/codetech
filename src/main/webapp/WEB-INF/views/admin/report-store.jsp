@@ -250,7 +250,7 @@
 										        	<div class="reported_user_if">
 											        	<div class="reported_user_img">
 
-											        		<img src="${pageContext.request.contextPath}/resources/upload${rul.reported_user_profile}"
+											        		<img src="${pageContext.request.contextPath}/upload${rul.reported_user_profile}"
 											        			style="height: 100px; width: 100px;">
 											        	</div>
 

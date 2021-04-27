@@ -51,7 +51,7 @@
         <div class="content">
             <div class="contact-profile">
                 <img
-                        src="${pageContext.request.contextPath}/resources/upload${admin.user_profile}"
+                        src="${pageContext.request.contextPath}/upload${admin.user_profile}"
                         alt="나의 아바타"/>
                 <p>${admin.user_name}</p>
                 <div class="social-media">

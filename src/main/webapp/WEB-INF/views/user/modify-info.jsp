@@ -25,7 +25,7 @@
                                accept="image/gif, image/jpeg,image/jpg, image/png"
                                style="display:none">
                         <span id="filevalue">${userPlusInfo.original_file}</span>
-                        <img src="${pageContext.request.contextPath}/resources/upload${userPlusInfo.user_profile}" alt="profile"
+                        <img src="${pageContext.request.contextPath}/upload${userPlusInfo.user_profile}" alt="profile"
                              class="modifyModal__img-profile" title="프로필사진 변경"><br>
                         <span class="modifyModal-imgcontainer-desc">*profile사진 변경 가능</span><br>
                         <span id="message-profile_m"></span>
