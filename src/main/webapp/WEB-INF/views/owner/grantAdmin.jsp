@@ -9,10 +9,9 @@
         <%@include file="../partial/head.jsp" %>
     
     <script>
-        $(() => {
-            getLoadStoreListByOwner()
-
-            $("#backBtn").on("click", () => {
+        $(document).ready(function() {
+        	
+            $("#backBtn").on("click", function() {
                 history.back();
             })
             

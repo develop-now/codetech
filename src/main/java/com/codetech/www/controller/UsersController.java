@@ -451,6 +451,11 @@ public class UsersController {
 			}
 		} else {
 			UserInfo user = usersService.getUserReported(reported);
+			if(user == null) {
+				rattr.addFlashAttribute("alert", "대상자를 다시 확인해주세요");
+				return "redirect:/home";
+			}
+			
 			int user_result = usersService.reportUser(subject, content, user_id, user.getUser_id());
 			if (user_result == 1) {
 				MailVO vo = new MailVO();
