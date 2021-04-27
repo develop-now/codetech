@@ -79,7 +79,7 @@ public class UsersController {
 	@Autowired
 	private SendMail sendMail;
 
-	@Value("${saveFolderName}")
+	@Value("${saveFolderName2}")
 	private String saveFolder;
 
 	private int likesCount;

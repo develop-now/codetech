@@ -25,7 +25,7 @@ import java.util.*;
 public class StoreController {
     private static final Logger logger = LoggerFactory.getLogger(StoreController.class);
 
-    @Value("${saveFolderName}")
+    @Value("${saveFolderName2}")
     private String saveFolder;
 
     @Autowired

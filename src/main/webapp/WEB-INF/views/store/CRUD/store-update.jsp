@@ -176,7 +176,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <img src="/resources/upload${store.store_saved_image}" id="store_preview"
+                                            <img src="/upload${store.store_saved_image}" id="store_preview"
                                                  alt="${store.store_original_image}" class="img-fluid float-right">
                                         </div>
                                     </div>

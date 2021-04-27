@@ -249,9 +249,11 @@
 										      	<div class="modal-body">
 										        	<div class="reported_user_if">
 											        	<div class="reported_user_img">
+
 											        		<img src="${pageContext.request.contextPath}/resources/upload${rul.reported_user_profile}"
 											        			style="height: 100px; width: 100px;">
 											        	</div>
+
 											        	<div style="text-align: left">
 											        		<div>아이디: ${rul.reported_user_email}</div>
 											        		<div>사용자: ${rul.reported_user_name}</div>

@@ -353,8 +353,10 @@ $(function() {
 										      </div>
 										      <div class="modal-body">
 										        <div class="PartnerStoreIf_gird">
+
 										        	<img src="${pageContext.request.contextPath}/resources/upload${sil.store_saved_image}"
 										        		 style="height: 300px; width: 400px">
+
 										        </div>
 										        <div style="text-align: center;">
 											        <div style="padding: 10px; border-top: 1px solid #C6C6C6; border-bottom: 1px solid #C6C6C6">

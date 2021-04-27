@@ -133,7 +133,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <img src="/resources/upload${menu.menu_saved_image}" id="menu_preview"
+                                            <img src="/upload${menu.menu_saved_image}" id="menu_preview"
                                                  alt="${menu.menu_original_image}" class="img-fluid float-right">
                                         </div>
                                     </div>

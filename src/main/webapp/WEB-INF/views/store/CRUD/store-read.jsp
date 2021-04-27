@@ -131,7 +131,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">가게 이미지*</label>
                                     <div class="col-sm-10">
-                                        <img src="/resources/upload${store.store_saved_image}" id="store_preview"
+                                        <img src="/upload${store.store_saved_image}" id="store_preview"
                                              alt="${store.store_original_image}" class="img-fluid">
                                     </div>
                                 </div>
