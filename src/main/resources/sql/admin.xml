@@ -216,14 +216,24 @@
 			    )
     </select>
 
+	<select id="isWorker" resultType="int" parameterType="Map">
+        select nvl(count(*), 0)
+        from stores
+        where owner_id = #{owner_id}
+        and (store_status = 1 or store_status = 3 or store_status = 4)
+    </select>
+
+	<update id="updateOwnerUserStatus" parameterType="Map">
+        update users
+        set role_id    = (select role_id from role where role_value = #{role_value}),
+            updated_at = sysdate
+        where user_id = #{owner_id}
+    </update>
+
     <update id="storeAct" parameterType="String">
-        UPDATE
-		(SELECT S.STORE_STATUS, U.ROLE_ID
-		 FROM STORES S INNER JOIN USERS U
-		 ON
-		 S.STORE_ID = #{store_id} AND S.OWNER_ID = U.USER_ID
-		 )
-		SET STORE_STATUS = 1, ROLE_ID = 3;
+        UPDATE STORES
+        SET STORE_STATUS = 1
+        WHERE STORE_ID = #{store_id}
     </update>
 
     <update id="storeSusp" parameterType="String">

@@ -241,10 +241,12 @@ public class AdminController {
 		if (result == 1) {
 			logger.info("가게 정지!");
 			rattr.addFlashAttribute("result", "storeSuspSuccess");
+			
 			return "redirect:/admin/partnerList";
 		} else {
 			logger.info("가게 정지 실패!");
 			rattr.addFlashAttribute("result", "storeSuspFail");
+			
 			return "redirect:/admin/partnerList";
 		}
 	}

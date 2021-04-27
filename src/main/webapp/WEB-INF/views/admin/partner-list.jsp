@@ -199,6 +199,9 @@ $(function() {
 				$('.ajax_menu').empty();
 				$('.modal-footer').empty();
 				
+				$('.ajax_menu').empty();
+				$('.modal-footer').empty();
+				
 				var output = "";
 				$(data).each(function(index, item) {
 					output += '<div class="ajax_menu_content">'
