@@ -1,7 +1,8 @@
-# codeTech
+# codeTech 
+### 카페를 운영하는 소상공인을 위한 웹 원격 주문 서비스
 
 <details>
-    <summary>project Setting</summary>
+    <summary>Project Setting</summary>
     <div markdown="1">  
      
           
@@ -32,3 +33,14 @@
         
 </div>
 </details>
+<br/>
+
+### 개발환경 및 사용기술  
+- #### Window 10, Mac, Linux
+- #### STS, IntelliJ
+- #### Apache Tomcat 8.5
+- #### Oracle DBMS 11g XE
+- #### MyBatis
+- #### GitHub  
+<br/>
+
