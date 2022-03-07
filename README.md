@@ -44,7 +44,7 @@
 
 ### 사용기술
 #### **BackEnd**
-- #### Spring Framework
+- #### Spring Framework 5
 - #### Oracle DBMS 11g XE
 - #### MyBatis
 - #### Java 1.8
