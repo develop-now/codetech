@@ -12,6 +12,7 @@
 ![user9](../readmeImg/storyboard/user9.png)
 ![user10](../readmeImg/storyboard/user10.png)
 <hr/>
+<br/>
 
 - ### ADMIN
 ![admin1](../readmeImg/storyboard/admin1.png)
@@ -22,6 +23,7 @@
 ![admin6](../readmeImg/storyboard/admin6.png)
 ![admin7](../readmeImg/storyboard/admin7.png)
 <hr/>
+<br/>
 
 - ### STORE
 ![store1](../readmeImg/storyboard/owner1.png)
@@ -34,6 +36,7 @@
 ![store8](../readmeImg/storyboard/owner8.png)
 ![store9](../readmeImg/storyboard/owner9.png)
 <hr/>
+<br/>
 
 - ### ETC
 ![etc1](../readmeImg/storyboard/main1.png)
