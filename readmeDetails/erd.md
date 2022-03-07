@@ -1,3 +1,3 @@
 ## CodeTech ERD
 
-![erd](./readmeImg/erd/ERD.png)
+![erd](../readmeImg/erd/ERD.png)
