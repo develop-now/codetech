@@ -35,12 +35,25 @@
 </details>
 <br/>
 
-### 개발환경 및 사용기술  
-- #### Window 10, Mac, Linux
-- #### STS, IntelliJ
+### 개발환경  
+- #### Window 10, Mac
+- #### STS 3, IntelliJ
 - #### Apache Tomcat 8.5
+- #### GitHub  
+<br/>
+
+### 사용기술
+#### **BackEnd**
+- #### Spring Framework
 - #### Oracle DBMS 11g XE
 - #### MyBatis
-- #### GitHub  
+- #### Java 1.8
+<br/>
+
+#### **FrontEnd**
+- #### JavaScript ES6
+- #### jQuery
+- #### HTML
+- #### CSS
 <br/>
 
