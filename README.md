@@ -60,20 +60,20 @@
 ### 프로젝트 자료
 </br>
 
-#### ERD 설계
+#### 🔗 ERD 설계
 
 - #### [CodeTech ERD](https://github.com/develop-now/codetech/blob/master/readmeDetails/erd.md)
 <br/>
 
-#### 스토리보드
+#### 🔗 스토리보드
 - #### [CodeTech StoryBoard](https://github.com/develop-now/codetech/blob/master/readmeDetails/storyboard.md)
 <br/>
 
-#### 유스케이스
+#### 🔗 유스케이스
 - #### [CodeTech UseCase](https://github.com/develop-now/codetech/blob/master/readmeDetails/usecase.md)
 <br/>
 
-#### UML
+#### 🔗 UML
 - #### [CodeTech UML](https://github.com/develop-now/codetech/blob/master/readmeDetails/uml.md)
 
 
