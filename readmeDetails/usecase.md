@@ -1,4 +1,4 @@
-## USECASE
+## CodeTech USECASE
 
 
 ![user](../readmeImg/usecase/user.png)
