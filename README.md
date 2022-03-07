@@ -62,18 +62,18 @@
 
 #### ERD 설계
 
-- ##### (CodeTech ERD)[https://github.com/develop-now/codetech/blob/master/readmeDetails/erd.md]
+- #### [CodeTech ERD](https://github.com/develop-now/codetech/blob/master/readmeDetails/erd.md)
 <br/>
 
 #### 스토리보드
-- #### (CodeTech StoryBoard)[https://github.com/develop-now/codetech/blob/master/readmeDetails/storyboard.md]
+- #### [CodeTech StoryBoard](https://github.com/develop-now/codetech/blob/master/readmeDetails/storyboard.md)
 <br/>
 
 #### 유스케이스
-- #### (CodeTech UseCase)[https://github.com/develop-now/codetech/blob/master/readmeDetails/usecase.md]
+- #### [CodeTech UseCase](https://github.com/develop-now/codetech/blob/master/readmeDetails/usecase.md)
 <br/>
 
 #### UML
-- #### (CodeTech UML)[https://github.com/develop-now/codetech/blob/master/readmeDetails/uml.md]
+- #### [CodeTech UML](https://github.com/develop-now/codetech/blob/master/readmeDetails/uml.md)
 
 
