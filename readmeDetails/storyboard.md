@@ -1,6 +1,6 @@
 ## CodeTech 스토리보드(구현된 화면)
 
-- ### User
+- ### USER
 ![user1](../readmeImg/storyboard/user1.png)
 ![user2](../readmeImg/storyboard/user2.png)
 ![user3](../readmeImg/storyboard/user3.png)
@@ -13,7 +13,7 @@
 ![user10](../readmeImg/storyboard/user10.png)
 <hr/>
 
-- ### Admin
+- ### ADMIN
 ![admin1](../readmeImg/storyboard/admin1.png)
 ![admin2](../readmeImg/storyboard/admin2.png)
 ![admin3](../readmeImg/storyboard/admin3.png)
@@ -23,7 +23,7 @@
 ![admin7](../readmeImg/storyboard/admin7.png)
 <hr/>
 
-- ### Store
+- ### STORE
 ![store1](../readmeImg/storyboard/owner1.png)
 ![store2](../readmeImg/storyboard/owner2.png)
 ![store3](../readmeImg/storyboard/owner3.png)
@@ -35,7 +35,7 @@
 ![store9](../readmeImg/storyboard/owner9.png)
 <hr/>
 
-- ### Etc
+- ### ETC
 ![etc1](../readmeImg/storyboard/main1.png)
 ![etc2](../readmeImg/storyboard/main2.png)
 ![etc3](../readmeImg/storyboard/main3.png)
